@@ -1,0 +1,23 @@
+public class Lamp{
+    ...
+    public String toString(){
+    	return "Acceso: "+this.isSwitchedOn()+
+    	    ", Intensità: "+this.getIntensity();
+    }
+}
+public class UseLampString{
+    public static void test1(){
+    	Lamp l=new Lamp();
+    	l.switchOn();
+    	l.setIntensity(0.5);
+    	l.dim();
+    	l.dim();
+    	l.brighten();
+    	System.out.println(l.toString());  // toString esplicito
+    	System.out.println("Oppure : "+l); // toString implicito
+    }   
+    public static void main(String[] s){
+    	UseLamp.test1();
+    	// altri test...
+    }
+}

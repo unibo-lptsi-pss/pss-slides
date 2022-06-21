@@ -1,0 +1,427 @@
+\documentclass[presentation]{beamer}
+\usepackage{oop-slides}
+
+
+\title[OOP08: Polimorfismo]{08 \\ Polimorfismo (inclusivo, con le classi)}
+
+\begin{document}
+
+\newcommand{\ecl}{\eclipsepath{p08polymorphism}}
+%\srcode{\tiny}{3}{32}{\ecl/Point3D.java}
+
+\frame[label=coverpage]{\titlepage}
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare la connessione fra polimorfismo inclusivo e ereditarietà
+  \item Mostrare le interconnessioni con interfacce e classi astratte
+  \item Mostrare le varie ripercussioni nel linguaggio
+  }}
+  \bl{Argomenti}{\iz{
+  \item Polimorfismo inclusivo con le classi
+  \item Layout oggetti in memoria
+  \item Autoboxing dei tipi primitivi
+  \item Tipi a run-time (cast, \cil{instanceof})
+  \item Classi astratte
+  }}
+}
+
+\section{Polimorfismo inclusivo con le classi}
+
+\fr{Ereditarietà e polimorfismo}{
+  \bl{Ricordando il principio di sostituibilità}{
+    Se \texttt{B} è un sottotipo di \texttt{A} allora ogni oggetto di \texttt{B} può essere utilizzato (e ``deve poter'' essere utilizzabile) dove ci si attende un oggetto di \texttt{A}
+  }
+  \bl{Con l'ereditarietà}{\iz{
+    \item Con la definizione: \cil{class B extends A\{..\}}
+    \item Gli oggetti della classe \cil{B} rispondo a tutti i messaggi previsti dalla classe \cil{A}, ed eventualmente a qualcuno in più
+    \item Quindi un oggetto della classe \cil{B} potrebbe essere passato dove se ne aspetta uno della classe \cil{A}, senza comportare problemi (di ``typing'')
+  }}
+  \bl{Conseguenza:}{
+    Visto che è possibile, corretto, ed utile, allora in Java si considera \cil{B} come un sottotipo di \cil{A} a tutti gli effetti!
+  }
+}
+
+\fr{Polimorfismo con le classi}{
+\fg{width=0.7\textwidth}{08/img/uml-poli.pdf}
+}
+
+\fr{Polimorfismo con le classi}{
+  \bl{In una classe \cil{D} che usi una classe \cil{C}...}{\iz{
+    \item ci saranno punti in \cil{D} in cui ci si attende oggetti della classe \cil{C}
+    \item (come argomenti a metodi, o da depositare nei campi)
+    \item si potranno effettivamente passare oggetti della classe \cil{C}, ma anche delle classi \cil{C1}, \cil{C2},..,\cil{C5}, o di ogni altra classe successivamente creata che estende, direttamente o indirettamente \cil{C}
+  }}
+  \bl{Le sottoclassi di \cil{C}}{A tutti gli effetti, gli oggetti delle sottoclassi di \cil{C} sono compatibili con gli oggetti della classe \cil{C}\iz{
+    \item hanno medesimo contratto (in generale, qualche operazione in più)
+    \item hanno tutti i campi definiti in \cil{C} (in generale, qualcuno in più)
+    \item hanno auspicabilmente un comportamento compatibile
+  }}
+}
+
+%\section{Layout oggetti in memoria}
+
+%\fr{La compatibilità delle sottoclassi}{
+%  \sizedcode{\ssmall}{\ecl/various/ObjLayout.java}
+%}
+
+%\fr{Layout oggetti in memoria}{
+%\fg{width=1\textwidth}{08/img/layout.pdf}
+%}
+
+\fr{Layout oggetti in memoria}{
+  \bl{Alcuni aspetti del layout degli oggetti in memoria...}{
+    Diamo alcune informazioni generali e astratte. Ogni JVM potrebbe realizzare gli oggetti in modo un po' diverso. Questi elementi sono tuttavia comuni.
+  }
+  \bl{Struttura di un oggetto in memoria}{\iz{
+    \item Inizia con una intestazione ereditata da \cil{Object} (16 byte circa), che include {\iz{
+      \item Indicazione di quale sia la classe dell'oggetto (runtime type information)
+      \item Tabella dei puntatori ai metodi, per supportare il late-binding
+      \item I campi (privati) della classe \cil{Object}
+    }}
+    \item Via via tutti i campi della classe, a partire da quelli delle superclassi
+  }}
+  \bl{Conseguenze: se la classe \cil{C} è sottoclasse di \cil{A}...}{
+    Allora un oggetto di \cil{C} è simile ad un oggetto di \cil{A}, ha solo informazioni aggiuntive in fondo, e questo semplifica la sostituibilità!
+  }
+}
+
+\fr{Esempio applicazione polimorfismo fra classi -- UML}{
+  \fg{height=0.8\textheight}{08/img/uml-person.pdf}
+}
+
+\fr{\Cil{Person}}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/person/Person.java}
+}
+
+\fr{\Cil{Student}}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/person/Student.java}
+}
+
+\fr{\Cil{Teacher}}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/person/Teacher.java}
+}
+
+\fr{\Cil{UsePerson}}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/person/UsePerson.java}
+  
+}
+
+%\fr{\Cil{LimitedLamp}}{
+%  \sizedcode{\ssmall}{\ecl/classes2/LimitedLamp.java}
+%}
+%
+%\fr{\Cil{LimitCounter}}{
+%  \sizedcode{\scriptsize}{\ecl/classes2/LimitCounter.java}
+%}
+%
+%\fr{\Cil{UnlimitedCounter}}{
+%  \sizedcode{\scriptsize}{\ecl/classes2/UnlimitedCounter.java}
+%}
+%
+%\fr{\Cil{UseLimitedLamp}}{
+%  \sizedcode{\scriptsize}{\ecl/classes2/UseLimitedLamp.java}
+%}
+
+
+\fr{La differenza col caso del polimorfismo con le interfacce}{
+  \bl{Polimorfismo con le interfacce}{\iz{
+    \item La classe \cil{D} usa una interfaccia \cil{I}, non un'altra classe \cil{C}
+    \item Si può assumere vi sia un certo contratto, ma non che vi sia uno specifico comportamento (quello di \cil{C}) che sia stato eventualmente specializzato
+  }}
+  \bl{Le classi non consentono ``ereditarietà multipla'' (in C++ si)}{\iz{
+    \item *NON* è possibile in Java dichiarare: \cil{class C extends D1,D2 ...}{\iz{
+      \item si creerebbero problemi se \cil{D1} e \cil{D2} avessero proprietà comuni
+      \item diventerebbe complicato gestire la struttura in memoria dell'oggetto
+    }}
+    \item Con le interfacce non ci sono questi problemi, risultato:{\iz{
+      \item è molto più semplice prendere una classe esistente e renderla compatibile con una interfaccia \cil{I}, piuttosto che con una classe \cil{C}
+      }}
+  }}
+}
+
+\fr{Riassunto polimorfismo inclusivo}{
+  \bl{Polimorfismo}{\iz{
+    \item Fornisce sopratipi che raccolgono classi uniformi tra loro
+    \item Usabili da funzionalità ad alta riusabilità
+    \item Utile per costruire collezioni omogenee di oggetti
+  }}
+  \bl{Polimorfismo con le interfacce}{\iz{
+    \item Solo relativo ad un contratto
+    \item Facilità nel far aderire al contratto classi esistenti
+    \item Spesso vi è la tendenza a creare un alto numero di interfacce
+  }}
+  \bl{Polimorfismo con le classi}{\iz{
+    \item Relativo a contratto e comportamento
+    \item In genere ci si aderisce per costruzione dall'inizio
+    \item Vincolato dall'ereditarietà singola
+  }}
+}
+
+\fr{Come simulare ereditarietà multipla?}{
+  \fg{height=0.8\textheight}{08/img/uml-diamond.pdf}
+}
+
+\frs{25}{Come simulare ereditarietà multipla?}{
+  \bl{Definizioni}{\iz{
+    \item \cil{interface Counter\{...\}}
+    \item \cil{interface MultiCounter extends Counter\{...\}}
+    \item \cil{interface BiCounter extends Counter\{...\}}
+    \item \cil{interface BiAndMultiCounter extends MultiCounter,BiCounter\{...\}}
+    \item \cil{class CounterImpl implements Counter\{...\}}
+    \item \cil{class MultiCounterImpl extends CounterImpl implements MultiCounter\{...\}}
+    \item \cil{class BiCounterImpl extends CounterImpl implements BiCounter\{...\}}
+    \item \cil{class BiAndMultiCounterImpl extends BiCounterImpl implements BiAndMultiCounter\{...\}}
+  }}
+  \bl{Implementazione di \cil{BiAndMultiCounterImpl}}{\iz{
+    \item si estende da \cil{BiCounterImpl}, si delega via composizione ad un oggetto di \cil{MultiCounterImpl}
+  }}
+  \bl{Complessivamente}{\iz{
+    \item si ha completa e corretta sostituibilità tramite le interfacce
+    \item si ha ottimo riuso delle implementazioni
+    \item[$\Rightarrow$] si esplori la possibilità di usare solo delegazione, non ereditarietà
+  }}
+}
+
+
+
+\section{Tipi a run-time}
+
+\fr{Everything is an \Cil{Object}}{
+  \bl{Perché avere una radice comune per tutte le classi?}{\iz{
+    \item Consente di fattorizzare lì comportamento comune
+    \item Consente la costruzione di funzionalità che lavorano su qualunque oggetto
+  }}
+  \bl{Esempi di applicazione:}{\iz{
+    \item Container polimorfici, ad esempio via array di tipo \cil{Object[]}{\iz{
+      \item permette di costruire un elenco di oggetti di natura anche diversa
+      \item \cil{new Object[]\{new SimpleLamp(),new Integer(10)\}}
+    }}
+    \item Definizione di metodi con numero variabile di argomenti{\iz{
+      \item argomenti codificati come \cil{Object[]}
+    }}
+  }}
+}
+
+\fr{Uso di \Cil{Object[]}}{
+  \srcode{\footnotesize}{5}{30}{\ecl/last/AObject.java}
+}
+
+\fr{Tipo statico e tipo a run-time}{
+  \bl{Una dualità introdotta dal subtyping (polimorfismo inclusivo)}{\iz{
+    \item Tipo statico: il tipo di dato di una espressione desumibile dal compilatore
+    \item Tipo run-time: il tipo di dato del valore(/oggetto) effettivamente presente (potrebbe essere un sottotipo di quello statico){\iz{\item in questo caso le chiamate di metodo sono fatte per late-binding}}
+  }}
+  \bl{Esempio nel codice di \cil{printAll()}, dentro al \cil{for}}{\iz{
+    \item Tipo statico di \cil{o} è \cil{Object}
+    \item Tipo run-time di \cil{o} varia di volta in volta: \cil{Object},\cil{String},\cil{Integer},..
+  }}
+  \bl{Ispezione tipo a run-time}{\iz{
+    \item In alcuni casi è necessario ispezionare il tipo a run-time
+    \item Lo si fa con l'operatore \cil{instanceof}
+  }}
+}
+
+
+\fr{\Cil{instanceof} e conversione di tipo}{
+  \srcode{\scriptsize}{3}{30}{\ecl/last/AObject2.java}
+}
+
+\fr{\Cil{instanceof} e conversione di tipo}{
+  \bl{Ispezione ed uso della sottoclasse effettiva}{
+    Data una variabile (o espressione) del tipo statico \cil{C} può essere necessario capire se sia della sottoclasse \cil{D}, in tal caso, su tale oggetto si vuole richiamare un metodo specifico della classe \cil{D}.
+  }
+  \bl{Coppia \cil{instanceof} + conversione}{\iz{
+    \item con l'operatore \cil{instanceof} si verifica se effettivamente sia di tipo \cil{D}
+    \item con la conversione si deposita il riferimento in una espressione con tipo statico \cil{D}
+    \item a questo punto si può invocare il metodo
+  }}
+  \bl{Solo due tipi di conversione fra classi consentite}{\iz{
+    \item Upcast: da sottoclasse a superclasse (spesso automatica)
+    \item Downcast: da superclasse a sottoclasse (potrebbe fallire)
+  }}
+}
+
+\fr{Errori possibili connessi alle conversioni}{
+  \bl{Errori semantici (a tempo di compilazione, quindi innocui)}{\iz{
+    \item Tentativo di conversione che non sia né upcast né downcast
+    \item Chiamata ad un metodo non definito dalla classe (statica) del receiver
+  }}
+  \bl{Errori d'esecuzione (molto pericolosi, evitabili con l'\cil{instanceof})}{\iz{
+    \item Downcast verso una classe incompatibile col tipo dinamico, riportato come \cil{ClassCastException}
+  }}
+  \srcode{\scriptsize}{3}{30}{\ecl/last/ShowCCE.java}
+}
+
+\fr{\Cil{instanceof}, conversioni e \Cil{Person}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/person/UsePerson2.java}
+}
+
+
+
+\section{Classi astratte}
+
+\fr{Motivazioni}{
+  \bl{Fra interfacce e classi}{\iz{
+    \item Le interfacce descrivono solo un contratto
+    \item Le classi definiscono un comportamento completo
+    \item ...c'è margine per costrutti intermedi?
+  }}
+  \bl{Classi astratte}{\iz{
+    \item Sono usate per descrivere classi dal comportamento parziale, ossia in cui alcuni metodi sono dicharati ma non implementati
+    \item Tali classi non sono istanziabili (l'operatore \cil{new} non può essere usato)
+    \item Possono essere estese e ivi completate, da cui la generazione di oggetti
+  }}
+  \bl{Tipica applicazione: pattern Template Method}{
+    Serve a dichiare uno schema di strategia con un metodo che definisce un comportamente comune (spesso \cil{final}), ma che usa metodi da concretizzare in sottoclassi
+  }
+}
+
+\fr{Classi astratte}{
+  \bl{Una classe astratta:}{\iz{
+    \item è dichiarata tale: \cil{abstract class C ... \{\...\}}
+    \item non può essere usata per generare oggetti
+    \item può opzionalmente dichiarare metodi astratti: \iz{
+      \item hanno forma ad esempio: \cil{abstract int m(int a, String s);}
+      \item ossia senza body, come nelle dichiarazioni delle interfacce
+    }
+  }}
+  \bl{Altri aspetti}{\iz{
+    \item può definire campi, costruttori, metodi, concreti e non
+    \item ...deve definire con cura il loro livello d'accesso
+    \item può estendere da una classe astratta o non astratta
+    \item può implementare interfacce, senza essere tenuta ad ottemperarne il contratto
+    \item chi estende una classe astratta può essere non-astratto solo se implementa tutti i metodi definiti
+  }}
+}
+
+\fr{Esempio: \Cil{LimitedLamp} come classe astratta}{
+  \bl{Obbiettivo}{\iz{
+    \item Vogliamo progettare una estensione di \cil{SimpleLamp} col concetto di esaurimento
+    \item La strategia con la quale gestire tale esaurimento può essere varia
+    \item Ma bisogna far sì che qualunque strategia si specifichi, sia garantito che:{\iz{
+      \item la lampadina si accenda solo se non esaurita
+      \item in caso di effettiva accensione sia possibile tenerne traccia ai fini della strategia
+    }}
+  }}
+  \bl{Soluzione}{\iz{
+    \item Un uso accurato di \cil{abstract}, \cil{final}, e \cil{protected}
+    \item Daremo tre possibili specializzazioni per una \cil{LimitedLamp}{\iz{
+      \item che non si esaurisce mai
+      \item che si esaurisce all'n-esima accensione
+      \item che si esaurisce dopo un certo tempo dalla prima accensione
+    }}
+  }}
+}
+
+\fr{UML complessivo}{
+  \fg{height=0.8\textheight}{08/img/uml-abstract.pdf}
+}
+
+\fr{\Cil{SimpleLamp}}{
+  \srcode{\scriptsize}{3}{30}{\ecl/abs/SimpleLamp.java}
+}
+
+\fr{\Cil{LimitedLamp}}{
+  \srcode{\ssmall}{3}{30}{\ecl/abs/LimitedLamp.java}
+}
+
+\fr{\Cil{UnlimitedLamp}}{
+  \srcode{\scriptsize}{3}{30}{\ecl/abs/UnlimitedLamp.java}
+}
+
+\fr{\Cil{CountdownLamp}}{
+  \srcode{\scriptsize}{3}{30}{\ecl/abs/CountdownLamp.java}
+}
+
+\fr{\Cil{ExpirationTimeLamp}}{
+  \srcode{\ssmall}{5}{30}{\ecl/abs/ExpirationTimeLamp.java}
+}
+
+\fr{\Cil{UseLamps}}{
+  \srcode{\ssmall}{3}{30}{\ecl/abs/UseLamps.java}
+}
+
+\fr{Classi astratte vs interfacce}{
+  \bx{\iz{
+    \item Due versioni quasi equivalenti
+    \item Unica differenza, ereditarietà multipla per le interfacce
+  }}
+  \sizedcode{\normalsize}{08/code/AbsInt.java}
+}
+
+\fr{Wrap-up su ereditarietà}{
+  \bl{Il caso più generale:}{
+    \cil{class C extends D implements I,J,K,L \{..\}}
+  }
+  \bl{Cosa deve/può fare la classe \cil{C}}{\iz{
+    \item deve implementare tutti i metodi dichiarati in \cil{I,J,K,L} e super-interfacce
+    \item può fare overriding dei metodi (non finali) definiti in \cil{D} e superclassi
+  }}
+  \bl{Classe astratta:}{
+    \cil{abstract class CA extends D implements I,J,K,L \{..\}}
+  }
+  \bl{Cosa deve/può fare la classe \cil{CA}}{\iz{
+    \item non è tenuta a implementare alcun metodo
+    \item può implementare qualche metodo per definire un comportamento parziale
+  }}
+}
+
+\section{Autoboxing dei tipi primitivi, e argomenti variabili}
+
+\fr{Autoboxing dei tipi primitivi}{
+  \bl{Già conosciamo i Wrapper dei tipi primitivi}{\iz{
+    \item \cil{Integer i=new Integer(10);}
+    \item \cil{Double d=new Double(10.5);}
+    \item..ossia, ogni valore primitivo può essere ``boxed'' in un oggetto
+  }}
+  \bl{Autoboxing}{\iz{
+    \item Una tecnica recente di Java
+    \item Si simula l'equivalenza fra tipi primitivi e loro Wrapper
+    \item Due meccanismi:{\iz{
+      \item Se si trova un primitivo dove ci si attende un oggetto, se ne fa il boxing
+      \item Se si trova un wrapper dove ci si attende un primitivo, si fa il de-boxing
+    }}
+  }}
+  \bl{Risultato}{\iz{
+    \item Si simula meglio l'idea ``Everything is an Object''
+    \item Anche i tipi primitivi sono usabili ad esempio con \cil{Object[]}
+  }}
+}
+
+\fr{Uso dell'autoboxing}{
+  \srcode{\footnotesize}{3}{30}{\ecl/last/Boxing.java}
+}
+
+\fr{Variable arguments}{
+  \bl{A volte è utile che i metodi abbiano un numero variabile di argomenti}{\iz{
+    \item \cil{int i=sum(10,20,30,40,50,60,70);}
+    \item \cil{printAll(10,20,3.5,new Object());}
+    \item prima di Java 5 si simulava passando un unico array
+  }}
+  \bl{Variable arguments}{\iz{
+    \item L'ultimo (o unico) argomento di un metodo può essere del tipo ``\cil{Type... argname}''{\iz{
+      \item p.e. \cil{void m(int a,float b,Object... args)\{...\}}
+    }}
+    \item Nel body del metodo, \cil{argname} è trattato come un \cil{Type[]}
+    \item Chi chiama il metodo, invece che passare un array, passa una lista di argomenti di tipo \cil{Type}
+    \item Funziona automaticamente con polimorfismo, autoboxing, \cil{instanceof},...
+  }}
+}
+
+\fr{Uso dei variable arguments}{
+  \srcode{\ssmall}{3}{30}{\ecl/last/VarArgs.java}
+}
+
+
+\fr{Preview del prossimo laboratorio}{
+  \bl{Obbiettivi}{Familiarizzare con:\iz{
+    \item Estensione delle classi e corrsipondente polimorfismo
+    \item Classi astratte
+    \item Tipi a run-time e boxing
+  }}
+}
+
+
+\end{document}
+

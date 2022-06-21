@@ -1,0 +1,437 @@
+\documentclass[presentation]{beamer}
+\usepackage{oop-slides}
+
+\title[OOP06: Interfacce]{06 \\ Composizione, riuso e sostituibilità: le \texttt{interface}}
+
+\begin{document}
+
+\newcommand{\ecl}{\eclipsepath{p06interfaces}}
+%\srcode{\tiny}{3}{32}{\ecl/Point3D.java}
+
+\frame[label=coverpage]{\titlepage}
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare concetti generali di composizione e riuso
+  \item Introdurre il concetto di interfaccia
+  \item Discutere il principio di sostituibilità
+  \item Evidenziare il polimorfismo derivante dalle interfacce
+  }}
+  \bl{Argomenti}{\iz{
+  \item Tipi di composizione e loro realizzazione
+  \item Notazione UML
+  \item \cil{int erface} in Java e meccanismi collegati
+  \item Polimorfismo con le interfacce
+  }}
+}
+
+\section{Composizione e riuso}
+
+\fr{Intro}{
+  \bx{
+    L'incapsulamento ci fornisce i meccanismi per ben progettare le classi, limitando il più possibile le dipendenze con chi le usa, e quindi in modo da ridurre l'impatto delle modifiche che si rendono via via necessarie.\iz{
+    \item[$\Rightarrow$] ma le dipendenze fra classi non sono evitabili del tutto, anzi, sono un prerequisito per fare di un gruppo di classi un sistema! In più, le dipendenze sono anche manifestazione di un effettivo ``riuso''.
+  }}
+  \bl{Forme di dipendenza e riuso fra classi nell'OO}{\iz{
+    \item Associazione | Un oggetto ne usa un altro: ``uses''
+    \item Composizione | Un oggetto ne aggrega altri: ``has-a''
+    \item Specializzazione | Una classe ne specializza un'altra: ``is-a''
+  }}
+  \bl{Nella lezione corrente}{
+    Introdurremo la composizione (che è una versione più forte della associazione), mostrando la sua relazione con le \alert{interface} di Java
+  }
+}
+
+\fr{Composizione -- relazione ``has-a''}{
+  \bl{Idea}{\iz{
+    \item un oggetto della classe \cil{A} è ottenuto componendo un insieme di altri oggetti, delle classi \cil{B1}, \cil{B2},..,\cil{Bn} 
+    \item si dice che un oggetto di \cil{A} contiene, o si compone di, oggetti delle classi \cil{B1}, \cil{B2},..,\cil{Bn}
+    \item ossia, lo stato dell'oggetto di \cil{A} include le informazioni relative allo stato di un oggetto di \cil{B1}, uno di  \cil{B2},..,uno di \cil{Bn}
+    \item si noti che si parla propriamente di composizione quando \cil{B1}, \cil{B2},..\cil{Bn} non sono tipi primitivi, ma classi
+    \item (quando gli oggetti composti hanno vita propria senza l'esistenza di \cil{A} si parla anche di \alert{aggregazione} -- ma non ci occuperemo per ora in dettaglio di questa distinzione)
+  }}
+}
+
+\fr{Qualche esempio di composizione}{
+  \bl{GUI}{
+    Un oggetto interfaccia grafica si compone di oggetti di tipo \cil{Button}, \cil{TextField}, \cil{Label}, eccetera
+  }
+  \bl{Ateneo}{
+    Un oggetto ateneo si compone di oggetti di tipo \cil{Facoltà}, \cil{Studenti}, \cil{Docenti}, eccetera
+  }
+  \bl{Controllore Domotica}{
+    Un oggetto controllore domotica si compone di oggetti di tipo \cil{Lamp}, \cil{TV}, \cil{Radio}, eccetera
+  }
+}
+
+\fr{Tipiche realizzazioni}{
+  \bl{Un oggetto \cil{A} si compone esattamente di un oggetto di \cil{B}}{\iz{
+    \item La classe \cil{A} avrà un campo (privato) di tipo \cil{B}
+    \item Tale campo (impostato dal costruttore di \cil{A}) è sempre presente
+  }}
+  \bl{Un oggetto \cil{A} si compone opzionalmente di un oggetto di \cil{B}}{\iz{
+    \item La classe \cil{A} avrà un campo (privato) di tipo \cil{B}
+    \item Il suo contenuto potrebbe essere \cil{null} (oggetto di \cil{B} assente)
+  }}
+  \bl{Un oggetto \cil{A} si compone di un numero noto $n$ di oggetti di \cil{B}}{\iz{
+    \item La classe \cil{A} avrà $n$ campi (privati) di tipo \cil{B} -- se ``n'' piccolo
+  }}
+  \bl{Un oggetto \cil{A} si compone di una moltitudine non nota di oggetti di \cil{B}}{\iz{
+    \item La classe \cil{A} avrà un campo (privato) di tipo \cil{B[]} (o altro container)
+  }}
+}
+
+\fr{Ricordiamo la classe Lamp -- A}{
+  \srcode{\ssmall}{3}{30}{\ecl/Lamp.java}
+}
+
+\fr{Ricordiamo la classe Lamp -- B}{
+  \srcode{\ssmall}{32}{100}{\ecl/Lamp.java}
+}
+
+\fr{Un esercizio: dispositivo \Cil{TwoLampsDevice}}{
+  \bl{Caratteristiche del sistema da modellare}{\iz{
+    \item una base su cui poggiano due lampadine
+    \item possibilità di accendere/spegnere entrambe
+    \item possibilità di modalità ``eco''
+  }}
+  \bl{Idea realizzativa 1 :(}{\iz{
+    \item una classe con 4 campi, ossia le due intensità e i due flag
+    \item sarebbe un buon design?
+    \item riuserei codice? starei aderendo al principio DRY?\\(Don't Repeat Yourself)
+  }}
+  \bl{Idea realizzativa 2 :)}{\iz{
+    \item riuso \cil{Lamp} e sfrutto la composizione
+  }}
+}
+
+
+\fr{Esempio: \Cil{TwoLampsDevice} pt 1}{
+  \srcode{\scriptsize}{3}{22}{\ecl/TwoLampsDevice.java}
+}
+
+\fr{Esempio: \Cil{TwoLampsDevice} pt 2}{
+  \srcode{\scriptsize}{24}{100}{\ecl/TwoLampsDevice.java}
+}
+
+
+\fr{La necessità di una notazione grafica -- UML}{
+  \bl{UML -- Unified Modelling Language}{\iz{
+    \item \`E un linguaggio grafico e OO-based per modellare software
+    \item Facilita lo scambio di documentazione, e il ragionamento su sistemi articolati e complessi
+    \item \`E uno standard dell'OMG dal 1996
+    \item \`E molto utile anche a fini didattici
+    \item Noi ne useremo solo la parte chiamata \alert{Class Diagram}
+    \item Nel corso di Ingegneria del Software lo approfondirete
+  }}
+}
+
+\fr{Class Diagram}{
+  \bl{..diagramma delle classi, una prima descrizione}{\iz{
+    \item Un box rettangolare per classe, diviso in tre aree:{\iz{
+      \item 1. nome della classe, 2. campi, 3. metodi (e costruttori)
+    }}
+    \item Su campi e metodi{\iz{
+      \item si antepone il simbolo \cil{-} se privati, \cil{+} se pubblici
+      \item si sottolineano se \cil{static}
+      \item dei metodi si riporta solo la signature, con sintassi: \cil{nome(arg1: tipo1, arg2: tipo2, ..): tipo_ritorno}
+      }}
+    \item archi fra classi indicano relazioni speciali:{\iz{
+      \item con rombo (composizione), con freccia (semplice associazione)
+      \item con triangolo (generalizzazione)
+      \item l'arco può essere etichettato con la molteplicità (1, 2, 0..1, 0..n, 1..n)
+    }}
+  }}
+  \bx{A seconda dello scopo per cui si usa il diagramma, non è necessario riportare tutte le informazioni, ad esempio spesso si omettono le proprietà, le signature complete, ed alcune relazioni}
+}
+
+\fr{Notazione UML completa per la classe \Cil{Lamp}:\\ tipicamente usata in fase di implementazione}{
+  \fg{height=0.8\textheight}{06/img/lamp1.pdf}
+}
+
+\fr{Notazione parziale: solo parte pubblica:\\ tipicamente usata in fase di design}{
+  \fg{height=0.6\textheight}{06/img/lamp2.png}
+}
+
+\fr{UML: \Cil{Lamp} e \Cil{TwoLampsDevice}}{
+  \fg{height=0.5\textheight}{06/img/lamp3.png}
+}
+
+\fr{Altro caso di composizione: \Cil{LampsRow}}{
+  \srcode{\tiny}{3}{100}{\ecl/LampsRow.java}
+}
+
+\fr{UML: \Cil{Lamp} e \Cil{LampsRow}}{
+  \fg{height=0.45\textheight}{06/img/lamp4.png}
+}
+
+\fr{Scenario \Cil{DomusController}}{
+  \fg{height=0.65\textheight}{06/img/lamp5.png}
+  \bx{Come scrivereste il metodo \cil{switchAll} in modo riusabile, e possibilmente rimandendo aperti all'introduzione di nuovi tipi di dispositivi?}
+}
+
+\fr{Realizzazione senza riuso: schema}{
+  \srcode{\tiny}{1}{100}{06/code/DomusControllerTry.java}
+}
+
+
+\section{Interfacce}
+
+\frs{5}{Motivazioni}{
+  \bl{Specifica}{\iz{
+    \item Serve un meccanismo per separare esplicitamente, ossia in dichiarazioni diverse, l'interfaccia della classe e la sua realizzazione
+    \item Questo consente di tenere separate fisicamente la parte di ``contratto'' (tipicamente fissa) con quella di ``implementazione'' (modificabile frequentemente)
+    \item Consente di separare bene il progetto dall'implementazione
+  }}
+  \bl{Polimorfismo}{\iz{
+    \item Serve un meccanismo per poter fornire diverse possibili realizzazioni di un contratto
+    \item Tutte devono poter essere utilizzabili in modo omogeneo
+    \item Nel caso di \cil{DomusController}:{\iz{
+	\item Avere un unico contratto per i ``dispositivi'', e..
+	\item ..diverse classi che lo rispettano
+	\item \cil{DomusController} gestirà un unico array di ``dispositivi''
+	
+    }}
+  }}
+}
+
+\fr{Java \Cil{interfaces}}{
+  \bl{Cos'è una \cil{interface}}{\iz{
+    \item \`E un nuovo \alert{tipo di dato} dichiarabile (quindi come le classi)
+    \item Ha un nome, e include ``solo'' un insieme di intestazioni di metodi
+    \item Viene compilato da \cil{javac} come una classe, e produce un \cil{.class}
+  }}
+  \bl{Una \cil{interface} \cil{I} può essere ``implementata'' da una classe}{\iz{
+    \item Attraverso una classe \cil{C} che lo dichiara esplicitamente (\cil{class C implements I\{..\}})
+    \item \cil{C} dovrà definire (il corpo di) tutti i metodi dichiarati in \cil{I}
+    \item Un oggetto istanza di \cil{C}, avrà come tipo \cil{C} al solito, ma anche \cil{I}!!
+  }}
+  \bl{Esempio: dispositivi DomusController}{
+    \cil{Lamp}, \cil{TV}, \cil{Radio}, \cil{AirConditioner} hanno una caratteristica comune, sono dispositivi e come tali possono come minimo essere accesi o spenti. \`E possibile definire una interfaccia \cil{Device} che tutti e 4 implementano. 
+  }
+}
+
+\fr{Interface \Cil{Device}}{
+  %\sizedcode{\normalsize}{06/code/Device.java}
+  \srcode{\small}{3}{30}{\ecl/domo/Device.java}
+}
+
+\fr{Implementazioni di \Cil{Device}}{
+  \sizedcode{\scriptsize}{06/code/DeviceB.java}
+}
+
+
+\fr{Notazione UML per le interfacce}{
+  \bx{\iz{
+    \item interfaccia come box con titolo ``\cil{<< interface >> Nome}''
+    \item arco tratteggiato (punta a triangolo) per la relaz. ``\cil{implements}''
+    \item archi raggruppati per migliorare la resa grafica
+  }}
+  \fg{width=0.7\textwidth}{06/img/uml-int.pdf}
+}
+
+\fr{Interfacce come tipi di dato}{
+  \bl{Data l'interfaccia \cil{I}, in che senso \cil{I} è un tipo?}{\iz{
+    \item \cil{I} è un tipo come gli altri (\cil{int}, \cil{float}, \cil{String}, \cil{Lamp}, \cil{Lamp[]})
+    \item è usabile per dichiarare variabili, come tipo di input/output di una funzione, come tipo di un campo
+  }}
+  \bl{Quali operazioni sono consentite?}{
+    esattamente (e solo) le chiamate dei metodi definiti dall'interfaccia
+  }
+  \bl{Quali sono i valori (/oggetti) di quel tipo?}{
+    gli oggetti delle classi che dichiarano implementare quell'interfaccia
+  }
+}
+
+\fr{Interfacce e assegnamenti}{
+  \sizedcode{\footnotesize}{06/code/DueTipi.java}
+}
+
+\fr{Ridurre la molteplicità / aumentare riuso -- prima}{
+  \sizedcode{\scriptsize}{06/code/IntMethod.java}
+}
+
+\fr{Ridurre la molteplicità / aumentare riuso -- dopo}{
+  \sizedcode{\scriptsize}{06/code/IntMethod2.java}
+}
+
+\frs{5}{Razionale delle interfacce}{
+  \bl{Quando costruire una interfaccia?}{\iz{
+    \item quando si ritiene utile separare contratto da implementazione (sempre vero per i concetti cardine in applicazioni complesse)
+    \item quando si prevede la possibilità che varie classi possano voler implementare un medesimo contratto
+    \item quando si vogliono costruire funzionalità che possano lavorare con \alert{qualunque} oggetto che implementi il contratto\iz{
+    \item caso particolare: Quando si vuole comporre (``has-a'') un qualunque oggetto che implementi il contratto}
+    \item[$\Rightarrow$] l'esperienza mostra che classi riusabili di norma hanno sempre una loro \cil{interface}
+  }}
+  \bl{Quindi:}{\iz{
+    \item laddove ci si aspetta un oggetto che implementi il contratto si usa il tipo dell'interfaccia
+    \item questo consente il riuso della funzionalità a tutte le classi che implementano il contratto
+  }}
+}
+
+\fr{Scenario \Cil{DomusController} rivisitato}{
+  \fg{height=0.65\textheight}{06/img/uml-int-domus2-cropped.pdf}
+}
+
+\fr{Codice \Cil{DomusController} pt 1}{
+  \srcode{\scriptsize}{3}{25}{\ecl/domo/DomusController.java}
+}
+
+\fr{Codice \Cil{DomusController} pt 2}{
+  \srcode{\scriptsize}{26}{100}{\ecl/domo/DomusController.java}
+}
+
+\fr{Codice \Cil{TV}}{
+  \srcode{\ssmall}{3}{100}{\ecl/domo/TV.java}
+}
+
+
+\fr{Uso di \Cil{DomusController}}{
+  %\sizedcode{\scriptsize}{06/code/classes2/UseDomusController.java}
+  \srcode{\scriptsize}{3}{100}{\ecl/domo/UseDomusController.java}
+}
+
+
+\section{Tipi, sottotipi, sostituibilità, polimorfismo}
+
+\fr{\Cil{implements} come relazione di ``sottotipo''}{
+  \bl{Un tipo è considerabile come un set di valori/oggetti}{
+    \iz{
+      \item $T_{\texttt{boolean}} = \{\texttt{true}, \texttt{false}\}$
+      \item $T_{\texttt{int}} = \{-2147483648,\ldots,-1,0,1,2,\ldots,2147483647\}$
+      \item $T_{\texttt{Lamp}} = \{X|\textrm{$X$ is an object of class \cil{Lamp}}\}$
+      \item $T_{\texttt{Device}} = \{X|\textrm{$X$ is an object of a class implementing \cil{Device}}\}$
+      \item $T_{\texttt{String}} = \{X|\textrm{$X$ is an object of class \cil{String}}\}$
+  }}  
+  
+  \bl{\cil{Lamp} è un sottotipo di \cil{Device}!}{\iz{
+    \item Un oggetto della classe \cil{Lamp} è anche del tipo \cil{Device}
+    \item Quindi, da $X\in T_{\texttt{Lamp}}$ segue  $X\in T_{\texttt{Device}}$
+    \item Ossia, $T_{\texttt{Lamp}} \subseteq  T_{\texttt{Device}}$, scritto anche: \texttt{Lamp <:\!\!\! Device}
+  }}
+  \bx{\Large Ogni classe è sottotipo delle interfacce che implementa!}
+}
+
+\fr{Sottotipi e principio di sostituibilità}{
+  \bl{Principio di sostituibilità di Liskov (1993)}{
+    Se \texttt{A} è un sottotipo di \texttt{B} allora ogni oggetto (o valore) di \texttt{A} può(/deve) essere utilizzato dove un programma si attende un oggetto (o valore) di \texttt{B}
+  }
+  \bl{Nel caso delle interfacce}{
+    Se la classe \texttt{C} implementa l'interfaccia \texttt{I}, allora ogni istanza di \texttt{C} può essere passata dove il programma si attende un elemento del tipo \texttt{I}.
+  }
+  \bl{Si rischiano errori?}{
+    No. Il programma può manipolare gli elementi del tipo \texttt{I} solo mandando loro i messaggi dichiarati in \texttt{I}, che sono sicuramente ``accettati'' dagli oggetti di \texttt{C}. Il viceversa non è vero.
+   }
+   \bx{\Large Nota: \texttt{I} è più generale di \Cil{C}, ma fornisce meno funzionalità!}
+}
+
+\fr{Polimorfismo}{
+  \bl{Polimorfismo = molte forme (molti tipi)}{Ve ne sono di diversi tipi nei linguaggi OO\iz{
+    \item Polimorfismo inclusivo: subtyping
+    \item Polimorfismo parametrico: genericità
+  }}
+  \bl{Polimorfismo inclusivo}{\`E precisamente l'applicazione del principio di sostituibilità\iz{
+    \item Se il tipo \cil{A} è una specializzazione di \cil{B} (lo implementa)..
+    \item ..si può usare un oggetto \cil{A} dove se ne  attende uno di \cil{B}
+  }}
+}
+
+\fr{Polimorfismo e interfacce}{
+  \bl{Una delle pietre miliari dell'OO}{\iz{
+    \item \cil{C} deve usare uno o più oggetti di un tipo non predeterminato
+    \item l'interfaccia \cil{I} cattura il contratto comune di tali oggetti
+    \item varie classi \cil{C1},\cil{C2},\cil{C3} (e altre in futuro) implementano \cil{I}
+    \item \cil{C} non ha dipendenze rispetto \cil{C1},\cil{C2},\cil{C3}
+    \item (l'uso potrebbe essere una composizione, come nel caso precedente)
+  }}
+  \fg{height=0.4\textheight}{06/img/uml-int-general-cropped.pdf}
+}
+
+
+\fr{Late binding (o dynamic binding)}{
+  \sizedcode{\scriptsize}{06/code/IntMethod3.java}
+  \bl{Collegamento ritardato}{Accade con le chiamate a metodi non-statici\iz{
+    \item Dentro a \cil{switchOnIfCurrentlyOff()} mandiamo a \cil{device} due messaggi (\cil{isSwitchedOn} e \cil{switchOn}), ma il codice da eseguire viene scelto dinamicamente (ossia ``late''), dipende dalla classe dell'oggetto \cil{device} (\cil{Lamp},\cil{TV},..)
+    \item Terminologia: \cil{device} ha tipo \cil{Device} (tipo statico), ma a tempo di esecuzione è un \cil{Lamp} (tipo run-time)
+  }}
+}
+
+\fr{Early (static) vs late (dynamic) binding}{
+  \sizedcode{\ssmall}{06/code/EarlyLate.java}
+  \bl{Differenze}{\iz{
+    \item Early: con metodi statici o finali
+    \item Late: negli altri casi
+  }}
+}
+
+\section{Altri Meccanismi delle Interfacce}
+
+\fr{Altri aspetti sulle interfacce}{
+  \bl{Cosa non può contenere una \cil{interface}?}{\iz{
+    \item Non può contenere campi istanza
+    \item Non può contenere il corpo di un metodo istanza
+    \item Non può contenere un costruttore
+  }}
+  \bl{Cosa potrebbe contenere una \cil{interface}?}{\iz{
+    \item Java consentirebbe anche di includere dei campi statici e metodi statici (con tanto di corpo), ma è sconsigliato utilizzare questa funzionalità per il momento
+    \item In Java 8 i metodi possono avere una implementazione di default, che vedremo
+  }}
+  \bx{\Large Le \Cil{interface} includano solo intestazioni di metodi!}
+}
+
+\fr{Implementazione multipla}{
+  \bl{Implementazione multipla}{Dichiarazione possibile: \cil{class C implements I1,I2,I3\{..\}}
+  \iz{
+    \item Una classe \cil{C} implementa sia \cil{I1} che \cil{I2} che \cil{I3}
+    \item La classe \cil{C} deve fornire un corpo per tutti i metodi di \cil{I1}, tutti quelli di \cil{I2}, tutti quelli di \cil{I3}{\iz{
+      \item se \cil{I1},\cil{I2},\cil{I3} avessero metodi in comune non ci sarebbe problema, ognuno andrebbe implementato una volta sola
+    }}
+    \item Le istanze di \cil{C} hanno tipo \cil{C}, ma anche i tipi \cil{I1}, \cil{I2} e \cil{I3}
+  }}
+}
+
+\fr{Esempio \Cil{Device} e \Cil{Luminous}}{
+  \sizedcode{\scriptsize}{06/code/Multi.java}
+}
+
+\fr{Estensione interfacce}{
+  \bl{Estensione}{Dichiarazione possibile: \cil{interface I extends I1,I2,I3\{..\}}
+  \iz{
+    \item Una interfaccia  \cil{I} definisce certi metodi, oltre a quelli di \cil{I1}, \cil{I2}, \cil{I3}
+    \item Una classe \cil{C} che deve implementare \cil{I} deve fornire un corpo per tutti i metodi indicati in \cil{I}, più tutti quelli di \cil{I1}, tutti quelli di \cil{I2}, e tutti quelli di \cil{I3}
+    \item Le istanze di \cil{C} hanno tipo \cil{C}, ma anche i tipi \cil{I}, \cil{I1}, \cil{I2} e \cil{I3}
+  }}
+}
+
+\fr{Esempio \Cil{LuminousDevice}}{
+  \sizedcode{\scriptsize}{06/code/Multi2.java}
+}
+
+\fr{Qualche esempio dalle librerie Java}{
+  \bl{Interfacce base}{\iz{
+    \item \texttt{java.lang.Appendable}
+    \item \texttt{java.io.DataInput}
+    \item \texttt{java.io.Serializable}: interfaccia ``tag''
+    \item \texttt{javax.swing.Icon}
+  }}
+  \bl{Implementazioni multiple}{\iz{
+    \item \texttt{class ImageIcon implements Icon, Serializable, Accessible\{...\}}
+  }}
+  \bl{Estensioni di interfacce}{\iz{
+    \item \texttt{interface ObjectInput extends DataInput\{...\}}
+  }}
+  
+  
+}
+
+\fr{Preview del prossimo laboratorio}{
+  \bl{Obbiettivi}{Familiarizzare con:\iz{
+    \item Costruzione di semplici classi con incapsulamento
+    \item Relativa costruzione di test
+    \item Costruzione di classi con relazione d'uso verso una interfaccia
+  }}
+}
+
+
+
+\end{document}

@@ -1,0 +1,364 @@
+\documentclass[presentation]{beamer}
+\usepackage{oop-slides}
+
+\title[OOP07: Ereditarietà]{07 \\ Ereditarietà}
+
+\begin{document}
+
+\newcommand{\ecl}{\eclipsepath{p07inheritance}}
+%\srcode{\tiny}{3}{32}{\ecl/Point3D.java}
+
+\frame[label=coverpage]{\titlepage}
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare il riuso via ereditarietà
+  \item Introdurre i vari meccanismi collegati all'ereditarietà
+  }}
+  \bl{Argomenti}{\iz{
+  \item Estensione di classi
+  \item Livello d'accesso \cil{protected}
+  \item Overriding dei metodi
+  \item Gestione dei costruttori e chiamate \cil{super}
+  \item Il modificatore \cil{final} su classi e metodi
+  }}
+}
+
+\section{Riuso via ereditarietà}
+
+\fr{Ereditarietà}{
+  \bx{
+    \`E un meccanismo che consente di definire una nuova classe \alert{specializzandone} una esistente, ossia ``ereditando'' i suoi campi e metodi (quelli privati non sono visibili), possibilmente/eventualmente modificando/aggiungendo campi/metodi, e quindi riusando codice già scritto e testato.
+  }
+  \bl{L'ereditarietà è un concetto chiave dell'OO}{\iz{
+    \item \`E connesso al meccanismo delle interfacce 
+    \item \`E uno degli elementi chiave insieme a incapsulamento e interfacce
+    \item Non riguarda solo il riuso di codice, ma influenza anche il polimorfismo conseguente
+  }}
+  \bl{Solito approccio}{\iz{
+    \item Illustreremo i meccanismi base attraverso semplici classi
+    \item Successivamente recupereremo l'importanza nei casi reali
+    \item Utilizzeremo l'idea di \alert{contatore}
+  }}
+}
+
+\fr{Scenari di riuso ed estensione}{
+  \bx{\iz{
+    \item Data una classe, realizzarne un'altra con caratteristiche solo in parte diverse (o nuove)
+    \item Come sopra, ma senza disporre dei sorgenti della classe originaria (p.e., la classe di partenza è di libreria)
+    \item Data una classe, crearne una più specializzata (ad esempio, più robusta e sicura, anche se più lenta)
+    \item Creare gerarchie di classi ossia di comportamenti
+  }}
+}
+
+\fr{Esempio base: \Cil{Counter}}{
+  %\sizedcode{\normalsize}{07/code/pre/Counter.java}
+  \srcode{\normalsize}{3}{32}{\ecl/pre/Counter.java}
+}
+
+\fr{Uso della classe \Cil{Counter}}{
+  \srcode{\normalsize}{3}{32}{\ecl/pre/UseCounter.java}
+}
+
+\fr{Una nuova classe: \Cil{MultiCounter}}{
+  \srcode{\scriptsize}{3}{32}{\ecl/pre/MultiCounter.java}
+}
+
+\fr{Uso della classe \Cil{MultiCounter}}{
+  \srcode{\footnotesize}{3}{32}{\ecl/pre/UseMultiCounter.java}
+}
+
+\fr{Versione con riuso via composizione: \Cil{MultiCounter2}}{
+  \srcode{\scriptsize}{3}{32}{\ecl/pre/MultiCounter2.java}
+}
+
+\frs{5}{La necessità di estendere e modificare}{
+  \bl{Una tipica situazione}{\iz{
+    \item \`E tipico nei progetti software, accorgersi di dover creare anche versioni modificate delle classi esistenti
+    \item Appoggiarsi al ``copia e incolla'' di codice come in questo caso è sempre sconsigliabile (principio DRY), perché tende a spargere errori in tutto il codice, e complica la manutenzione
+    \item Ottenere riuso via composizione (ossia delegazione) è in generale una \alert{ottima soluzione}.. ma è possibile in alcuni casi fare meglio..
+  }}
+  \bl{Si usa il meccanismo di ereditarietà}{\iz{
+    \item Definizione: \cil{class C extends D \{..\}}
+    \item La nuova classe \cil{C} eredita campi/metodi/costruttori non privati di \cil{D}{\iz{
+      \item Eredita anche campi/metodi privati, ma non sono accessibili da \cil{C}
+      \item I costruttori di \cil{D} non sono direttamente richiamabili con la \cil{new}, bisogna sempre definirne di nuovi
+    }}
+    \item Terminologia: \cil{D} superclasse, o classe base, o classe padre
+    \item Terminologia: \cil{C} sottoclasse, o classe figlio, o specializzazione
+    \item Nota: non serve disporre dei sorgenti di \cil{D}, basta il codice binario
+  }}
+}
+
+\fr{Una nuova versione di \Cil{MultiCounter}}{
+  \srcode{\scriptsize}{3}{32}{\ecl/ered/MultiCounter.java}
+}
+
+\fr{Razionale}{
+  \bl{Ridefiniamo la classe \cil{MultiCounter} come estensione di \cil{Counter}}{\iz{
+    \item Definiamo il nuovo metodo \cil{multiIncrement()}
+    \item Definiamo il costruttore necessario{\iz{
+      \item Il costruttore di una sottoclasse può cominciare con l'istruzione \cil{super}, che chiama un costruttore (non privato) della classe padre
+      \item Se non lo fa, si chiama il costruttore di default del padre
+      \item Senza costruttori, si ha al solito solo quello di default
+    }}
+    \item \cil{UseMultiCounter} continua a funzionare!
+  }}
+  \bl{Il senso della definizione}{\iz{
+    \item Un oggetto di \cil{MultiCounter} è simile ad un oggetto di \cil{Counter}{\iz{
+      \item Ha i metodi \cil{increment()} e \cil{getValue()}
+      \item Ha anche il campo \cil{value} (che in effetti è incrementato), anche se essendo privato è inaccessibile dal codice della classe \cil{MultiCounter}
+    }}
+    \item Due modifiche necessarie rispetto a \cil{Counter}: metodo \cil{multiIncrement()} e ridefinizione del costruttore
+  }}
+}
+
+\fr{Notazione UML per l'estensione}{
+  \bx{\iz{
+    \item Arco a linea continua (punta a triangolo pieno) per la relazione ``\cil{extends}''
+    \item Archi raggruppati per migliorare la resa grafica
+  }}
+  \fg{width=0.45\textwidth}{07/img/uml-ext.pdf}
+}
+
+\fr{Notazione UML -- versione semplificata per il design}{
+  \fg{width=0.4\textwidth}{07/img/uml-ext2.pdf}
+}
+
+
+\fr{Livello d'accesso \Cil{protected}}{
+  \bl{Usabile per le proprietà d'una classe}{\iz{
+    \item \`E un livello intermedio fra \cil{public} e \cil{private}
+    \item Indica che la proprietà (campo, metodo, costruttore) è accessibile dalla classe corrente, da una sottoclasse, e dalle sottoclassi delle sottoclassi (ricorsivamente) -- cavillo: anche da tutto il package
+  }}
+  \bl{A cosa serve?}{\iz{
+    \item Consente alle sottoclassi di accedere ad informazioni della sopraclasse che non si vogliono far vedere agli utilizzatori	
+    \item Molto spesso usato a posteriori rimpiazzando un \cil{private}
+    \item Molto meglio avere campi privati e getter/setter protetti
+  }}
+  \bl{Esempio classe \cil{BiCounter} -- contatore bidirezionale}{\iz{
+    \item Un contatore con anche il metodo \cil{decrement}
+    \item Irrealizzabile senza rendere accessibile il campo \cil{counter}
+  }}
+}
+
+\fr{Un contatore estendibile: \Cil{ExtendibleCounter}}{
+  \srcode{\footnotesize}{3}{32}{\ecl/extendible/ExtendibleCounter.java}
+}
+
+\fr{Classe \Cil{MultiCounter}}{
+  \srcode{\footnotesize}{3}{32}{\ecl/extendible/MultiCounter.java}
+}
+
+\fr{Classe \Cil{BiCounter}}{
+  \srcode{\footnotesize}{3}{32}{\ecl/extendible/BiCounter.java}
+}
+
+\fr{Overriding di metodi}{
+  \bl{Estensione e modifica}{\iz{
+    \item Quando si crea una nuova classe per estensione, molto spesso non è sufficiente aggiungere nuove funzionalità
+    \item A volte serve anche modificare alcune di quelle disponibili, eventualmente anche stravolgendone il funzionamento originario
+    \item Questo è realizzabile riscrivendo nella sottoclasse uno (o più) dei metodi della superclasse (ossia, facendone l'\alert{overriding})
+    \item Se necessario, il metodo riscritto può invocare la versione del padre usando il receiver speciale \cil{super}
+  }}
+  \bl{Esempio}{\iz{
+    \item Creare un contatore che, giunto ad un certo limite, non prosegue più
+    \item \`E necessario fare overriding del metodo \cil{increment()}
+    \item Un ulteriore metodo getter ispeziona il raggiungimento del limite
+    
+  }} 
+}
+
+\fr{Classe \Cil{LimitCounter}}{
+  \srcode{\scriptsize}{3}{32}{\ecl/extendible/LimitCounter.java}
+}
+
+\fr{Uso della classe \Cil{LimitCounter}}{
+  \srcode{\footnotesize}{3}{32}{\ecl/extendible/UseLimitCounter.java}
+}
+
+
+\fr{Notazione UML}{
+  \bx{\iz{
+    \item I campi/metodi protetti si annotano con un ``\#''
+    \item I metodi overridden si riportano anche nella sottoclasse
+  }}
+  \fg{height=0.6\textheight}{07/img/uml-ext3.pdf}
+}
+
+\section{Uno scenario completo}
+
+\fr{Una applicazione allo scenario domotica}{
+  \bl{Elementi}{\iz{
+    \item Usiamo \cil{LimitCounter}
+    \item Definiamo una \cil{LimitedLamp} (via estensione) che contiene un contatore, e che ha un tempo di vita basato sul numero di accensioni ammesse
+    \item Un \cil{EcoDomusController} si compone di $n$ \cil{LimitedLamp}, e ha la possibilità di verificare se tutte le lampadine sono esaurite, e di accendere la lampadina alla quale è rimasto più tempo di vita
+  }}
+  \bl{Note sulla soluzione}{\iz{
+    \item Una alternativa era far sì che \cil{EcoDomusController} componesse $n$ \cil{SimpleLamp} e $n$ \cil{LimitCounter}
+    \item \cil{LimitedLamp} realizza alcuni metodi per delegazione al suo contatore
+    \item Per ora, non prevediamo l'aspetto di interazione con l'utente
+  }}
+}
+
+\fr{Diagramma UML complessivo}{
+  \fg{height=0.8\textheight}{07/img/uml-domus.pdf}
+}
+
+\fr{\Cil{LimitCounter}}{
+  \srcode{\scriptsize}{3}{30}{\ecl/example/LimitCounter.java}
+}
+
+\fr{\Cil{SimpleLamp}}{
+  \srcode{\scriptsize}{3}{30}{\ecl/example/SimpleLamp.java}
+}
+
+\fr{\Cil{LimitedLamp}}{
+  \srcode{\ssmall}{3}{30}{\ecl/example/LimitedLamp.java}
+}
+
+\fr{\Cil{EcoDomusController} pt 1}{
+  \srcode{\ssmall}{3}{29}{\ecl/example/EcoDomusController.java}
+}
+
+\fr{\Cil{EcoDomusController} pt 2}{
+  \srcode{\ssmall}{30}{55}{\ecl/example/EcoDomusController.java}
+}
+
+\fr{\Cil{UseEcoDomusController}}{
+  \srcode{\footnotesize}{3}{30}{\ecl/example/UseEcoDomusController.java}
+}
+
+\section{Ulteriori dettagli}
+
+\fr{Ereditarietà e costruttori}{
+  \bl{Scenario standard}{\iz{
+    \item Assumiamo si stia costruendo una catena di sottoclassi
+    \item Ogni classe introduce alcuni campi, che si aggiungono a quelli della superclasse a formare la struttura di un oggetto in memoria
+  }}
+  \bl{Linee guida per la singola classe}{\iz{
+    \item Dovrà definire tutti i costruttori necessari, seguendo l'approccio visto
+    \item Ogni costruttore dovrà preoccuparsi di:{\en{
+      \item Chiamare l'opportuno costruttore padre come prima istruzione (\cil{super}), altrimenti il costruttore di default verrà chiamato, se c'è
+      \item Inizializzare propriamente i campi localmente definiti
+    }}
+  }}
+  \bl{Ordine operazioni a seguito di una \cil{new}}{\iz{
+    \item Prima si crea l'oggetto con tutti i campi non inizializzati
+    \item Il codice dei costruttori sarà eseguito, dalle superclassi in giù
+  }}  
+}
+
+\fr{Analisi: cosa succede?}{
+  \srcode{\scriptsize}{3}{30}{\ecl/analysis/A.java}
+  \srcode{\scriptsize}{3}{30}{\ecl/analysis/B.java}
+}
+
+\fr{Chiamate di metodo alla superclasse (\Cil{super})}{
+  \bl{Chiamate \cil{super}}{\iz{
+    \item Una sottoclasse \cil{C} può includere una invocazione del tipo \cil{super.m(..args..)}
+    \item Non solo in caso di overriding
+    \item Cosa ci aspettiamo succeda?
+  }}
+  \bl{Semantica}{\iz{
+    \item Accade quello che accadrebbe se la classe corrente non avesse il metodo \cil{m}, ossia viene eseguito il metodo \cil{m} della superclasse {\iz{
+      \item O, se anche lì assente, quello nella sopraclasse più specifica che lo definisce
+    }}
+    \item Se tale metodo al suo interno chiama un altro metodo \cil{n} (su \cil{this}), allora si ritorna a considerare la versione più specifica a partire dalla classe di partenza \cil{C}
+  }}
+}
+
+\fr{Analisi: cosa succede?}{
+  \srcode{\scriptsize}{3}{30}{\ecl/analysis/C.java}
+  \srcode{\scriptsize}{3}{30}{\ecl/analysis/D.java}
+}
+
+\fr{Altra analisi: cosa succede?}{
+  \srcode{\scriptsize}{3}{30}{\ecl/analysis/E.java}
+  \srcode{\scriptsize}{3}{30}{\ecl/analysis/F.java}
+}
+
+\fr{Un esempio: riprendiamo \Cil{LimitCounter}}{
+  \srcode{\scriptsize}{3}{30}{\ecl/example/LimitCounter.java}
+}
+
+\fr{Un esempio: nuova specializzazione}{
+  \bl{Cosa succede chiamando \cil{increment()} su un \cil{UnlimitedCounter}?}{\iz{
+    \item Non avendo fatto overriding, si chiama la versione di \cil{LimitCounter}
+    \item In \cil{LimitCounter} si chiama \cil{this.isOver()} che chiama \cil{this.getDistanceToLimit()}
+    \item La versione di \cil{this.getDistanceToLimit()} eseguita è quella di \cil{UnlimitedCounter}
+  }}
+  \srcode{\footnotesize}{3}{30}{\ecl/example/UnlimitedCounter.java}
+}
+
+\fr{Uso di \Cil{UnlimitedCounter}}{
+  \srcode{\scriptsize}{3}{30}{\ecl/example/UseUnlimitedCounter.java}
+  %\bx{\iz{
+  %  \item \cil{uc.isOver()} chiama la versione del metodo in \cil{LimitCounter}
+  %  \item questa chiama il metodo \cil{getRemainingLifeCycle()}, ma di nuovo nella classe \cil{UnlimitedCounter}!
+  % }}
+}
+
+\fr{La tabella dei metodi virtuali}{
+    \bl{Anche detta: vtable, call table, dispatch table}{\iz{
+	\item ogni classe \cil{C} ne ha una, ed è accessibile ai suoi oggetti
+	\item ad ogni metodo definito (o ereditato) in \cil{C}, associa il codice corrispondente da eseguire, ossia la classe che riporta il body
+	\item le chiamate da risolvere con tale tabella sono quelle con \alert{late binding}
+	\item è una struttura che rende efficiente il polimorfismo fra classi (che vedremo)
+	\item è utile conoscerla anche se non è detto che la JVM usi esattamente tale struttura
+	\item fa comprendere il funzionamento di \cil{this.} e \cil{super.}
+    }}
+    \bl{Esempio}{
+	Come sono fatte le tabelle relative alle classi \cil{LimitedCounter} e \cil{UnlimitedCounter} nell'esempio precedente?
+    }
+}
+
+\fr{Esempio gestione memoria: stack/heap/vtables}{
+  \fg{height=0.8\textheight}{07/img/layout.pdf}
+}
+
+\fr{Il modificatore \Cil{final}}{
+  \bl{Problema}{\iz{
+    \item Tramite l'overriding e le chiamate \cil{super} è possibile prendere classi esistenti e modificarle con grande flessibilità
+    \item Questo introduce problemi di sicurezza, specialmente connessi al polimorfismo che vedremo nella prossima lezione
+   }}
+   \bl{Soluzione: \cil{final}}{\iz{
+    \item Oltre che per i campi (e argomenti di funzione o variabili, come già visto), è possibile dichiare \cil{final} anche metodi e intere classi
+    \item Un metodo \cil{final} è un metodo che NON può essere ri-definito per overriding
+    \item Una classe \cil{final} non può essere estesa
+   }}
+   \bl{Nelle librerie Java}{\iz{
+    \item Moltissime classi sono \cil{final}, ad esempio \cil{String}
+   }}
+}
+
+\fr{Overriding e controllo d'accesso}{
+    \bl{Regole per fare l'overriding di un metodo $M$}{\iz{
+	\item La nuova versione deve avere esattamente la stessa signature
+	\item È possibile estendere la visibilità di un metodo (da \cil{protected} a \cil{public})
+	\item Non è possile limitare la visibilità di un metodo (p.e. da \cil{public} a \cil{protected}, o da \cil{public} a \cil{private})
+	\item È possibile indicare il metodo \cil{final}
+	\item[$\Rightarrow$] sono tutte conseguenze del principio di sostituibilità
+    }}
+}
+
+
+\fr{La classe \Cil{Object}}{
+  \bl{Estensione di default}{\iz{
+    \item Una classe deve per forza estendere da qualcosa
+    \item Se non lo fa, si assume che estenda \cil{java.lang.Object}
+    \item Quindi ogni classe eredita (indirettamente) da \cil{Object}
+    \item \cil{Object} è la radice della gerarchia di ereditarietà di Java
+  }}
+  \bl{Classe \cil{Object}}{Fornisce alcuni metodi di utilità generale\iz{
+    \item \cil{toString()}, che stampa informazioni sulla classe e la posizione in memoria dell'oggetto
+    \item \cil{clone()}, per clonare un oggetto
+    \item \cil{equals()} e \cil{hashCode()}, usati nelle collection
+    \item \cil{notify()} e \cil{wait()}, usati nella gestione dei thread
+    \item ...
+    
+  }}
+}
+
+
+\end{document}

@@ -1,0 +1,426 @@
+\documentclass[presentation]{beamer}
+\usepackage{oop-slides}
+
+\title[OOP01: Object-orientation]{01 \\ Ingegneria e astrazione object-oriented}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\section{Sistemi software e Ingegneria}
+
+\fr{Sistemi software}{
+  \bl{Obbiettivo di questo corso}{
+    Insegnare tecniche moderne per la costruzione di sistemi software\\
+    $\Rightarrow$ utilizzando i concetti dei \alert{sistemi ad oggetti}, che sono ``mainstream''
+  }
+  \bl{Programma vs sistema software}{
+    \alert{Programma}: un set di istruzioni che automatizzano la soluzione di una classe di problemi, spesso associato ad una visione algoritmica della computazione (Input $\rightarrow$ Output).\\
+    \alert{Sistema software}: un'aggregazione di componenti di varia natura (programmi, librerie, parti del sistema operativo, basi di dati, interfacce grafiche, servizi Web, rete, dispositivi hardware) che cooperano per fornire una funzionalità computazionale.
+  }
+}
+
+% \fr{Da algoritmi a sistemi}{
+%   \bl{Esempio: Versioni di una applicazione Calcolatrice}{\iz{
+%     \item Algoritmica (input/output da linea di comando -- comando Linux \texttt{bc})
+%     \item Interattiva (comandi successivi e stato  -- comando Linux \texttt{dc})
+%     \item Con GUI (interfaccia grafica -- calcolatrice del PC)
+%     \item Web (client sul browser, server remoto -- \texttt{http://web2.0calc.com/})
+%    }}
+%    \bl{Altri aspetti (per altri tipi di sistemi)}{\iz{
+%     \item Persistenza (salvataggio dati e espressioni su file)
+%     \item Integrazione con H/W (app integrata in uno smartphone, che accede ai suoi sensori)
+%   }}
+% }
+
+\fr{Casi di sistemi software}{
+  \bl{Esempi}{\iz{
+    \item Calcolatrice matematica
+    \item Applicazione per gestire esami universitari
+    \item Simulatore di circuiti elettronici, movimento di folle, movimento pianeti 
+    \item Monitor e elaborazione di dati biometrici (pressione, dati cardiaci,..)
+    \item App per smartphone che mostra dove si trovano i miei amici di FB
+    \item Video-game in cui personaggi virtuali vivono in un ambiente 3D
+    \item Controllore per dispositivi domotici (luce, termosifoni, acqua)
+  }}
+  \bl{Caratteristiche comuni}{\iz{
+    \item Non meri programmi, ma sistemi ``pilotati'' da software
+    \item Includono componenti algoritmiche, ma anche interazioni complesse
+    \item Alcuni realizzabili già alla fine di questo corso OOP, altri nei 5 anni
+  }}
+}
+
+\fr{Fasi del processo di sviluppo}{
+  \bl{Analisi}{
+    Si definisce in modo preciso il \alert{problema} da risolvere (non la soluzione!)
+  }
+  \bl{Design}{
+    Si definisce la struttura del sistema da sviluppare\iz{
+    \item progetto architetturale + progetto di dettaglio
+    \item si descrive la \alert{soluzione}, ad uno specifico livello di dettaglio
+  }}
+  \bl{Implementazione/codifica}{ 
+   Si realizza il sistema sulla base del progetto, scegliendo le tecnologie adeguate (efficienti, efficaci) -- p.e. il linguaggio di programmazione 
+  }
+  \bl{Post-codifica: Collaudo, Manutenzione, Deployment}{
+   Fasi necessarie, che spesso impiegano più del 70\% delle risorse complessive
+}}
+
+\fr{Il problema dello sviluppo di sistemi software}{
+  \bx{\texttt{http://it.wikipedia.org/wiki/Software\_crisis}}
+  \bl{Quali cause possono comportare il fallimento di un progetto SW?}{\iz{
+    \item Inadeguata analisi (requisiti non compresi appieno)
+    \item Inadeguata (o assente) progettazione
+    \item Cattive pratiche di programmazione 
+    \item Aspetti organizzativi nel team di sviluppo
+    }}
+}
+
+\frs{5}{Problem space vs solution space: il ``buon progetto''}{
+ \bl{Problem space (fase di analisi)}{
+  L'insieme delle entità e relazioni nel mondo ``reale'' sulla base delle quali si formula il problema che il sistema software deve risolvere
+  \iz{
+  \item per il gestionale per esami universitari: studente, corso, corso di laurea, appello, voto
+  }
+ }
+ \bl{Solution space (fase di progetto e implementazione)}{
+   Il corrispondente insieme di entità e relazioni nel mondo ``artificiale'' che devono risolvere il problema (realizzate mediante i linguaggi e le tecnologie scelte e a fronte del progetto). 
+   \iz{
+  \item funzione per il calcolo della media
+  \item struttura dati per rappresentare i dati di uno studente
+  \item form per visualizzare gli esami di uno studente
+  }
+ }
+ \bx{\bf{Un buon progetto mappa al meglio il problem space nel solution space}}
+}
+
+\fr{Concetti del solution/problem space: ``livello di astrazione''}{
+  \bl{Definizione di astrazione (nell'informatica)}{\iz{
+     \item \`E un metodo per descrivere un sistema informatico complesso mettendone da parte alcune caratteristiche specifiche, per facilitarne la progettazione, implementazione e manutenzione.
+     \item Un \alert{livello di astrazione} è un insieme di concetti e relazioni che definiscono una astrazione, usabili quindi per definire in modo conveniente un sistema informatico
+  }}
+}
+
+\fr{Il livello d'astrazione dei linguaggi di programmazione}{
+  \bl{Astrazione e programmazione}{\iz{
+    \item Ogni linguaggio di programmazione introduce un livello di astrazione
+    \item I concetti del sistema da realizzare (nel gestionale esami: corsi, voti, studenti, calcolo media voti) devono essere tradotti nei ``costrutti'' forniti dal linguaggio
+    \item \`E facile? \`E conveniente? \`E flessibile? Dipende dal linguaggio..
+  }}
+  \bl{Il livello di astrazione del C (e della progr. procedurale/imperativa)}{\iz{
+    \item Stato del sistema | \`E costituito da strutture dati (costruite con tipi primitivi, array, puntatori e struct) tenute in stack e/o heap
+    \item Dinamica | Esecuzione di procedure imperative, innestate ricorsivamente appoggiandosi allo stack
+    \item Organizzazione | Librerie come set di funzioni, ricongiunte in un unico programma all'atto della compilazione/linking
+  }}
+}
+
+\fr{I limiti del linguaggio C}{
+  \bl{Il C porta ad una visione piuttosto machine-oriented}{\iz{
+    \item \`E un livello di astrazione fortemente influenzato dall'HW sul quale si eseguono i programmi (CPU, memoria)
+    \item Ciò porta a varie inadeguatezze
+    {\iz{
+      \item uso criptico di direttive di compilazione
+      \item allocazione/deallocazione dinamica della memoria via librerie
+      \item difficile controllo degli errori di esecuzione
+      \item difficoltà a controllare gli aspetti HW-dependent
+      \item difficoltà a modificare codice già ``acquisito''
+    }}
+    \item Nota: il C nasce negli anni '70 per rimpiazzare l'Assembly nell'implementazione del sistema operativo UNIX
+  }}
+  \bl{La direzione dei linguaggi moderni -- o di ``alto livello'' (d'astrazione)}{\iz{
+    \item Introdurre un livello di astrazione vicino al problema da risolvere, ignorando il più possibile i dettagli dell'HW per risolverlo
+  }}
+}
+
+\fr{L'ecosistema dei linguaggi di programmazione}{
+  \bl{Linguaggi e livelli di astrazione / paradigma}{\iz{
+    \item C, Pascal: Computing function/procedure over data structures
+    \item Lisp,ML: Everything is a function
+    \item Prolog: Everything is a decision predicate
+    \item Java,C++,C\#: Everything is an object (OO Programming)
+    \item[$\Rightarrow$] L'OOP si è dimostrata ideale per sistemi complessi general-purpose
+  }}
+  \bl{L'evoluzione del ``mainstream''}{
+    Machine Lang $\xrightarrow{'50-'60}$ Assembly $\xrightarrow{'70-'80}$ C $\xrightarrow{'90-2000}$ OOP (Java,..) $\xrightarrow{?}$ ?
+  }
+  \bl{Il futuro dei linguaggi (e anche la direzione dei linguaggi OOP)}{\iz{
+    \item Potenziamento (OO + funzionale + attori): Scala, Kotlin, Java 8+
+    \item Linguaggi di scripting (Python, Ruby, Groovy)
+  }}
+}
+
+\fr{I vantaggi della programmazione ad oggetti}{
+  \bl{Vantaggi}{\iz{
+    \item Poche astrazioni chiave (classe, oggetto, metodo, campo)
+    \item Usabili sia in progettazione che in codifica
+    \item Supporto a estendibilità e riuso
+    \item Supporto alla costruzione di librerie di qualità
+    \item Facilmente integrabile in linguaggi C-like
+    \item Eseguibile con alta efficienza
+    \item[$\Rightarrow$] (quasi) tutti aspetti da sviscerare nel corso
+}}
+  \bl{Le critiche all'OOP}{\iz{
+    \item Serve molta disciplina per ``scalare'' bene con la complessità del problema
+    \item Altri paradigmi (p.e., funzionale) suggeriscono come farlo..
+}}
+}
+
+\section{L'astrazione object-oriented}
+
+\fr{L'astrazione object-oriented (OO)}{
+  \bx{
+  \Huge Un oggetto ha stato, \\ comportamento e identità.
+  }
+}
+
+\fr{Definizione più dettagliata}{
+  \bx{\en{
+   \item {\bf Everything is an object.} Un oggetto è una entità che fornisce operazioni per essere manipolata.
+   \item {\bf Un programma è un set di oggetti che si comunicano cosa fare scambiandosi messaggi.} Questi messaggi sono richieste per eseguire le operazioni fornite.
+   \item  {\bf Un oggetto ha una memoria fatta di altri oggetti.} Un oggetto è ottenuto impacchettando altri oggetti.
+   \item {\bf Ogni oggetto è istanza di una classe.} Una classe descrive il comportamento dei suoi oggetti.
+   \item {\bf Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.} La classe indica tra le altre cose quali operazioni sono fornite, quindi per comunicare con un oggetto basta sapere qual è la sua classe.
+  }}
+}
+
+\fr{Sono questi concetti utili per il problem space?}{
+    \bl{Esempio di sistema reale: la gestione informativa di un ateneo}{\iz{
+	\item Come è opportuno organizzarla? Quale servizi fornisce?
+    }}
+    \bl{Visione object-oriented}{\iz{
+	\item Un corso di laurea (CdL) è un ``oggetto''
+	\item Che operazioni consente? Iscrivi studente, laurea studente, assegna docente a corso, concludi anno accademico,..
+	\item Un programma (sistema) è fatto da oggetti: facoltà, corso di laurea, corsi, studente, docente
+	\item Le interazioni fra questi oggetti sono ``scambi di messaggi''
+	\item Il CdL ha uno stato fatto da altri oggetti: docenti, studenti, corsi
+	\item Il CdL è istanza di una classe: la classe dei CdL (con una gestione comune) -- UNIBO ne gestisce dozzine contemporaneamente
+    }}
+}
+
+\fr{OO: problem space, solution space}{
+    \bl{L'esperienza mostra che:}{\iz{
+	\item \`E piuttosto agevole modellare sistemi reali (o artificiali) come sistemi orientati agli oggetti
+	\item Infatti, gli strumenti di modellazione standard usano il paradigma object-oriented! (Vedi UML)
+    }}
+    \bl{Il vantaggio delle soluzioni object-oriented}{\iz{
+	\item Consentono di ``portare'' il problem space nel solution space in modo diretto
+	\item Usando gli stessi concetti object-oriented anche a livello di programmazione
+	\item ..ossia supportano il concetto di ``buon progetto'' che abbiamo discusso
+    }}
+}
+
+
+\fr{Overview}{
+\bx{\en{
+\item Ogni oggetto ha una interfaccia
+\item Un oggetto fornisce un servizio
+\item Un oggetto deve nascondere l'implementazione
+\item Le implementazioni possono essere riusate
+\item Il riuso tramite ereditarietà
+%\item Polimorfismo e sostituibilità
+%\item Le gerarchie di classi a radice singola
+%\item I Container
+}}
+}
+
+\fr{Ogni oggetto ha una interfaccia}{
+  \bl{Classi, istanze, metodi, interfaccia}{\iz{
+    \item Oggetti simili sono istanze della stessa \alert{classe}, o \alert{tipo}
+    \item La classe definisce i messaggi ricevibili, attraverso \alert{metodi}
+    \item L'insieme dei metodi prende il nome di \alert{interfaccia}
+    \item Un messaggio ha effetto su stato e comportamento dell'oggetto
+  }}
+  \bx{Esempio ``lampadina'' in notazione UML (Unified Modelling Language):}
+  \fg{width=0.6\textwidth}{01/img/light.png}
+}
+
+\fr{Un oggetto fornisce un servizio}{
+  \bl{Quale entità del problem space deve diventare un oggetto?}{\iz{
+    \item Conviene considerare un oggetto come un fornitore di un servizo
+    \item Tutto il programma può essere visto come un servizio dato all'utente
+    \item Principio di decomposizione: i sotto-servizi sono affidati ai vari oggetti
+  }}
+  \bl{Vantaggi di questo approccio}{\iz{
+    \item Semplifica la progettazione degli oggetti, e il mapping col problema
+    \item Semplifica il loro riuso in programmi diversi -- come parte di libreria
+    \item Semplifica la comprensione dei programmi, specialmente da terzi
+  }}
+  \bx{{Opportunità: $\Rightarrow$ Se non se ne riesce a descrivere (e comprendere) il servizio offerto, allora probabilmente un oggetto non ha ragione d'esistere!}\\
+      {Coerenza: $\Rightarrow$ Se sembra che un oggetto realizzi due servizi diversi, allora probabilmente bisogna in realtà realizzare due oggetti!}}
+}
+
+\fr{Un oggetto deve nascondere l'implementazione}{
+  \bl{Le due figure: creatore di classi vs. programmatore cliente}{
+  \iz{
+    \item Chi produce la classe (e ha la responsabilità del suo funzionamento)
+    \item Chi usa la classe (per fornire un servizio più di alto livello)
+  }}
+  \bl{Information hiding}{\iz{
+  \item Il creatore rende visibile solo una piccola parte della classe
+  \item Il resto è invisibile perché suscettibile di modifiche future
+  \item Principio: ``less is more''
+  \item Tipica struttura di una classe \iz{
+   \item interfaccia: la sola visibile al cliente, di norma
+   \item \alert{membri} (o \alert{campi}) della classe (i sotto-oggetti di cui è costituito)
+   \item implementazione metodi (cosa fa l'oggetto quando riceve messaggi){\iz{
+    \item come cambia lo stato (membri)
+    \item quali messaggi manda ad altri oggetti
+    \item quale risultato fornisce (risposta al messaggio)
+   }}
+   
+  }
+  }}
+}
+
+\fr{Le implementazioni possono essere riusate}{
+  \bl{Fasi del processo di riuso}{
+  \en{
+    \item Il creatore produce una classe e ne verifica il corretto funzionamento: diventa una unità riusabile di codice
+    \item Un cliente può ri-utilizzarla per creare nuovi concetti
+  }}
+  \bl{La tecnica di riuso più usata è la \alert{composizione}}{\iz{
+  \item Un nuovo oggetto è costituito da oggetti di altre classi
+  \item Relazione chiamata ``has-a'' (``ha un'')
+  \item Questa relazione può essere nascosta, e resa dinamica
+  }}
+  \bx{Esempio ``car+engine'' in notazione UML:}
+  \fg{width=0.6\textwidth}{01/img/car.png}
+}
+
+\frs{5}{Il riuso tramite ereditarietà}{
+  \bl{\`E una ulteriore, fondamentale, tecnica di riuso}{\iz{
+  \item Un nuovo oggetto(/classe) estende i servizi di uno esistente
+  \item Fornisce i metodi della sopra-classe, ma anche altri
+  \item Relazione chiamata ``is-a'' (``è un'')
+  }}
+  \bx{Esempio ``shape'' in notazione UML:}
+  \fg{width=0.4\textwidth}{01/img/shape.png}
+}
+
+% \fr{Polimorfismo e sostituibilità}{
+%   \bl{La conseguenza cruciale dell'ereditarietà}{\iz{
+%   \item Un nuovo oggetto di tipo \cil{Triangle} fornisce tutti i servizi di \cil{Shape}
+%   \item Quindi è sempre possibile sostituire (dinamicamente) ad un oggetto di tipo \cil{Shape} un oggetto di tipo \cil{Triangle}, perché quest'ultimo ne capirà tutti i messaggi e svolgerà gli stessi compiti, ma in modo specializzato.
+%   \item Ad esempio, si può pensare ad una figura come ad una collezione di \cil{Shape} disegnabili dall'utente, che dinamicamente potranno essere \cil{Triangle}, \cil{Circle}, \cil{Square}, eccetera.
+%   }}
+%   \bl{Polimorfismo = molte forme}{\iz{
+%   \item \`E una tecnica importante indipendentemente dall'OO
+%   \item Consente ad un tipo di dato di assumere forme diverse
+%   \item E quindi essere utilizzabile in vari contesti
+%   }}
+% }
+% 
+% \fr{Le gerarchie di classi a radice singola}{
+%   \bl{Le gerarchie di classi}{\iz{
+%   \item L'ereditarietà spinge a costruire gerarchie (alberi) di classi
+%   \item ..per effetto di processi di classificazione delle entità
+%   }}
+%   \bl{La radice: \cil{Object}}{\iz{
+%   \item Molti linguaggi OO (come Java e C\#, non il C++) hanno una classe speciale da cui tutte ereditano, solitamente chiamata \cil{Object}
+%   \item Questo comporta numerosi vantaggi, fra cui la possibilità di dotarla di servizi generali che tutte le classi quindi offronto (stampa a video, garbage collection, gestione errori)
+%   \item Un altro vantaggio è la possibilità di costruire ``container'' generali
+%   }}
+% }
+% 
+% \fr{I Container}{
+%   \bl{Strutture dati e OO}{\iz{
+%   \item La soluzione di certi problemi può essere costruita con un numero imprecisato di oggetti dello stesso tipo (ma anche di tipo diverso)
+%   \item p.e., archivi, insiemi, aggregati dinamici
+%   \item Bisogna predisporre delle strutture (oggetti) container che siano in grado di organizzarli in modo efficace ed efficiente
+%   \item Spesso realizzati usando algoritmi e strutture dati note
+%   }}
+%   \bl{Container e Librerie}{\iz{
+%   \item Una parte fondamentale delle librerie dei linguaggi OO è quella che fornisce dei container flessibili e performanti
+%   \item Implementano strutture note: \cil{Array}, \cil{ArrayList}, \cil{LinkedList}, \cil{TreeSet}, \cil{HashMap},..
+%   }}
+% }
+
+\fr{Altri aspetti -- organizzazione del corso}{
+  \bl{Funzionalità base -- I parte}{\iz{
+    \item I concetti appena introdotti
+  }}
+  \bl{Funzionalità aggiuntive -- II parte}{\iz{
+  \item Polimorfismo per genericità
+  \item Gestione delle eccezioni
+  \item Riflessività, classi innestate, enumerazioni
+  }}
+  \bl{Tecniche Avanzate -- III parte}{\iz{
+  \item Librerie avanzate (I/O, GUI, Concorrenza)
+  \item Integrazione con la programmazione funzionale
+  \item Pattern di progettazione
+  \item Prassi di programmazione efficace
+  %\item Altre piattaforme (Android, C\#)
+  }}
+}
+
+\section{Java}
+
+\frs{5}{Qualche nota introduttiva..}{
+  \bl{Java}{\iz{
+    \item Linguaggio inventato da J. Gosling, alla Sun Microsystems (1995)
+    \item ..ora è gestito commercialmente da Oracle, con anche versioni ``open'' che sono comunque ``reference'' (OpenJDK)
+    \item Una semplificazione del C++ (ossia C + OO), per sistemi embedded
+    \item Filosofie: ``Write once run everywhere'' + ``Keep it simple, stupid''{\iz{
+      \item ..la prima filosofia porta all'uso di Java sia su PC, che sistemi embedded (Raspberry), o mobile (Android)
+      \item ..la seconda filosofia necessariamente abbandonata nel tempo.
+    }}
+    \item Al momento il linguaggio più popolare secondo l'indice Tiobe{\iz{
+	\item fonte: \url{https://www.google.it/search?q=tiobe+tcpi}
+	\item grazie anche al fatto che è un linguaggio di riferimento per Android
+	\item (indice usato per decisione strategiche nello sviluppo di nuovi SW)
+    }}
+  }}
+  \bl{In questo corso}{\iz{
+    \item Useremo Java come riferimento per programmazione/progettazione
+    \item Le guideline progettuali che daremo sono di validità generale
+    \item Forniremo anche gli elementi base del linguaggio C\#
+  }}
+}
+
+\fr{Strumenti Java}{
+  \bl{Java Development Kit (JDK) -- useremo la versione OpenJDK 11}{\iz{
+    \item Insieme di tool per lo sviluppatore
+    \item \myurl{https://openjdk.java.net/} o meglio \myurl{https://adoptopenjdk.net/}
+  }}
+  \bl{Java Virtual Machine (JVM) -- inclusa nel JDK}{\iz{
+    \item Un programma (C/C++) che carica il bytecode delle classi e lo esegue
+    \item Fornisce indipendenza dall'HW, e servizi aggiuntivi (SISOP, GC)
+  }}
+  \bl{Schema compilazione/interpretazione}{\en{
+    \item Compilazione dei programmi col compilatore Java (comando \texttt{javac})
+    \item Esecuzione del programma con la JVM (comando \texttt{java})
+  }}
+}
+
+\fr{Write once run everywhere}{
+\fg{height=0.8\textheight}{01/img/java-program-execution.png}
+}
+
+\frs{5}{Sviluppo storico di Java}{
+\bl{Pricipali versioni}{\iz{
+  \item Java (1996): versione base iniziale
+  \item Java 2 (1998): aggiunta del framework Swing
+  \item Java 5 (2004): aggiunta di generici, inner class, annotazioni
+  \item Java 8 (2014): aggiunta lambda expression e streams
+  \item Java 9 (2017): aggiunta Java Module System
+  \item Java 10 (2018): aggiunta local variable type-inference
+  \item[$\Rightarrow$] Java 11 (2018): ultima versione ``long-term support'' (LTS)
+  \item Java 12 (2019): ultima versione (piccole aggiunte: switch expressions..)
+
+}}
+\bl{Modello di sviluppo attuale}{\iz{
+  \item Da Java 9, si ha una nuova release ogni 6 mesi
+  \item Java 11 è l'ultima LTS, e si raccomanda di non rimanere indietro
+  \item Oracle detiene il marchio e una implementazione ``commerciale''
+  \item L'iniziativa OpenJDK produce una ulteriore implementazione open che è di riferimento -- quella che useremo noi
+  \item Esistono anche altre JVM (Eclipse, Amazon,...)
+}}
+}
+
+
+%\fr{Motto della lezione}{
+%  \bx{L'OOP è potente, espressiva, e divertente}
+%}
+
+
+\end{document}

@@ -1,0 +1,427 @@
+\documentclass[presentation]{beamer}
+\usepackage{oop-slides}
+
+\title[OOP03: Prg. strutturata in Java]{03 \\ Programmazione strutturata in Java}
+
+\begin{document}
+
+\newcommand{\ecl}{\eclipsepath{p03imperative}}
+
+\frame[label=coverpage]{\titlepage}
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Mostrare la parte imperativa/strutturata del linguaggio Java
+  \item Illustrare le differenze rispetto al linguaggio C
+  \item Approfondire alcuni aspetti nuovi (array, foreach)
+  \item Discutere alcuni aspetti preliminari di qualità del software
+  }}
+  \bl{Argomenti}{\iz{
+  \item Tipi e operatori di Java
+  \item Il caso degli array
+  \item Istruzioni di Java
+  \item Costrutti di programmazione strutturata
+  \item Costruzione e uso di utility class
+  \item Elementi iniziali di buona programmazione
+  }}
+}
+
+\section{Tipi e operatori di Java}
+
+\frs{10}{Tipi}{
+  \bl{Cos'è un tipo}{\iz{
+  \item È un meccanismo per classificare valori (e oggetti)
+  \item È costituito da un nome, un set di valori, e un set di operatori/meccanismi per manipolarli
+  }}
+  \bl{Tipi di Java}{\iz{
+  \item Primitivi: \cil{boolean}, \cil{byte}, \cil{short}, \cil{int}, \cil{long}, \cil{float}, \cil{double}, \cil{char}
+  \item Array: \cil{boolean[]}, \cil{byte[]}, \cil{String[]}, \cil{String[][]},$\ldots$
+  \item Classi: \cil{Object}, \cil{String}, \cil{Integer}, \cil{ArrayList}, \cil{JFrame},$\ldots$
+  \item Altri che vedremo in seguito: interfacce, classi innestate, generici,...
+  }}
+  \bl{Java e i tipi..}{\iz{
+    \item Java ha ``typing statico'': ogni espressione ha un tipo noto al compilatore
+    \item Java ha ``typing forte'': non si accettano espressioni con errori di tipo
+    \item[$\Rightarrow$].. permette l'intercettazione a priori di molti errori
+    \item[$\Rightarrow$].. disciplina progettazione e programmazione
+  }}
+}
+
+\fr{Booleani}{
+  \bl{Nome: \cil{boolean}}{\iz{
+  \item Valori: \cil{true}, \cil{false}
+  \item Operatori unari: \cil{!} (not)
+  \item Operatori binari: \cil{\&} (and), \cil{|} (or), \string^ (xor), \cil{\&\&} (and-c), \cil{||} (or-c)
+  {\iz{
+    \item \cil{\&\&} e \cil{||} valutano il secondo argomento solo se necessario
+    \item \cil{false \&\& X} dà comunque \cil{false}
+    \item  \cil{true || X} dà comunque \cil{true}
+  }}
+  \item Operatori di confronto numerici: \cil{>}, \cil{<}, \cil{>=}, \cil{<=}
+  \item Operatori di uguaglianza (su tutti i tipi): \cil{==}, \cil{!=}
+  {\iz{
+    \item \cil{10 == 20} (\texttt{false})
+    \item \cil{new Object() == new Object()} (\texttt{false}, confronta i riferimenti)
+  }}
+  \item Operatore ternario (booleano,tipo,tipo): \cil{?:}
+  {\iz{\item \cil{b?v1:v2} restituisce \cil{v1} se \cil{b} è vero, \cil{v2} altrimenti}}
+  }}
+}
+
+\fr{Tipi numerici}{
+  \fg{width=0.7\textwidth}{02/img/primitive.png}
+}
+
+\fr{Interi: \Cil{byte}, \Cil{short}, \Cil{int}, \Cil{long}}{
+  \bl{Operatori}{\iz{
+  \item Base: \cil{+}, \cil{-}, \cil{*}, \cil{/} (con resto), \cil{\%} (resto), \cil{+} e \cil{-} anche unari
+  \item Bit-a-bit: \cil{\&} (and), \cil{|} (or), \string^ (xor), \string~ (not)
+  \item Shift: \cil{>>} (dx senza segno), \cil{<<} (sx), \cil{>>>} (dx con segno)
+  \item Operatori unari/binari applicati ad un tipo, restituiscono il tipo stesso
+  }}
+  \bl{Codifica, rappresentazione}{\iz{
+    \item Interi codificati in complemento a 2 (ciò impatta il suo range)
+    \item Rappresentazione decimale (200), ottale (0310), esadecimale (0xC8)
+    \item Di default sono \cil{int}, per avere un \cil{long} va aggiunta una \cil{L} (15L)
+  }}
+  \bl{Prassi}{\iz{
+    \item Raro l'uso di \cil{byte} e \cil{short}, non molto più efficienti di \cil{int}
+    \item \cil{int} più efficiente di \cil{long}
+  }}
+}
+
+\fr{Numeri in virgola mobile: \Cil{float}, \Cil{double}}{
+  \bl{Operatori}{\iz{
+  \item Base: \cil{+}, \cil{-}, \cil{*}, \cil{/} (con resto), \cil{\%} (resto), \cil{+} e \cil{-} anche unari
+  }}
+  \bl{Codifica, rappresentazione}{\iz{
+    \item Codificati secondo lo standard IEEE 754
+    \item Rappresentazione standard (-128.345), o scientifica (-1.2835E+2)
+    \item Di default sono \cil{double}, per avere un \cil{float} va aggiunta una \cil{F}
+  }}
+  \bl{Prassi}{\iz{
+    \item Raro l'uso di \cil{float}, anche se più efficiente di \cil{double}
+    \item Attenzione agli errori di precisione!!
+  }}
+}
+
+\fr{Provate voi stessi..}{
+  \srcode{\scriptsize}{3}{100}{\ecl/Try.java}
+}
+
+\fr{Il tool \Cil{JShell}}{
+  \bl{JShell (JDK 9+)}{\iz{
+    \item richiamabile da linea di comando: \cil{jshell}
+    \item è una console Java, dove si possono eseguire istruzioni vedendone subito l'effetto.. via via
+    \item si ispira a tool di altri linguaggi come REPL
+    \item non molto usata, ma utile per veloci esperimenti
+  }}
+}
+
+
+\fr{Conversioni}{
+  \bl{Conversioni di tipo, dette anche \alert{cast}: \cil{(tipo)valore}}{\iz{
+  \item Fra tipi numerici sono sempre consentite
+  \item Possono causare perdita di informazione
+  \item Es.: \cil{(int)3.33}, \cil{((double)10)/3}, \cil{(short)100}
+  }}
+  \bl{Conversioni automatiche, dette anche \alert{coercizioni}}{\iz{
+  \item Le inserisce automaticamente il compilatore in certi casi
+  \item Quando ci si aspetta un tipo, e si usa un valore diverso
+  \item Solo da un tipo più specifico a uno più generale
+    {\iz {\item Spec$\rightarrow$Gen: \cil{byte}$\rightarrow$\cil{short}$\rightarrow$\cil{int}$\rightarrow$\cil{long}$\rightarrow$\cil{float}$\rightarrow$\cil{double}}}
+  \item Due casi:{\iz {
+    \item In assegnamenti: \cil{long l=100;} diventa \cil{long l=(long)100;}
+    \item Operazioni fra tipi diversi: \cil{10.1+20} diventa \cil{10.1+(double)10}
+    \item Passando valori a funzioni
+  }}
+  }}
+}
+
+\frs{5}{I caratteri}{
+  \bl{Rappresentazione}{\iz{
+    \item Singolo carattere: \cil{'a'}, \cil{'z'}, \cil{'A'}, \cil{'='}
+    \item Codice ASCII: 65 (\cil{'A'}), 66 (\cil{'B'})
+    \item Caratteri escape: \cil{'\\n'}, \cil{'\\\\'}, \cil{'\\0'}
+    \item Caratteri UTF16: \cil{'\\u6C34'}
+  }}
+  \bl{Codifica}{\iz{
+    \item 16 bit UTF16
+    \item automaticamente convertibile ad un numerico fra 0 e 65535
+  }}
+  \srcode{\scriptsize}{3}{100}{\ecl/TryChars.java}
+}
+
+\section{Java arrays}
+
+\fr{Java array}{
+  \bl{Caratteristiche generali}{\iz{
+  \item Internamente sono degli oggetti
+  \item Quindi sono gestiti con riferimenti sullo heap
+  \item Notazione ad-hoc (e C-like) per creare, leggere e scrivere elementi
+  }}
+  \bl{Principale differenza rispetto al C}{\iz{
+  \item Un array ha una lunghezza esplicita e accessibile (non modificabile)
+  \item È impossibile violare i limiti di una array, pena un errore (\cil{ArryIndexOutOfBoundsException})
+  \item L'accesso all'array è di conseguenza leggermente rallentato
+  }}
+}
+
+\frs{5}{Sintassi Array}{
+  \bl{Creazione array}{\iz{
+  \item Due notazioni, per elenco e per dimensione{\iz{
+  \item \cil{int[] ar1 = new int[]\{10,20,30,40,50,7,8,9\};}
+  \item \cil{int[] ar2 = new int[200]; // new int[]\{0,0,...,0\}}
+  \item (variante con \cil{var}: \cil{var ar3 = new int[]\{10,20,30\}})
+  \item (variante senza \cil{new}: \cil{int[] ar4 = {10,20,30}})
+  }}
+  \item quando creati per dimensione, gli elementi sono inizializzati come se fossero campi di una classe
+  \item la creazione di array di array è analoga:{\iz{
+  \item \cil{int[][] m=new int[][]\{new int[]\{..\},..\};}
+  \item \cil{int[][] m2=new int[200][200];}
+  }}
+  
+  }}
+  \bl{Accesso array}{\iz{
+  \item \cil{ar1.length // lunghezza}
+  \item \cil{ar2[23] // espressione per leggere 24-esimo elemento}
+  \item \cil{ar2[23]=10; // assegnamento del 24-esimo elemento}
+  \item \cil{m[1][2]=10; // assegnamento riga 2 colonna 3}
+  }}
+}
+
+\fr{Qualche esempio d'uso di array}{
+  \srcode{\scriptsize}{3}{100}{\ecl/UseArrays.java}
+}
+
+\frs{5}{Array di oggetti}{
+  \bl{Creazione array -- stessa notazione}{\iz{
+  \item Per elenco:{\iz{
+  \item \cil{Object[] ar = new Object[]\{new Object(),new Object()\};}
+  }}
+  \item Per dimensione{\iz{
+  \item \cil{Object[] ar2 = new Object[200];}
+  \item in ogni posizione c'è \cil{null}
+  \item frequente errore dello studente è pensare che sia un array di nuovi oggetti automaticamente creati
+  \item ricorda: è una sola \cil{new} quindi si crea un solo oggetto, l'array stesso
+  }}
+  \item l'accesso segue una simile sintassi
+  }}
+}
+
+\section{Statements}
+
+\fr{I linguaggi OO sono anche imperativi/strutturati}{
+  \bl{Java ``estende'' il C}{\iz{
+  \item Come C++ e C\#, Java è alla base anche imperativo/strutturato -- altri linguaggi come Scala invece no
+  \item Il codice di un metodo è un insieme di comandi C-like
+  \item Ecco perché li si chiama object-oriented e non object-based
+  }}
+  \bl{Panoramica istruzioni}{\iz{
+  \item Variabili e assegnamenti: \cil{int x;}   \cil{int x=5;}    \cil{var x=5;}   \cil{x=5;}
+  \item Ritorno: \cil{return 5;}
+  \item Chiamate: \cil{meth(3,4);} \cil{obj.meth(3);}  \cil{cls.meth(4);}
+  \item Costrutti: \cil{for}, \cil{while}, \cil{do}, \cil{switch}, \cil{if}, \cil{break}, \cil{continue}
+  \item Qualche altra tipologia, che vedremo nel prosieguo
+  }}
+}
+
+\fr{Java vs C}{
+  \bl{Principali differenze}{\iz{
+  \item La condizione dell'\cil{if}, \cil{for}, \cil{while} e \cil{do} è un \cil{boolean}
+  \item Nel \cil{for} è possibile dichiarare la variabile di ciclo (come nel C99), sarà visibile solo internamente{\iz{
+  \item \cil{for(int i=0;i<10;i++)\{..\}}
+  }}
+  }}
+  \bl{Differenza filosofica}{\iz{
+  \item Java è molto più restrittivo del C
+  \item Molto di ciò che è solo warning in C, è errore in Java{\iz{
+    \item unreachable statement: istruzioni non raggiungibili (per errore)
+    \item variable may not have been initialised (uso variabile prima del suo init)
+    \item missing return statement (un return finale è obbligatorio)
+  }}
+  \item Può sembrare una filosofia che rende la programmazione ``rigida'', e invece è cruciale per supportare lo sviluppo di software di qualità
+  \item Le prassi che discuteremo ci porteranno ulteriori rigidità
+  }}
+}
+
+\fr{Java come linguaggio puramente strutturato}{
+  \bl{Un uso limitato (ma a volte utile) di Java}{\iz{
+    \item Una classe ha solo metodi o campi dichiarati \cil{static}
+    \item In questo caso tale classe definice un insieme di funzioni pure e variabili globali (a quella classe), ossia una struttura analoga a quella di una libreria C
+    \item Un metodo (o campo) statico viene richiamato nel seguente modo:{\iz{
+      \item da fuori la classe (se dichiarato \cil{public}): \texttt{<nome-classe>.<nome-metodo>(...)}
+      \item da dentro la classe: \texttt{<nome-metodo>(...)}
+    }}    
+    \item E' una tecnica usata per realizzare ``utility class'', come ad esempio la classe delle funzioni matematiche \cil{java.lang.Math}
+  }}
+}
+
+
+\fr{Qualche prova di \Cil{java.lang.Math}}{
+  \srcode{\ssmall}{3}{100}{\ecl/UseMath.java}
+}
+
+
+\fr{Un esercizio sugli array}{
+  \bx{Costruire una funzione che dato un array ne produce in uscita uno della stessa lunghezza, ma invertendo il primo elemento con l'ultimo, il secondo col penultimo, etc..}
+  %\sizedcode{\scriptsize}{03/code/Reverse.java}
+  \srcode{\scriptsize}{3}{100}{\ecl/Reverse.java}
+}
+
+\fr{For-each}{
+  \bl{Java introduce una variante del ciclo \cil{for}}{\iz{
+   \item supporta l'astrazione di ``per ogni elemento della collezione fai..''
+   \item utile con gli array quando non importa il valore corrente dell'indice
+   \item utilizzabile anche con le Collection di Java (liste, insiemi,..)
+  }}
+  \bl{Sintassi -- caso di array di interi}{\iz{
+   \item \cil{for(int v: array)\{ /* uso di v */ \}}
+   \item spesso usato con \cil{var}: \cil{for(var v: array)\{ /* uso di v */ \}}
+   \item \cil{array} è una espressione che restituisce un \cil{int[]}
+   \item nel corpo del \cil{for}, \cil{v} vale via via ogni elemento dell'array
+   \item leggi ``per ogni \cil{v} in \cil{array} esegui il corpo''
+  }}
+  
+}
+
+\fr{For-each: esempio}{
+  %\sizedcode{\scriptsize}{03/code/Sum.java}
+  \srcode{\scriptsize}{3}{100}{\ecl/Sum.java}
+}
+
+\fr{Fornire input da linea di comando: argomenti del \Cil{main}}{
+  %\sizedcode{\scriptsize}{03/code/Sum.java}
+  \srcode{\scriptsize}{3}{100}{\ecl/SumMain.java}
+}
+
+\fr{Elementi applicativi all'interno del corso OOP}{
+  \bl{Teoria o applicazioni?}{\iz{
+    \item La parte applicativa è maggiormente sviluppata in laboratorio e poi sperimentata nella realtà nella prova d'esame di progetto
+    \item In aula si illustrano i concetti, i meccanismi, e gli elementi metodologici
+    \item Spesso comunque si mostreranno applicazioni di esempio, semplici ma ``paradigmatiche'', dove discutere alcuni aspetti tecnici e metodologici
+  }}
+}
+
+\fr{Applicazione: \Cil{GuessMyNumberApp}}{
+  \bl{Problema}{
+  Realizzare una applicazione che, scelto un numero a caso compreso fra 1 a 100, chieda all'utente di indovinarlo, dandogli $10$ tentativi e indicando ogni volta se il numero in input è maggiore o minore di quello scelto all'inizio
+  }
+  \bl{Alcune scelte progettuali}{\iz{
+    \item L'applicazione è realizzabile in prima battuta come codice strutturato dentro al \cil{main}
+    \item Le (max) 10 iterazioni sono realizzabili da un ciclo (p.e., \cil{for})
+  }}
+  \bl{Elementi implementativi}{\iz{
+    \item \cil{java.io.Console.readLine} usabile per leggere input da tastiera
+    \item \cil{java.lang.Integer.parseInt} usabile per convertire una stringa in un numero
+    \item \cil{java.util.Random.nextInt} usabile per ottenere un numero random
+  }}
+}
+
+
+\fr{Implementazione \Cil{GuessMyNumberApp}}{
+  \srcode{\scriptsize}{3}{100}{\ecl/GuessMyNumberApp.java}
+}
+
+\section{Sulla qualità del software}
+
+\fr{Come è fatto del ``buon software''?}{
+  \bl{Qualità esterna -- aspetti funzionali}{\iz{
+    \item Realizza correttamente il suo compito
+    \item In termini di quali funzionalità fornisce
+  }}
+  \bl{Qualità esterna -- aspetti non-funzionali}{\iz{
+    \item Performance adeguate (alle specifiche)
+    \item Uso adeguato delle risorse del sistema (memoria, CPU)
+    \item Caratteristiche di sicurezza, usabilità, etc..
+  }}
+  \bl{Qualità interna -- software ben costruito}{\iz{
+    \item Facilmente manutenibile (leggibile, flessibile, riusabile)
+    \item E quindi: meno ``costoso'', a breve-/medio-/lungo-termine
+    \item[$\Rightarrow$] ci concentriamo per ora su questa tipologia 
+  }}
+}
+
+\fr{Caratteristiche di qualità interna}{
+  \bl{Elementi necessari per il funzionamento}{\iz{
+    \item Sintassi: soddisfa la grammatica del linguaggio
+    \item Semantica: passa tutti i check del compilatore
+  }}
+  \bl{Elementi aggiuntivi di qualità}{\iz{
+    \item Convenzioni: soddisfa le convenzioni d'uso del linguaggio
+    \item Commenti: usa i commenti mirati necessari a comprenderlo
+    \item Efficace: usa tecniche che portano a evitare problemi futuri
+  }}
+}
+
+\fr{Correttezza sintattica}{
+  \bl{Sintassi}{\iz{
+    \item Gli errori di sintassi sono i primi ad essere eliminati
+    \item Molti IDE li segnalano durante la digitazione
+    \item La Java Language Specification fornisce la grammatica del linguaggio (V7, p.591)
+  }}
+  \bl{Esempi comuni d'errore (in questo corso, in genere all'inizio)}{\iz{
+    \item Parentesi non bilanciate (specialmente le graffe)
+    \item Refusi nelle keyword: \cil{Class}, \cil{clas}, \cil{bolean}
+    \item Punteggiatura errata o mancante: \cil{for(int i=0,i<10,i++)\{..\}}
+  } }
+}
+
+\fr{Correttezza semantica}{
+  \bl{Correttezza semantica -- check del compilatore}{\iz{
+    \item Oltre ad errori sintattici (forma), il compilatore segnala anche gli errori semantici (significato)
+    \item Ed è molto più rigido del C
+    \item Possono essere di varia natura, e a volte più difficili da comprendere
+  }}
+  \bl{Esempi comuni d'errore}{\iz{
+    \item Uso inappropriato dei tipi: \cil{int a=true;} \cil{int a=5+false;} \cil{if (5)..}
+    \item Refusi nel nome di campi, metodi, classi: \cil{string}, \cil{system}, \cil{Sistem}
+    \item Accesso a variabili, campi, metodi, classi che non esistono o non sono visibili
+    \item Errori di flusso: missing return statement
+  } }
+}
+
+\fr{Convenzioni}{
+  \bl{Convenzioni sul codice}{\iz{
+    \item Riguardano indentazione, commenti, dichiarazioni, convenzioni sui nomi
+    \item Migliorano leggibilità, e quindi comprensione
+    \item È cruciale che vengano seguite
+    \item \myurl{http://www.oracle.com/technetwork/java/codeconv-138413.html}
+  }}
+  \bl{Li vedremo via via.. intanto focalizziamoci sulla formattazione}{\iz{
+    \item Una istruzione per linea
+    \item Formattazione parentesi graffe (E' CRUCIALE!)
+    \item Inserire commenti nel codice---ne vedremo i dettagli
+  }}
+}
+
+\fr{Effective programming}{
+  \bl{Programmazione efficace}{\iz{
+    \item Vi sono un insieme di tecniche di programmazione che l'esperienza ha mostrato migliorare l'efficacia della programmazione
+    \item Molte sono connesse a buone pratiche di programmazone OO e all'uso di pattern di progettazione noti
+    \item Si vedano i libri ``Effectiva Java'' e ``Design Patterns''
+    \item Ne vedremo un po' mano a mano, e in dettaglio a fine del corso
+  }}
+}
+
+\fr{Una nota sulle performance}{
+  \bl{Performance e JVM}{\iz{
+    \item I linguaggi OO sono stati spesso criticati perchè più lenti rispetto ai linguaggi imperativi/strutturati
+    \item Java e C\# in più hanno una VM d'esecuzione che introduce ulteriori rallentamenti
+    \item Di recente, tecniche avanzate nelle VM hanno ridotto, se non in alcuni casi annullato, le differenze in performance
+  }}
+  \bl{In questo corso}{\iz{
+    \item Non ci occuperemo in dettaglio di questo aspetto
+    \item Prediligeremo sempre la soluzione più semplice/compatta
+    \item Ci si aspetta non si usino soluzioni sia più complesse che più lente
+    \item Ci si aspetta che si sappiano allocare correttamente le risorse (memoria, tempo) qualora richiesto
+  }}
+}
+
+
+
+
+
+
+
+\end{document}

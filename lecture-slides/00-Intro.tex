@@ -1,0 +1,184 @@
+\documentclass[presentation]{beamer}
+\usepackage{oop-slides}
+
+\title[OOP00 -- Intro]{00 \\ Programmazione ad Oggetti \\ Introduzione al corso}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\frs{5}{Docenti}{
+  \bl{Titolare del corso: Prof. Mirko Viroli}{
+    \iz{ 
+      \item e-mail | \texttt{mirko.viroli@unibo.it}
+      \item homepage | \texttt{http://mirkoviroli.apice.unibo.it}
+    }
+  }
+  \bl{Modulo di laboratorio 1: Prof. Danilo Pianini}{
+    \iz{ 
+      \item e-mail | \texttt{danilo.pianini@unibo.it}
+      \item homepage | \texttt{https://www.unibo.it/sitoweb/danilo.pianini/}
+    }
+  }
+  \bl{Modulo di laboratorio 2: Prof. Angelo Croatti}{
+    \iz{ 
+      \item e-mail | \texttt{a.croatti@unibo.it}
+      \item homepage | \texttt{http://apice.unibo.it/xwiki/bin/view/AngeloCroatti/}
+    }
+  }
+  
+  \bl{Tutor: Ing. Roberto Casadei}{
+    \iz{ 
+      \item e-mail | \texttt{roby.casadei@unibo.it}
+    }
+  }
+}
+
+\fr{Contatti con gli studenti}{
+  \bl{Chi contattare}{\iz{
+  \item Mirko Viroli: ``teoria'' + organizzazione del corso
+  \item Pianini/Croatti/Casadei: ``pratica'' + laboratorio
+  }}
+  \bl{Attraverso il forum}{\iz{ 
+  \item Per domande la cui risposta è di interesse generale \\ (e quindi tutte le domande tecniche)
+  }}
+  \bl{Via mail al docente}{\iz{ 
+  \item Per questioni personali
+  \item Per domande che consentono risposte concise
+  }}
+  \bl{Ricevimento}{\iz{ 
+  \item Mirko Viroli: Mercoledì 16-18 \\ (riverificare nelle Home Page del docente)
+}}}
+
+\fr{Sito del corso}{
+  \bl{Sito e-learning di Ateneo}{\iz{
+  \item \myurl{https://iol.unibo.it/course/view.php?id=40399}{\iz{
+    \item Short: \myurl{http://bit.ly/oop19-cesena}
+    \item in evidenza della home page del docente
+  }}
+  \item sarà il luogo degli avvisi (e notifiche), forum di discussione, produzione di materiale
+  \item tutti gli studenti che seguono il corso si iscrivano, e lo tengano d'occhio
+  \item in particolare: portando a lezione le slide stampate
+  }}
+  \bl{Sito sul Portale APICE: un semplice ``entry point''}{\iz{
+  \item \myurl{http://apice.unibo.it/xwiki/bin/view/Courses/OOP1920}{\iz{
+    \item Link in evidenza a partire da: \myurl{http://mirkoviroli.apice.unibo.it}
+  }}
+  }}
+}
+
+
+\fr{Organizzazione generale del corso}{
+  \bl{Lezioni aula (due da 3 ore la settimana)}{\iz{ 
+  \item Illustrano i concetti teorici, metodologici e pratici
+  \item Basate su slide proiettate (ma non solo)
+  }}
+  \bl{Laboratorio (turni da 3-4 ore a settimana)}{\iz{
+  \item A giorni alterni (il che vi lascia un giorno libero)
+  \item Illustra ulteriori aspetti metodologici e pratici
+  \item Con esercizi necessari alla comprensione e alla sperimentazione
+  \item \alert{\`E parte integrante del corso}
+  }}
+  \bl{Studio a casa (almeno 4 ore a settimana) -- p.e., nel giorno libero}{\iz{
+  \item Rilettura slide, esperimenti pre- e/o post-laboratorio
+  \item È praticamente obbligatorio se volete rimanere in pari..
+}}}
+
+\fr{Programma (di massima) del corso}{
+  \bl{Parti principali}{\iz{ 
+  \item Elementi base di programmazione OO e Java
+  \item Polimorfismo (ereditarietà, subtyping, genericità)
+  \item Librerie (I/O, grafica, concorrenza)
+  \item Integrazione col paradigma funzionale (Java 8 lambda)
+  \item Pattern e buone pratiche di programmazione
+  \item Elementi di programmazione C\#
+}}}
+
+\frs{5}{Testi di riferimento (non necessario l'acquisto)}{
+  \bl{Programmazione in Java}{\iz{ 
+  \item B.Eckel. Thinking in Java, 4th edition.
+  \item J.Block. Effective Java, 2nd edition.
+  \item R.Warburton. Java 8 Lambdas.
+  }}
+  \bl{Programmazione in C\#}{\iz{ 
+  \item Jon Skeet. C\# in depth, 3rd edition.
+  }}
+  \bl{Altri riferimenti}{\iz{
+  \item E.Gamma et.al. Design Patterns Elements of Reusable Object-Oriented Software.
+  \item R.Martin. Clean Code: A Handbook of Agile Software Craftsmanship
+  \item Java e C\# online documentation (tutorials, Language Specification, APIs)
+} }}
+
+\frs{15}{Software}{
+  \bl{Java}{\iz{ 
+  \item OpenJDK 11 (Open Java Development KIT){\iz{
+    \item \myurl{https://openjdk.java.net} o \myurl{https://adoptopenjdk.net/}
+    }}
+  \item Eclipse IDE (2019 06), e correlati
+strumenti:{\iz{
+      \item Git,
+      \item PMD Eclipse plugins (PMD, Checkstyle, FindBugs)
+  }}}}
+  \bl{Altri framework -- parte finale del corso}{\iz{ 
+  \item Visual Studio .NET (Microsoft)
+  \item framework Mono e IDE Monodevelop/Raider (Linux e MacOs)
+  }}  
+  \bl{Istruzioni sull'installazione (sul PC di casa)}{\iz{ 
+  \item Già disponibili sul sito e-learning del corso
+  \item \myurl{https://oop-at-disi.github.io/software-installation-instructions/}
+  \item Molto importante rendersi operativi a casa nel giro di una settimana!
+  \item L'uso di Eclipse sarà necessario solo fra 2/3 settimane
+  \item[$\Rightarrow$] sarebbe consigliato l'uso del sistema operativo Linux..
+  }}
+}
+
+\fr{Sul ruolo di questo corso}{
+    \bl{Elementi essenziali}{\iz{
+    \item Costruzione del software, e quindi di sistemi
+    \item Analisi problemi, e organizzazione di soluzioni
+    \item Tecniche base ed (alcune) avanzate di programmazione ad oggetti
+    \item Introduzione al trend della programmazione moderna
+    \item Gestione del progetto
+    \item Utilizzo di strumenti integrati di sviluppo
+    }}
+    \bl{L'importanza nel vostro percorso}{\iz{
+    \item Enfasi sull'approccio metodologico
+    \item Competenze a curriculum
+    \item Target di qualità piuttosto elevato
+    \item È cruciale dedicargli subito il tempo necessario
+    }}
+}
+
+\frs{5}{Esame}{
+  \bl{Prova scritta}{\iz{ 
+  \item Durata 1.5 ore circa, svolta in laboratorio
+  \item Verifica mirata di capacità tecniche, di problem-solving, buona progettazione OO
+  \item[$\Rightarrow$] Forniremo esercizi-tipo in laboratorio
+  \item[$\Rightarrow$] I temi d'esame dello scorso a.a. sono disponibili e abbastanza indicativi
+  }}
+  \bl{Discussione progetto}{\iz{
+  \item Progetto sviluppato in gruppo, 70-80 ore a testa (vedi i 12 CFU)
+  \item Concordato col docente prima di iniziare
+  \item Da relazionare con qualità, poi discusso su appuntamento
+  \item Consegne con deadline scelte da voi ma a quel punto stringenti: \\ orientativamente, fine Febbraio, Aprile, Giugno, Agosto, Settembre
+  \item In discussione si porta anche un micro-task C\# ($<$ 10 ore)
+  \item[$\Rightarrow$] I dettagli discussi a metà corso
+    \item[$\Rightarrow$] Regole d'esame già disponibili sul sito e-learning
+
+}}
+}
+
+\fr{Prerequisiti}{
+    \bl{Buona conoscenza}{\iz{
+    \item tecniche di programmazione imperativa/strutturata
+    \item costruzione e comprensione di semplici algoritmi e strutture dati
+    }}
+    \bl{Attenzione a chi è già ``fluente'' in linguaggi ad oggetti}{\iz{
+    \item Java o C\#
+    \item è difficile disimparare le ``bad practice''..
+    }}
+}
+
+
+
+\end{document}

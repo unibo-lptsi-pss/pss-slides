@@ -1,0 +1,45 @@
+syntax: glob
+
+# No backup files 
+*~
+
+# No .class
+*.class
+
+# No temp latex
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+.recommenders
+
+# No spurious
+.fuse*
+*.backup
+.~
+.directory
+.DS_Store
+*.index
+*.lck
+*META*
+
+# folders
+eclipse-code/oop19-slides/bin/*
+old/*
+eclipse-code/.metadata/*
+eclipse-code/oop19-slides/src/it/unibo/apice/oop/old/*
+eclipse-code/oop19-slides/src/it/unibo/apice/oop/ol/*
+eclipse-code/oop19-slides/src/aula/*
+eclipse-code/oop19-slides/.*
+slides/oop2019-slides/slides/old/*
+slides/build/*
+# no pdf and zip
+
+*.pdf
+*.zip
+*.fls
+*.fdb_latexmk
+

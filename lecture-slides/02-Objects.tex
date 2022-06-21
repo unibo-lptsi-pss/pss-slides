@@ -1,0 +1,352 @@
+\documentclass[presentation]{beamer}
+\usepackage{oop-slides}
+
+\title[OOP02: Oggetti e classi]{02 \\ Oggetti e classi}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\newcommand{\ecl}{\eclipsepath{p02objects}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare i concetti base del paradigma object-oriented
+  \item Mostrare un primo semplice programma Java
+  \item Fornire una panoramica di alcuni meccanismi Java
+  }}
+  \bl{Argomenti}{\iz{
+  \item Oggetti e riferimenti
+  \item Tipi primitivi
+  \item Classi, metodi e campi
+  \item Accenno a package e librerie
+  \item Stampe a video
+  \item Primo semplice programma Java
+  }}
+}
+
+\section{Elementi base dei tipi di Java}
+
+\fr{``Everything is an object''}{
+  \bl{Riferimenti ad oggetti}{\iz{
+  \item Nessun meccanismo per accedere ai dati per valore o puntatore!
+  \item Le variabili conterranno dei riferimenti agli oggetti veri e propri, sono quindi dei nomi ``locali'' utilizzabili per denotare l'oggetto
+  }}
+  \sizedcode{\footnotesize}{02/code/references.java}
+}
+
+\fr{Variabili, oggetti, e valori primitivi}{
+  \bl{Concetti base}{\iz{
+  \item Variabile: un contenitore con nome (come in C), usabile per denotare un oggetto
+  \item Valore primitivo: p.e. un numero, anche assegnabile ad una variabile
+  }}
+  \sizedcode{\footnotesize}{02/code/references2.java}
+}
+
+
+\fr{``(Almost) Everything is an object''}{
+  \bl{Tipi primitivi: tipi speciali usati per valori atomici}{\iz{
+  \item Assomigliano molto a quelli del C, ma hanno dimensioni fissate
+  \item I \cil{boolean} possono valere \cil{true} o \cil{false}
+  %\item Sono assegnabili a variabili, ma in questo caso lo sono ``per valore''
+  %\item Ognuno ha una corrispondente classe chiamata \alert{wrapper}
+  \item Altre classi di libreria (\cil{BigDecimal}, \cil{BigInteger}) gestiscono numeri di dimensione/precisione arbitraria
+  }}
+  \fg{width=0.7\textwidth}{02/img/primitive.png}
+}
+
+\fr{Una prima classificazione dei tipi}{
+  \fg{width=1\textwidth}{02/img/types0.pdf}
+}
+
+\fr{Variabili e tipi}{
+  \sizedcode{\footnotesize}{02/code/vars0.java}
+}
+
+\frs{5}{Costrutto \Cil{var}: ``local variable type inference'' (da Java 10)}{
+  \bl{Costrutto \cil{var}}{\iz{
+    \item usabile nelle variabili locali (a funzioni/metodi) per avere maggiore concisione
+    \item il compilatore capisce (inferisce) il tipo della varibile dall'espressione assegnata
+    \item non abusarne, e comunque noi non lo useremo molto all'inizio del corso
+  }}
+  \sizedcode{\footnotesize}{02/code/vars1.java}
+}
+
+
+\fr{Oggetti e memoria}{
+  \bl{Gestione della memoria -- entriamo nella JVM solo temporanemante}{\iz{
+    \item tutti gli oggetti sono allocati nella memoria \alert{heap}
+    \item le variabili allocate nello stack, nei rispettivi record di attivazione
+    \item le variabili di tipi primitivi contengono direttamente il valore
+    \item le variabili che contengono oggetti in realtà hanno un riferimento verso lo heap
+    \item nota: ancora non sappiamo cosa contiene un oggetto
+  }}
+  \bl{Situazione relativa al codice della slide precedente}{\iz{
+    \item le variabili \cil{i}, \cil{d}, \cil{b}, \cil{other} contengono valori
+    \item tutte le altre contengono un riferimento ad un oggetto, nello heap
+    \item solo \cil{p} e \cil{q} ``(si) riferiscono (al)lo stesso oggetto''
+    \item \cil{on} contiene un riferimento speciale, \cil{null}
+  }}
+}
+
+\fr{Visibilità}{
+  \bl{``Scope'' delle variabili}{\iz{
+    \item \`E simile a quello del C
+    \item variabili dentro un blocco non sono visibili fuori
+    \item differenza rispetto al C: variabili non inizializzate non sono utilizzabili!
+  }}
+  \bl{Tempo di vita degli oggetti}{\iz{
+    \item finito lo scope di una variabile, l'oggetto continua a esistere
+    \item verrà deallocato automaticamente dal sistema se non più usato{\iz{
+	\item se, direttamente o indirettamente, nessuna variabile lo può raggiungere
+	\item un componente della JVM, il \alert{garbage collector}, è preposto a questo compito
+	\item ne vedremo il funzionamento a breve..
+    }}
+  }}
+}
+
+\section{Principali costrutti dell'object-orientation}
+
+\fr{Costruire classi}{
+  \bl{Premesse}{\iz{
+    \item la \alert{classe} è l'unità fondamentale di programmazione OO
+    \item progettare e costruire classi correttamente sarà l'obbiettivo del corso
+    \item incominciamo descrivendo la loro struttura generale
+    \item solo nelle prossime lezioni daremo linee guida definitive
+  }}
+  \bl{Cos'è una classe}{\iz{
+    \item è un template (stampino) per generare oggetti di una certa forma
+    \item ne definisce tipo, struttura in memoria e comportamento
+  }}
+  \bl{Classe vs. oggetto}{\iz{
+    \item classe: è una descrizione (parte di programma)
+    \item oggetto: è una entità a tempo di esecuzione, è \alert{istanza} di una classe
+  }}
+  
+}
+
+
+\fr{Struttura di una classe}{
+  \bl{Nome della classe}{
+  è anche il nome del tipo
+  }
+  \bl{Proprietà della classe}{
+    \alert{Campi} (o membri, o fields){\iz{
+      \item descrivono la struttura/stato dell'oggetto in memoria
+    }}
+    \alert{Metodi} della classe{\iz{
+      \item descrivono i messaggi accettati e il comportamento corrispondente
+    }}
+    (altri elementi che vedremo..)
+   }
+}
+
+\fr{Classi: un po' di codice}{
+  \titledcode{Costruzione classi}{02/code/classes1.java}
+  \titledcode{Uso}{02/code/classes2.java}
+}
+
+\fr{Campi}{
+  \bl{Elementi costitutivi dei campi}{\iz{
+    \item i campi di una classe assomigliano ai membri di una struct del C
+    \item ognuno è una sorta di variabile (nome + tipo)\\ (per i campi non è usabile il costrutto \cil{var})
+    \item ve ne possono essere 0,1, molti
+    \item lo stato di un oggetto è l'attuale valore associato ai campi
+    \item potrebbero essere valori primitivi, o altri oggetti
+  }}
+  \bl{Valore di un campo}{\iz{
+    \item impostabile al momento della sua dichiarazione
+    \item se non inizializzato vale:
+    {\iz{
+      \item \cil{0} per i tipi numerici
+      \item \cil{false} per i booleani
+      \item \cil{null} per le classi
+    }}
+    \item accessibile da codice cliente con notazione \alert{obj.field}
+  }}
+  }
+  
+\fr{Campi: Un semplice esempio (toy)}{
+  \titledcode{Classe}{02/code/fields1.java}
+  \titledcode{Uso}{02/code/fields2.java}
+}
+
+\fr{Campi: l'esempio Point3D}{
+  \titledcode{Classe}{02/code/fields_p3d_1.java}
+  \titledcode{Uso}{02/code/fields_p3d_2.java}
+}
+
+\fr{Metodi}{
+  \bl{Elementi costitutivi dei metodi}{\iz{
+    \item i metodi di una classe assomigliano a funzioni (del C)
+    \item ognuno ha una \alert{intestazione} (o signature) e un corpo{\iz{
+     \item a sua volta l'intestazione ha il nome, tipo di ritorno, argomenti
+    }}
+    \item di metodi ve ne possono essere 0,1, molti
+    \item definiscono il comportamento dell'oggetto
+  }}
+  \bl{Significato di un metodo}{\iz{
+    \item codice cliente richiama un metodo con notazione \alert{obj.meth(args)}
+    \item ciò corrisponde a inviargli un messaggio
+    \item \cil{obj} è chiamato il \alert{receiver} del messaggio (o della invocazione)
+    \item il comportamento conseguente è dato dall'esecuzione del corpo
+    \item il corpo può leggere/scrivere il valore dei campi
+  }}
+  }
+  
+\fr{Metodi: Un esempio ``giocattolo'' (toy example)}{
+  \titledcode{Classe}{02/code/methods1.java}
+  \titledcode{Uso}{02/code/methods2.java}
+}
+
+\fr{La variabile speciale \Cil{this}}{
+  \bl{\cil{this}}{\iz{
+    \item dentro ad un metodo si può accedere agli argomenti o ai campi
+    \item per rendere meno ambigua la sintassi, Java fornisce una variabile speciale denotata con \cil{this}, che contiene il riferimento all'oggetto che sta gestendo il messaggio
+    \item per motivi di leggibilità, è opportuno usarla sempre
+  }}
+  \sizedcode{\scriptsize}{02/code/methods1this.java}
+}
+
+
+\fr{Metodi: altro esempio Point3D}{
+  \sizedcode{\scriptsize}{02/code/methods_p3d_1.java}
+  %\titledcode{Uso}{02/code/methods_p3d_2.java}
+}
+
+\section{Programmi Java}
+
+\fr{Programmi Java}{
+  \bl{Elementi costitutivi dei programmi Java}{\iz{
+    \item librerie di classi del Java Development Kit
+    \item librerie esterne (nostre o di altri)
+    \item un insieme di classi che costituiscono l'applicazione
+    \item almeno una di tali classi ha un metodo speciale \cil{main}
+    \item un \cil{main} è il punto d'accesso di un programma
+  }}
+  \bl{Il main}{Il \cil{main} deve avere la seguente dichiarazione:{\iz{
+  \item \cil{public static void main(String[] args)\{..\}}}}
+  tre concetti che spiegheremo in dettaglio nel prosieguo:\iz{
+  \item \cil{public} indica il fatto che debba essere visibile ``a tutti''
+  \item \cil{static} indica che non è un metodo dell'oggetto, ma della classe
+  \item \cil{String[]} indica il tipo ``array di stringhe''
+  }}
+}
+
+\fr{Package e librerie Java: organizzazione}{
+  \bl{Librerie di Java}{\iz{
+    \item Documentazione auto-generata, consultabile offline, o online: \\ \myurl{https://docs.oracle.com/en/java/javase/11/docs/api/} \\ (google search ``\texttt{javadoc 11}'')
+    \item contano più di 4000 classi, raggruppate in 200+ \alert{package} (e 50+ \alert{moduli})
+  }}
+  \bl{Package}{\iz{
+    \item un package è un contenitore di classi con uno scopo comune, di alto livello
+    \item tipicamente un package contiene qualche decina di classi
+    \item i package sono organizzati ad albero, con notazione \cil{nome1.nome2.nome3}
+    \item Package principali: \cil{java.lang}, \cil{java.util}, \cil{java.io}
+  }}
+}
+
+\frs{5}{Package, moduli e librerie Java: moduli}{
+  \bl{Moduli (Java 9+)}{\iz{
+    \item un modulo definisce un frammento di codice ``autonomo'':{\iz{
+    \item testabile, distribuibile, con chiara interfaccia e dipendenze da altri
+    }}
+    \item p.e., \cil{java.base}, \cil{java.desktop}, \cil{java.sql}, \cil{java.xml}
+    \item librerie esterne compatibili con Java 9+ sono distribuite in uno o più moduli
+    \item un modulo è costituito internamente da uno o più package
+    \item p.e., \cil{java.base} contiene i package principali che useremo    
+  }}
+  \bl{Impatto sulla programmazione ``base''}{\iz{
+    \item il concetto di modulo \alert{non impatta} i sorgenti, ma solo il ``project management'': per il momento non ce ne occuperemo perché il JDK fornisce ``di default'' accesso a tutti i moduli che ci servono (\cil{java.*})
+    \item il concetto di package \alert{invece impatta} i sorgenti: il nome completo di una classe dipende dal package in cui si trova 
+  }}
+}
+
+
+\frs{5}{Package, moduli e librerie Java: uso}{
+  \bl{Importare una classe di ``libreria''}{\iz{
+    \item per usare le classi di una libreria prima le si importa
+    \item lo si fa con la clausola \cil{import}, da usare all'inizio del sorgente
+    {\iz{
+      \item importo la singola classe: \cil{import java.util.Date;}
+      \item importo l'intero package: \cil{import java.util.*;}
+      \item importazione di default: \cil{import java.lang.*;}
+    }}
+    \item senza importazioni, ogni classe andrebbe sempre qualificata indicandone anche il package completo: \cil{java.util.Date obj = new java.util.Date();}
+    \item importare evita quindi solo di dover indicare ogni volta il package
+  }}
+  \bl{Classi (e funzionalità) ``deprecate''}{\iz{
+    \item dichiarate come ``scadute'', ossia preferibilmente ``da non usare più'' (legacy)
+    \item noi le utilizzeremo per scopi didattici
+    \item p.e. \cil{java.util.Date}
+  }}
+}
+
+\fr{Stampe su schermo}{
+  \bl{La procedura di stampa \cil{System.out.println}}{\iz{
+    \item \cil{System} è una classe nel package \cil{java.lang}
+    \item \cil{out} è un suo campo statico, rappresenta lo standard output
+    \item \cil{println} è un metodo che accetta una stringa e la stampa
+    \item l'operatore \cil{+} concatena stringhe a valori
+    %\item \cil{format} è un analogo metodo usabile in stile ``\cil{printf}''
+  }}
+  \code{02/code/print.java}
+}
+
+\fr{``Hello world'' Java Program}{
+  \titledcode{Hello.java}{02/exec/Hello.java}
+  \bl{Compilazione ed esecuzione}{\iz{
+    \item con un editor di testo si scrive la classe in un file \cil{Hello.java}
+    \item si compila la classe col comando: \cil{javac Hello.java}
+    \item se non ci sono errori, viene generato il \alert{bytecode} \cil{Hello.class}
+    \item si esegua il programma con: \cil{java Hello}
+    \item la JVM cerca la classe \cil{Hello}, e ne esegue il \cil{main}
+    
+  }}
+}
+
+\fr{Librerie, oggetti, e stampe}{
+  \sizedcode{\scriptsize}{02/exec/PrintingObjects.java}
+}
+
+\fr{Il caso delle classi Wrapper dei tipi primitivi}{
+   \bl{Le classi Wrapper}{\iz{
+      \item ce ne è una per tipo primitivo, nel package \cil{java.lang}{\iz{
+         \item \cil{Integer}, \cil{Double}, \cil{Boolean},...
+      }}
+      \item hanno qualche metodo utile per fare conversioni
+      \item poco usate per il momento
+   }}
+   \srcode{\ssmall}{3}{100}{\ecl/Wrappers.java}
+}
+
+\fr{Una nuova classificazione dei tipi}{
+  \fg{width=1\textwidth}{02/img/types.pdf}
+}
+
+\fr{Costruire e provare classi}{
+  \sizedcode{\scriptsize}{02/exec/Point3D.java}
+}
+
+\fr{Classi, e classi clienti}{
+  \sizedcode{\tiny}{02/code/Point3D_a.java}
+  \sizedcode{\tiny}{02/exec/UsePoint3D.java}
+  \vspace{-10pt}\bx{\iz{
+  \item si compilano separatamente, o con: \cil{javac *.java}
+  \item si esegue a partire dalla classe col \cil{main}: \cil{java UsePoint3D}
+  }}
+}
+
+\fr{Preview del prossimo laboratorio}{
+  \bl{Obbiettivi}{\iz{
+    \item familiarizzare con la compilazione da linea di comando in Java
+    \item fare qualche esercizio con la costruzione e uso di classi
+  }}
+}
+
+
+
+
+
+\end{document}

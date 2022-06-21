@@ -1,0 +1,400 @@
+\documentclass[presentation]{beamer}
+\usepackage{oop-slides}
+
+\title[OOP04: Oggetti e Classi pt 2]{04 \\ Oggetti e Classi pt.2\\ inizializzazione, accessi, distruzione}
+
+\begin{document}
+
+\newcommand{\ecl}{\eclipsepath{p04objects}}
+
+\frame[label=coverpage]{\titlepage}
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Completare i meccanismi OO di Java a livello di classe
+  \item Porre le basi per poter fare della corretta progettazione
+  \item Discutere aspetti collegati alla vita di un oggetto (costruzione, accesso, distruzione)
+  }}
+  \bl{Argomenti}{\iz{
+  \item Codice statico
+  \item Costruttori
+  \item Overloading di metodi
+  \item Approfondimento sui package
+  \item Controllo d'accesso
+  \item Finalizzazione e garbage collection
+  }}
+}
+
+\section{Codice statico}
+
+\frs{5}{Codice statico}{
+  \bl{Meccanismo}{\iz{
+  \item Alcuni campi e metodi di una classe possono essere dichiarati \cil{static}
+  \item Esempi visti:{\iz{
+    \item il \cil{main} dal quale parte un programma Java
+    \item il metodo \cil{java.util.Arrays.toString()} (ossia, il metodo \cil{toString} nella classe \cil{Arrays} dentro al package \cil{java.util})
+    \item il campo \cil{java.lang.System.out}
+    \item il metodo \cil{java.lang.System.getProperty()}
+  }}
+  \item Tali campi e metodi sono considerate proprietà della classe, non dell'oggetto
+  \item Sintassi: \cil{classe.metodo(argomenti)}, e \cil{classe.campo}
+  {\iz{\item omettendo la classe si assume quella da cui parte la chiamata}}
+  }}
+  \bl{Sulla notazione}{\iz{
+    \item Iniziano con minuscolo: nomi di package, metodi e campi
+    \item Iniziano con maiuscolo: nomi di classe
+    \item[$\Rightarrow$] Questo consente di capire facilmente il significato delle istruzioni
+  }}
+}
+
+\fr{Uso di codice statico o non statico in una classe \Cil{C}?}{
+  \bl{Codice non statico (detto anche codice istanza)}{\iz{
+  \item È codice puro object-oriented
+  \item Definisce le operazioni e lo stato di ogni oggetto creato da \cil{C}
+  }}
+  \bl{Codice statico}{\iz{
+  \item Non è codice puro object-oriented, ma codice in stile ``imperativo/strutturato''
+  \item Definisce funzioni e variabili del componente software definito da \cil{C}{\iz{
+    \item possono essere visti come metodi e campi dell'unico oggetto ``classe \cil{C}'' 
+  }}
+  }}
+  \bl{Usarli assieme?}{\iz{
+    \item Le helper class abbiano solo metodi/campi statici
+    \item Le classi OO non abbiano metodi/campi statici, a meno di qualche funzionalità ``generale'' della classe (si veda nel proseguio)
+  }}
+}
+
+\fr{Esempio Point3D}{
+    \srcode{\ssmall}{3}{100}{\ecl/Point3D.java}
+}
+
+\fr{Uso Point3D}{
+    \srcode{\ssmall}{3}{100}{\ecl/UsePoint3D.java}
+}
+
+\fr{Point3D: commenti}{
+    \bl{Si notino le due diverse chiamate}{\iz{
+      \item \cil{build} è sempre chiamata su un oggetto, ossia su: \cil{new Point3D()}
+      \item \cil{zero} e \cil{max} sono chiamate sulla classe \cil{Point3D}
+    }}
+    \bl{Razionale}{\iz{
+      \item \cil{max} è una funzionalità sui \cil{Point3D}, quindi è naturale includerla nella classe \cil{Point3D}, ma non è inquadrabile come funzionalità di un singolo oggetto (ognuno darebbe la stessa risposta)
+      \item \cil{zero} è trattato come ``costante'', quindi non è proprietà di un oggetto
+    }}
+    \bl{Un errore comune}{\iz{
+      \item se si omette l'indicazione del receiver, si rischia di chiamare una proprietà non statica da un metodo statico, e questo comporta un errore segnalato dal compilatore
+      \item[$\Rightarrow$] a questo si ovvia inserendo sempre l'indicazione del receiver
+    }}
+}
+
+\fr{Variante Point3DBis.. inizializzazione con ritorno}{
+    \srcode{\ssmall}{3}{100}{\ecl/Point3DBis.java}
+}
+
+\fr{Uso Point3DBis}{
+    \srcode{\ssmall}{3}{100}{\ecl/UsePoint3DBis.java}
+}
+
+\fr{Point3DBis: commenti}{
+    \bl{Si noti la struttura del metodo \cil{build}}{\iz{
+      \item inizializza il valore dei campi
+      \item restituisce \cil{this}
+    }}
+    \bl{Razionale}{\iz{
+      \item è possibile concatenare creazione di oggetto e sua inizializzazione
+      \item schema chiamato ``fluente''
+    }}
+}
+
+\fr{Sull'uso delle proprietà \Cil{static}}{
+    \bl{Consigli generali}{\iz{
+      \item nella programmazione OO pura, andrebbero interamente evitati 
+      \item frequente invece l'uso di costanti
+      \item a volte sono comodi, per ora cercare di tenere separate nelle classi le parti \cil{static} dalle altre (poi vedremo ``pattern'' più sofisticati)
+      \item le librerie di Java ne fanno largo uso
+    }}
+    \bl{Prassi frequente in Java}{\iz{
+	\item se \cil{XYZ} è una classe usata per generare oggetti, la classe \cil{XYZs} conterrà solo proprietà statiche relative
+	\item es: \cil{Object}/\cil{Objects}, \cil{Array}/\cil{Arrays}, \cil{Collection}/\cil{Collections}
+    }}
+    \bl{In altri linguaggi.. come Scala}{\iz{
+	\item parte statica e non-statica \alert{vanno necessariamente} posizionate in porzioni diverse del codice
+    }}
+}
+
+
+\fr{Ristrutturazione \Cil{Point3D}}{
+    \srcode{\scriptsize}{3}{100}{\ecl/points/Point3D.java}
+}
+
+\fr{Modulo \Cil{Points}}{
+    \srcode{\scriptsize}{3}{100}{\ecl/points/Points.java}
+}
+
+\fr{Uso \Cil{Point3D} e \Cil{Points}}{
+    \srcode{\scriptsize}{3}{100}{\ecl/points/UsePoint3D.java}
+}
+
+
+%\fr{Inizializzazione statica}{
+%    \bl{Problema}{\iz{
+%      \item A volte la inizializzazione dei campi statici non è comodamente eseguibile con un semplice assegnamento
+%      \item ..come nel caso del campo \cil{Point3D.zero}
+%      \item Si usa l'inizializzatore statico. Sintassi: \cil{static \{ ... \}}
+%      \item Viene eseguito al momento del caricamento della classe
+%    }}
+%    \sizedcode{\scriptsize}{04/fragments/Point3Dstatic.java}
+%}
+
+\section{Costruttori}
+
+\fr{La costruzione degli oggetti}{
+    \bl{L'operatore \cil{new}}{\iz{
+      \item Allo stato attuale delle nostre conoscenze, crea un oggetto inizializzando tutti i suoi campi al loro valore di default (p.e. $0$ per i numeri), e ne restituisce il riferimento
+      \item Altri metodi devono gestire la inizializzazione vera e propria
+      \item Problema: garantire una corretta inizializzazione
+    }}
+    \bl{Costruttori di una classe}{\iz{
+      \item Assomigliano per struttura ai metodi
+      \item Hanno lo stesso nome della classe in cui si trovano
+      \item Nessun tipo di ritorno, possono avere dei parametri formali{\iz{
+      \item[$\Rightarrow$] alla \cil{new} si possono quindi passare dei valori
+      }}
+      \item Il costruttore di default (a zero argomenti) è implicitamente definito solo se non se ne aggiungono altri -- ecco perché era consentito scrivere: \cil{new Point3D()}
+    }}
+}
+
+\fr{Esempio: Point3D}{
+  \code{04/fragments/Point3Dcons.java}
+}
+
+\fr{Gli argomenti del costr. spesso corrispondono ai campi}{
+  \code{04/fragments/Point3Dvar.java}
+}
+
+\fr{Esempio: Persona (3 costruttori)}{
+  %\sizedcode{\scriptsize}{04/code/Persona.java}
+  \srcode{\ssmall}{3}{100}{\ecl/Persona.java}
+}
+
+\fr{Esempio: Uso di Persona (3 costruttori)}{
+  \srcode{\scriptsize}{3}{100}{\ecl/UsePersona.java}
+  \bl{Sequenza d'azioni effettuate con una \cil{new}}{\iz{
+      \item si crea l'oggetto con tutti i campi inizializzati al default
+      \item si esegue il codice del costruttore (\cil{this} punta all'oggetto creato)
+      \item la \cil{new} restituisce il riferimento \cil{this}
+  }}
+}
+
+\fr{Istruzione \Cil{this(..)}}{
+  \bl{Usabile per chiamare un altro costruttore}{\iz{
+    \item tale istruzione può solo essere la prima di un costruttore
+    \item questo meccanismo consente di riusare il codice di altri costruttori
+  }}
+  \srcode{\ssmall}{3}{100}{\ecl/Persona2.java}
+}
+
+\fr{Overloading dei costruttori}{
+  \bl{Overloading: un nome, più significati}{\iz{
+    \item L'overloading è un meccanismo importante per il programmatore
+    \item La difficoltà che comporta è dovuta alla tecnica di disambiguazione
+    \item Due esempi visti finora: overloading operatori matematici, overloading costruttori
+  }}
+  \bl{Overloading dei costruttori}{
+    Data una \cil{new}, quale costruttore richiamerà? (JLS 15.12)
+    \iz{
+      \item si scartano i costruttori con numero di argomenti che non corrisponde
+      \item si scartano i costruttori il cui tipo d'argomenti non è compatibile
+      \item se ve ne è uno allora è quello che verrà chiamato..
+      \item altrimenti il compilatore segnala un errore
+  }}
+}
+
+\fr{Overloading dei metodi}{
+  \bl{Overloading dei metodi}{\iz{
+    \item Si può fare overloading dei metodi con stessa tecnica di risoluzione
+    \item Sia su metodi statici, che su metodi standard (metodi istanza)
+  }}
+  \srcode{\tiny}{3}{100}{\ecl/ExampleOverloading.java}
+}
+
+\section{Controllo d'accesso}
+
+\fr{I package}{
+ \bl{Problema}{\iz{
+   \item Un framework mainstream come quello di Java può disporre  di decine di migliaia di classi di libreria e di applicazione
+   \item \`E necessario un meccanismo per consentire di strutturarle in gruppi (a più livelli gerarchici)
+   \item Per poter meglio gestirli in memoria secondaria, e per meglio accedervi
+ }}
+ \bl{Package in Java}{\iz{
+  \item Ogni classe appartiene ad un \alert{package}
+  \item Un package ha nome gerarchico \cil{n1.n2....nj} (p.e. \cil{java.lang})
+  \item Le classi di un package devono trovarsi in una medesima directory
+  \item Questa è la subdirectory \cil{n1/n2/../nj} a partire da una delle directory presenti nella variabile d'ambiente \cil{CLASSPATH}
+ }}
+}
+
+\fr{I package pt. 2}{
+ \bl{Dichiarazione del package}{\iz{
+   \item Ogni unità di compilazione (file \cil{.java}) deve specificare il suo package
+   \item Lo fa con la direttiva \cil{package pname;}
+   \item Se non lo fa, allora trattasi del package di ``default''
+   \item Se lo fa, tale file dovrà stare nella opportuna directory
+ }}
+ \bl{Importazione classi da altri package}{\iz{
+  \item Una classe va usata (p.e. nella \cil{new} o come tipo) specificando anche il package (p.e. \cil{new java.util.Date()})
+  \item Per evitare tale specifica, si inserisce una direttiva di importazione \iz{
+    \item \cil{import java.util.*;} importa tutte le classi di \cil{java.util}
+    \item \cil{import java.util.Date;} importa la sola \cil{java.util.Date}
+  }
+  
+ }}
+}
+
+\fr{Unità di compilazione e livello d'accesso ``package''}{
+ \bl{Unità di compilazione}{\iz{
+   \item \`E un file compilabile in modo atomico da \cil{javac}
+   \item Si deve chiamare con estensione \cil{.java}
+   \item Può contenere varie classi indicate una dopo l'altra 
+ }}
+ \bl{Livello d'accesso package}{\iz{
+   \item Le classi in una unità di compilazione, i loro metodi, campi, e costruttori hanno di default il \alert{livello d'accesso package}
+   \item[$\Rightarrow$] sono visibili e richiamabili solo dentro al package stesso
+   \item[$\Rightarrow$] sono invisibili da fuori
+ }}
+}
+
+\fr{Livelli d'accesso \Cil{public} e \Cil{private}}{
+ \bl{Livello d'accesso \cil{public} -- visibile da tutte le classi}{\iz{
+   \item Lo si indica anteponendo alla classe/metodo/campo/costruttore la keyword \cil{public}
+   \item La corrispondente classe/metodo/campo/costruttore sarà visibile ed utilizzabile da qualunque classe, senza limitazioni
+ }}
+ \bl{Livello d'accesso \cil{private} -- visibile solo nella classe corrente}{\iz{
+   \item Lo si indica anteponendo al metodo/campo/costruttore la keyword \cil{private}
+   \item Il corrispondente metodo/campo/costruttore sarà visibile ed utilizzabili solo dentro alla classe in cui è definito
+ }}
+}
+
+\fr{Qualche conseguenza}{
+ \bl{A livello di classe}{\iz{
+   \item In una unità di compilazione solo una classe può essere \cil{public}, e questa deve avere lo stesso nome del file \cil{.java}
+ }}
+ \bl{A livello di metodi/campi/costruttori}{\iz{
+   \item la scelta \cil{public}/\cil{private} può consentire di gestire a piacimento il concetto di \alert{information hiding}, come approfondiremo la prossima settimana
+ }}
+}
+
+\fr{La keyword \Cil{final}}{
+ \bl{\cil{final} = non modificabile}{\iz{
+   \item Ha vari utilizzi: in metodi, campi, argomenti di funzione e variabili
+   \item Tralasciamo per ora il caso dei metodi
+   \item Negli altri casi denota variabili/campi assegnati e non più modificabili
+ }}
+ \bl{Il caso più usato: costanti di una classe}{\iz{
+    \item Es.: \cil{public static final int CONST=10;}
+    \item Perché usarle? {\iz{
+    \item Anche se \cil{public}, si ha la garanzia che nessuno le modifichi
+    \item Sono gestibili in modo più performante
+      }}
+ }}
+ \bl{Il caso dei ``magic number''}{\iz{
+    \item Ogni numero usato in una classe per qualche motivo (3,21,..)..
+    \item ..sarebbe opportuno venisse mascherato da una costante, per motivi di leggibilità e di più semplice modificabilità
+ }}
+}
+
+\fr{Esempio Magic Numbers}{
+  \srcode{\footnotesize}{3}{100}{\ecl/MagicExample.java}
+}
+
+
+\fr{\Cil{GuessMyNumberApp} revisited}{
+  \srcode{\tiny}{3}{100}{\ecl/GuessMyNumberApp.java}
+}
+
+\section{Distruzione oggetti}
+
+\fr{Allocazione degli oggetti in memoria}{
+  \bl{Operatore \cil{new}}{\iz{
+    \item Incorpora l'equivalente della funzione \cil{malloc} del C
+    \item Il compilatore calcola la dimensione necessaria da allocare
+    \item La \cil{new} chiama il gestore della memoria, che alloca lo spazio necessario
+    \item Si inizializza l'area e si restituisce il suo riferimento
+  }}
+  \bl{Cosa c'è in un oggetto (e, quanto  è grande?)}{\iz{
+    \item Non tutti i dettagli sono noti, dipende dalla JVM
+    \item Di sicuro contiene i seguenti elementi:\iz{
+      \item Spazio per ogni campo (non statico) della classe
+      \item Un riferimento ad una struttura dati relativa alla classe dell'oggetto
+      \item Un riferimento alla \alert{tabella dei metodi virtuali} (una struttura dati necessaria a trovare dinamicamente i metodi da richiamare)
+  }}}
+}
+
+\fr{Distruzione degli oggetti}{
+  \bl{Il tempo di vita degli oggetti}{\iz{
+    \item Durante l'esecuzione di un programma, è verosimile che molto oggetti vengano creati
+    \item Ogni creazione comporta l'uso di una parte di memoria centrale
+    \item Non è noto quanto durerà l'esecuzione del programma
+    \item[$\Rightarrow$] Qualcuno dovrà preoccuparsi di deallocare la memoria
+  }}
+  \bl{Il garbage collector (GC)}{\iz{
+    \item E' un componente della JVM richiamato dalla JVM con una frequenza che dipende dallo stato della memoria
+    \item Ogni volta, cerca oggetti in memoria heap che nessuna parte attiva del programma (thread) sta più usando (neanche indirettamente)
+    \item Trovatili, li dealloca (come la \cil{free} del C) \alert{senza che il programmatore debba occuparsene}
+  }}
+}
+
+\fr{Esempio funzionamento GC}{
+  \srcode{\ssmall}{3}{100}{\ecl/GC.java}
+}
+
+
+\section{Una applicazione}
+
+\frs{10}{Applicazione: \Cil{Mandelbrot}}{
+  \bl{Problema}{
+  Data una semplice classe \cil{Picture} che gestisce gli aspetti grafici, realizzare una applicazione che disegna il frattale Mandelbrot.
+  }
+  \bl{Elementi progettuali}{\iz{
+    \item Classe fornita \cil{Picture} -- codice non comprensibile ora{\iz{
+      \item ha un costruttore che accetta larghezza e altezza in pixel della finestra
+      \item metodo \cil{void drawPixel(int x,int y,int color)}
+    }}
+    \item Classe \cil{Complex} modella numeri complessi e operazioni base
+    \item Classe \cil{Mandelbrot} si occupa di calcolare il valore di ogni punto del rettangolo{\iz{
+      \item metodo \cil{void advancePosition()} passa al prossimo punto
+      \item metodo \cil{boolean isCompleted()} dice se ci sono altri punti da calcolare
+      \item metodo \cil{int computeIteratrions()} dice quante iterazioni vengono calcolate per il punto corrente
+    }}
+    \item Classe \cil{MandelbrotApp} ha il solo \cil{main}
+  }}
+  \bl{Elementi implementativi}{\iz{
+    \item Implementazione ancora preliminare e da migliorare
+  }}
+}
+
+\fr{Classe \Cil{Complex}}{
+  \srcode{\ssmall}{3}{100}{\ecl/app/Complex.java}
+}
+
+\fr{Classe \Cil{Mandelbrot}}{
+  \srcode{\tiny}{3}{100}{\ecl/app/Mandelbrot.java}
+}
+
+\fr{Classe \Cil{MandelbrotApp}}{
+  \srcode{\tiny}{4}{100}{\ecl/app/MandelbrotApp.java}
+}
+
+
+\fr{Preview del prossimo laboratorio}{
+  \bl{Obbiettivi}{\iz{
+    \item Esercizi su piccoli algoritmi su array e tipi primitivi
+    \item Uso costruttori
+    \item Aspetti avanzati della compilazione in Java
+  }}
+}
+
+
+
+
+\end{document}
