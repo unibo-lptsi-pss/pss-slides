@@ -1,16 +1,18 @@
 \documentclass[presentation]{beamer}
+\newcommand{\lectnum}{01}
+\newcommand{\lectitle}{Ingegneria e astrazione object-oriented}
 \usepackage{../oop-slides}
-
-\title[OOP01: Object-orientation]{01 \\ Ingegneria e astrazione object-oriented}
 
 \begin{document}
 
 \frame[label=coverpage]{\titlepage}
 
+\ackpage{}
+
 \section{Sistemi software e Ingegneria}
 
 \fr{Sistemi software}{
-  \bl{Obbiettivo di questo corso}{
+  \bl{Obiettivo di questo corso}{
     Insegnare tecniche moderne per la costruzione di sistemi software\\
     $\Rightarrow$ utilizzando i concetti dei \alert{sistemi ad oggetti}, che sono ``mainstream''
   }
@@ -169,11 +171,16 @@
 
 \fr{L'astrazione object-oriented (OO)}{
   \bx{
-  \Huge Un oggetto ha stato, \\ comportamento e identità.
+  \Huge Un oggetto ha 
+  \en{
+  \item stato,
+  \item comportamento, e 
+  \item identità.
+  }
   }
 }
 
-\fr{Definizione più dettagliata}{
+\fr{Astrazione OO: definizione più dettagliata}{
   \bx{\en{
    \item {\bf Everything is an object.} Un oggetto è una entità che fornisce operazioni per essere manipolata.
    \item {\bf Un programma è un set di oggetti che si comunicano cosa fare scambiandosi messaggi.} Questi messaggi sono richieste per eseguire le operazioni fornite.
@@ -278,7 +285,7 @@
     \item Il creatore produce una classe e ne verifica il corretto funzionamento: diventa una unità riusabile di codice
     \item Un cliente può ri-utilizzarla per creare nuovi concetti
   }}
-  \bl{La tecnica di riuso più usata è la \alert{composizione}}{\iz{
+  \bl{La tecnica di riuso più usata è la \textbf{composizione}}{\iz{
   \item Un nuovo oggetto è costituito da oggetti di altre classi
   \item Relazione chiamata ``has-a'' (``ha un'')
   \item Questa relazione può essere nascosta, e resa dinamica
