@@ -1,0 +1,388 @@
+%\documentclass[12pt,handout]{beamer}
+\documentclass[xcolor=dvipsnames,presentation]{beamer}
+\usepackage{../oop-slides-lab}
+\setbeamertemplate{bibliography item}[text]
+
+\newcommand{\lab}{Lab01}
+
+\title[{\lab} -- Strumenti di Base]{Strumenti di Base}
+
+\date[\today]{\today}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[]
+\end{frame}
+
+\section{Java Development Kit (JDK) Overview}
+
+\fr{Java Development Kit (JDK)}{
+    \bl{Esistono diverse distribuzioni di Java}{
+        \begin{description}
+            \item[JRE] -- Java Runtime Environment: solo interprete
+            \item[JDK] -- JRE + tool per lo sviluppo di programmi (e.g. compilatore)
+            \item[Java EE (dismesso)] -- Java Enterprise Edition: JDK + set esteso di librerie
+        \end{description}
+    }
+
+    \bl{Noi faremo riferimento al JDK}{Include il necessario per eseguire applicazioni
+    Java (JRE), i tool (e molte librerie) per sviluppare applicazioni,
+    e la relativa  documentazione}
+
+    \bl{I principali (non tutti) tool del JDK}{
+        \begin{description}
+            \item[javac] -- Compilatore Java
+            \item[java] -- Java virtual machine, per eseguire applicazioni Java
+            \item[javadoc] -- Per creare automaticamente documentazione in HTML
+            \item[jar] -- Creazione di archivi compressi (anche eseguibili)
+        \end{description}
+    }
+}
+
+\fr{Java Development Kit (JDK)}{
+    \begin{itemize}
+        \item Java 11 -- (pen)ultima versione LTS del JDK
+        \begin{itemize}
+            \item Esistono varie versioni e vari distributori (OpenJDK, Oracle JDK, Eclipse OpenJ9, Amazon, Graal, Zulu\dots)
+            \item OpenJDK -- implementazione non commerciale, reference version
+            \begin{itemize}
+                \item Per capire se una JVM si comporta correttamente, si confronta il suo comportamento con OpenJDK.
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+    \begin{block}{Riferimenti per il corso}
+        \begin{itemize}
+            \item Java 11, distribuita da OpenJDK
+            \item Adoptium: riferimento per il download del JDK
+            \begin{itemize}
+                \item \texttt{https://adoptium.net/}
+            \end{itemize}
+            \item Chi lo desidera può sperimentare con le versioni più recenti
+            \begin{itemize}
+            \item L'ultima al momento è Java 17, nuova LTS
+            \item Attenzione: la compatibilità è solo all'indietro
+            \item \dots{}e spesso non completa\dots{}
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+}
+
+%====================
+%Architettura a Runtime
+%====================
+\fr{Java Virtual Machine: Architettura a Runtime}{
+    \fg{height=0.80\textheight}{img/arch_runtime.png}
+}
+
+\section{Il file system e l'interprete dei comandi (richiamo)}
+
+\begin{frame}{Elementi base del file system}
+  \begin{itemize}
+    \item I sistemi operativi odierni consentono di memorizzare permanentemente le informazioni su
+supporti di memorizzazione di massa (dischi magnetici, dispositivi a stato solido...)
+    \item Le informazioni su questi supporti sono organizzate in file e cartelle:
+      \begin{itemize}
+        \item i file contengono le informazioni
+        \item le cartelle sono contenitori, all'interno contengono i file ed altre cartelle
+      \end{itemize}
+    \item La cartella più esterna, che contiene tutte le altre, è detta root. Essa rappresenta il livello gerarchico più alto del file system
+      \begin{itemize}
+        \item In *nix (Linux, MacOS, BSD, Solaris...), vi è una unica radice, ossia \texttt{/}
+        \item In Windows, c'è una root per file system identificata da una lettera di unità (e.g.
+\texttt{C:}, \texttt{D:})
+      \end{itemize}
+    \item La stringa che descrive un intero percorso dalla root fino ad un elemento del file system
+prende il nome di \emph{percorso} (o \emph{path}), e.g.:
+    \begin{itemize}
+        \item \texttt{/home/user/frameworkFS.jar} (percorso Unix)
+        \item \texttt{C:\textbackslash{}Windows\textbackslash{}win32.dll} (percorso Windows)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Manipolare il file system}
+  L'utente può osservare e manipolare il file system:
+  \begin{itemize}
+    \item sapere quali file e cartelle contiene una cartella
+    \item creare nuovi file e cartelle
+    \item spostare file e cartelle dentro altre cartelle
+    \item rinominare file e cartelle
+    \item eliminare file e cartelle
+  \end{itemize}
+  Il software che consente di osservare e manipolare il file system prende il nome di \alert{file manager}.
+  \begin{itemize}
+    \item Su Windows, esso è ``Esplora risorse'' (\texttt{explorer.exe})
+    \item Su MacOS, il principale è ``Finder''
+    \item Su Linux ne esistono diversi (Nautilus, Dolphin, Thunar, Astro\ldots)
+  \end{itemize}
+\end{frame}
+
+\fr{Interprete Comandi}{
+  \bl{}{
+    Programma che permette di interagire con il S.O. mediante comandi impartiti in modalità testuale (non grafica), via linea di comando
+  }
+  \begin{itemize}
+    \item Nell'antichità (in termini informatici) le interfacce grafiche erano sostanzialmente inesistenti,
+    e l'interazione con i calcolatori avveniva di norma tramite interfaccia testuale
+    \item Tutt'oggi, le interfacce testuali sono utilizzate:
+    \begin{itemize}
+      \item per \textbf{automatizzare} le operazioni
+      \item per \textbf{velocizzare} le operazioni (scrivere un comando è spesso molto più veloce di andare a fare click col mouse in giro per lo schermo)
+      \item per fare operazioni complesse con pochi semplici comandi
+      \item non tutti i software sono dotati di interfaccia grafica
+      \item alcune opzioni di configurazione del sistema operativo restano accessibili solo via linea di comando
+      \begin{itemize}
+        \item (anche su Windows: ad esempio i comandi per associare le estensioni ad un eseguibile)
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+  \bl{}{
+    Lo vedrete in maniera esaustiva nel corso di Sistemi Operativi...
+  }
+}
+
+\fr{Sistemi *nix (Linux, MacOS X, FreeBSD, Minix...)}{
+    \bl{Nei sistemi UNIX-like esistono vari tipi di interpreti, chiamati shell}{
+        Alcuni esempi
+        \iz{
+            \item Bourne shell (sh)
+            \iz{ \item Prima shell sviluppata per UNIX (1977)}
+            \item C-Shell (csh)
+            \iz{ \item Sviluppata da Bill Joy per BSD}
+            \item Bourne Again Shell (bash)
+            \iz{ \item Parte del progetto GNU, è un super set di Bourne shell}
+            \item ZSH, Fish, e altri terminali di ultima generazione
+            \iz{
+                \item Altamente personalizzabili
+                \item Molto flessibili
+                \item Autocompletamento avanzato e contestualità
+            }
+        }
+    }
+    \bl{Per una panoramica completa delle differenze}{
+        \textcolor{blue}{\url{http://www.faqs.org/faqs/unix-faq/shell/shell-differences/}}
+    }
+}
+
+\fr{Sistemi Windows}{
+    \bl{}{
+        L'interprete comandi è rappresentato dal programma \texttt{cmd.exe} in \texttt{C:$\backslash$Windows$\backslash$System32$\backslash$cmd.exe}
+        \iz{
+            \item Eredita in realtà sintassi e funzionalità della maggior parte dei comandi del vecchio MSDOS
+            \item Versioni recenti hanno introdotto PowerShell, basato su .NET e C\#
+            \item Da Windows 10 è possibile installare Linux dentro Windows usando Windows Subsystem for Linux (WSL2)
+            \begin{itemize}
+                \item Può essere un modo ragionevole di avere shell Unix in ambiente Windows
+                \item \dots{}e infatti in laboratorio ho preparato una WSL2 con zsh $\heartsuit$
+            \end{itemize}
+        }
+    }
+}
+
+\begin{frame}[fragile, allowframebreaks]{Aprire un terminale in laboratorio}
+    \begin{block}{Terminale DOS/cmd}
+        \begin{itemize}
+            \item Start $\Rightarrow$ Programmi $\Rightarrow$ Accessori $\Rightarrow$ Prompt dei comandi
+            \item Oppure: Start  $\Rightarrow$ Nella barra di ricerca, digitare \texttt{cmd} $\Rightarrow$ cliccare su \texttt{cmd.exe}
+        \end{itemize}
+    \end{block}
+    \begin{block}{Terminale Bash emulato (git bash)}
+        \begin{itemize}
+            \item Icona sul desktop
+            \item Oppure: Start  $\Rightarrow$ Nella barra di ricerca, digitare \texttt{git bash}
+            \item Consente di lavorare su Windows con un terminale meglio equipaggiato, vicino ad un nativo Linux
+        \end{itemize}
+    \end{block}
+    \begin{block}{Manjaro con Terminale ZSH via WSL2 (con configurazioni di Pianini)}
+        \begin{itemize}
+            \item Avviare WSL tramite collegamento ``Lancia WSL'' sul desktop
+            \item Attendere l'importazione della distro Linux (qualche minuto)
+            \item Non aprire altre istanze finché la prima non è avviata!
+            \item Questa è una shell nativa Linux, preconfigurata dal docente
+            \begin{itemize}
+                \item (e quindi potenzialmente con personalizzazioni che dipendono dal gusto personale)
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{File system e terminale: cheat sheet}
+\label{slide:commands}
+  \begin{center}
+    \begin{tabular}{| l | c | c |}
+      \hline
+      \textbf{Operazione} & \textbf{Comando Unix} & \textbf{Comando Win} \\ \hline
+      \scriptsize{}Visualizzare la directory corrente & \texttt{pwd} & \texttt{echo \%cd\%}  \\ \hline
+      \scriptsize{}Eliminare il file \texttt{foo} (non va con le cartelle!) & \texttt{rm foo} & \texttt{del foo} \\ \hline
+      \scriptsize{}Eliminare la directory di nome \texttt{bar} & \texttt{rm -r bar} & \texttt{rd bar} \\ \hline
+      \scriptsize{}Contenuto della directory corrente & \texttt{ls -alh} & \texttt{dir} \\ \hline
+%       \scriptsize{}Avviare un eseguibile di nome \texttt{pippo} & \texttt{./p} & \texttt{.\textbackslash{}p} \\ \hline
+      \scriptsize{}Cambiare unità disco (passare a D:) & -- & \texttt{D:} \\ \hline
+      \scriptsize{}Passare alla directory di nome \texttt{baz} & \texttt{cd baz} & \texttt{cd baz} \\ \hline
+      \scriptsize{}Passare alla directory di livello superiore & \texttt{cd ..} & \texttt{cd..} \\ \hline
+      \scriptsize{}Spostare (rinominare) un file \texttt{foo} in \texttt{bar} & \texttt{mv foo bar} & \texttt{move foo bar} \\ \hline
+      \scriptsize{}Copiare il file \texttt{foo} in \texttt{baz} & \texttt{cp foo bar} & \texttt{copy foo bar} \\ \hline
+      \scriptsize{}Creare la directory di nome \texttt{bar} & \texttt{mkdir bar} & \texttt{md bar} \\ \hline
+    \end{tabular}
+  \end{center}
+%  Eseguire delle prove ed esser certi di aver compreso come utilizzare ogni comando. Per \emph{cominciare} l'esame, in particolare, dovrete usare il comando \texttt{cd}: siate certi di aver capito cosa fa!
+\end{frame}
+
+\begin{frame}[fragile, allowframebreaks]{Uso intelligente del terminale}
+    I terminali moderni possono essere utilizzati in modo piuttosto efficace.
+    Il numero ed il tipo di utilizzi "intelligenti" cambia da terminale a terminale e da sistema a sistema.
+    \begin{block}{Autocompletamento}
+        \scriptsize{}
+        Sia *nix che Windows offrono la possibilità di effettuare autocompletamento, ossia chiedere al sistema di provare a completare un comando.
+        \begin{itemize}
+            \item Per farlo si utilizza il tasto ``tab''.
+            \item L'autocompletamento cambia anche molto fra terminali diversi
+            \begin{itemize}
+                \scriptsize{}
+                \item Zsh e Fish in particolare posso ``capire'' come autocompletare i sottocomandi in modo intelligente.
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+    \begin{block}{Memoria dei comandi precendenti}
+        \scriptsize{}
+        Sia Bash/zsh che cmd offrono la possibilità di richiamare rapidamente i comandi inviati precedentemente premendo il tasto ``freccia su''.
+        \begin{itemize}
+            \item  Su bash/zsh i comandi sono \emph{persistenti} (disponibili anche se il terminale viene riavviato).
+        \end{itemize}
+    \end{block}
+    \begin{block}{Interruzione di un programma}
+        \scriptsize{}
+        È possibile interrompere forzatamente un programma, qualora non risponda per vari motivi o non si voglia attenderne la normale terminazione.
+        \begin{itemize}
+            \item Per farlo, sia su Windows che in *nix, si prema ctrl+c.
+            \item Esempio tipico: programma in loop infinito
+        \end{itemize}
+    \end{block}
+    \begin{block}{Visualizzazione della storia dei comandi}
+        \scriptsize{}
+        \begin{itemize}
+             \item Su bash / zsh / fish eccetera, usare il comando \texttt{history}
+            \item Su Windows cmd, usare il tasto F7
+        \end{itemize}
+    \end{block}
+    \begin{block}{Ricerca nella storia dei comandi precedenti}
+        \scriptsize{}
+        \begin{itemize}
+            \item Premendo ctrl+r seguito da un testo da cercare, i sistemi *nix supportano la ricerca all'interno dei comandi lanciati recentemente, anche in sessioni utente precedenti. Non disponibile su Windows.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\section{Preparazione dell'ambiente di lavoro (per Lab01)}
+
+\fr{Preparazione Ambiente di Lavoro}{
+    \iz{
+        \item Accendere il PC ed eseguire l'accesso
+        \item Accedere al sito del corso
+        \item Scaricare dalla sezione dedicata a questa settimana il materiale dell'esercitazione odierna
+        \item Spostare il file scaricato sul Desktop
+        \item Decomprimere il file sul Desktop
+    }
+}
+
+
+\fr{Preparazione Ambiente di Lavoro}{
+    \iz{
+        \item Aprire un terminale
+        \item Si scelga l'opzione che si preferisce fra quelli proposti
+        \item Si comprenda in quale cartella ci si trova usando l'apposito comando
+        \iz{
+            \item Generalmente il prompt si apre nella directory principale dell'utente
+            \item Nel caso in cui si usasse zsh dentro WSL, o Git Bash, il file system di windows è agganciato emulando un file system Unix.
+        }
+        \item Posizionarsi all'interno della cartella scompattata con l'ausilio del comando \texttt{cd} (change directory)
+        \item Verificare che il contenuto della cartella sia quello atteso
+    }
+}
+
+\begin{frame}{Preparazione Ambiente di Lavoro}
+    \begin{itemize}
+        \item Scegliere un editor di testo per modificare i file sorgente
+        \begin{itemize}
+            \item Il laboratorio è equipaggiato con diversi editor di testo: JEdit, Notepad++, Visual Studio Code...
+            \item \textbf{NON} sono adatti per l'apertura e la modifica di file Java
+            (né di alcun altro linguaggio di programmazione) i word processors (Libreoffice Writer, Microsoft Word, Microsoft WordPad...), né l'editor di testo incluso in Windows (Notepad).
+        \end{itemize}
+        \item Si suggerisce l'utilizzo di \textbf{Code} (\texttt{https://code.visualstudio.com/})
+        \begin{itemize}
+            \item fornisce un supporto adeguato alla scrittura/modifica di sorgenti Java
+            \item offre la possibilità di interpretare la sintassi markdown: modalità con cui sono forniti i testi degli esercizi (per i primi laboratori)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Compilazione ed Esecuzione da Riga di Comando}
+
+\fr{Compilazione ed Esecuzione, comandi di base}{
+    \bl{Compilazione}{
+        Compilazione di una classe (comando \textcolor{blue}{javac})
+        \iz{
+            \item \alert{\cil{javac NomeFileSorgente.java}}
+            \item \alert{\cil{javac *.java}} compila tutti i sorgenti nella directory corrente
+        }
+    }
+    \bl{Esecuzione}{
+        Esecuzione di un programma Java (comando \textcolor{blue}{java})
+        \iz{
+            \item    \alert{\cil{java NomeDellaClasse}}
+        }
+    }
+    Si noti che il compilatore \emph{traduce} \textbf{file} sorgente in \textbf{file} binari,
+    mentre l'interprete Java (la Java Virtual Machine) esegue una ed una sola \textbf{classe}.
+
+    Il compilatore Java lavora su \textit{file}, l'interprete Java su \textit{classi}.
+}
+
+\begin{frame}{Da Java 9: interpretazione ``al volo''}
+    A partire da Java 9, è stata introdotto in java l'interprete \textit{REPL} \texttt{jshell}
+    \begin{itemize}
+        \item Sta per \textbf{R}ead-\textbf{E}val-\textbf{P}rint \textbf{L}oop
+    \end{itemize}
+    \texttt{jshell} consente di effettuare al volo compilazione ed esecuzione
+    \begin{itemize}
+        \item Lo useremo ogni tanto per mostrarvi il risultato di alcune espressioni
+        \item Non utile per lo sviluppo di intere applicazioni
+    \end{itemize}
+    In sistemi con \texttt{jshell}, lanciare l'interprete \texttt{java} su un file non compilato
+    \begin{itemize}
+        \item Ad esempio, \texttt{java HelloWorld.java}
+    \end{itemize}
+    può causare l'esecuzione!
+    \begin{block}{Dietro le quinte}
+        \textit{jshell} non è magico: dietro le quinte compila in memoria, quindi lancia l'interprete sul bytecode risultante
+    \end{block}
+    Noi costruiamo applicazioni: \textbf{prima} \textit{si compila}, \textbf{poi} \textit{si esegue}!
+\end{frame}
+
+\section{Appendice: richiami utili per gli esercizi del Lab01}
+
+\fr{A1 -- Operazioni con i Numeri Complessi}{
+    \bl{Numeri complessi -- breve ripasso}{
+        Siano $z,w \in \mathbb{C} : z = a + ib,\ w = c + id$, allora:
+        \iz {
+            \item Confronto: $z = w \iff a = c \wedge b = d$
+            \item Somma algebrica: $z \pm w = a \pm c + i(b \pm d)$
+            \item Prodotto: $z \cdot w = (a+ib)(c+id) = ac-bd+i(bc+ad)$
+            \item Rapporto: $\frac{z}{w} = \frac{(a+ib)(c-id)}{(c+id)(c-id)} = \frac{ac + bd}{c^2 + d^2} + i\frac{bc - ad}{c^2 + d^2}$
+        }
+    }
+}
+
+\end{document}
+
+\begin{frame}[allowframebreaks]
+ \frametitle{Bibliography}
+    \bibliographystyle{plain}
+    \small
+ \bibliography{biblio}
+\end{frame}
+

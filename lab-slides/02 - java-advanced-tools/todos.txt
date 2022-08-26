@@ -1,0 +1,3 @@
+- In git bash / cmd mingw ... la specifica di più percorsi nel classpath (;) crea problemi. Come soluzione si può (a) o fare escape del ;, ad es. `javac -cp path1\;path2 ...`, (b) usare i doppi apici per identificare il valore dell'opzione, e.g. `javac -cp "path1;path2" ...`
+- In powershell / WSL il percorso da root segue convenzione fs unix, quindi `/mnt/c/Users/...`
+

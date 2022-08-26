@@ -1,0 +1,14 @@
+src\oop\lab2\math\UseComplex.java:6: error: cannot find symbol
+    ComplexNum c1 = new ComplexNum();
+    ^
+  symbol:   class ComplexNum
+  location: class UseComplex
+src\oop\lab2\math\UseComplex.java:6: error: cannot find symbol
+    ComplexNum c1 = new ComplexNum();
+                        ^
+  symbol:   class ComplexNum
+  location: class UseComplex
+src\oop\lab2\math\UseComplex.java:8: error: cannot find symbol
+    ComplexNum c2 = new ComplexNum();
+    ^
+...

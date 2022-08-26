@@ -1,0 +1,31 @@
+0. Apertura Eclipse
+    - selezione cartella come workspace
+1. Eclipse IDE
+    - workbench
+    - workspace
+    - .metadata
+    - concetto di "view"
+    - concetto di "perspective"
+    - concetto di "progetto"
+2. Creazione progetto Java
+    - creazione package e classi
+    - creazione di main class
+    - autocompletamento con ctrl+space
+    - esecuzione applicazioni
+    - run configuration e passaggio argomenti a programma
+    - java build path
+3. Cosa contengono le cartelle di progetto
+4. Refactoring
+    - shift+alt+R (o tasto destro -> refactor) per rinominare classi, variabili, metodi...
+    - ctrl+1: quick-fix contestuale per errori
+    - ctrl+shift+/: de/commento linee selezionate
+    - f3: visualizza definizione elemento
+    - alt+shift+s: wizard for Java code elements
+5. Debug di applicazioni
+
+Things relevant for exercises:
+
+- Refactor (shift+alt+T) -> Encapsulate field
+    - Getter name and setter name
+    - Field access in declaring type: (a) use setters and getters; (b) keep field reference
+- Source (shift+alt+S) -> Generate toString

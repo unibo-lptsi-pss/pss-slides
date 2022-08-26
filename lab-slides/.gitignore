@@ -1,0 +1,5 @@
+.gradle/*
+*tar.gz
+!unibo.pdf
+*.fls
+*.fdb_latexmk
