@@ -1,5 +1,5 @@
 \documentclass[presentation]{beamer}
-\usepackage{oop-slides}
+\usepackage{../oop-slides}
 
 \title[OOP02: Oggetti e classi]{02 \\ Oggetti e classi}
 
@@ -33,7 +33,7 @@
   \item Nessun meccanismo per accedere ai dati per valore o puntatore!
   \item Le variabili conterranno dei riferimenti agli oggetti veri e propri, sono quindi dei nomi ``locali'' utilizzabili per denotare l'oggetto
   }}
-  \sizedcode{\footnotesize}{02/code/references.java}
+  \sizedcode{\footnotesize}{code/references.java}
 }
 
 \fr{Variabili, oggetti, e valori primitivi}{
@@ -41,7 +41,7 @@
   \item Variabile: un contenitore con nome (come in C), usabile per denotare un oggetto
   \item Valore primitivo: p.e. un numero, anche assegnabile ad una variabile
   }}
-  \sizedcode{\footnotesize}{02/code/references2.java}
+  \sizedcode{\footnotesize}{code/references2.java}
 }
 
 
@@ -53,15 +53,15 @@
   %\item Ognuno ha una corrispondente classe chiamata \alert{wrapper}
   \item Altre classi di libreria (\cil{BigDecimal}, \cil{BigInteger}) gestiscono numeri di dimensione/precisione arbitraria
   }}
-  \fg{width=0.7\textwidth}{02/img/primitive.png}
+  \fg{width=0.7\textwidth}{img/primitive.png}
 }
 
 \fr{Una prima classificazione dei tipi}{
-  \fg{width=1\textwidth}{02/img/types0.pdf}
+  \fg{width=1\textwidth}{img/types0.pdf}
 }
 
 \fr{Variabili e tipi}{
-  \sizedcode{\footnotesize}{02/code/vars0.java}
+  \sizedcode{\footnotesize}{code/vars0.java}
 }
 
 \frs{5}{Costrutto \Cil{var}: ``local variable type inference'' (da Java 10)}{
@@ -70,7 +70,7 @@
     \item il compilatore capisce (inferisce) il tipo della varibile dall'espressione assegnata
     \item non abusarne, e comunque noi non lo useremo molto all'inizio del corso
   }}
-  \sizedcode{\footnotesize}{02/code/vars1.java}
+  \sizedcode{\footnotesize}{code/vars1.java}
 }
 
 
@@ -143,8 +143,8 @@
 }
 
 \fr{Classi: un po' di codice}{
-  \titledcode{Costruzione classi}{02/code/classes1.java}
-  \titledcode{Uso}{02/code/classes2.java}
+  \titledcode{Costruzione classi}{code/classes1.java}
+  \titledcode{Uso}{code/classes2.java}
 }
 
 \fr{Campi}{
@@ -168,13 +168,13 @@
   }
   
 \fr{Campi: Un semplice esempio (toy)}{
-  \titledcode{Classe}{02/code/fields1.java}
-  \titledcode{Uso}{02/code/fields2.java}
+  \titledcode{Classe}{code/fields1.java}
+  \titledcode{Uso}{code/fields2.java}
 }
 
 \fr{Campi: l'esempio Point3D}{
-  \titledcode{Classe}{02/code/fields_p3d_1.java}
-  \titledcode{Uso}{02/code/fields_p3d_2.java}
+  \titledcode{Classe}{code/fields_p3d_1.java}
+  \titledcode{Uso}{code/fields_p3d_2.java}
 }
 
 \fr{Metodi}{
@@ -196,8 +196,8 @@
   }
   
 \fr{Metodi: Un esempio ``giocattolo'' (toy example)}{
-  \titledcode{Classe}{02/code/methods1.java}
-  \titledcode{Uso}{02/code/methods2.java}
+  \titledcode{Classe}{code/methods1.java}
+  \titledcode{Uso}{code/methods2.java}
 }
 
 \fr{La variabile speciale \Cil{this}}{
@@ -206,13 +206,13 @@
     \item per rendere meno ambigua la sintassi, Java fornisce una variabile speciale denotata con \cil{this}, che contiene il riferimento all'oggetto che sta gestendo il messaggio
     \item per motivi di leggibilità, è opportuno usarla sempre
   }}
-  \sizedcode{\scriptsize}{02/code/methods1this.java}
+  \sizedcode{\scriptsize}{code/methods1this.java}
 }
 
 
 \fr{Metodi: altro esempio Point3D}{
-  \sizedcode{\scriptsize}{02/code/methods_p3d_1.java}
-  %\titledcode{Uso}{02/code/methods_p3d_2.java}
+  \sizedcode{\scriptsize}{code/methods_p3d_1.java}
+  %\titledcode{Uso}{code/methods_p3d_2.java}
 }
 
 \section{Programmi Java}
@@ -291,11 +291,11 @@
     \item l'operatore \cil{+} concatena stringhe a valori
     %\item \cil{format} è un analogo metodo usabile in stile ``\cil{printf}''
   }}
-  \code{02/code/print.java}
+  \code{code/print.java}
 }
 
 \fr{``Hello world'' Java Program}{
-  \titledcode{Hello.java}{02/exec/Hello.java}
+  \titledcode{Hello.java}{exec/Hello.java}
   \bl{Compilazione ed esecuzione}{\iz{
     \item con un editor di testo si scrive la classe in un file \cil{Hello.java}
     \item si compila la classe col comando: \cil{javac Hello.java}
@@ -307,7 +307,7 @@
 }
 
 \fr{Librerie, oggetti, e stampe}{
-  \sizedcode{\scriptsize}{02/exec/PrintingObjects.java}
+  \sizedcode{\scriptsize}{exec/PrintingObjects.java}
 }
 
 \fr{Il caso delle classi Wrapper dei tipi primitivi}{
@@ -322,16 +322,16 @@
 }
 
 \fr{Una nuova classificazione dei tipi}{
-  \fg{width=1\textwidth}{02/img/types.pdf}
+  \fg{width=1\textwidth}{img/types.pdf}
 }
 
 \fr{Costruire e provare classi}{
-  \sizedcode{\scriptsize}{02/exec/Point3D.java}
+  \sizedcode{\scriptsize}{exec/Point3D.java}
 }
 
 \fr{Classi, e classi clienti}{
-  \sizedcode{\tiny}{02/code/Point3D_a.java}
-  \sizedcode{\tiny}{02/exec/UsePoint3D.java}
+  \sizedcode{\tiny}{code/Point3D_a.java}
+  \sizedcode{\tiny}{exec/UsePoint3D.java}
   \vspace{-10pt}\bx{\iz{
   \item si compilano separatamente, o con: \cil{javac *.java}
   \item si esegue a partire dalla classe col \cil{main}: \cil{java UsePoint3D}

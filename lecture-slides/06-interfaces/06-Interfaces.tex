@@ -1,5 +1,5 @@
 \documentclass[presentation]{beamer}
-\usepackage{oop-slides}
+\usepackage{../oop-slides}
 
 \title[OOP06: Interfacce]{06 \\ Composizione, riuso e sostituibilità: le \texttt{interface}}
 
@@ -146,15 +146,15 @@
 }
 
 \fr{Notazione UML completa per la classe \Cil{Lamp}:\\ tipicamente usata in fase di implementazione}{
-  \fg{height=0.8\textheight}{06/img/lamp1.pdf}
+  \fg{height=0.8\textheight}{img/lamp1.pdf}
 }
 
 \fr{Notazione parziale: solo parte pubblica:\\ tipicamente usata in fase di design}{
-  \fg{height=0.6\textheight}{06/img/lamp2.png}
+  \fg{height=0.6\textheight}{img/lamp2.png}
 }
 
 \fr{UML: \Cil{Lamp} e \Cil{TwoLampsDevice}}{
-  \fg{height=0.5\textheight}{06/img/lamp3.png}
+  \fg{height=0.5\textheight}{img/lamp3.png}
 }
 
 \fr{Altro caso di composizione: \Cil{LampsRow}}{
@@ -162,16 +162,16 @@
 }
 
 \fr{UML: \Cil{Lamp} e \Cil{LampsRow}}{
-  \fg{height=0.45\textheight}{06/img/lamp4.png}
+  \fg{height=0.45\textheight}{img/lamp4.png}
 }
 
 \fr{Scenario \Cil{DomusController}}{
-  \fg{height=0.65\textheight}{06/img/lamp5.png}
+  \fg{height=0.65\textheight}{img/lamp5.png}
   \bx{Come scrivereste il metodo \cil{switchAll} in modo riusabile, e possibilmente rimandendo aperti all'introduzione di nuovi tipi di dispositivi?}
 }
 
 \fr{Realizzazione senza riuso: schema}{
-  \srcode{\tiny}{1}{100}{06/code/DomusControllerTry.java}
+  \srcode{\tiny}{1}{100}{code/DomusControllerTry.java}
 }
 
 
@@ -212,12 +212,12 @@
 }
 
 \fr{Interface \Cil{Device}}{
-  %\sizedcode{\normalsize}{06/code/Device.java}
+  %\sizedcode{\normalsize}{code/Device.java}
   \srcode{\small}{3}{30}{\ecl/domo/Device.java}
 }
 
 \fr{Implementazioni di \Cil{Device}}{
-  \sizedcode{\scriptsize}{06/code/DeviceB.java}
+  \sizedcode{\scriptsize}{code/DeviceB.java}
 }
 
 
@@ -227,7 +227,7 @@
     \item arco tratteggiato (punta a triangolo) per la relaz. ``\cil{implements}''
     \item archi raggruppati per migliorare la resa grafica
   }}
-  \fg{width=0.7\textwidth}{06/img/uml-int.pdf}
+  \fg{width=0.7\textwidth}{img/uml-int.pdf}
 }
 
 \fr{Interfacce come tipi di dato}{
@@ -244,15 +244,15 @@
 }
 
 \fr{Interfacce e assegnamenti}{
-  \sizedcode{\footnotesize}{06/code/DueTipi.java}
+  \sizedcode{\footnotesize}{code/DueTipi.java}
 }
 
 \fr{Ridurre la molteplicità / aumentare riuso -- prima}{
-  \sizedcode{\scriptsize}{06/code/IntMethod.java}
+  \sizedcode{\scriptsize}{code/IntMethod.java}
 }
 
 \fr{Ridurre la molteplicità / aumentare riuso -- dopo}{
-  \sizedcode{\scriptsize}{06/code/IntMethod2.java}
+  \sizedcode{\scriptsize}{code/IntMethod2.java}
 }
 
 \frs{5}{Razionale delle interfacce}{
@@ -270,7 +270,7 @@
 }
 
 \fr{Scenario \Cil{DomusController} rivisitato}{
-  \fg{height=0.65\textheight}{06/img/uml-int-domus2-cropped.pdf}
+  \fg{height=0.65\textheight}{img/uml-int-domus.pdf}
 }
 
 \fr{Codice \Cil{DomusController} pt 1}{
@@ -287,7 +287,7 @@
 
 
 \fr{Uso di \Cil{DomusController}}{
-  %\sizedcode{\scriptsize}{06/code/classes2/UseDomusController.java}
+  %\sizedcode{\scriptsize}{code/classes2/UseDomusController.java}
   \srcode{\scriptsize}{3}{100}{\ecl/domo/UseDomusController.java}
 }
 
@@ -344,12 +344,12 @@
     \item \cil{C} non ha dipendenze rispetto \cil{C1},\cil{C2},\cil{C3}
     \item (l'uso potrebbe essere una composizione, come nel caso precedente)
   }}
-  \fg{height=0.4\textheight}{06/img/uml-int-general-cropped.pdf}
+  \fg{height=0.4\textheight}{img/uml-int-general.pdf}
 }
 
 
 \fr{Late binding (o dynamic binding)}{
-  \sizedcode{\scriptsize}{06/code/IntMethod3.java}
+  \sizedcode{\scriptsize}{code/IntMethod3.java}
   \bl{Collegamento ritardato}{Accade con le chiamate a metodi non-statici\iz{
     \item Dentro a \cil{switchOnIfCurrentlyOff()} mandiamo a \cil{device} due messaggi (\cil{isSwitchedOn} e \cil{switchOn}), ma il codice da eseguire viene scelto dinamicamente (ossia ``late''), dipende dalla classe dell'oggetto \cil{device} (\cil{Lamp},\cil{TV},..)
     \item Terminologia: \cil{device} ha tipo \cil{Device} (tipo statico), ma a tempo di esecuzione è un \cil{Lamp} (tipo run-time)
@@ -357,7 +357,7 @@
 }
 
 \fr{Early (static) vs late (dynamic) binding}{
-  \sizedcode{\ssmall}{06/code/EarlyLate.java}
+  \sizedcode{\ssmall}{code/EarlyLate.java}
   \bl{Differenze}{\iz{
     \item Early: con metodi statici o finali
     \item Late: negli altri casi
@@ -391,7 +391,7 @@
 }
 
 \fr{Esempio \Cil{Device} e \Cil{Luminous}}{
-  \sizedcode{\scriptsize}{06/code/Multi.java}
+  \sizedcode{\scriptsize}{code/Multi.java}
 }
 
 \fr{Estensione interfacce}{
@@ -404,7 +404,7 @@
 }
 
 \fr{Esempio \Cil{LuminousDevice}}{
-  \sizedcode{\scriptsize}{06/code/Multi2.java}
+  \sizedcode{\scriptsize}{code/Multi2.java}
 }
 
 \fr{Qualche esempio dalle librerie Java}{
