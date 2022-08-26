@@ -1,0 +1,26 @@
+public static String objectToString(Object o) {
+    try {
+        String out = "";
+        for (Method m : o.getClass().getMethods()) {
+            // Controllo solo i metodi getter annotati con ToString
+            if (m.isAnnotationPresent(ToString.class) && 
+                m.getParameterTypes().length==0){
+                // ottengo l'oggetto 'annotation'
+                ToString annotation = m.getAnnotation(ToString.class);
+                // costruisco la stringa
+                if (annotation.showMethodName()){
+                    out += m.getName() + annotation.associationSymbol();
+                }
+                if (!annotation.showMethodName() && 
+                    annotation.customName()!=null){
+                    out += annotation.customName();
+                    out += annotation.associationSymbol();
+                }
+                out += m.invoke(o) + annotation.separator();
+            }
+        }
+        return out;
+  } catch (Exception e) {
+    return null;
+  }
+}

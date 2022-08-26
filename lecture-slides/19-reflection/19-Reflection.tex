@@ -1,0 +1,450 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{19}
+\newcommand{\lectitle}{Reflection \\ e informazioni run-time sui tipi}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+\newcommand{\ecl}{\eclipsepath{p19reflection}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare il concetto di run-time type information
+  \item Mostrare le principali funzionalità della Reflection
+  \item Descrivere il meccanismo delle annotazioni
+  }}
+  \bl{Argomenti}{\iz{
+  \item Oggetti \cil{Class} e loro uso
+  \item Reflection API
+  \item Annotazioni di Java
+  \item Testing con \texttt{JUnit}
+  }}
+}
+
+%\fr{TODO}{
+%  \bl{Da aggiungere}{\iz{
+%  \item Asserzioni
+%  \item Come ingegnerizzare i test?
+%  \item Esempio di app?
+%  }}
+%}
+
+\section[Classloading]{Classi, caricamento e JVM}
+
+\fr{Il classfile}{
+  \bl{Classi e JVM}{\iz{
+    \item Ogni classe Java (interfaccia, enumerazione, inner o outer) produce un file \texttt{.class} ad opera del compilatore
+    \item Nel caso di classi ``inner'' il nome di tale \texttt{.class} è \texttt{<outer>\$<inner>}, nel caso di anonima è \texttt{<outer>\$<numero>}
+    \item Tale \texttt{.class} è disponibile nel folder di uscita e innestato a seconda del suo package
+    \item Il contenuto informativo del \texttt{.class} è quasi identico a quello del \texttt{.java}, solo espresso in un linguaggio diverso che garantisce la correttezza del contenuto e le performance di chi deve leggerlo
+  }}
+  \bl{\`E possibile ispezionare il contenuto di un \texttt{.class}}{\iz{
+    \item Esempio di comando: \texttt{javap -v Counter.class}
+    \item Comando in modalità \alert{verbose}
+  }}
+}
+
+\fr{Classe \Cil{Counter}}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/classes/Counter.java}
+}
+
+\fr{Contenuto del classfile (1/2)}{
+  \sizedcode{\tiny}{code/loading/out_1.txt}
+}
+
+\fr{Contenuto del classfile (2/2)}{
+  \sizedcode{\tiny}{code/loading/out_2.txt}
+}
+
+\fr{Caricamento delle classi e la JVM (1/2)}{
+  \bl{Caricamento: chi?}{\iz{
+    \item La JVM è un programma solitamente scritto in C/C++
+    \item HotSpot di OpenJDK ($>$ 250K linee): \texttt{http://hg.openjdk.java.net/jdk8/jdk8/hotspot/}
+    \item Dispone di uno o più class-loader (realizzabili anche in Java dall'utente, estendendo \cil{java.lang.ClassLoader})
+    \item Hanno il compito di cercare i classfile che servono, e di ``caricarli'' nella JVM
+  }}
+  \bl{Caricamento: quando?}{\iz{
+    \item Tale caricamento **non** avviene necessariamente all'avvio: ogni classe viene caricata al momento del suo primo utilizzo!! (Schema \alert{by-need})
+    \item Alla prima \cil{new}, o chiamata statica, o se serve una sottoclasse!
+    \item (o con una richiesta esplicita come vedremo)
+  }}
+}
+
+\fr{Caricamento delle classi e la JVM (2/2)}{
+  \bl{Caricamento: da dove?}{\iz{
+    \item Dal file system, attraverso il classpath e navigando i package
+    \item Eventualmente dentro ai file JAR
+    \item In alcune modalità, può caricare le classi anche via rete!
+  }}
+  \bl{Caricamento: cosa succede?}{\iz{
+    \item La JVM prepara una opportuna struttura dati in memoria
+    \item Inizializza i campi statici (e chiamando l'inizializzatore statico se definito)
+  }}
+  \bl{Nota: esiste anche l'inizializzatore ``non statico''}{\iz{
+    \item viene richiamato all'atto della creazione dell'oggetto
+  }}
+}
+
+\fr{Una parentesi: gli \Cil{initializer}}{
+  \bl{Static initializer}{\iz{
+    \item sintassi \cil{static\{...\}}
+    \item eseguito ``subito'', prima di qualunque accesso alla classe
+    \item in genere inizializza campi statici
+    \item potrebbe eseguire altro codice di inizializzazione
+  }}
+  
+  \bl{Non-static initializer}{\iz{
+    \item sintassi \cil{\{...\}}
+    \item eseguito prima di chiamare il costruttore
+    \item in genere inizializza campi istanza
+    \item potrebbe eseguire altro codice di inizializzazione
+  }}
+    
+}
+
+\fr{Inizializzatori all'opera}{
+    \sizedrangedcode{\ssmall}{6}{100}{\ecl/classes/Initializers.java}
+}
+
+\fr{Ispezioniamo la dinamica di caricamento (e istanziazione)}{
+    \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/Loading.java}
+}
+
+\fr{Perché questa gestione ``by-need'' del caricamento?}{
+    \bl{Alcune motivazioni}{\iz{
+	\item Permette alle applicazioni di ``partire'' più velocemente, in quanto non si carica tutto, solo quello che serve mano a mano
+	\item In scenari di rete, consente di dover caricare da remoto solo sottoparti di applicazioni
+	\item In scenari avanzati si potrebbero anche ``scaricare'' (togliere dalla JVM) le classi che sembrano non servire più, o addirittura fare ``hot-swapping'' (modifica di una classe)
+	\item Alcune classi potrebbe essere aggiunte al volo per aumentare funzionalità senza spegnere l'applicazione
+	\item \`E possibile ispezionare e usare il contenuto delle classi via \alert{reflection}
+    }}
+}
+
+\section{Reflection API}
+
+\fr{Reflection}{
+    \bl{Packages \cil{java.lang} e \cil{java.lang.reflect}}{
+    Forniscono una libreria che interagisce con la JVM per.. \iz{
+	\item dare una rappresentazione ``ad oggetti'' del contenuto di una classe
+	\item direttamente istanziare un oggetto, invocare metodi, accedere a campi
+	\item forzare il caricamento di una classe
+    }} 
+    \bl{Sulla modalità ``via reflection''}{\`E più flessibile ma..\iz{
+	\item è più lenta, anche di 1-2 ordini di grandezza (ma ottimizzabile)
+	\item non interagisce con i controlli del compilatore (genera eccezioni..)
+	\item pone problemi di security (che non analizzeremo in dettaglio..)
+	\item consente di programmare accessi a classi non note a priori    
+	\item[$\Rightarrow$] va usata di conseguenza.. quindi non abusarne
+    }}
+}
+
+\fr{Motivazioni}{
+    \bl{Tecniche messe a disposizione}{\iz{
+	\item Unire classi non note ad una applicazione durante il suo funzionamento
+	\item Trattare una stringa come identificatore del linguaggio
+	\item Interagire con oggetti in modo dnamico, bypassando i test del compilatore
+    }} 
+    \bl{Applicazioni della reflection}{\iz{
+	\item Estendibilità: Si può fare uso di classi esterne create/caricate ``al volo'', per modificare dinamicamente il comportamento di una applicazione
+	\item Ambienti di sviluppo: Poter ispezionare la struttura di una classe o libreria
+	\item Framework di Java: annotazioni, serializzazione, dynamic proxies,...
+    }}
+}
+
+\frs{5}{La classe \Cil{java.lang.Class}}{
+    \bl{Ogni suo oggetto rappresenta un tipo disponibile nella JVM}{
+	\iz{
+	    \item una classe (outer o inner, astratta o non), una interfaccia, una enumerazione, un array, i tipi primitivi e anche void
+	    \item non i tipi generici (\cil{ArrayList<String>}) ma le classi generiche si
+    }}
+    \bl{Come si ottiene un oggetto di \cil{Class}? In tre modi:}{\iz{
+	\item \cil{String.class}
+	\item \cil{new String("this is a string").getClass()}
+	\item \cil{Class.forName("java.lang.String")}
+    }}   
+    \bl{Genericità di \cil{Class}}{\iz{
+      \item Solo via \cil{String.class} si può ottenere un oggetto di tipo \cil{Class<String>}, che avrà quindi metodi che ``sanno'' di lavorare su stringhe (ad esempio per creare oggetti di tipo stringa)
+      \item Altrimeni restituisce un \cil{Class<?>}, e quindi prima o poi serviranno delle conversioni (con possibili cast ``unchecked'')
+    }}
+}
+
+\fr{Esempi}{
+    \sizedrangedcode{\tiny}{3}{100}{\ecl/classes/TryClass.java}
+}
+
+\fr{Esempi}{
+    \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/UseClass.java}
+}
+
+\fr{Alcuni metodi di \Cil{java.lang.Class}}{
+    \sizedcode{\tiny}{code/api/Class.java}
+}
+
+\fr{Alcuni metodi di \Cil{java.lang.reflect.Field}}{
+    \sizedcode{\ssmall}{code/api/Field.java}
+}
+
+\fr{Alcuni metodi di \Cil{java.lang.reflect.Constructor}}{
+    \sizedcode{\ssmall}{code/api/Constructor.java}
+}
+
+\fr{Alcuni metodi di \Cil{java.lang.reflect.Method}}{
+    \sizedcode{\ssmall}{code/api/Method.java}
+}
+
+\fr{Esempio di chiamata dinamica di metodo}{
+    \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/UseReflection.java}
+}
+
+
+\fr{Reflection e esecuzione ``dinamica''}{
+   \bl{Applicazioni dinamiche}{\iz{
+    \item Sono applicazioni che riescono ad eseguire codice aggiunto dinamicamente dopo che l'applicazione stessa è partita
+    \item Questo tipo di meccanismo è molto importante in sistemi che non è possibile ``spegnere''
+   }}
+   \bl{Tecnica}{\iz{
+    \item Un gestore dell'applicazione compila nuove classi e le aggiunge al CLASSPATH
+    \item L'applicazione è già stata costruita in modo da accedere a certe classi da eseguire tramite il loro nome, eseguendone certi metodi
+   }}
+}
+
+\fr{Caricamento ed esecuzione automatica}{
+    %\sizedcode{\ssmall}{code/example/DynamicExecution.java}
+    \sizedrangedcode{\tiny}{6}{36}{\ecl/classes/DynamicExecution.java}
+}
+
+\section[Esempio]{Un esempio di applicazione}
+
+\fr{Sviluppiamo un semplice esempio}{
+    \bl{Realizzazione automatizzata del \cil{toString} -- un mero esempio}{\iz{
+	\item Scrivere i \cil{toString} è piuttosto noioso e ripetitivo
+	\item Alcuni IDE (come Eclipse) lo generano automaticamente
+	\item Come potremmo fornire un supporto programmato?
+	\item Il principale problema è indicare dinamicamente, di volta in volta, come produrre la stringa sulla base delle proprietà di interesse
+	\item Forniamo una soluzione base, facilmente estendibile dallo studente
+    }}
+    \bl{Idea}{\iz{
+	\item Fornisco un metodo statico in una classe di funzionalità varie
+	\item Accetta l'oggetto da stampare e una descrizione di cosa stampare
+	\item Esempio: il nome della proprietà da ritrovare (assumendo ci sia un getter)
+	\item Ritorna la stringa creata
+    }}
+}
+
+\fr{\Cil{objectToString}}{
+    \sizedrangedcode{\ssmall}{6}{50}{\ecl/classes/PrintObjectsUtilities.java}
+}
+
+\fr{Classi di prova}{
+    \sizedcode{\scriptsize}{code/string/Person.java}
+    \sizedcode{\scriptsize}{code/string/Teacher.java}
+}
+
+
+\begin{frame}[fragile]\frametitle{Uso di \Cil{objectToString}}
+    \sizedrangedcode{\ssmall}{3}{50}{\ecl/classes/UsePrintObjectUtilities.java}
+\begin{lstlisting}
+Person
+Person:  Name -> Mario
+Person:  Name -> Mario | Id -> 101
+Teacher:  Name -> Gino | Id -> 102 | Courses -> [PC, OOP]
+\end{lstlisting}
+\end{frame}
+
+\section{Annotazioni}
+
+\fr{Il Java annotation framework}{
+    \bl{Annotazioni in Java}{\iz{
+	\item Sono un meccanismo usato per ``annotare'' pezzi di codice
+	\item Il compilatore di default ignora queste annotazioni
+	\item A run-time, via reflection, è possibile verificare quali annotazioni e dove sono presenti
+	\item \`E anche possibile istruire il compilatore a rigettare annotazioni mal formate
+	\item Java fornisce alcune annotazioni standard
+    }}
+    \bl{Motivazioni}{\iz{
+	\item Rendere il linguaggio più flessibile
+	\item Consentire di realizzare piccole aggiunte ``programmate'' al linguaggio
+    }}
+}
+
+\begin{frame}[fragile]\frametitle{Un primo esempio di annotazione: \texttt{\@Override}}
+\begin{lstlisting}
+class MyClass extends SuperClass{
+    ...
+    @Override
+    public void myMethod(...){...}
+\end{lstlisting}
+\bl{Elementi principali}{\iz{
+    \item Abbiamo annotato con \cil{\@Override} il metodo \cil{myMethod}
+    \item \cil{javac} è istruito a rigettare questo codice se \cil{SuperClass} non definisce \cil{myMethod}{\iz{
+	\item stessa cosa quando si implementa il metodo di una interfaccia
+    }}
+    \item Serve a evitare errori di nome nell'indicazione di \cil{myMethod}
+    \item È prassi usarli sempre quando si fa overriding 
+    \item Eclipse li aggiunge e segnala eventuali errori
+}}
+\end{frame}
+
+\fr{Esempio \Cil{@Override}}{
+    \sizedrangedcode{\footnotesize}{1}{50}{code/annotations/A.java}
+}
+
+\frs{5}{Altre annotazioni di libreria}{
+    \bl{Cosa sono le annotazioni?}{\iz{
+	\item Sono indicabili come sorta di interfacce
+	\item Ogni package può esporre le proprie
+	\item Le librerie di Java ne espongono varie
+    }}
+    \bl{\cil{java.lang.Override}}{\iz{
+	\item Controllo statico del corretto overriding
+    }}
+    \bl{\cil{java.lang.SuppressWarnings}}{\iz{
+	\item Dichiara del codice essere corretto: non genererà warning!
+	\item Vuole come parametro il warning da disabilitare
+    }}
+    \bl{Altri}{\iz{
+	\item \cil{java.lang.Deprecated}: marca ``deprecato'' il metodo
+	\item \cil{java.lang.FunctionalInterface}: verifica che un solo metodo richieda implementazione
+	\item Varie definite nel package \cil{java.lang.annotation}
+    }}
+}
+
+\fr{Esempio \Cil{@SuppressWarnings}}{
+    \sizedrangedcode{\ssmall}{1}{50}{code/annotations/Vector.java}
+}
+
+\fr{Annotazioni custom}{
+    \bl{Definire le proprie annotazioni}{\iz{
+	\item È possibile definire le proprie annotazioni, con una sintassi che ricalca molto da vicino quella delle interfacce
+	\item È possibile via reflection capire quali metodi/campi/classi/costruttori sono stati annotati
+    }}
+    \bl{Dove si possono inserire?}{
+	Per annotare la dichiarazione di classi, campi, metodi e costruttori\\
+	Non è al momento consentito annotare anche i tipi mentre li si usano
+    }
+    \bl{Come li si dichiara}{\iz{
+	\item L'uso di una annotazione genera un oggetto ispezionabile
+	\item L'annotazione dichiara l'interfaccia di tale oggetto, e come lo si deve inizializzare
+	\item Si forniscono anche informazioni ulteriori
+    }}
+}
+
+\fr{Un esempio di applicazione}{
+    \bl{Riprendiamo l'esempio \texttt{objectToString()}}{\iz{
+	\item Costruiamo una gestione delle annotazioni che permetta di annotare alcuni metodi getter
+	\item E costruiamo una nuova \cil{objectToString} che stampi controllando tali annotazioni
+    }}
+}
+
+\fr{Dichiarazione \Cil{@ToString}}{
+    \sizedrangedcode{\scriptsize}{1}{50}{\ecl/annotations/ToString.java}
+}
+
+\fr{Esempio di come si usa l'annotazione}{
+    \sizedrangedcode{\scriptsize}{3}{50}{\ecl/annotations/Person.java}
+}
+
+\fr{Altro esempio}{
+    \sizedrangedcode{\ssmall}{3}{50}{\ecl/annotations/Product.java}
+}
+
+
+\fr{Metodo \Cil{objectToString()}}{
+    \sizedrangedcode{\tiny}{3}{50}{\ecl/annotations/PrintObjectsUtilities.java}
+}
+
+\fr{Uso \Cil{objectToString()}}{
+    \sizedrangedcode{\scriptsize}{3}{50}{\ecl/annotations/UsePrintObjectsUtilities.java}
+}
+
+
+\section{JUnit}
+
+\begin{frame}[fragile]\frametitle{Il framework per i collaudi software \Cil{JUnit}}
+    \bl{Una applicazione delle annotazioni di Java... Idea:}{\iz{
+	\item Creare delle classi di test, con metodi che realizzano degli scenari d'uso di certe classi da testare
+	\item Tali metodi sono propriamente annotati
+	\item Alla fine del loro lavoro tali metodi asseriscono se il risultato atteso è giusto
+	\item Da Eclipse semplice esecuzione della classe come ``JUnit test''
+    }}
+    \bl{Per verificare se e quanti test passano.. da linea di comando}{\iz{
+	\item Compilazione specificando la libreria JUnit
+	\item Esecuzione del framework JUnit
+    }}
+\begin{lstlisting}
+javac -cp .:/opt/java/junit-4.11.jar *.java
+java -cp .:/opt/java/junit-4.11.jar:\
+/opt/java/hamcrest-core-1.3.jar\ 
+org.junit.runner.JUnitCore CounterTest
+\end{lstlisting}
+\end{frame}
+
+\fr{Classe per il collaudo di un contatore}{
+    \sizedrangedcode{\ssmall}{1}{50}{code/junit/CounterTest.java}
+}
+
+\begin{frame}[fragile]\frametitle{Altre modalità di asserire il risultato di un test}
+Si veda: \texttt{https://github.com/junit-team/junit/wiki/Assertions}
+\begin{lstlisting}[basicstyle=\ssmall\ttfamily]
+// many things to import
+
+public class AssertTests {
+  @Test
+  public void testAssertFalse() {
+    org.junit.Assert.assertFalse("failure - should be false", false);
+  }
+
+  @Test
+  public void testAssertSame() {
+    Integer aNumber = Integer.valueOf(768);
+    org.junit.Assert.assertSame("should be same", aNumber, aNumber);
+  }
+
+  // JUnit Matchers assertThat
+  @Test
+  public void testAssertThatEveryItemContainsString() {
+    org.junit.Assert.assertThat(
+        Arrays.asList(new String[] { "fun", "ban", "net" }), 
+        everyItem(containsString("n")));
+  }
+  ..
+}
+\end{lstlisting}
+\end{frame}
+
+\fr{Testiamo il \Cil{RangeIterator}: e modifichiamo se serve..}{
+    \sizedrangedcode{\ssmall}{3}{50}{\ecl/annotations/RangeIterator.java}
+}
+
+\fr{Possibile codice \Cil{JUnit}: 1/2}{
+    \sizedrangedcode{\ssmall}{1}{28}{\ecl/annotations/TestRangeIterator.java}
+}
+
+\fr{Possibile codice \Cil{JUnit}: 2/2}{
+    \sizedrangedcode{\tiny}{29}{100}{\ecl/annotations/TestRangeIterator.java}
+}
+
+\fr{Altro esempio: esercizio \Cil{Graph}}{
+    \sizedrangedcode{\ssmall}{3}{50}{\ecl/exercise/Graph.java}
+}
+
+\fr{Un esempio di semplicissimo test}{
+    \sizedrangedcode{\ssmall}{10}{50}{\ecl/exercise/TestGraphImpl.java}
+}
+
+\fr{Variante migliorativa (1/2)}{
+    \sizedrangedcode{\ssmall}{11}{38}{\ecl/exercise/TestGraphImplImproved.java}
+}
+
+\fr{Variante migliorativa (2/2)}{
+    \sizedrangedcode{\ssmall}{39}{50}{\ecl/exercise/TestGraphImplImproved.java}
+}
+
+\end{document}
+

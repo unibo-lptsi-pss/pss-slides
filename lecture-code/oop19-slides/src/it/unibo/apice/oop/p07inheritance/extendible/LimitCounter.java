@@ -3,7 +3,7 @@ package it.unibo.apice.oop.p07inheritance.extendible;
 public class LimitCounter extends ExtendibleCounter {
 
     /* Aggiungo un campo, che tiene il limite */
-    protected int limit;
+    protected final int limit;
 
     public LimitCounter(final int limit) {
         super(0);

@@ -1,0 +1,30 @@
+{  public Counter();
+    flags: ACC_PUBLIC 	Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0       
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0       
+         5: iconst_0      
+         6: putfield      #2                  // Field countValue:I
+         9: return        
+      LineNumberTable:       	line 7: 0	line 8: 4        line 9: 9
+
+  public int getValue();
+    flags: ACC_PUBLIC	Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0       
+         1: getfield      #2                  // Field countValue:I
+         4: ireturn       
+      LineNumberTable:		line 13: 0
+  public void increment();
+    flags: ACC_PUBLIC	Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0       
+         1: dup           
+         2: getfield      #2                  // Field countValue:I
+         5: iconst_1      
+         6: iadd          
+         7: putfield      #2                  // Field countValue:I
+        10: return        
+      LineNumberTable:	        line 18: 0        line 19: 10		}
+ 

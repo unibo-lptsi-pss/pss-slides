@@ -1,0 +1,375 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{09}
+\newcommand{\lectitle}{Generici \\ (polimorfismo parametrico)}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+\newcommand{\ecl}{\eclipsepath{p09generics}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare il problema delle collezioni polimorfiche
+  \item Discutere il concetto di polimorfismo parametrico
+  \item Illustrare i Generici di Java e alcuni loro vari dettagli
+  }}
+  \bl{Argomenti}{\iz{
+  \item Collezioni con polimorfismo inclusivo
+  \item Classi generiche
+  \item Interfacce generiche
+  \item Metodi generici
+  }}
+}
+
+\section[Collezioni e polimorfismo]{Collections con polimorfismo inclusivo}
+
+\fr{Forme di riuso nella programmazione OO}{
+  \bl{Composizione (e come caso particolare, delegazione)}{
+    Un oggetto è ottenuto per composizione di oggetti di altre classi
+  }
+  \bl{Estensione}{
+    Una nuova classe è ottenuta riusando il codice di una classe pre-esistente
+  }
+  \bl{Polimorfismo inclusivo (subtyping)}{
+    Una funzionalità realizzata per lavorare su valori/oggetti del tipo \cil{A}, può lavorare con qualunque valore/oggetto del sottotipo \cil{B} (p.e., se \cil{B} estende la classe \cil{A}, o se \cil{B} implementa l'interfaccia \cil{A})
+  }
+  \bl{Polimorfismo parametrico (Java/C\# generics, C++ templates,..)}{
+    Una funzionalità (classe o metodo) generica è costruita in modo tale da lavorare uniformemente su valori/oggetti indipendentemente dal loro tipo: tale tipo diventa quindi una sorta di parametro addizionale
+  }
+}
+
+\fr{Astrazioni uniformi con le classi}{
+  \bl{Astrazioni uniformi per problemi ricorrenti}{\iz{
+    \item Durante lo sviluppo di vari sistemi si incontrano problemi ricorrenti che possono trovare una soluzione comune
+    \item In alcuni casi queste soluzioni sono fattorizzabili (per astrazione) in una singola classe altamente riusabile
+  }}
+  \bl{Un caso fondamentale: le \alert{collection}}{\iz{
+    \item Una collection è un oggetto il cui compito è quello di immagazzinare il riferimento ad un numero (tipicamente non precisato) di altri oggetti 
+    \item Fra i suoi compiti c'è quello di consentire modifiche ed accessi veloci all'insieme di elementi di tale collezioni
+    \item Varie strategie possono essere utilizzate, seguendo la teoria/pratica degli algoritmi e delle strutture dati
+  }}
+}
+
+\fr{Un esempio: \Cil{IntVector}}{
+  \bl{Collection \Cil{IntVector}}{\iz{
+    \item Contiene serie numeriche (vettori) di dimensione non nota a priori
+    \item Ossia, a lunghezza variabile..
+  }}
+  \fg{height=0.6\textheight}{img/uml-int-vector-abstracted.pdf}
+}
+
+\fr{\Cil{UseIntVector}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/abstractions/UseIntVector.java}
+}
+
+\fr{\Cil{IntVector} -- implementazione}{
+  \bl{Collection \Cil{IntVector}}{\iz{
+    \item Contiene serie numeriche (vettori) di dimensione non nota a priori
+    \item Realizzata componendo un array che viene espanso all'occorrenza
+  }}
+  \fg{height=0.6\textheight}{img/uml-int-vector.pdf}
+}
+
+
+\fr{\Cil{IntVector} pt 1}{
+  \sizedrangedcode{\scriptsize}{3}{25}{\ecl/abstractions/IntVector.java}
+}
+
+\fr{\Cil{IntVector} pt 2}{
+  \sizedrangedcode{\scriptsize}{26}{50}{\ecl/abstractions/IntVector.java}
+}
+
+\fr{Un primo passo verso l'uniformità}{
+  \bl{Solo elenchi di \cil{int}?}{\iz{
+    \item L'esperienza porterebbe subito alla necessità di progettare vettori di \cil{float}, \cil{double}, \cil{boolean},.. ossia di ogni tipo primitivo
+    \item E poi, anche vettori di \cil{String}, \cil{Date}, eccetera
+    \item L'implementazione sarebbe analoga, ma senza possibilità di riuso..
+  }}
+  \bl{Collection uniformi ``monomorfiche''}{\iz{
+    \item Una prima soluzione del problema la si ottiene sfruttando il polimorfismo inclusivo e la filosofia ``everything is an object'' (incluso l'uso dell'autoboxing dei tipi primitivi)
+    \item Si realizza unicamente un \cil{ObjectVector}, semplicemente sostituendo \cil{int} con \cil{Object}
+    \item Si inserisce qualunque elemento (via upcast implicito)
+    \item Quando si riottiene un valore serve un downcast esplicito
+  }}
+}
+
+\fr{Da \Cil{IntVector} a \Cil{ObjectVector}}{
+  \fg{height=0.6\textheight}{img/uml-obj-vector.pdf}
+}
+
+\fr{\Cil{UseObjectVector}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/abstractions/UseObjectVector.java}
+}
+
+\fr{Un altro caso di collection, la list linkata \Cil{ObjectList}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/abstractions/ObjectList.java}
+}
+
+\fr{\Cil{UseObjectList}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/abstractions/UseObjectList.java}
+}
+
+
+\fr{La necessità di un approccio a polimorfismo parametrico}{
+  \bl{Prima di Java 5}{\iz{
+    \item Questo era l'approccio standard alla costruzione di collection
+    \item Java Collection Framework --- una libreria fondamentale
+  }}
+  \bl{Problema}{\iz{
+    \item Con questo approccio, nel codice Java risultavano molti usi di oggetti simili a \cil{ObjectVector} o \cil{ObjectList}
+    \item Si perdeva molto facilmente traccia di quale fosse il contenuto..{\iz{
+      \item contenevano oggetti vari? solo degli \cil{Integer}? solo delle \cil{String}?
+    }}
+    \item Il codice conteneva spesso dei downcast sbagliati, e quindi molte applicazioni Java fallivano generando dei \cil{ClassCastException}
+  }}
+  \bl{Più in generale}{
+    Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo non è noto a priori, ma potrebbe essere soggetto a polimorfismo inclusivo
+  }
+}
+
+%\fr{Il problema con le composizioni multiple}{
+%  \sizedcode{\ssmall}{code/LampsRow.java}
+%}
+
+
+\fr{Polimorfismo parametrico}{
+  \bl{Idea di base}{\iz{
+    \item Dato un frammento di codice \cil{F} che lavora su un certo tipo, diciamo \cil{String}, se potrebbe anche lavorare in modo uniforme con altri..
+    \item ..lo si rende parametrico, sostituendo a \cil{String} una sorta di variabile \cil{X} (chiamata \alert{type-variable}, ossia una variabile che contiene un tipo)
+    \item A questo punto, quando serve il frammento di codice istanziato sulle stringhe, si usa \cil{F<String>}, ossia si richiede che \cil{X} diventi \cil{String}
+    \item Quando serve il frammento di codice istanziato sugli integer, si usa \cil{F<Integer>}
+  }}
+  \bl{Java Generics}{\iz{
+    \item Classi/interfacce/metodi generici
+    \item Nessun impatto a run-time, per via dell'implementazione a ``erasure''{\iz{
+      \item \cil{javac} ``compila via i generici'', quindi la JVM non li vede
+    }}
+  }}
+}
+
+\section{Classi generiche}
+
+\fr{La classe generica \Cil{List}}{
+  \sizedcode{\scriptsize}{code/List.java}
+}
+
+\fr{Uso di una classe generica}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/generics/UseList.java}
+}
+
+\fr{Terminologia, e elementi essenziali}{
+  \bl{Data una classe generica \cil{C<X,Y>}..}{\iz{
+    \item \cil{X} e \cil{Y} sono dette le sue \alert{type-variable}
+    \item \cil{X} e \cil{Y} possono essere usati come un qualunque tipo dentro la classe (con alcune limitazioni che vedremo)
+  }}
+  \bl{I clienti delle classi generiche}{\iz{
+    \item Devono usare \alert{tipi generici}: versioni ``istanziate'' delle classi generiche\iz{
+      \item \cil{C<String,Integer>}, \cil{C<C<Object,Object>,Object>}
+      \item Non \cil{C} senza parametri, altrimenti vengono segnalati dei warning
+    }
+    \item Ogni type-variable va sostituita con un tipo effettivo, ossia con un \alert{parametro}, che può essere{\iz{
+      \item una classe (non-generica), p.e. \cil{Object}, \cil{String},..
+      \item una type-variable definita, p.e. \cil{X,Y} (usate dentro la classe \cil{C<X,Y>})
+      \item un tipo generico completamente istanziato, p.e. \cil{C<Object,Object>}
+      \item ..o  parzialmente istanziato, p.e. \cil{C<Object,X>} (in \cil{C<X,Y>})
+      \item NON con un tipo primitivo
+    }}
+  }}
+}
+
+
+\fr{La classe generica \Cil{Vector}}{
+  \sizedcode{\footnotesize}{code/Vector.java}
+}
+
+\fr{Uso di \Cil{Vector<X>}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/generics/UseVector.java}
+}
+
+\fr{Implementazione di \Cil{Vector} pt 1}{
+  \sizedcode{\scriptsize}{code/VectorA.java}
+}
+
+\fr{Implementazione di \Cil{Vector} pt 2}{
+  \sizedcode{\scriptsize}{code/VectorB.java}
+}
+
+
+
+\fr{La classe generica \Cil{Pair<X,Y>}}{
+  \srcode{\scriptsize}{3}{100}{\ecl/generics/Pair.java}
+}
+
+\fr{Uso di \Cil{Pair<X,Y>}}{
+  \srcode{\ssmall}{3}{100}{\ecl/generics/UsePair.java}
+}
+
+\frs{10}{Inferenza dei parametri}{
+  \bl{Un problema sintattico dei generici}{\iz{
+    \item Tendono a rendere il codice più pesante (``verbose'')
+    \item Obbligano a scrivere i parametri anche dove ovvi, con ripetizioni
+  }}
+  \bl{L'algoritmo di type-inference nel compilatore}{\iz{
+    \item Nella \cil{new} si possono tentare di omettere i parametri (istanziazione delle type-variable), indicando il ``diamond symbol'' \cil{<>}
+    \item Il compilatore cerca di capire quali siano questi parametri guardando gli argomenti della \cil{new} e l'eventuale contesto dentro il quale la \cil{new} è posizionata, per esempio, se assegnata ad una variabile
+    \item Nel raro caso in cui non ci riuscisse, segnalerebbe un errore a tempo di compilazione.. quindi tanto vale provare!
+    \item Ricordarsi \cil{<>}, altrimenti viene confuso con un \alert{raw type}, un meccanismo usato per gestire il legacy con le versioni precedenti di Java
+    }}
+  \bl{La local variable type inference}{\iz{
+    \item in genere è alternativa al simbolo \cil{<>}
+  }}
+  
+}
+
+\fr{Esempi di inferenza}{
+  \srcode{\ssmall}{3}{100}{\ecl/generics/UsePair2.java}
+}
+
+\fr{I vantaggi dei generici}{
+  \bx{Coi generici, Java diventa un linguaggio molto più espressivo!}
+  \bl{Svantaggi}{\iz{
+    \item Il linguaggio risulta più sofisticato, e quindi complesso
+    \item Se non ben usati, possono minare la comprensibilità del software
+    \item Non vanno abusati!!
+    \item Gli aspetti più avanzati dei generici, che vedremo, sono considerati troppo complessi
+  }}
+  \bl{Vantaggi -- se ben usati}{\iz{
+    \item Codice più comprensibile
+    \item Maggiori possibilità di riuso di funzionalità (quasi d'obbligo oramai)
+    \item Codice più sicuro (safe) -- il compilatore segnala errori difficili da trovare altrimenti
+  }}
+}
+
+\section{Interfacce generiche}
+
+\fr{Interfacce generiche}{
+  \bl{Cosa è una interfaccia generica}{\iz{
+    \item \`E una interfaccia che dichiara type-variables: \cil{interface I<X,Y>\{..\}}
+    \item Le type-variable compaiono nei metodi definiti dall'interfaccia
+    \item Quando una classe la implementa deve istanziare le type variabile (o assegnarle ad altre type-variable se essa stessa è generica)
+  }}
+  \bl{Utilizzi}{
+    Per creare contratti uniformi che non devono dipendere dai tipi utilizzati
+  }
+  \bl{Un esempio notevole, gli \alert{Iteratori}}{\iz{
+    \item Un iteratore è un oggetto usato per accedere ad una sequenza di elementi
+    \item Ne vedremo ora una versione semplificata -- diversa da quella delle librerie Java
+  }}
+}
+
+\fr{L'interfaccia \Cil{Iterator}}{
+    \srcode{\normalsize}{3}{100}{\ecl/iterators/Iterator.java}
+}
+
+\fr{Implementazione 1: \Cil{IntRangeIterator}}{
+  \srcode{\scriptsize}{3}{100}{\ecl/iterators/IntRangeIterator.java}
+}
+
+\fr{Implementazione 2: \Cil{ListIterator}}{
+  \srcode{\scriptsize}{3}{100}{\ecl/iterators/ListIterator.java}
+}
+
+\fr{Implementazione 3: \Cil{VectorIterator}}{
+  \srcode{\scriptsize}{3}{100}{\ecl/iterators/VectorIterator.java}
+}
+
+\fr{\Cil{UseIterators}: nota l'accesso uniforme!}{
+  \srcode{\ssmall}{3}{100}{\ecl/iterators/UseIterators.java}
+}
+
+\section{Metodi generici}
+
+\fr{Metodi generici}{
+  \bl{Metodo generico}{
+    Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independente dal suo tipo effettivo. Tale tipo viene quindi astratto in una type-variable del metodo.
+  }
+  \bl{Sintassi}{\iz{
+    \item def: \cil{<X1,..,Xn> ret-type nome-metodo(formal-args)\{...\}}
+    \item call: \cil{receiver.<X1,..,Xn>nome-metodo(actual-args)\{...\}}
+    \item call con inferenza, stessa sintassi delle call standard, ossia senza \cil{<>}
+  }}
+  \bl{Due casi principali, con medesima gestione}{\iz{
+    \item Metodo generico (statico o non-statico) in una classe non generica
+    \item Metodo generico (non-statico) in una classe generica
+    \item[$\Rightarrow$] Il primo dei due molto più comune..
+  }}
+}
+
+\fr{Definizione di un metodo generico}{
+  \sizedcode{\scriptsize}{code/UseIterators2A.java}
+}
+
+\fr{Chiamata a metodo generico}{
+  \sizedcode{\scriptsize}{code/UseIterators2B.java}
+}
+
+\fr{Esempio di metodo generico in classe generica}{
+  \sizedcode{\ssmall}{code/UseGenMeth.java}
+}
+
+\fr{Notazione UML: non del tutto standard}{
+  \fg{height=0.8\textheight}{img/uml-generics.pdf}
+}
+
+\section{Java Wildcards}
+
+\fr{Java Wildcards}{
+  \bl{Osservazione}{\iz{
+    \item Esistono situazioni in cui un metodo debba accettare come argomento non solo oggetti di un tipo \cil{C<T>}, ma di ogni \cil{C<S>} dove \cil{S <: T}
+    \item Esempio: un metodo statico \cil{printAll()} che prende in ingresso un iteratore e ne stampa gli elementi
+    \item \`E realizzabile con un metodo generico, ma ci sono casi in cui si vorrebbe esprimere un tipo che raccolga istanziazioni diverse di una classe generica
+  }}
+  \bl{Java Wildcards}{\iz{
+    \item Un meccanismo avanzato, quello inventato più di recente (2004-2006){\iz{
+      \item {\scriptsize (Igarashi \& Viroli) + (Bracha \& Gafter) + (Torgersen \& Hansen \& von der Ahé)}
+    }}
+    \item Fornisce dei nuovi tipi, chiamati Wildcards 
+    \item Simili a interfacce (non generano oggetti, descrivono solo contratti)
+    \item Generalmente usati come tipo dell'argomento di metodi
+  }}
+}
+
+
+\fr{Java Wildcards}{
+  \sizedcode{\footnotesize}{code/Numbers.java}
+  \sizedcode{\footnotesize}{code/Wildcards.java}
+}
+
+\fr{Java Wildcards}{
+  \bl{3 tipi di wildcard}{\iz{
+    \item Bounded (covariante): \cil{C<? extends T>}{\iz{
+      \item accetta un qualunque \cil{C<S>} con \cil{S <: T}
+    }}
+    \item Bounded (controvariante): \cil{C<? super T>}{\iz{
+      \item accetta un qualunque \cil{C<S>} con \cil{S >: T}
+    }}
+    \item Unbounded: \cil{C<?>}{\iz{
+      \item accetta un qualunque \cil{C<S>}
+    }}    
+  }}
+  \bl{Uso delle librerie che dichiarano tipi wildcard}{\iz{
+    \item Piuttosto semplice, basta passare un argomento compatibile o si ha un errore a tempo di compilazione
+  }}
+  \bl{Progettazione di librerie che usano tipi wildcard}{\iz{
+    \item Molto avanzato: le wildcard pongono limiti alle operazioni che uno può eseguire, derivanti dal principio di sostituibilità
+  }}
+}
+
+\fr{Esempio Wildcard}{
+  \sizedrangedcode{\scriptsize}{5}{100}{\ecl/wildcard/Wildcard.java}
+}
+
+
+
+
+
+
+\end{document}
+
+

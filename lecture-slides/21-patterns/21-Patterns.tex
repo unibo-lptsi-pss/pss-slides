@@ -1,0 +1,755 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{21}
+\newcommand{\lectitle}{Progettazione OO e pattern}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+
+\newcommand{\ecl}{\eclipsepath{p21patterns}}
+\newcommand{\ecllambda}{\eclipsepath{p16lambda}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare il ciclo di vita del software
+  \item Illustrare il concetto di Design Pattern
+  \item Discutere i dettagli di vari Pattern
+  \item Ripassare vari concetti del corso
+  }}
+  \bl{Argomenti}{\iz{
+    \item Progettazione architetturale
+    \item La nozione di Pattern
+    \item La lista di Pattern della GoF
+    \item Dettagli su Pattern già visti
+    \item Dettagli su nuovi Pattern
+  }}
+}
+
+\section[SW lifecycle]{Ciclo di vita del software}
+
+\frs{10}{Macro-fasi del processo di sviluppo}{
+  \bl{Analisi}{
+    Si definisce in modo preciso il \alert{problema} da risolvere{\iz{
+      \item i requisiti del problema, ben ``ingegnerizzati''
+      \item il modello del dominio (terminologia, entità e relazioni)
+    }}
+  }
+  \bl{Design}{
+    Si definisce la struttura del sistema da sviluppare\iz{
+    \item progetto architetturale + progetto di dettaglio
+    \item si descrive la \alert{soluzione}, ad uno specifico livello di dettaglio
+  }}
+  \bl{Implementazione/codifica}{ 
+   Si realizza il sistema sulla base del progetto, scegliendo le tecnologie adeguate (efficienti, efficaci) -- p.e. il linguaggio di programmazione 
+  }
+  \bl{Post-codifica: Collaudo, Manutenzione, Deployment}{
+   Fasi necessarie, che spesso impiegano più del 70\% delle risorse complessive
+}}
+
+\frs{10}{Micro-fasi in analisi e progettazione}{
+  \bl{Analisi -- interazione col committente}{
+    I requisiti raccolti dalle interazioni col committente vengono analizzati e formalizzati, diventando una sorta di ``contratto'' di come il software deve apparire e funzionare (non di come deve essere internamente realizzato). Si potrebbero aggiungere studi di fattibilità per consentire di comprendere la complessità del problema.
+  }
+  \bl{Design architetturale -- inizio della progettazione}{
+    Progettazione ``ad alto livello'', in cui si definisce solo la struttura complessiva del sistema in termini dei principali moduli (classi, o meglio interfacce) di cui esso è composto e delle relazioni macroscopiche (``uses'', ``has-a'' o ``is-a'') fra di essi.
+  }
+  \bl{Design di dettaglio -- progettazione}{
+    Progettazione a ``più basso livello'', che individua una organizzazione molto vicina alla codifica, ovvero che la vincola in maniera sostanziale. Descrive interfacce, classi astratte e concrete che rappresentano la \emph{soluzione} ai principali problemi identificati in analisi
+  }
+}
+
+\fr{Sul modello di sviluppo}{
+\bl{Quale approccio?}{\iz{
+  \item A cascata: le fasi rigorosamente in ordine temporale
+  \item A spirale: le fasi rigorosamente in ordine ma svolte in più ``cicli''
+  \item A fontana: si può tornare temporaneamente nella fase precedente/successiva
+  \item Agile: sviluppo iterativo e incrementale
+  \item[$\Rightarrow$] non esiste il modello ``perfetto''
+}}
+\bl{Note e consigli per piccoli progetti (come quello d'esame)}{\iz{
+  \item Conviene darsi 2-3 obbiettivi intermedi incrementali
+  \item Ogni obbiettivo usi un approccio simile a quello in cascata
+  \item La documentazione finale campioni il sistema finale, simulando un modello a cascata: ciò consente una coerente analisi a posteriore del sistema costruito
+}}
+}
+
+\section[Design architetturale]{Progettazione architetturale}
+
+\frs{5}{Progettazione architetturale}{
+    \bl{Idee chiave}{\iz{
+      \item Costruire un unico diagramma dei concetti principali (classi/interfacce)
+      \item Idealmente, meglio se fatto di sole interfacce, indicativamente 5-12 in tutto 
+      \item Non ci siano classi/interfacce isolate dal resto
+      \item Il sistema va diviso in componenti il più possibile isolati e non dipendenti fra loro
+      \item Una descrizione in prosa indichi il principale ruolo di ogni entità e le relazioni esistenti
+      \item Meglio se non estratto dal codice, ma scritto ``a mano''
+    }}
+    \bl{Quale ``pattern'' architetturale?}{\iz{
+      \item MVC è un ottimo punto di partenza
+      \item Non l'unico, ma non ne vedremo altri
+      \item Attenzione a ``copiare'' architetture/progetti dalla rete!{\iz{
+         \item per OOP: meglio partire dal foglio bianco
+      }}
+    }}
+}
+
+
+\fr{Il caso di MVC -- schema generale (nomi di comodo)}{
+    \fg{height=0.55\textheight}{img/MVC-abstract.png}
+}
+
+\fr{Linee guida per un buon MVC pt.1}{
+    \bl{Ruoli/responsabilità delle 3 parti}{\iz{
+	\item View: gestire la parte di presentazione e di interazione con l'utente
+	\item Model: gestire i dati e la logica di dominio dell'applicazione
+	\item Control: gestire la ``meccanica'' dell'applicazione, coordinando View, Model ed eventuali interazioni con altri componenti (SISOP)
+    }}
+    \bl{Interazioni}{\iz{
+      \item Le interazioni dell'utente in V diventano eventi catturati da C, o metodi \cil{void} chiamati su C
+      \item C osserva / modifica / o interroga M
+      \item Quando necessario C comanda modifiche a V
+      \item[$\Rightarrow$] non vi sono altre interazioni possibili!
+    }}
+}
+
+\fr{Linee guida per un buon MVC pt.2}{
+    \bl{Linee guida}{\iz{
+      \item Cambiare la view e la sua tecnologia (Swing, AWT, Console) non deve far toccare M e C
+      \item Il modello gestisce in modo elegante e ben costruito la logica di dominio dell'applicazione{\iz{
+        \item In M c'è margine per fare dell'ottima e pulita progettazione OO
+	\item Qualsiasi comportamento e/o fenomeno possibile è riproducibile da una opportuna sequenza di chiamate di metodo su M fatte da un \cil{main}
+	\item Di fatto, C sostituisce questo \cil{main}, creando l'applicazione indipendentemente dai dettagli della UI
+      }}
+      \item Modello e vista espongono interfacce ben progettate (senza dettagli implementativi) attraverso cui C agisce in modo ben disaccoppiato
+      \item Se esistono Thread o accessi al sistema operativo, sono incapsulati in C
+      \item M, V e C potrebbero essere fatti da ``sotto-parti'' diverse
+    }}
+}
+
+
+
+\section[Design di dettaglio e Pattern]{Design Pattern e Progettazione di Dettaglio}
+
+\fr{Progettazione di dettaglio}{
+\bl{Elementi}{\iz{
+\item Non descrive ogni singola classe/interfaccia del sistema
+\item Descrive relazioni fra oggetti, quelle ritenute più importanti per capire come il sistema è organizzato
+\item Quelle che nascondono elementi non banali
+\item Documentata da più diagrammi UML sempre di 5-10 classi ognuno
+}}
+\bl{Come progettare una buona classe o gruppo di classi?}{\en{
+  \item buona conoscenza della programmazione OO e delle linee guida di buona programmazione/progettazione note e discusse
+  \item utilizzo di cataloghi noti di pattern di progettazione (design pattern)
+}}
+}
+
+\fr{Design Pattern}{
+  \bl{I Pattern di progettazione}{\iz{
+    \item Idea: trasmettere esperienze (positive) e ore di lavoro (di identificazione, rifattorizzazione) ad altri per essere usate \emph{tout court}
+    \item Sono elementi riusabili (semplici ed eleganti) di progettazione OO
+    \item Sono stati ottenuti in passato (e tuttora) dall'analisi di soluzioni ricorrenti in progetti diversi
+    \item Alcuni sono particolarmente famosi, come quelli della ``Gang of Four'' (detti anche Pattern della GoF, o Pattern di Gamma){\iz{
+	\item Testo famosissimo (in C++): ``Design Patterns: Elements of Reusable Object-Oriented Software'' di E.Gamma, R.Helm, R.Johnson,J.Vlissides
+	\item 23 in tutto. Esempi: Decorator, Singleton, Template Method, Observer
+	\item (Cit. ``SW di grosse dimensioni li usano praticamente tutti'')
+    }}
+    \item Il loro uso migliora molto il codice{\iz{
+	\item Ne favorisce la comprensione se li si indicano nella documentazione
+	\item Rende il codice più flessibile (nascono per questo)
+	\item Portano più direttamente ad una buona organizzazione
+    }}
+  }}
+}
+
+\fr{Design Pattern in questa sede}{
+  \bl{In questa lezione}{\iz{
+    \item Illustreremo il catalogo della GoF
+    \item Verranno approfonditi alcuni Pattern anche con esempi
+  }}
+  \bl{Nel corso}{\iz{
+    \item Vari Pattern già stati utilizzati (es.: nelle librerie)
+    \item Vanno usati dove opportuno nel progetto d'esame (e nella relazione)
+    \item Possono essere tema dell'esame in laboratorio
+    \item Quelli visti a lezione sono da conoscere tassativamente
+  }}
+  \bl{Per il vostro futuro}{\iz{
+    \item Noi porremo le basi per uno loro studio in autonomia
+    \item Un ottimo progettista li conosce e usa (ove opportuno) \alert{tutti}
+    \item Alla magistrale verranno approfonditi
+  }}
+}
+
+\frs{15}{Motivazioni}{
+    \bl{Rifattorizzazione (refactoring)}{\iz{
+      \item Operazione di modifica del codice che non aggiunge funzionalità
+      \item Ha lo scopo di migliorare programmazione e struttura del SW
+      \item Ha lo scopo di attrezzare il codice a possibili cambiamenti futuri
+      \item Può/deve quindi comportare una riprogettazione di alcune parti
+    }}
+    \bl{La necessità del refactoring}{\iz{
+	\item Una buona progettazione non la si ottiene al primo ``colpo'', ma richiede vari refactoring
+	\item Brian Foote identifica tre fasi nello sviluppo di un sistem: prototyping, expansionary, consolidating; nel consolidamento si rifattorizza
+	\item Nell'agile programming, ogni ciclo di sviluppo non parte se non si è rifattorizzato il codice del ciclo precedente (sia in cicli corti che lunghi)
+    }}
+    \bl{I pattern}{\iz{
+	\item L'esperienza pregressa risulta fondamentale per velocizzare il processo di rifattorizzazione
+	\item I Pattern di progettazione forniscono direttamente ``ricette'' di buona costruzione o rifattorizzazione del SW
+    }}
+}
+
+
+\fr{Struttura}{
+    \bl{Un Pattern ha quattro elementi fondamentali}{\iz{
+	\item Un nome. (È un aspetto fondamentale!)
+	\item Un problema che risolve. (La causa che porta al suo uso)
+	\item La soluzione che propone. (Gli elementi del progetto)
+	\item La conseguenza che porta. (Riuso, variabilità, performance,..)
+    }}
+    \bl{Granularità}{\iz{
+	\item Gruppo ristretto di (1-5) oggetti/classi generali dipendenti fra loro
+	\item Sistemi più specifici o più complessi sono utili, ma non propriamente dei ``Pattern''\iz{
+	    \item Non singole classi riusabili (liste, hash-table)
+	    \item Non ``pattern architetturali'' (come MVC)
+	    \item Non framework complessi (gerarchia Swing, Reflection)
+	}
+    }}
+}
+
+
+
+%\fr{Classificazione dei Pattern}{
+%    \fg{height=0.85\textheight}{img/classification.png}
+%}
+
+\fr{Classificazione dei Pattern: categorie}{
+    \bl{Livello ``proposito del Pattern''}{\iz{
+	\item Creazionali: Riguardano la creazione degli oggetti
+	\item Strutturali: Riguardano la composizione di classi/oggetti
+	\item Comportamentali: Riguardano la interazione e distribuzione di responsabilità fra classi/oggetti
+    }}
+    \bl{Livello ``scope''}{\iz{
+	\item Classi: Il Pattern riguarda primariamente le relazioni fra classi (e sottoclassi), e quindi tratta aspetti statici (compile-time)
+	\item Oggetti: Il Pattern riguarda primariamente le relazioni fra oggetti (l'esistenza di riferimenti fra oggetti), e quindi tratta aspetti dinamici (run-time)
+    }}
+}
+
+\fr{I 23 Pattern GoF}{
+    \bl{Creazionali}{\iz{
+	\item A livello di classe: \alert{Factory Method}
+	\item A livello di oggetto: \alert{Abstract Factory}, \alert{Builder}, Prototype, \alert{Singleton}
+    }}
+    \bl{Strutturali}{\iz{
+	\item A livello di classe: \alert{Adapter}
+	\item A livello di oggetto: \alert{Adapter}, Bridge, Composite, \alert{Decorator}, Facade, Proxy
+    }}
+    \bl{Comportamentali}{\iz{
+	\item A livello di classe: Interpreter, \alert{Template Method}
+	\item A livello di oggetto: Chain of Responsibility, Command, \alert{Iterator}, Mediator, Memento, Flyweight, \alert{Observer}, State, \alert{Strategy}, \alert{Visitor}
+    }}
+}
+
+\fr{``Design for change''}{
+    \bl{Problemi nel cercare di realizzare modifiche ad un sistema..}{\iz{
+	\item Dipendenza dal nome di classe concreta{\iz{
+	    \item Abstract Factory, Factory Method, Prototype
+	}}
+	\item Dipendenza da operazioni (metodi) specifici{\iz{
+	    \item Chain of Responsibility, Command
+	}}
+	\item Dipendenza dalla interfaccia/implementazione di un oggetto{\iz{
+	    \item Abstract Factory, Bridge, Memento, Proxy
+	}}
+	\item Dipendenza da un algoritmo specifico{\iz{
+	    \item Builder, Iterator, Strategy, Template Method, Visitor
+	}}
+	\item Dipendenza stretta fra due classi{\iz{
+	    \item Abstract Factory, Bridge, Chain of Responsibility, Command, Facade, Mediator, Observer
+	}}
+	\item Estendere funzionalità via subclassing non è pratico{\iz{
+	    \item Bridge, Chain of Responsibility, Composite, Decorator, Observer, Strategy
+	}}
+    }}
+}
+
+\fr{Schema di descrizione per ogni pattern}{
+    \bx{Aderiremo al seguente schema, che è una semplificazione di quello proposto alla GoF}
+    \bl{Ingredienti}{\en{
+	\item Descrizione in prosa (nome, motivazione, esempi, soluzione)
+	\item Rappresentazione grafica (diagramma delle classi generale)
+	\item Esempio (già visto/nuovo)
+    }}
+    \bl{Pattern già incontrati, alcuni da approfondire}{
+	Singleton, Template Method, Strategy, Observer, Iterator, Decorator
+    }
+    \bl{Nuovi}{
+	Factory Method, Abstract Factory
+    }
+}
+
+\fr{I pattern nel corso OOP}{
+    \bl{Esame laboratorio}{\iz{
+	\item Qualche esercizio potrebbe riguardare il loro uso
+    }}
+    \bl{Esami di progetto}{\iz{
+      \item Identificarne/usarne ``pochi'' è considerato poco soddisfacente
+      \item Scegliere di usarli non è arbitario, ma è indice di buona progettazione e/o di buona rifattorizzazione
+      \item Gli argomenti: ``in questo progetto non servivano'' e ``non c'è stato tempo'' sono pessimi
+      \item Argomento di probabile discussione all'esame
+    }}
+    \bl{Di conseguenza}{\iz{
+      \item I pattern qui presentati vanno conosciuti
+      \item Gli altri pattern sono facoltativi, e importanti per il vostro futuro
+    }}
+}
+
+
+\section[Pattern già visti]{Pattern già incontrati}
+
+\frs{5}{Singleton: creazionale, su oggetti}{
+    \bl{Intento/motivazione}{
+	Garantire che una classe abbia una unica istanza, accessibile globalmente e facilmente a molteplici classi, senza doversi preoccupare di fornirne il riferimento a chi lo richiede (ad esempio passandolo al costruttore)
+    }
+    \bl{Esempi}{\iz{
+	\item Un unico gestore di stampanti in un sistema
+	\item Un unico gestore del ``log''
+	\item \cil{java.lang.Runtime}
+    }}
+    \bl{Soluzione}{\iz{
+	\item La classe sia responsabile di tenere traccia di tale unica istanza
+	\item La classe impedisca la creazione di altri oggetti
+	\item La classe fornisca l'accesso a tale oggetto staticamente
+	\item Attenzione: singleton accoppia clienti e implementazione
+    }}
+}
+
+\fr{Singleton: UML}{
+    \fg{height=0.5\textheight}{img/singleton.jpg}
+}
+
+\fr{Singleton: Il caso di \Cil{java.lang.Runtime}}{
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/singleton/UseRuntime.java}
+}
+
+\fr{Singleton: Il caso di una classe \Cil{Log}}{
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/singleton/Log.java}
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/singleton/UseLog.java}
+}
+
+\frs{5}{Singleton: conseguenze}{
+    \bl{Effetti benefici}{\iz{
+	\item C'è un controllo ``incapsulato'' di chi vi accede
+	\item Evita di dover portare i riferimenti all'oggetto nei campi di tutti le classi che lo usano
+	\item È facile raffinare l'implementazione del singleton (via subclassing)
+	\item Può gestire la creazione by-need (detta anche \emph{lazy}) dell'oggetto
+	\item Più flessibile dei metodi statici (che non hanno overriding)
+    }}
+    \bl{Critiche}{\iz{
+	\item Il Singleton può essere problematico col multi-threading
+	\item Crea dipendenze nascoste, gli user dipendono dal nome della classe
+	\item Difficile tornare indietro dalla scelta di usare il singleton
+	\item Incapsula due responsabilità distinte (creazione + aspetti interni)
+	\item Rende meno estendibile il codice della classe (è meno ``OOP'')
+	\item[$\Rightarrow$] \alert{Da usare quando portare ``in giro'' il riferimento all'oggetto sarebbe complesso}
+    }}
+}
+
+\fr{Singleton con ``lazy initialization'' (non thread-safe)}{
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/singleton/LogLazy.java}
+}
+
+\fr{Singleton con ``lazy initialization'' e ``thread-safe''}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/singleton/LogLazyTS.java}
+}
+
+
+\frs{5}{Template Method: comportamentale, su classi}{
+    \bl{Intento/motivazione}{
+	Definisce lo scheletro (template) di un algoritmo (o comportamento), lasciando l'indicazione di alcuni suoi aspetti alle sottoclassi.
+    }
+    \bl{Esempi}{\iz{
+	\item In un input stream (\cil{InputStream}), i vari metodi di lettura sono dei Template Method: dipendono dall'implementazione del solo concetto di lettura di un \cil{int}
+	%\item Similmente, i metodi di \cil{AbstractSet} tranne \cil{size()} e \cil{iterator()}
+	\item Le interfacce funzionali con metodi di default che chiamano l'astratto
+    }}
+    \bl{Soluzione}{\iz{
+	\item L'algoritmo è realizzato attraverso un metodo non astratto (il template method) di una classe astratta
+	\item Questo realizza l'algoritmo, chiamando metodi astratti quando servono gli aspetti non noti a priori
+	\item Una sottoclasse fornisce l'implementazione dei metodi astratti
+    }}
+}
+
+\fr{Template Method: UML}{
+    \fg{height=0.5\textheight}{img/template_method.jpg}
+}
+
+\fr{Template Method: Una estensione di \Cil{InputStream}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/tmethod/UseRandomInputStream.java}
+}
+
+\fr{Template Method: esempio \Cil{BankAccount}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/tmethod/BankAccount.java}
+}
+
+\fr{Template Method: esempio con i metodi \Cil{default}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecllambda/interfaces/SimpleIterator.java}
+    \sizedrangedcode{\ssmall}{3}{100}{\ecllambda/interfaces/UseSimpleIterator.java}
+}
+
+
+
+\frs{5}{Strategy: comportamentale, su oggetti}{
+    \bl{Intento/motivazione}{
+	Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili in modo trasparente dai loro clienti
+    }
+    \bl{Esempi}{\iz{
+	\item Strategia di disposizione di componenti in una GUI (\cil{LayoutManager})
+	\item Strategie di confronto fra due elementi per sorting (\cil{Comparable})
+	\item Strategie di \cil{map}, \cil{filter}, etc.. negli \cil{Stream}
+    }}
+    \bl{Soluzione}{\iz{
+	\item Gli algoritmi sono realizzati tramite specializzazioni di una classe/interfaccia base
+	\item Ai clienti passo un oggetto (di una specializzazione) della classe base
+	\item Se la strategia è funzionale si usano facilmente le lambda (e viceversa)
+	\item[$\Rightarrow$] \alert{È probabilmente uno dei pattern più importanti (assieme al Factory Methods)}
+    }}
+}
+
+\fr{Strategy: UML}{
+    \fg{height=0.3\textheight}{img/strategy.jpg}
+}
+
+\fr{Strategy: Sorting con comparatori}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/strategy/UseComparator.java}
+}
+
+\fr{Strategy: Caso del BankAccount}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/BankOperationFees.java}
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/StandardBankOperationFees.java}
+}
+
+\fr{Strategy: Caso del BankAccount}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/BankAccount.java}
+}
+
+\frs{12}{Strategy vs Template Method}{
+  \bl{In comune}{\iz{
+    \item Entrambi li si ottengono dall'esigenza di scorporare da una classe la gestione di una strategia o specializzazione
+    \item Entrambi richiedono un behaviour aggiuntivo da realizzare
+  }}
+  \bl{Differenze}{\iz{
+    \item Strategy è più flessibile, perché gli oggetti che rappresentano la specializzazione sono liberi dal dover estendere una certa classe, e quindi sono più facilmente riusabili (p.e. un \cil{Comparator} è usabile con collection diverse)
+    \item Template Method si integra con il subtyping, e quindi va usato quando a strategie specializzate devono corrispondere classi specializzate
+  }}
+  \bl{Altre note}{\iz{
+    \item Negli \cil{InputStream} le limitazioni del Template Method sono mitigate dal Decorator
+    \item Con le lambda, l'approccio a Strategy diventa più naturale
+    \item Valutare di usare il Template Method insieme a Strategy, ossia per definire gerarchie di strategie 
+  }}
+  
+}
+
+
+
+\frs{5}{Decorator: strutturale, su oggetti}{
+    \bl{Intento/motivazione}{
+	Aggiunge ad un oggetto ulteriori responsabilità, dinamicamente, e in modo più flessibile (e componibile) rispetto all'ereditarietà.
+    }
+    \bl{Esempi}{\iz{
+	\item Aggiungere (in modo componibile) la gestione ``buffered'' ad uno stream
+	\item Aggiungere una barra di scorrimento ad un pannello
+	\item Ottenere uno stream ordered da uno unordered
+    }}
+    \bl{Soluzione}{\iz{
+	\item La classe base viene estesa con una nuova classe che è anche wrapper di un oggetto della classe base
+	\item Uno o più metodi potrebbero delegare semplicemente all'oggetto wrappato, altri modificare opportunamente, altri essere aggiuntivi
+	\item[$\Rightarrow$] può essere visto come variante dello strategy (in cui la strategia è la realizzazione base del comportamento), e potrebbe includere dei template method
+    }}
+}
+
+\fr{Decorator: UML}{
+    \fg{height=0.4\textheight}{img/decorator.jpg}
+}
+
+\frs{10}{Esempio di problema}{
+    \bl{Data la seguente interfaccia \cil{Pizza}..}{
+      \sizedrangedcode{\ssmall}{3}{100}{\ecl/decorator/problem/Pizza.java}
+    }
+    \bl{Realizzare le seguenti astrazioni}{\iz{
+      \item Margherita (6.50 euro, ingredienti: pomodoro + mozzarella)
+      \item Aggiunta Salsiccia (1.50 euro), anche doppia o tripla eccetera
+      \item Aggiunta Funghi (1 euro), anche doppia o tripla eccetera
+      \item Pizza senza glutine (+10\% costo) 
+    }}
+    \bl{Forniamo la soluzione col decoratore (tipica del concetto di ``ingrediente'')}{\iz{
+      \item Class concreta \cil{Margherita}
+      \item Decoratore astratto \cil{IngredientDecorator}
+      \item Specializzazioni \cil{Salsiccia}, \cil{Funghi} e \cil{GlutenFree}
+    }}
+}
+
+\fr{Funzionalità di testing}{
+  \sizedrangedcode{\ssmall}{23}{100}{\ecl/decorator/problem/Test.java}
+}
+
+\fr{Classe \Cil{Margherita}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/decorator/Margherita.java}
+}
+
+\fr{Classe \Cil{IngredientDecorator}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/decorator/IngredientDecorator.java}
+}
+
+\fr{Classi per gli ingredienti..}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/decorator/Salsiccia.java}
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/decorator/Funghi.java}
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/decorator/GlutFree.java}
+}
+
+
+
+\frs{5}{Iterator: strutturale, su oggetti}{
+    \bl{Intento/motivazione}{
+	Fornisce un modo per accedere agli elementi di un aggregato, sequenzialmente, senza esporne la rappresentazione interna.
+    }
+    \bl{Esempi}{\iz{
+	\item Gli iteratori delle collezioni di Java
+	\item Un iteratore sui componenti di una GUI
+	\item Variante \cil{Spliterator} negli \cil{stream}, e \cil{ListIterator}
+    }}
+    \bl{Soluzione}{\iz{
+	\item La classe iterabile (collezione, stream) di partenza fornisce un metodo per creare un iteratore
+	\item L'iteratore ha metodi per accedere sequenzialmente agli elementi dell'iterabile
+	\item (Con multiple specializzazioni, se ne nascondono i dettagli interni)
+    }}
+}
+
+\fr{Iterator: UML}{
+    \fg{height=0.4\textheight}{img/iterator.png}
+}
+
+\fr{Observer: comportamentale, su oggetti}{
+    \bl{Intento/motivazione}{
+	Definisce una dipendenza dinamica uno-molti: quando uno cambia, molti vengono notificati/aggiornati
+    }
+    \bl{Esempi}{\iz{
+	\item Un componente grafico potrebbe avere agganciati vari osservatori
+	\item Qualunque dispositivo del S.O. potrebbe essere agganciato a vari osservatori
+    }}
+    \bl{Soluzione}{\iz{
+	\item Un \emph{subject} ha un metodo per collegargli un nuovo ascoltatore
+	\item Quando una determinata condizione vale nel \emph{subject}, in tutti gli ascoltatori viene chiamato un certo metodo (\cil{notify} o \cil{update})
+	\item Molto usato nei sistemi embedded, in OOP spesso solo per le GUI
+    }}
+}
+
+\fr{Observer: UML}{
+    \fg{height=0.5\textheight}{img/observer.jpg}
+}
+
+\fr{Observer: Classi generiche per osservazioni}{
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/observer/ESource.java}
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/observer/EObserver.java}
+}
+
+\fr{Observer: Una collezione emettitrice di eventi}{
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/observer/SetWithEvents.java}
+}
+
+\fr{Observer: Uso della collezione}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/observer/UseSetWithEvents.java}
+}
+
+
+\fr{Adapter: strutturale, su classi/oggetti}{
+    \bl{Intento/motivazione}{
+	Consente ad una classe di adattarsi all'interfaccia (diversa) richiesta da un cliente
+    }
+    \bl{Esempi}{\iz{
+	\item Il metodo \cil{Arrays.asList} (adatta un array ad una lista)
+	\item La classe \cil{InputStreamReader} (adatta un \cil{InputStream} ad un \cil{Reader})
+    }}
+    \bl{Soluzione}{\iz{
+	\item Si crea una nuova classe (adapter) che implementa l'interfaccia richiesta e wrappa l'oggetto di partenza (adaptee)
+	\item L'adapter redirige opportunamente le chiamata all'adaptee (o via inheritance o via delegazione)
+    }}
+}
+
+\fr{Adapter: UML}{
+    \fg{height=0.4\textheight}{img/adapter2.jpg}
+    \bl{Varianti}{\iz{
+    \item In Java addirittura l'\cil{Adapter} può essere una inner class (istanza) per \cil{Adaptee}{\iz{
+      \item E' considerato uno degli utilizzi più rilevanti per le inner class (istanza)
+      \item Consente un incapsulamento ottimale dell'\cil{Adapter}
+    }}
+    \item \cil{Adapter} potrebbe estendere l'\cil{Adaptee} invece che averne un riferimento
+    }}
+}
+
+\fr{Esempio: handler d'eventi locale in una GUI}{
+  \sizedrangedcode{\ssmall}{9}{100}{\ecl/adapter/GUI.java}
+}
+
+\section[Nuovi pattern]{Nuovi pattern: creazionali}
+
+\fr{Pattern creazionali}{
+  \bl{Pattern creazionali}{\iz{
+    \item Singleton, Factory Method, Abstract Factory, Builder, Prototype
+  }}
+  \bl{Motivazioni generali}{\iz{
+    \item Costruire correttamente oggetti o famiglie di oggetti è una responsabilità non sempre banale, e pertanto può essere meglio scorporarla dalle classi stesse
+    \item La costruzione di un oggetto è tipicamente fuori dalla sua interfaccia d'uso, e questo quindi non consente un buon disaccoppiamento e riuso
+  }}
+      \bl{Una nota}{\iz{
+      \item Sebbene esista una differenza tecnica chiara fra questi, è possibile ottenere soluzioni ibride: anche in rete/letteratura non c'è assoluta coerenza nella loro interpretazione
+    }}
+
+}
+
+\frs{5}{Factories (ossia ``fabbriche'' di oggetti)}{
+  \bl{Static Factory}{\iz{
+    \item Una classe ha un metodo statico per generare istanze di sue (o altre) specializzazioni
+    \item Es.: l'interfaccia \cil{Stream}, il Singleton è un caso particolare..
+  }}
+  \bl{Simple Factory}{\iz{
+    \item Come Static Factory, ma il metodo è non statico e in una classe separata (factory)
+  }}
+  \bl{Factory Method}{\iz{
+    \item Come Simple Factory, ma la costruzione avviene in sottoclassi della factory, che è un interfaccia
+  }}
+  \bl{Abstract Factory}{\iz{
+    \item Come Factory Method, ma consente di costruire più oggetti tra loro correlati
+  }}
+}
+
+\fr{Static e Simple Factory}{
+  \fg{width=0.8\textheight}{img/fac1.png}
+  \fg{height=0.6\textheight}{img/fac2.png}
+}
+
+\fr{Static Factory: Esempio \Cil{Persona}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/factory/Persona.java}
+}
+
+
+\fr{Factory Method e Abstract Factory}{
+  \fg{width=0.8\textheight}{img/fac3.png}
+  \fg{width=0.8\textheight}{img/fac4.png}
+}
+
+
+\fr{Factory Method: creazionale, su oggetti}{
+    \bl{Intento/motivazione}{
+	Definisce una interfaccia per creare oggetti, lasciando alle sottoclassi il compito di decidere quale classe istanziare e come
+    }
+    \bl{Esempi}{\iz{
+	\item Un framework deve creare oggetti, ma sue specializzazioni devono crearne versioni specializzate
+    }}
+    \bl{Soluzione}{\iz{
+	\item Una interfaccia creatrice fornisce il metodo factory col compito di creare e ritornare l'oggetto
+	\item Tale interfaccia viene poi specializzata, e incapsula la logica di creazione dell'oggetto
+	\item[$\Rightarrow$] ..spesso frainteso con static o simple factory
+    }}
+}
+
+\fr{Factory Method: UML}{
+    \fg{height=0.45\textheight}{img/factorymethod.png}
+}
+
+\fr{Factory Method: Esempio \Cil{Persona} e \Cil{FactoryPersona}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/factory/person/Person.java}
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/factory/person/PersonFactory.java}
+}
+
+
+\fr{Abstract Factory: creazionale, su oggetti}{
+    \bl{Intento/motivazione}{
+	Definisce una interfaccia per creare famiglie di oggetti tra loro correlati o dipendenti, lasciando alle sottoclassi il compito di decidere quali classe istanziare e come
+    }
+    \bl{Esempi}{\iz{
+	\item Un framework deve creare una famiglia di oggetti, ma sue specializzazioni devono crearne versioni specializzate
+    }}
+    \bl{Soluzione}{\iz{
+	\item Una interfaccia creatrice fornisce i metodi factory col compito di creare e ritornare gli oggetti
+	\item Tale interfaccia viene poi specializzata, e incapsula la logica di creazione degli oggetti
+    }}
+}
+
+
+\fr{Abstract Factory: An example}{
+    \fg{height=0.7\textheight}{\ecl/factory/gui_factory.png}
+}
+
+
+\fr{Abstract Factory: Esempio \Cil{GUIFactory}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/factory/GUIFactory.java}
+}
+
+\fr{Abstract Factory: Specializzazione \Cil{MyGUIFactory}}{
+    \sizedrangedcode{\ssmall}{6}{100}{\ecl/factory/MyGUIFactory.java}
+}
+
+\fr{Abstract Factory: Uso di \Cil{GUIFactory}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/factory/UseGUIFactory.java}
+}
+
+\fr{Variante dell'interfaccia con defaults}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/factory/alternate/GUIFactory.java}
+}
+
+\frs{5}{Builder: creazionale, su oggetti}{
+    \bl{Intento/motivazione}{
+	Definisce una strategia separata per la creazione step-by-step di un oggetto
+    }
+    \bl{Esempi}{\iz{
+	\item \cil{Stream.Builder}, \cil{StringBuilder}, \cil{StringBuffer}
+	\item Una pipeline per gli stream assomiglia ad un builder per un iteratore
+    }}
+    \bl{Soluzione}{\iz{
+	\item Una classe separata ha i metodi per settare le varie proprietà dell'oggetto da costruire, e quando tutto è pronto si chiama un metodo di building
+	\item Spesso è comodo usare una interfaccia ``fluent'', ossia dove i setter tornano \cil{this}
+	\item Comodo per evitare le proliferazione di costruttori in una classe
+	\item Comodo per costruire oggetti immutabili complessi
+	\item Dove possibile/utile, lasciare i pochi parametri obbligatori nel costruttore del builder
+    }}
+}
+
+\fr{Builder: UML}{
+    \fg{height=0.45\textheight}{img/builder.png}
+}
+
+
+\fr{Esempio: \Cil{StringBuilder}}{
+    \sizedrangedcodet{\ssmall}{6}{100}{\ecl/builder/UseStringBuilder.java}
+}
+
+\fr{Esempio: un builder per persone (1/2)}{
+    \sizedrangedcodet{\tiny}{3}{20}{\ecl/builder/Person.java}
+}
+
+\fr{Esempio: un builder per persone (2/2)}{
+    \sizedrangedcodet{\tiny}{21}{100}{\ecl/builder/Person.java}
+}
+
+\fr{Esempio: \Cil{UsePersonBuilder}}{
+    \sizedrangedcodet{\ssmall}{3}{100}{\ecl/builder/UsePersonBuilder.java}
+}
+
+\fr{Altri pattern}{
+\bl{Riferimenti}{\iz{
+   \item Composite: meccanismo di composizione ad albero di componenti
+   \item Memento: per consentire forme di Undo/Redo di modifiche
+   \item Lightweight: per gestire un pool di oggetti per ottimizzare performance
+   \item Visitor: per incapsulare la logica di visita di un albero
+   \item Command: per rappresentare in un argomento il tipo di comando da eseguire
+}}
+}
+
+\end{document}
+
+

@@ -1,0 +1,368 @@
+ It's a book of design patterns that
+describes simple and elegant solutions to specific problems in object-oriented software design. Design
+patterns capture solutions that have developed and evolved over time. Hence they aren't the designs
+people tend to generate initially. They reflect untold redesign and recoding as developers have struggled
+for greater reuse and flexibility in their software. Design patterns capture these solutions in a succinct
+and easily applied form.
+
+
+We don't consider this collection of design patterns complete and static; it's more a recording of our
+current thoughts on design. 
+
+The catalog makes up the majority of the book. Its chapters divide the design patterns into three types:
+creational, structural, and behavioral. You can use the catalog in several ways. You can read the catalog
+from start to finish, or you can just browse from pattern to pattern. Another approach is to study one of
+the chapters. That will help you see how closely related patterns distinguish themselves.
+
+
+If you aren't an experienced object-oriented designer, then start with the simplest and most common
+patterns:
+
+ Abstract Factory (page 87)
+ Adapter (139)
+ Composite (163)
+ Decorator (175)
+ Factory Method (107)
+ Observer (293)
+ Strategy (315)
+ Template Method (325)
+
+The simplest?? 
+ 
+ 
+It's hard to find an object-oriented system that doesn't use at least a couple of these patterns, and large
+systems use nearly all of them
+
+
+INTRO
+
+Designing object-oriented software is hard, and designing reusable object-oriented software is even harder.
+You must find pertinent objects, factor them into classes at the right granularity, define class interfaces and
+inheritance hierarchies, and establish key relationships among them. Your design should be specific to the
+problem at hand but also general enough to address future problems and requirements. You also want to
+avoid redesign, or at least minimize it. Experienced object-oriented designers will tell you that a reusable
+and flexible design is difficult if not impossible to get "right" the first time. Before a design is finished, they
+usually try to reuse it several times, modifying it each time.
+
+
+
+One thing expert designers know not to do is solve every problem from first principles. Rather, they reuse
+solutions that have worked for them in the past. When they find a good solution, they use it again and again.
+Such experience is part of what makes them experts. Consequently, you'll find recurring patterns of classes
+and communicating objects in many object-oriented systems. These patterns solve specific design problems
+and make object-oriented designs more flexible, elegant, and ultimately reusable. They help designers reuse
+successful designs by basing new designs on prior experience. A designer who is familiar with such patterns
+can apply them immediately to design problems without having to rediscover them.
+
+
+The purpose of this book is to record experience in designing object-oriented software as design patterns.
+Each design pattern systematically names, explains, and evaluates an important and recurring design in
+object-oriented systems. Our goal is to capture design experience in a form that people can use effectively.
+To this end we have documented some of the most important design patterns and present them as a catalog.
+
+
+Design patterns make it easier to reuse successful designs and architectures. Expressing proven techniques
+as design patterns makes them more accessible to developers of new systems. Design patterns help you
+choose design alternatives that make a system reusable and avoid alternatives that compromise reusability.
+Design patterns can even improve the documentation and maintenance of existing systems by furnishing an
+explicit specification of class and object interactions and their underlying intent. Put simply, design patterns
+help a designer get a design "right" faster.
+
+
+WHAT IS
+
+In general, a pattern has four essential elements:
+
+1. The pattern name is a handle we can use to describe a design problem, its solutions, and
+consequences in a word or two. Naming a pattern immediately increases our design vocabulary. It
+lets us design at a higher level of abstraction. Having a vocabulary for patterns lets us talk about them
+with our colleagues, in our documentation, and even to ourselves. It makes it easier to think about
+designs and to communicate them and their trade-offs to others. Finding good names has been one of
+the hardest parts of developing our catalog.
+2. The problem describes when to apply the pattern. It explains the problem and its context. It might
+describe specific design problems such as how to represent algorithms as objects. It might describe
+class or object structures that are symptomatic of an inflexible design. Sometimes the problem will
+include a list of conditions that must be met before it makes sense to apply the pattern.
+3. The solution describes the elements that make up the design, their relationships, responsibilities, and
+collaborations. The solution doesn't describe a particular concrete design or implementation, because
+a pattern is like a template that can be applied in many different situations. Instead, the pattern
+provides an abstract description of a design problem and how a general arrangement of elements
+(classes and objects in our case) solves it.
+4. The consequences are the results and trade-offs of applying the pattern. Though consequences are
+often unvoiced when we describe design decisions, they are critical for evaluating design alternatives
+and for understanding the costs and benefits of applying the pattern. The consequences for software
+often concern space and time trade-offs. They may address language and implementation issues as
+well. Since reuse is often a factor in object-oriented design, the consequences of a pattern include its
+impact on a system's flexibility, extensibility, or portability. Listing these consequences explicitly
+helps you understand and evaluate them.
+
+Point of view affects one's interpretation of what is and isn't a pattern. One person's pattern can be another
+person's primitive building block. For this book we have concentrated on patterns at a certain level of abstraction. Design patterns are not about designs such as linked lists and hash tables that can be encoded in
+classes and reused as is. Nor are they complex, domain-specific designs for an entire application or
+subsystem. The design patterns in this book are descriptions of communicating objects and classes that are
+customized to solve a general design problem in a particular context.
+
+STRUCTURE
+
+We describe design patterns using a consistent format. Each pattern is divided into sections according to the
+following template. The template lends a uniform structure to the information, making design patterns easier
+to learn, compare, and use.
+Pattern Name and Classification
+The pattern's name conveys the essence of the pattern succinctly. A good name is vital, because it
+will become part of your design vocabulary. The pattern's classification reflects the scheme we
+introduce in Section 1.5.
+Intent
+A short statement that answers the following questions: What does the design pattern do? What is its
+rationale and intent? What particular design issue or problem does it address?
+Also Known As
+Other well-known names for the pattern, if any.
+Motivation
+A scenario that illustrates a design problem and how the class and object structures in the pattern
+solve the problem. The scenario will help you understand the more abstract description of the pattern
+that follows.
+Applicability
+What are the situations in which the design pattern can be applied? What are examples of poor
+designs that the pattern can address? How can you recognize these situations?
+Structure
+A graphical representation of the classes in the pattern using a notation based on the Object Modeling
+Technique (OMT) [RBP+91]. We also use interaction diagrams [JCJO92, Boo94] to illustrate
+sequences of requests and collaborations between objects. Appendix B describes these notations in
+detail.
+Participants
+The classes and/or objects participating in the design pattern and their responsibilities.
+Collaborations
+How the participants collaborate to carry out their responsibilities.
+Consequences
+How does the pattern support its objectives? What are the trade-offs and results of using the pattern?
+What aspect of system structure does it let you vary independently?
+Implementation
+What pitfalls, hints, or techniques should you be aware of when implementing the pattern? Are there
+language-specific issues?
+Sample Code
+Code fragments that illustrate how you might implement the pattern in C++ or Smalltalk.
+Known Uses
+Examples of the pattern found in real systems. We include at least two examples from different
+domains.
+Related Patterns
+What design patterns are closely related to this one? What are the important differences? With which
+other patterns should this one be used?
+
+
+CATALOGUE
+
+
+Abstract Factory (87)
+Adapter (139)
+Bridge (151)
+Builder (97)
+Chain of Responsibility (223)
+Command (233)
+Composite (163)
+Decorator (175)
+Facade (185)
+Factory Method (107)
+Flyweight (195)
+Interpreter (243)
+Iterator (257)
+Mediator (273)
+Memento (283)
+Observer (293)
+Prototype (117)
+Proxy (207)
+Singleton (127)
+State (305)
+Strategy (315)
+Template Method (325)
+Visitor (331)
+
+The hard part about object-oriented design is decomposing a system into objects. The task is difficult
+because many factors come into play: encapsulation, granularity, dependency, flexibility, performance,
+evolution, reusability, and on and on. They all influence the decomposition, often in conflicting ways.
+Object-oriented design methodologies favor many different approaches. You can write a problem statement,
+single out the nouns and verbs, and create corresponding classes and operations. Or you can focus on the
+collaborations and responsibilities in your system. Or you can model the real world and translate the objects
+found during analysis into design. There will always be disagreement on which approach is best.
+Many objects in a design come from the analysis model. But object-oriented designs often end up with
+classes that have no counterparts in the real world. Some of these are low-level classes like arrays. Others
+are much higher-level. For example, the Composite (163) pattern introduces an abstraction for treating
+objects uniformly that doesn't have a physical counterpart. Strict modeling of the real world leads to a
+system that reflects today's realities but not necessarily tomorrow's. The abstractions that emerge during
+design are key to making a design flexible.
+Design patterns help you identify less-obvious abstractions and the objects that can capture them. For
+example, objects that represent a process or algorithm don't occur in nature, yet they are a crucial part of
+flexible designs. The Strategy (315) pattern describes how to implement interchangeable families of
+algorithms. The State (305) pattern represents each state of an entity as an object. These objects are seldom
+found during analysis or even the early stages of design; they're discovered later in the course of making a
+design more flexible and reusable.
+
+Program to an interface, not an implementation.
+Favor object composition over class inheritance.
+
+Design for change, problems:
+- Creating an object by specifying a class explicitly (Abstract Factory (87), Factory Method (107), Prototype (117))
+- Dependence on specific operations (Chain of Responsibility (223), Command (233))
+- Dependence on hardware and software platform  (Abstract Factory (87), Bridge (151))
+- Dependence on object representations or implementations ( Abstract Factory (87), Bridge (151), Memento (283), Proxy (207))
+- Algorithmic dependencies (Builder (97), Iterator (257), Strategy (315), Template Method (325), Visitor (331))
+- Tight coupling (Abstract Factory (87), Bridge (151), Chain of Responsibility (223), Command (233), Facade (185), Mediator (273), Observer (293))
+- Extending functionality by subclassing. (Bridge (151), Chain of Responsibility (223), Composite (163), Decorator (175), Observer (293), Strategy (315))
+- Inability to alter classes conveniently (Adapter (139), Decorator (175), Visitor (331).)
+
+WHAT PATTERNS ALLOW YOU TO VARY
+
+Creational 
+
+Abstract Factory (87)
+ families of product objects
+Builder (97)
+ how a composite object gets created
+Factory Method (107)
+ subclass of object that is instantiated
+Prototype (117)
+ class of object that is instantiated
+Singleton (127)
+ the sole instance of a class
+
+Structural 
+
+Adapter (139)
+ interface to an object
+Bridge (151)
+ implementation of an object
+Composite (163)
+ structure and composition of an object
+Decorator (175)
+ responsibilities of an object without subclassing
+Facade (185)
+ interface to a subsystem
+Flyweight (195)
+ storage costs of objects
+Proxy (207)
+ how an object is accessed; its location
+
+ 
+Behavioral 
+
+Chain of Responsibility (223) object that can fulfill a request
+Command (233)
+ when and how a request is fulfilled
+Interpreter (243)
+ grammar and interpretation of a language
+Iterator (257)
+ how an aggregate's elements are accessed, traversed
+Mediator (273)
+ how and which objects interact with each other
+Memento (283)
+ what private information is stored outside an object, and
+when
+Observer (293)
+ number of objects that depend on another object; how the
+dependent objects stay up to date
+State (305)
+ states of an object
+Strategy (315)
+ an algorithm
+Template Method (325)
+ steps of an algorithm
+Visitor (331)
+ operations that can be applied to object(s) without changing
+their class(es)
+
+
+
+CREATIONAL
+
+Creational design patterns abstract the instantiation process. They help make a system independent of
+how its objects are created, composed, and represented. A class creational pattern uses inheritance to
+vary the class that's instantiated, whereas an object creational pattern will delegate instantiation to
+another object.
+
+Creational patterns become important as systems evolve to depend more on object composition than class
+inheritance. As that happens, emphasis shifts away from hard-coding a fixed set of behaviors toward
+defining a smaller set of fundamental behaviors that can be composed into any number of more complex
+ones. Thus creating objects with particular behaviors requires more than simply instantiating a class.
+There are two recurring themes in these patterns. First, they all encapsulate knowledge about which
+concrete classes the system uses. Second, they hide how instances of these classes are created and put
+together. All the system at large knows about the objects is their interfaces as defined by abstract classes.
+Consequently, the creational patterns give you a lot of flexibility in what gets created, who creates it, how
+it gets created, and when. They let you configure a system with "product" objects that vary widely in
+structure and functionality. Configuration can be static (that is, specified at compile-time) or dynamic (at
+run-time).
+
+STRUCTURAL
+
+Structural patterns are concerned with how classes and objects are composed to form larger structures.
+Structural class patterns use inheritance to compose interfaces or implementations. As a simple example,
+consider how multiple inheritance mixes two or more classes into one. The result is a class that combines
+the properties of its parent classes. This pattern is particularly useful for making independently developed
+class libraries work together. Another example is the class form of the Adapter (139) pattern. In general,
+an adapter makes one interface (the adaptee's) conform to another, thereby providing a uniform
+abstraction of different interfaces. A class adapter accomplishes this by inheriting privately from an
+adaptee class. The adapter then expresses its interface in terms of the adaptee's.
+
+BEHAVIOURAL
+
+Behavioral patterns are concerned with algorithms and the assignment of responsibilities between
+objects. Behavioral patterns describe not just patterns of objects or classes but also the patterns of
+communication between them. These patterns characterize complex control flow that's difficult to follow
+at run-time. They shift your focus away from flow of control to let you concentrate just on the way
+objects are interconnected.
+
+
+A Target for Refactoring
+
+One of the problems in developing reusable software is that it often has to be reorganized or refactored
+[OJ90]. Design patterns help you determine how to reorganize a design, and they can reduce the amount
+of refactoring you need to do later.
+The lifecycle of object-oriented software has several phases. Brian Foote identifies these phases as the
+prototyping, expansionary, and consolidating phases [Foo92].
+The prototyping phase is a flurry of activity as the software is brought to life through rapid prototyping
+and incremental changes, until it meets an initial set of requirements and reaches adolescence. At this
+point, the software usually consists of class hierarchies that closely reflect entities in the initial problem
+domain. The main kind of reuse is white-box reuse by inheritance.
+Once the software has reached adolescence and is put into service, its evolution is governed by two
+conflicting needs: (1) the software must satisfy more requirements, and (2) the software must be more
+reusable. New requirements usually add new classes and operations and perhaps whole class hierarchies.
+The software goes through an expansionary phase to meet new requirements. This can't continue for
+long, however. Eventually the software will become too inflexible and arthritic for further change. The
+class hierarchies will no longer match any problem domain. Instead they'll reflect many problem
+domains, and classes will define many unrelated operations and instance variables.
+To continue to evolve, the software must be reorganized in a process known as refactoring. This is the
+phase in which frameworks often emerge. Refactoring involves tearing apart classes into special- and
+general-purpose components, moving operations up or down the class hierarchy, and rationalizing the
+interfaces of classes. This consolidation phase produces many new kinds of objects, often by
+decomposing existing objects and using object composition instead of inheritance. Hence black-box
+reuse replaces white-box reuse. The continual need to satisfy more requirements along with the need for
+more reuse propels object-oriented software through repeated phases of expansion and
+consolidation—expansion as new requirements are satisfied, and consolidation as the software becomes
+more general.
+
+This cycle is unavoidable. But good designers are aware of the changes that can prompt refactorings.
+Good designers also know class and object structures that can help avoid refactorings—their designs are robust in the face of requirement changes. A thorough requirements analysis will highlight those
+requirements that are likely to change during the life of the software, and a good design will be robust to
+them.
+Our design patterns capture many of the structures that result from refactoring. Using these patterns early
+in the life of a design prevents later refactorings. But even if you don't see how to apply a pattern until
+after you've built your system, the pattern can still show you how to change it. Design patterns thus
+provide targets for your refactorings.
+
+PATTERN NOTI, DA FARE:
+
+ADAPTER
+COMPOSITE
+DECORATOR
+FACTORY METHOD
+ITERATOR
+OBSERVER
+--> SINGLETON
+STRATEGY
+--> TEMPLATE METHOD
+
+ALTRI
+
+BUILDER
+CHAIN OF RESPONSIBILITY
+COMMAND
+FACADE
+FLYWEIGHT
+STATE

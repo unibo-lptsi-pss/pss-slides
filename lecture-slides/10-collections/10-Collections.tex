@@ -1,0 +1,385 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{10}
+\newcommand{\lectitle}{Java Collections Framework}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+\newcommand{\ecl}{\eclipsepath{p10collections}}
+
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare la struttura del Java Collections Framework
+  \item Mostrare gli utilizzi delle funzonalità base
+  \item Discutere alcune tecniche di programmazione correlate
+  }}
+  \bl{Argomenti}{\iz{
+  \item Presentazione Java Collections Framework
+  \item Iteratori e foreach
+  \item Collezioni, Liste e Set
+  \item \cil{HashSet} e \cil{TreeSet}
+  %\item \cil{ArrayList} e \cil{LinkedList}
+  %\item Funzioni di utilità in \cil{Arrays} e \cil{Collections}
+  }}
+}
+
+\section[JCF]{Java Collections Framework}
+
+\fr{Java Collections Framework}{
+  \bl{Java Collections Framework (JCF)}{\iz{
+    \item \`E una libreria del linguaggio Java
+    \item \`E una parte del package \cil{java.util}
+    \item Gestisce strutture dati (o collezioni) e relativi algoritmi
+  }}
+  \bl{Importanza pratica}{\iz{
+    \item Virtualmente ogni sistema fa uso di collezioni di oggetti
+    \item Conoscerne struttura e dettagli vi farà programmatori migliori
+  }}
+  \bl{Importanza didattica}{\iz{
+    \item Fornisce ottimi esempi di uso di composizione, ereditarietà, genericità
+    \item Mette in pratica pattern di programmazione di interesse
+    \item Impatta su alcuni aspetti del linguaggio da approfondire
+  }}
+}
+
+\fr{JCF -- struttura complessiva}{
+  \fg{height=0.75\textheight}{img/tax1.png}
+}
+
+\fr{JCF -- struttura riorganizzata}{
+  \fg{height=0.75\textheight}{img/tax.png}
+}
+
+
+\fr{JCF -- alcuni aspetti generali}{
+  \bl{\`E complessivamente piuttosto articolato}{\iz{
+    \item Un nostro obbiettivo è quello di isolare una sua sottoparte di interesse
+    \item Identificando e motivando le funzionalità prodotte
+  }}
+  \bl{Due tipi di collection, ognuna con varie incarnazioni}{\iz{
+    \item \cil{Collection} -- contenitore di elementi atomici{\iz{
+      \item 3 sottotipi: \cil{List} (sequenze), \cil{Set} (no duplicazioni), \cil{Queue}
+    }}
+    \item \cil{Map} -- contenitore di coppie chiave-valore
+  }}
+  \bl{Interfacce/classi di interesse:}{\iz{
+    \item Interfacce: \cil{Collection}, \cil{List}, \cil{Set}, \cil{Iterator}, \cil{Comparable}
+    \item Classi collection: \cil{ArrayList}, \cil{LinkedList}, \cil{HashSet}, \cil{HashMap}
+    \item Classi con funzionalità: \cil{Collections}, \cil{Arrays}
+  }}  
+}
+
+\fr{Una nota su eccezioni e JCF}{
+  \bl{Eccezioni: un argomento che tratteremo in dettaglio}{
+    Un meccanismo usato per gestire eventi ritenuti fuori dalla normale esecuzione (errori), ossia per dichiararli, lanciarli, intercettarli
+  }
+  \bl{JCF e eccezioni}{\iz{
+    \item Ogni collection ha sue regole di funzionamento, e non ammette certe operazioni che richiedono controlli a tempo di esecuzione (ad esempio, certe collezioni sono immutabili, e non si può tentare di scriverci)
+    \item Molti metodi dichiarano che possono lanciare eccezioni -- ma possiamo non preoccuparcene per ora
+  }}
+}
+
+\section{Iteratori e foreach}
+
+\fr{Foreach}{
+  \bl{Costrutto foreach}{\iz{
+    \item Abbiamo visto che può essere usato per iterare su un array in modo più astratto (compatto, leggibile){\iz{
+      \item \cil{for(int i: array)\{...\}}
+    }}
+    \item Java fornisce anche un meccanismo per usare il foreach su qualunque collection, in particolare, su qualunque oggetto che implementa l'interfaccia \cil{java.lang.Iterable<X>}
+  }}
+  \bl{\cil{Iterable} e \cil{Iterator}}{\iz{
+    \item L'interfaccia \cil{Iterable} ha un metodo per generare e restituire un (nuovo) \cil{Iterator}
+    \item Un iteratore è un oggetto con metodi \cil{next()}, \cil{hasNext()} (e \cil{remove()})
+    \item Dato l'oggetto \cil{coll} che implementa \cil{Iterable<T>} allora il foreach diventa:{\iz{
+      \item \cil{for(T element: coll)\{...\}}
+    }}
+  }}
+}
+
+\fr{Interfacce per l'iterazione}{
+  \sizedcode{\scriptsize}{code/short/Iterable.java}
+  \sizedcode{\scriptsize}{code/short/Iterator.java}
+  \sizedcode{\scriptsize}{code/short/Collection-Short.java}
+}
+
+\fr{Interfacce per l'iterazione -- UML}{
+  \fg{height=0.7\textheight}{img/uml-iter.pdf}
+}
+
+\fr{Esempio di iterable ad-hoc, e suo uso}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/iterator/Range.java}
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/iterator/UseRange.java}
+}
+
+\fr{Realizzazione del corrispondente iteratore}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/iterator/RangeIterator.java}
+}
+
+%\fr{Soluzione alternativa per questo caso specifico}{
+%  \sizedcode{\ssmall}{code/iterator/AltRange.java}
+%}
+
+\fr{Iteratori e collezioni: preview}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/iterator/UseCollectionIterator.java}
+}
+
+\section{Collection, List, Set}
+
+\frs{5}{Interfaccia \Cil{Collection}}{
+  \bl{Ruolo di questo tipo di dato}{\iz{
+    \item \`E la radice della gerarchia delle collezioni
+    \item Rappresenta gruppi di oggetti (duplicati/non, ordinati/non)
+    \item Implementata via sottointerfacce (\cil{List} e \cil{Set})
+  }}
+  \bl{Assunzioni}{\iz{
+    \item Definisce operazioni base valide per tutte le collezioni
+    \item Assume implicitamente che ogni collezione abbia due costruttori{\iz{
+      \item Senza argomenti, che genera una collezione vuota
+      \item Che accetta un \cil{Collection}, dal quale prende tutti gli elementi
+    }}
+    \item Le operazioni di modifica sono tutte ``opzionali''{\iz{
+      \item potrebbero lanciare un \cil{UnsupportedOperationException}
+    }}
+    \item Tutte le operazioni di ricerca lavorano sulla base del metodo \cil{Object.equals()} da chiamare sugli elementi{\iz{
+      \item questo metodo accetta un \cil{Object}, influendo su alcuni metodi di \cil{Collection}
+    }}
+  }}
+}
+
+
+\fr{\Cil{Collection}}{
+  \sizedcode{\ssmall}{code/short/Collection.java}
+}
+
+\fr{Usare le collezioni}{
+  \sizedrangedcode{\scriptsize}{5}{100}{\ecl/collection/UseCollection.java}
+}
+
+\fr{Creare collezioni (immutabili) -- Java 9+}{
+  \sizedrangedcode{\scriptsize}{5}{100}{\ecl/collection/UseFactories.java}
+}
+
+\fr{\Cil{Set} e \Cil{List}}{
+  \bl{\cil{Set}}{\iz{
+    \item Rappresenta collezioni senza duplicati{\iz{
+      \item nessuna coppia di elementi porta \cil{Object.equals()} a dare \cil{true}
+      \item non vi sono due elementi \cil{null}
+    }}
+    \item Non aggiunge metodi rispetto a \cil{Collection}
+    \item I metodi di modifica devono rispettare la non duplicazione
+  }}
+  \bl{\cil{List}}{\iz{
+    \item Rappresenta sequenze di elementi
+    \item Ha metodi per accedere ad un elemento per posizione (0-based)
+    \item Andrebbe scandito via iteratore/foreach, non con indici incrementali
+    \item Fornisce un list-iterator che consente varie operazioni aggiuntive
+  }}
+  \bx{La scelta fra queste due tipologie non dipende da motivi di performance, ma da quale modello di collezione serva!}
+}
+
+\fr{\Cil{Set} e \Cil{List}}{
+  \sizedcode{\scriptsize}{code/short/List.java}
+  \sizedcode{\scriptsize}{code/short/Set.java}
+}
+
+\fr{\Cil{ListIterator}}{
+  \sizedcode{\scriptsize}{code/short/ListIterator.java}
+}
+
+\fr{\Cil{UseListIterator}}{
+  \sizedrangedcode{\scriptsize}{4}{100}{\ecl/collection/UseListIterator.java}
+}
+
+\fr{Implementazione collezioni -- UML}{
+    \fg{height=0.75\textheight}{img/uml-abs.pdf}
+}
+
+\fr{Implementazione collezioni: linee guida generali}{
+    \bl{Una modalità di progettazione da ricordare}{\iz{
+	\item Interfacce: riportano le funzionalità definitorie del concetto
+	\item Classi astratte: fattorizzano codice comune alle varie implementazioni
+	\item Classi concrete: realizzano le varie implementazioni
+    }}
+    \bl{Nel codice cliente..}{\iz{
+	\item In variabili, argomenti, tipi di ritorno, si usano le interfacce
+	\item Le classi concrete solo nella \cil{new}, a parte casi molto particolari
+	\item Le classi astratte non si menzionano praticamente mai, solo eventualmente per chi volesse costruire una nuova implementazione
+    }}
+}
+
+
+\fr{Implementazione collezioni -- Design space}{
+  \bl{Classi astratte}{\iz{
+    \item \cil{AbstractCollection}, \cil{AbstractList}, e \cil{AbstractSet}
+    \item Realizzano ``scheletri'' di classi per collezioni, corrispondenti alla relative interfacce
+    \item Facilitano lo sviluppo di nuove classi aderenti alle interfacce
+  }}
+  \bl{Un esempio: \cil{AbstractSet}}{\iz{
+    \item Per set immutabili, richiede solo di definire \cil{size()} e \cil{iterator()}
+    \item Per set mutabili, richiede anche di ridefinire \cil{add()}
+    \item Per motivi di performance si potrebbero fare ulteriori override 
+  }}
+  \bl{Classi concrete.. fra le varie illustreremo:}{\iz{
+    \item \cil{HashSet}, \cil{TreeSet}, \cil{ArrayList}, \cil{LinkedList}
+    \item La scelta riguarda quasi esculsivamente esigenze di performance
+  }}
+}
+
+\fr{Esempio di creazione di un nuovo set: \Cil{RangeSet}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/collection/RangeSet.java}
+}
+
+\fr{Uso di \Cil{RangeSet}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/collection/UseRangeSet.java}
+}
+
+\section{Implementazioni di \texttt{Set}}
+
+\fr{Implementazioni di \Cil{Set}}{
+  \bl{Caratteristiche dei set}{\iz{
+    \item Nessun elemento duplicato (nel senso di \cil{Object.equals()})
+    \item[$\rightarrow$] Il problema fondamentale è il metodo \cil{contains()}, nelle soluzioni più naive (con iteratore) potrebbe applicare una ricerca sequenziale, e invece si richiedono performance migliori
+  }}
+  \bl{Approccio 1: \cil{HashSet}}{
+   Si usa il metodo \cil{Object.hashCode()} come funzione di \alert{hash}, usata per posizionare gli elementi in uno store di elevate dimensioni
+  }
+  \bl{Approccio 2: \cil{TreeSet}}{
+   Specializzazione di \cil{SortedSet} e di \cil{NavigableSet}. Gli elementi sono ordinati, e quindi organizzabili in un albero (red-black tree) per avere accesso in tempo logaritmico
+  }
+}
+
+\fr{\Cil{HashSet}}{
+  \bl{Idea di base: tecnica di hashing (via \cil{Object.hashCode()})}{\iz{
+    \item Si crea un array di elementi più grande del necessario (p.e. almeno il 25\% in più), di dimensione \cil{size}
+    \item Aggiunta di un elemento \cil{e}{\iz{
+      \item lo si inserisce in posizione \cil{e.hashCode() \% size}
+      \item se la posizione è già occupata, lo si inserisce nella prima disponibile
+      \item se l'array si riempie va espanso e si deve fare il rehashing
+    }}
+    \item Ricerca di un elemento \cil{f}{\iz{ 
+      \item si guarda a partire da \cil{f.hashCode() \% size}, usando \cil{Object.equals()}
+      \item La funzione di hashing deve evitare il più possibile le collisioni
+    }}
+    \item Risultato: scritture/letture sono $O(1)$ ammortizzato
+  }}
+  \bl{Dettagli interni}{\iz{
+    \item Realizzata tramite \cil{HashMap}, che approfondiremo in futuro
+  }}
+}
+
+\fr{Costruttori di \Cil{HashSet}}{
+  \sizedcode{\scriptsize}{code/short/HashSet.java}
+}
+
+\fr{\Cil{equals()} e \Cil{hashCode()}}{
+  \bl{La loro corretta implementazione è cruciale}{\iz{
+    \item Le classi di libreria di Java sono già OK
+    \item \cil{Object} uguaglia lo stesso oggetto e l'hashing restituisce la posizione in memoria..
+    \item .. quindi nuove classi devono ridefinire \cil{equals()} e \cil{hashCode()} opportunamente
+  }}
+  \bl{Quale funzione di hashing?}{\iz{
+    \item oggetti \cil{equals} devono avere lo stesso \cil{hashCode}
+    \item non è detto il viceversa, ma è opportuno per avere buone performance di \cil{HashSet}
+    \item si veda ad esempio: {\tt\small http://en.wikipedia.org/wiki/Java\_hashCode()}
+    \item Eclipse fornisce la generazione di un \cil{hashCode} ragionevole (ce ne sono di migliori: \texttt{djb2}, \texttt{murmur3})
+  }}
+}
+
+\fr{Esempio: \Cil{Persona} pt.1}{
+  \sizedrangedcode{\tiny}{3}{34}{\ecl/set/Persona.java}
+}
+
+\fr{Esempio: \Cil{Persona} pt.2}{
+  \sizedrangedcode{\ssmall}{35}{100}{\ecl/set/Persona.java}
+}
+
+\fr{\Cil{UseHashSetPersona}}{
+  \sizedrangedcode{\scriptsize}{5}{100}{\ecl/set/UseHashSetPersona.java}
+}
+
+\fr{\Cil{TreeSet<E>}}{
+  \bl{Specializzazione \cil{NavigableSet} (e \cil{SortedSet})}{\iz{
+    \item Assume che esista un ordine fra gli elementi
+    \item Quindi ogni elemento ha una sua posizione nell'elenco
+    \item Questo consente l'approccio dicotomico alla ricerca
+    \item Consente funzioni addizionali, come le iterazioni in un intervallo
+  }}
+  \bl{Realizzazione ordinamento: due approcci (interno o esterno)}{\en{
+    \item O con elementi che implementano direttamente \cil{Comparable}{\iz{
+      \item Nota che, p.e., \cil{Integer} implementa \cil{Comparable<Integer>}
+    }}
+    \item O attraverso un \cil{Comparator} esterno fornito alla \cil{new}
+  }}
+  \bl{Implementazione \Cil{TreeSet}}{\iz{
+    \item Basata su red-black tree (albero binario bilanciato)
+    \item Tempo logaritmico per inserimento, cancellazione, e ricerca
+  }}
+}
+
+\fr{Comparazione ``interna'' agli elementi}{
+  \sizedcode{\scriptsize}{code/short/Comparable.java}
+  \sizedcode{\scriptsize}{code/Wrappers.java}
+  \sizedcode{\scriptsize}{code/SortedPersona.java}
+}
+
+\fr{Esempi di comparazione interna}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/sortedset/UseComparison.java}
+}
+
+\fr{Interfacce \Cil{SortedSet} e \Cil{NavigableSet}}{
+  \sizedcode{\scriptsize}{code/short/SortedSet.java}
+  \sizedcode{\scriptsize}{code/short/NavigableSet.java}
+}
+
+
+\fr{\Cil{UseTreeSetPersona}: comparazione interna}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/sortedset/UseTreeSetPersona.java}
+}
+
+\fr{Costruttori di \Cil{TreeSet}, e comparatore ``esterno''}{
+  \sizedcode{\scriptsize}{code/short/TreeSet.java}
+  \sizedcode{\scriptsize}{code/short/Comparator.java}
+}
+
+\fr{Definizione di un comparatore esterno}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/sortedset/PersonaComparator.java}
+}
+
+\fr{\Cil{UseTreeSetPersona2}: comparazione esterna}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/sortedset/UseTreeSetPersona2.java}
+}
+
+\fr{Perché il tipo \Cil{Comparator<? super E>}}{
+  \bx{Data una classe \cil{SortedSet<E>} il suo comparatore ha tipo \mbox{\cil{Comparator<? super E>}}, perché non semplicemente \cil{Comparator<E>}?}
+  \bl{\`E corretto}{\iz{
+    \item \cil{Comparator} ha metodi che hanno \cil{E} solo come argomento
+    \item quindi l'uso di \cil{Comparator<? super E>} è una generalizzazione di \cil{Comparator<E>}
+  }}
+  \bl{\`E utile}{\iz{
+    \item Supponiamo di aver costruito un comparatore per \cil{SimpleLamp}, e che questo sia usabile anche per tutte le specializzazioni successivamente costruite (è la situazione tipica)
+    \item Anche un \cil{SortedSet<UnlimitedLamp>} deve poter usare il \cil{Comparator<SimpleLamp>}, ma questo è possibile solo grazie al suo tipo atteso \cil{Comparator<? super E>}
+  }}
+}
+
+\fr{Un esempio di design con le collezioni}{
+\bx{Implementare questa interfaccia che modella un archivio persone}
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/set/Archive.java}
+}
+
+\fr{Una soluzione con \Cil{HashSet}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/set/ArchiveImpl.java}
+}
+
+\fr{Scenario d'uso dell'archivio}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/set/UseArchive.java}
+}
+
+\end{document}

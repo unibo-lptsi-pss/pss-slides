@@ -1,0 +1,501 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{12}
+\newcommand{\lectitle}{Errori di programmazione ed Exceptions}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+\newcommand{\ecl}{\eclipsepath{p12exceptions}}
+\newcommand{\ecls}{\eclipsepath{p12exceptions/safedevices}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare i vari meccanismi di gestione delle eccezioni in Java
+  \item Dare linee guida per la progrettazione di sistemi che usano eccezioni
+  }}
+  \bl{Argomenti}{\iz{
+  \item Errori a run-time e necessità di una loro gestione
+  \item Tipi di eccezioni/errori in Java
+  \item Istruzione \cil{throw}
+  \item Costrutto \cil{try-catch-finally}
+  \item Dichiarazioni \cil{throws}
+  }}
+}
+
+\section{Errori}
+
+\fr{Errori nei programmi}{
+  \bl{Errori a tempo di compilazione (compile-time)}{\iz{
+    \item sono quelli più grossolani, sono intercettati dal compilatore
+    \item quindi rientrano nella fase dell'implementazione, sono innocui
+    \item un linguaggio con strong typing consente di identificarne molti a compile-time
+  }}
+  \bl{Errori a tempo di esecuzione (run-time) ($\Leftarrow$ oggetto della lezione)}{\iz{
+    \item sono condizioni anomale dovute alla dinamica del sistema{\iz{
+      \item parametri anomali a funzioni, errori nell'uso delle risorse di sistema,..
+    }}
+    \item in genere è possibile (i) identificare/descrivere dove potrebbero accadere, (ii) intercettarli e (iii) gestirli prevedendo procedure di compensazione (rimedio al problema che le ha causate)
+    \item alcuni linguaggi (come Java, non il C) forniscono costrutti per agevolarne la gestione
+  }}
+}
+
+\fr{Errori per causa interna: lanciati dalla JVM}{
+  \titledcode{Errore numerico}{code/Div.java}
+  \titledcode{Overflow memoria}{code/Rec.java}
+  \titledcode{Riferimento null}{code/Null.java}
+}
+
+\fr{Violazioni di contratto d'uso di un oggetto: librerie Java}{
+  \titledcode{Operazione non supportata}{code/Op.java}
+  \titledcode{Elemento non disponibile}{code/NoElement.java}
+  \titledcode{Formato illegale}{code/Format.java}
+}
+
+\fr{Violazioni di contratto d'uso di un oggetto: nostro codice}{
+  \titledcode{Argomento errato}{code/Arg.java}
+  \titledcode{Elemento non disponibile}{code/It.java}
+}
+
+\fr{L'importanza della ``error-aware programming''}{
+  \bl{Contratti}{\iz{
+    \item Molti oggetti richiedono determinate condizioni di lavoro (sequenze di chiamata, argomenti passati, aspettative d'uso di risorse computazionali)
+    \item Al di fuori queste condizioni è necessario interrompere il lavoro e effettuare azioni correttive
+  }}
+  \bl{Il progettista della classe deve:}{\en{
+    \item identificare le condizioni di lavoro definite ``normali''
+    \item intercettare quando si esce da tali condizioni
+    \item eventualmente segnalare l'avvenuto errore
+  }}
+  \bl{Il cliente (a sua volta progettista di un altro oggetto) deve:}{\en{
+    \item essere informato di come l'oggetto va usato
+    \item intercettare gli errori e porvi rimedio con un \it{handler}
+  }}
+}
+
+\fr{Eccezioni in Java}{
+  \bl{Riassunto Java Exceptions}{\iz{
+    \item Gli errori a run-time in Java sono rappresentati da oggetti della classe \cil{java.lang.Throwable}. Vengono ``lanciati'':{\iz{
+      \item da esplicite istruzioni del tipo: \cil{throw <exception-object>;}
+      \item o, direttamente dalla JVM per cause legate al ``sistema operativo''
+    }}
+    \item Tali oggetti portano informazioni utili a capire la causa dell'errore
+    \item Si può dichiarare se un metodo potrà lanciare una eccezione: \cil{<meth-signature> throws <excep-class>\{..\}}
+    \item Si può intercettare una eccezione e porvi rimedio: \cil{try\{ <instructions> \} catch(<excep-class> <var>)\{...\}}
+  }}
+  \bx{{\large Tutti meccanismi che impareremo a progettare e implementare in questa lezione!}}
+}
+
+\fr{Tipologie di errori in Java}{
+  \bl{Errori: \cil{java.lang.Error} e sottoclassi}{\iz{
+    \item Dovute a un problema ``serio'' (e non risolvibile) interno alla JVM
+    \item Di norma una applicazione non si deve preoccupare di intercettarli (non ci sarebbe molto di più da fare che interrompere l'esecuzione)
+  }}
+  \bl{Eccezioni unchecked: \cil{java.lang.RuntimeException} e sottoclassi}{\iz{
+    \item Causate da un bug nella programmazione
+    \item Di norma una applicazione non si deve preoccupare di intercettarli (dovrebbero essere risolti tutti in fase di debugging del sistema)
+  }}
+  \bl{Eccezioni checked: i \cil{java.lang.Throwable} tranne le precedenti}{\iz{
+    \item Causate da un problema prevedibile ma non rimediabile a priori
+    \item Le applicazione devono dichiarli esplicitamente, e vanno intercettati e gestiti esplicitamente
+  }}
+}
+
+\fr{Tipologie di errori in Java: UML}{
+  \fg{height=0.85\textheight}{img/uml-throw.pdf}
+}
+
+\fr{Usuale gestione}{
+  \bl{Errori}{\iz{
+    \item Nessuna gestione necessaria (``se capitano, capitano...'')
+  }}
+  \bl{Eccezioni unchecked}{\iz{
+    \item Si potrebbero dichiarare con un commento al codice
+    \item Di norma si riusano le classi \cil{java.lang.RuntimeException} del JDK, ossia non se ne definiscono di nuove tipologie
+    \item Si lanciano con l'istruzione \cil{throw}
+  }}
+  \bl{Eccezioni checked}{\iz{
+    \item Vanno dichiarate nel metodo con la clausola \cil{throws}
+    \item La documentazione deve spiegare in quali casi vengono lanciate
+    \item Vanno intercettate con l'istruzione \cil{try-catch}
+    \item Di norma si costruiscono sotto-classi ad-hoc di \cil{Exception}
+  }}
+}
+
+\fr{Errori ed eccezioni unchecked: cosa accade}{
+  \bl{Quando accadono, ossia quando vengono lanciate..}{\iz{
+    \item Causano l'interruzione dell'applicazione
+    \item Comportano la scrittura su console di errore (\cil{System.err}) di un messaggio che include lo \alert{StackTrace} -- \cil{Thread.dumpStack();}{\iz{
+      \item nota, solitamente \cil{System.err} coincide con \cil{System.out}
+    }}
+    \item Dal quale possiamo desumere la sequenza di chiamate e il punto del codice in cui si ha avuto il problema
+  }}
+  \bl{Errori/eccezioni unchecked comuni e già viste}{\iz{
+    \item \cil{StackOverFlowError}: stack esaurito (ricorsione infinita?)
+    \item \cil{NullPointerException}, \cil{ArrayStoreException}, \cil{ClassCastException}, \cil{ArrayIndexOutOfBoundsException}, \cil{NumericException}, \cil{OperationNotSupportedException}
+    \item Altri andranno verificati sulla documentazione quando incontrati
+  }}
+}
+
+\fr{Esempio di stampa}{
+  \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/UncheckedStackTrace.java}
+}
+
+\fr{L'istruzione \Cil{throw}}{
+  \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/UncheckedThrow.java}
+}
+
+\fr{L'istruzione \Cil{throw}: una variante equivalente}{
+  \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/UncheckedThrow2.java}
+}
+
+\fr{L'istruzione \Cil{throw}}{
+  \bl{Sintassi generale}{
+    \cil{throw <expression-that-evaluates-to-a-throwable>;}
+  }
+  \bl{Casi tipici}{
+    \cil{throw new <exception-class>(<message-string>);}\\
+    \cil{throw new <exception-class>(<ad-hoc-args>);}\\
+    \cil{throw new <exception-class>();}\\
+  }
+  \bl{Effetto}{\iz{
+    \item Si interrompe immediatamente l'esecuzione del metodo in cui ci si trova (se non dentro una \cil{try-catch}, come vedremo dopo..)
+    \item L'oggetto eccezione creato viene ``riportato'' al chiamante
+    \item Ricorsivamente, si giunge al \cil{main}, con la stampa su \cil{System.err} (exception chaining)
+  }}
+}
+
+\section[Es. \texttt{RangeIterator}]{Impl.corretta di \texttt{RangeIterator}}
+
+\fr{Riconsideriamo l'implementazione di \Cil{RangeIterator}}{
+  \bl{Elementi da considerare}{\iz{
+    \item Controllare l'interfaccia \cil{java.util.Iterator}
+    \item Verificare la documentazione presente nel sorgente (ed in particolare, come si specificano le eccezioni lanciate)
+    \item Il comando: \cil{javadoc Iterator.java}
+    \item La documentazione HTML prodotta
+    \item Realizzazione e prova di \cil{RangeIterator}
+  }}
+}
+
+\fr{Documentazione di \Cil{Iterator}: header}{
+  \sizedcode{\ssmall}{code/util/Iterator1.java}
+}
+
+\fr{Documentazione di \Cil{Iterator}: \Cil{next()} e \Cil{hasNext()}}{
+  \sizedcode{\ssmall}{code/util/Iterator2.java}
+}
+
+\fr{Documentazione di \Cil{Iterator}: \cil{remove()}}{
+  \sizedcode{\ssmall}{code/util/Iterator3.java}
+}
+
+\fr{Documentazione generata: pt1}{
+  \fg{height=0.9\textheight}{img/javadoc1.png}
+}
+
+\fr{Documentazione generata: pt2}{
+  \fg{height=0.9\textheight}{img/javadoc2.png}
+}
+
+\fr{Realizzazione di \Cil{RangeIterator}}{
+    \vspace{-5pt}\sizedrangedcode{\ssmall}{3}{100}{\ecl/classes/RangeIterator.java}
+}
+
+\section{Catturare eccezioni}
+
+\fr{Il costrutto \Cil{try-catch}}{
+  \bl{Sintassi (da estendere successivamente)}{
+    \cil{try \{ <body-maybe-throwing-an-exception>\}} \\
+    ~~~~\cil{catch (<throwable-class> <var>) \{ <handler-body>\}}\\
+  }
+  \bl{Esempio}{
+    \cil{try \{ RangeIterator r = new RangeIterator(a,b);\}} \\
+    ~~~~\cil{catch (RuntimeException e) \{ System.out.println(e);\}}\\
+  }
+  \bl{Significato}{\iz{
+    \item Se il body nella \cil{try} lancia una eccezione del tipo specificato nella \cil{catch}
+    \item Allora si esegue il corrispondente handler, e non si ha la terminazione della applicazione
+    \item Se non c'è eccezione si salta l'handler e si prosegue
+  }}
+}
+
+\fr{Uso della \Cil{RangeIterator} senza \Cil{try-catch}}{
+  \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/UseRange.java}
+}
+
+\fr{Uso della \Cil{RangeIterator} con \Cil{try-catch}}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/classes/UseRange2.java}
+}
+
+\fr{Il costrutto \Cil{try-catch-finally}}{
+  \bl{Sintassi generale}{
+    \cil{try \{ <body-maybe-throwing-an-exception>\}} \\
+    ~~~~\cil{catch (<throwable-class> <var>) \{ <handler-body>\}}\\
+    ~~~~\cil{catch (<throwable-class> <var>) \{ <handler-body>\}}\\
+    ~~~~...\\
+    ~~~~\cil{catch (<throwable-class> <var>) \{ <handler-body>\}}\\
+    ~~~~\cil{finally \{ <completion-body>\} // clausola finale opzionale}\\
+  }
+  \bl{Significato}{\iz{
+    \item Se il body nella \cil{try} lancia una eccezione
+    \item La prima \cil{catch} pertinente esegue l'handler (non ci possono essere sovrapposizioni!)
+    \item Poi si eseguirà anche il \cil{completion-body}
+    \item Il body nella \cil{finally} sarà comunque eseguito!
+  }}
+}
+
+\fr{\Cil{catch} multipli e \Cil{finally}}{
+  \sizedcode{\scriptsize}{code/classes/UseRange3.java}
+}
+
+\fr{Spiegazione}{
+  \bl{Come funziona la \cil{finally}?}{\iz{
+    \item garantisce che il codice nel suo handler sarà sicuramente eseguito
+    \item ..sia se ho avuto eccezione
+    \item ..sia se non ho avuto eccezione
+    \item ..sia se uno degli handler delle catch ha generato eccezione
+  }}
+  \bl{A cosa serve?}{\iz{
+    \item in genere contiene del codice di cleanup che deve comunque essere eseguito
+    \item rilascio risorse, chiusura file, stampa messaggi, etc..
+  }}
+  \bl{Vedremo la prossima settimana il costrutto chiamato \cil{try}-with-resources}{\iz{
+    \item consente di non esprimere il \cil{finally}
+  }}
+}
+
+\section[Creare eccezioni]{Creazione e rilancio eccezioni}
+
+\fr{Creazione di una nuova classe di eccezioni}{
+  \bl{Nuove eccezioni}{\iz{
+    \item Un sistema potrebbe richiedere nuovi tipi di eccezioni, che rappresentano eventi specifici collegati al dominio applicativo{\iz{
+      \item Persona già presente (in un archivio cittadini)
+      \item Lampadina esaurita (in una applicazione domotica)
+    }}
+    \item Semplicemente si fa una estensione di \cil{Exception} o \cil{RuntimeException}{\iz{
+      \item a seconda che la si voglia checked o unchecked
+      \item per il momento stiamo considerando solo le unchecked
+    }}
+    \item Non vi sono particolari metodi da ridefinire di solito
+    \item Solo ricordarsi di chiamare correttamente il costruttore del padre
+    \item Se si vuole incorporare una descrizione articolata della causa dell'eccezione, la si può inserire nei campi dell'oggetto tramite il costruttore o metodi setter..
+  }}
+}
+
+\fr{Esempio: \Cil{MyException}}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/classes/MyException.java}
+}
+
+\fr{Esempio: \Cil{UseMyException}}{
+  \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/UseMyException.java}
+}
+
+\section[Definire eccezioni]{Dichiarazione eccezioni checked}
+
+\fr{Checked vs Unchecked}{
+  \bl{Unchecked: \cil{RuntimeException} o sottoclassi}{\iz{
+    \item Quelle viste finora, dovute ad un bug di programmazione
+    \item Quindi sono da catturare opzionalmente, perché rimediabili
+    \item[$\Rightarrow$] ..le linee guida più moderne le sconsigliano
+  }}
+  \bl{Checked: \cil{Exception} o sottoclassi ma non di \cil{RuntimeException}}{\iz{
+    \item Rappresentano errori non riconducibili ad una scorretta programmazione, ma ad eventi abbastanza comuni anche nel sistema una volta installato e funzionante
+    {\iz{
+      \item Funzionamento non normale, ma non tale da interrompere l'applicazione (p.e., l'utente fornisce un input errato inavvertitamente)
+      \item Un problema con l'interazione col S.O. (p.e., file inesistente)
+    }}
+    \item I metodi che le lanciano lo \alert{devono} dichiararle esplicitamente (\cil{throws})
+    \item Chi chiama tali metodi \alert{deve} obbligatoriamente gestirle{\iz{
+      \item o catturandole con un \cil{try-catch}
+      \item o rilanciandole al chiamante con la \cil{throws} 
+    }}
+  }}
+}
+
+\fr{Una eccezione checked: \Cil{IOException} e input da tastiera}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/classes/IOFromKeyboard.java}
+}
+
+\fr{Qualche variante: campi statici}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/classes/IOFromKeyboard2.java}
+}
+
+\fr{Qualche variante: input iterato e rilancio}{
+  \sizedrangedcode{\ssmall}{3}{30}{\ecl/classes/IOFromKeyboard3.java}
+}
+
+\fr{Input da tastiera: da Java 6 (non funziona in Eclipse!)}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/classes/IOFromKeyboard4.java}
+}
+
+\section[Esempio]{Applicazione domotica con eccezioni}
+
+\fr{Requirements}{
+  \bx{\iz{
+    \item Una fila di $n$ \cil{Device} con tempo di vita limitato
+    \item Il sistema dovrà supportare in futuro diverse politiche di fine-vita dei device
+    \item Il fine-vita viene rilevato al tentativo di accensione, ed è segnalato da una eccezione checked
+    \item Esistono comandi per accendere e spegnere tutti i device
+    \item Il sistema dovrà essere a prova di qualunque eccezione
+  }}
+}
+
+\fr{UML: Modellazione \Cil{Device}}{
+  \fg{height=0.8\textheight}{img/uml-device.pdf}
+}
+
+\fr{Interfaccia \Cil{Device}}{
+  \sizedrangedcode{\ssmall}{10}{100}{\ecls/Device.java}
+}
+
+\fr{Eccezione \Cil{DeviceIsOverException}}{
+  \sizedrangedcode{\scriptsize}{7}{100}{\ecls/DeviceIsOverException.java}
+}
+
+\fr{\Cil{AbstractDevice}, pt1}{
+  \sizedrangedcode{\ssmall}{3}{26}{\ecls/AbstractDevice.java}
+}
+
+\fr{\Cil{AbstractDevice}, pt2}{
+  \sizedrangedcode{\ssmall}{28}{100}{\ecls/AbstractDevice.java}
+}
+
+\fr{\Cil{CountdownDevice}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecls/CountdownDevice.java}
+}
+
+\fr{\Cil{DeviceRow}: Campi e costruttore}{
+  \sizedrangedcode{\ssmall}{5}{32}{\ecls/DeviceRow.java}
+}
+
+\fr{\Cil{DeviceRow}: Selettori e \Cil{allOff()}}{
+  \sizedrangedcode{\ssmall}{34}{57}{\ecls/DeviceRow.java}
+}
+
+\fr{\Cil{DeviceRow}: \Cil{allOn()} e \Cil{toString()}}{
+  \sizedrangedcode{\ssmall}{58}{100}{\ecls/DeviceRow.java}
+}
+
+\fr{\Cil{UseDevice}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecls/UseDevice.java}
+}
+
+\fr{Una applicazione completa}{
+  \bl{Elementi aggiuntivi}{\iz{
+    \item Vi dovrà essere una interazione con l'utente
+    \item Potrà da console fornire i comandi: \cil{+N}, \cil{-N}, \cil{+all}, \cil{-all}, \cil{exit}
+    \item ..e vedere direttamente l'effetto che hanno sul \cil{DeviceRow}
+    \item (è un prodromo di applicazione con GUI..)
+  }}
+  \bl{Un problema architetturale}{\iz{
+    \item come allestire una applicazione con interazione con l'utente?
+  }}
+}
+
+\fr{Il pattern architetturale MVC}{
+  \bl{MVC -- divide l'applicazione in 3 parti}{\iz{
+    \item \cil{Model}: modello OO del dominio applicativo del sistema
+    \item \cil{View}: gestisce le interazioni con l'utente (in futuro una GUI)
+    \item \cil{Controller}: gestisce il coordinamento fra Model e View
+  }}
+  \bl{Applicazione (domotica)}{\iz{
+    \item \cil{Model}{\iz{
+	\item Un wrapper per un \cil{DeviceRow}
+    }}
+    \item \cil{View}{\iz{
+      \item Implementata da un \cil{ConsoleView} che lavora con la Console
+    }}
+    \item \cil{Controller}{\iz{
+	\item Utilizza un \cil{CommandExecutor} che ``processa'' i comandi da tastiera
+    }}
+    \item[$\Rightarrow$] \cil{View} e \cil{Model} nascoste da interfacce, per supportare un buon disaccoppiamento
+  }}
+  
+}
+
+\fr{UML: Design generale}{
+  \fg{height=0.8\textheight}{img/dia.jpg}
+}
+
+\fr{\Cil{Controller}, pt1}{
+  \sizedrangedcode{\ssmall}{3}{27}{\ecls/Controller.java}
+}
+
+\fr{\Cil{Controller}, pt2}{
+  \sizedrangedcode{\ssmall}{29}{100}{\ecls/Controller.java}
+}
+
+\fr{Eccezioni}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecls/ExitCommandException.java}
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecls/CommandNotRecognisedException.java}
+}
+
+\fr{Interfaccia e implementazione \Cil{Model}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecls/Model.java}
+    \sizedrangedcode{\ssmall}{7}{100}{\ecls/DeviceRowModel.java}
+}
+
+
+\fr{Interfaccia \Cil{View}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecls/View.java}
+}
+
+
+\fr{\Cil{ConsoleView}, pt1}{
+  \sizedrangedcode{\ssmall}{5}{28}{\ecls/ConsoleView.java}
+}
+
+\fr{\Cil{ConsoleView}, pt2}{
+  \sizedrangedcode{\ssmall}{29}{100}{\ecls/ConsoleView.java}
+}
+
+\fr{Interfaccia \Cil{CommandExecutor}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecls/CommandExecutor.java}
+}
+
+
+\fr{\Cil{SimpleCommandExecutor}, pt1}{
+  \sizedrangedcode{\ssmall}{4}{25}{\ecls/SimpleCommandExecutor.java}
+}
+
+\fr{\Cil{SimpleCommandExecutor}, pt2}{
+  \sizedrangedcode{\ssmall}{26}{50}{\ecls/SimpleCommandExecutor.java}
+}
+
+\fr{\Cil{SimpleCommandExecutor}, pt3}{
+  \sizedrangedcode{\ssmall}{51}{67}{\ecls/SimpleCommandExecutor.java}
+}
+
+\fr{\Cil{SimpleCommandExecutor}, pt4}{
+  \sizedrangedcode{\ssmall}{68}{100}{\ecls/SimpleCommandExecutor.java}
+  }
+  
+\fr{Note su questa progettazione}{
+  \bl{Complessivamente}{\iz{
+    \item è lungi dall'essere ottimale
+    \item è un primo passo verso l'idea di ``buon progetto''
+  }}
+  \bl{Aspetti positivi}{\iz{
+    \item Suddivisione base secondo logica MVC
+    \item M e V ``nascosti'' da interfacce, favorendo disaccoppiamento
+  }}
+  \bl{Aspetti da migliorare -- ve ne sono sempre!!}{\iz{
+    \item \cil{Controller} contiene elementi relativi all'interazione con l'utente{\iz{
+      \item sarebbero da astrarre in chiamate di metodo da fare sulla \cil{View}
+    }}
+    \item \cil{CommandExecutor} contiene due logiche, e non andrebbe bene:{\iz{
+      \item riconoscimento della stringa in input (da gestire nella \cil{View})
+      \item conseguente esecuzione del comando
+    }} 
+  }}
+  
+}
+
+
+\end{document}
+

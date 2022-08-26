@@ -1,0 +1,2 @@
+unoconv -f pdf --export=ExportFormFields=false 10-collections/img/uml-abs.odg 
+pdfcrop 10-collections/img/uml-abs.pdf 10-collections/img/uml-abs.pdf

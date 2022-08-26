@@ -1,0 +1,47 @@
+Script for I/O:
+
+- many I/O sinks. many ways to communicate
+- there are many classes.. we will organise
+
+- File, listing, creating directories?
+	- just an handler
+	- we can browse dirs..
+- FIleDescriptor: SO-oriented Handle (importante per err, in e out)
+
+InputStream -- classe astratta da decorare..
+- ByteArray-InputStream ... costruisce l'IS da un array di bite
+- FileInputStream.. costruisce l'IS da un file
+- StringBufferInputStream.. trasforma la stringa in IS
+- Sequence-InputStream.. concatena IS per formare un nuovo IS
+- FilterInputStream.. an interface for other decorators.. modifying the internal behaviour and giving new operations
+  - DataInputStream.. read also primitives
+  - BufferedInputStream.. preventing access all the time
+  - LineumerInputStream.. keeping track of numbers
+- ObjectInputStream
+
+Stream di byte... 
+
+InputStream --> classe astratta che richiede solo il 'int read()' gli altri si appoggiano sopra o danno impl. nulle
+ByteArrayInputStream --> implementazione più semplice
+FileInputStream --> utile, non se ne vede l'impl. ma si capisce
+
+FIlterInputStream --> molte istanze possono richiedere il pattern decorators
+DataInputStream --> idea del decorator per supportare altri metodi
+BufferedInputStream --> idea del decorator per cambiare l'implementazione sottostante
+SequenceInputStream --> idea del decorator per comporre le astrazioni
+
+OutputStream, ByteArrayOutputStream, FileOutputStream
+
+RandomAccessFile
+
+Stream di caratteri (importante per il problema della rappresentazione.. da investigare meglio però)
+
+Reader
+CharArrayReader
+FileReader
+
+FilterReader (meglio non farlo)
+BufferedReader
+StringReader 
+(non c'è il sequence)
+

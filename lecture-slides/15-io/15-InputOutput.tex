@@ -1,0 +1,707 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{15}
+\newcommand{\lectitle}{Input-Output (I/O)}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+\newcommand{\ecl}{\eclipsepath{p15io}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare le API fornite da Java per l'I/O
+  \item Descrivere alcune scelte progettuali e pattern
+  \item Mostrare esempi di applicazione
+  }}
+  \bl{Argomenti}{\iz{
+  \item Classi per gestire file
+  \item Classi per gestire Stream (di input/output)
+  \item Serializzazione di oggetti
+  \item Classi per gestire file di testo
+  \item Pattern Decorator
+  }}
+}
+
+\frs{5}{Il problema dell'Input/Output}{
+  \bl{Uno dei problemi fondamentali per un sistema operativo}{\iz{
+    \item Gestire le comunicazioni fra CPU e dispositivi affacciati sul BUS{\iz{
+    \item Console, tastiera, mouse, dischi, rete, sensori, schermo
+    }}
+    \item Vi sono varie modalità di interazione possibili{\iz{
+    \item sequenziale, random-access, buffered, per carattere/linea/byte/oggetto
+    }}
+    \item I sistemi operativi offrono vari meccanismi{\iz{
+    \item file, I/O control interface, socket per il networking, video driver
+    }}
+  }}
+  \bl{La libreria \cil{java.io.*}}{\iz{
+    \item Fornisce i concetti di File e Stream di dati
+    \item Consente una gestione flessibile dei vari aspetti
+    \item È estesa con la libreria \cil{java.nio}, che vedremo poi
+    \item È la base di librerie avanzate (networking,..), anche non-JDK (JSON,..)
+    \item I/O con l'utente in ambiente a finestre è realizzato con le GUI
+  }}
+}
+
+\fr{La libreria \Cil{java.io}}{
+    \fg{height=0.85\textheight}{img/io.png}
+}
+
+\fr{I macro-elementi della libreria}{
+    \bl{Outline della lezione}{\iz{
+	\item File
+	\item Stream di ingresso e uscita
+	\item File ad accesso ``random''
+	\item Stream di oggetti e serializzazione
+	\item Reader e Writer di testi
+    }}
+}
+
+\section[File e proprietà]{File e loro proprietà}
+
+\fr{I File}{
+    \bl{File system}{\iz{
+	\item Il file system è un modulo del S.O. che gestisce la memoria secondaria
+	\item Maschera le diversità di dispositivi fisici (HD, CD, DVD, BR, SSD,..)
+	\item Maschera le diversità di contenuti informativi (testi, filmati, archivi,..)
+	\item Fornisce meccanismi per fornire prestazioni, concorrenza, robustezza
+    }}
+    \bl{File}{\iz{
+	\item Un file system contiene un insieme di \alert{file}
+	\item Un file ha un contenuto informativo, ossia un insieme di byte{\iz{
+	    \item interpretabili in vario modo (testi, programmi, strutture dati)
+	    \item potrebbe essere un file virtuale, che mappa un dispositivo
+	    \item un caso particolare è la directory (ossia una tabella di ID di file)
+	}}
+	\item Si ha una organizzazione gerarchica in cartelle (un file ha un path)
+	\item Un file ha un ID, nome, percorso, diritti di accesso, dimensione, \ldots{}
+    }}
+}
+
+\fr{La classe \Cil{java.io.File}}{
+    \bl{Usi}{\iz{
+        \item Serve a identificare un preciso file su file systems
+        \item Permette di ottenere informazioni varie sul file
+        \item Permette di effettuare alcune operazioni complessive (cancellazione, renaming)
+        \item Permette di impostare alcune proprietà (se eseguibile, se scrivibile)
+        \item Permette di ottenere informazioni generali sul file systems
+        \item Permette di creare cartelle
+        \item[$\Rightarrow$] non include operazioni per accedere al suo contenuto, ma vi si potrà agganciare uno stream
+    }}
+}       
+
+
+\fr{Classe \Cil{java.io.File}: pt1}{
+    \sizedrangedcode{\ssmall}{1}{28}{short/File.java}
+}	
+
+\fr{Classe \Cil{java.io.File}: pt2}{
+    \sizedrangedcode{\ssmall}{30}{100}{short/File.java}
+}	
+
+\fr{\Cil{java.io.File} in azione (modella un path su File System)}{
+    \sizedrangedcode{\ssmall}{7}{100}{\ecl/files/UseFile.java}
+}	
+
+\begin{frame}[fragile]\frametitle{Esempio di output}
+\begin{lstlisting}[basicstyle=\ssmall\ttfamily]
+getName prova.bin
+getParent /home/mirko/aula/15
+isAbsolute true
+getCanonicalPath /home/mirko/aula/15/prova.bin
+getPath /home/mirko/aula/15/prova.bin
+getParentFile /home/mirko/aula/15
+getAbsolutePath /home/mirko/aula/15/prova.bin
+getAbsoluteFile /home/mirko/aula/15/prova.bin
+getCanonicalFile /home/mirko/aula/15/prova.bin
+canRead true
+canWrite true
+isDirectory false
+isFile true
+isHidden false
+canExecute false
+getTotalSpace 53616242688
+getFreeSpace 14087458816
+getUsableSpace 11357081600
+getClass class java.io.File
+\end{lstlisting}
+\end{frame}
+
+\fr{Accedere al contenuto di un file}{
+    \bl{Come fare?}{\iz{
+	\item Un file ha un contenuto informativo (potenzialmente di grosse dimensioni)
+	\item Lo si potrebbe leggere (in vari modi)
+	\item Lo si potrebbe scrivere (in vari modi)
+	\item Il suo contenuto potrebbe essere interpretabile in vari modi
+    }}
+    \bl{Alcuni di tali concetti sono condivisi con altri meccanismi}{\iz{
+	\item Risorse interne al classpath Java
+	\item Networking e file di rete
+	\item Archivi su database
+	\item Depositi di informazione in memoria
+    }}
+    \bx{
+	Il concetto di \alert{input/output-stream} è usato come astrazione unificante
+    }
+}
+
+\section{Input/OutputStream}
+
+\fr{Overview sugli \Cil{InputStream} e \Cil{OutputStream} in Java}{
+    \bl{\cil{InputStream} e \cil{OutputStream}}{\iz{
+	\item Stream = flusso (di dati)
+	\item Di base, gestiscono flussi binari (di \cil{byte}) leggibili vs. scrivibili 
+	\item Sono classi astratte (e non interfacce..)
+	\item Possono essere specializzate da ``sottoclassi'' e ``decorazioni'', tra cui{\iz{
+        \item Per diverse sorgenti e destinazioni di informazione, ad esempio su file (\cil{FileInputStream}) o su memoria (\cil{ByteArrayInputStream})
+        \item Per diversi formati di informazione, ad esempio valori primitivi (\cil{DataInputStream}) o interi oggetti Java (\cil{ObjectInputStream})
+	    \item[$\Rightarrow$]..e corrispondenti versioni \cil{Output}
+	}}
+    }}
+    \bl{Tipicamente usati per alimentare altre classi}{\iz{
+	\item File di testo (\cil{Reader}, \cil{Writer}, e specializzazioni)
+% 	\item File ad accesso ``random'' (\cil{RandomAccessFile})
+    \item Librerie avanzate comunemente usate per l'accesso al file system tipicamente hanno metodi che accettano (\cil{In}/\cil{Out})\cil{putStream}
+    }}
+}
+
+\fr{La classe \Cil{java.io.InputStream}}{
+    \sizedcode{\scriptsize}{short/InputStream.java}
+}	
+
+\fr{\Cil{FileInputStream} e \Cil{ByteArrayInputStream}}{
+    \fg{height=0.85\textheight}{img/bytefile.png}
+}
+
+\fr{Uso di \Cil{ByteArrayInputStream}}{
+    \bl{\cil{ByteArrayInputStream}}{\iz{
+      \item crea un \cil{InputStream} a partire da un \cil{byte[]}
+      \item è un wrapper
+    }}
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/files/UseByteArrayStream.java}
+}
+
+\fr{Il costrutto \Cil{try-with-resources}}{
+    \bl{Costrutto \cil{try-with-resources}}{\iz{
+      \item vuole la creazione di un \cil{java.lang.AutoCloseable} come primo argomento
+      \item ne assicura la chiusura 
+      \item si possono opzionalmente aggiungere delle \cil{catch} di eccezioni
+      \item andrebbe sempre usato..
+    }}
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/files/UseTryWithResources.java}
+}	
+
+
+\fr{Esempio \Cil{StreamDumper}}{
+    \sizedrangedcode{\scriptsize}{3}{100}{\ecl/files/StreamDumper.java}
+}	
+
+\fr{\Cil{UseStreamDumper} -- uso uniforme di vari \Cil{InputStream}}{
+    \sizedrangedcode{\ssmall}{6}{100}{\ecl/files/UseStreamDumper.java}
+}	
+
+\fr{La classe \Cil{java.io.OutputStream}}{
+    \sizedcode{\scriptsize}{short/OutputStream.java}
+    \bl{Stream di uscita -- Duale all'\cil{InputStream}}{\iz{
+	\item Esistono anche le analoghe specializzazioni \cil{ByteArrayOutputStream} e \cil{FileOutputStream}
+    }}
+}
+
+\fr{\Cil{UseOutputStream}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/files/UseOutputStream.java}
+}
+
+\fr{\Cil{UseOutputStream2} -- qualche variante}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/files/UseOutputStream2.java}
+}
+
+
+\fr{Salvataggio di strutture dati: \Cil{List<Byte>}}{
+    \sizedrangedcode{\ssmall}{6}{100}{\ecl/files/ListOnFile.java}
+}
+
+\fr{Solo \Cil{byte}?}{
+    \bl{Problema...}{\iz{
+	\item Poter leggere e scrivere da uno \cil{Stream} anche \cil{int}, \cil{long}, eccetera
+% 	\item Ove possibile, ciò dovrebbe essere possibile da qualunque stream
+	%\item Nel caso nuove esigenze simili si debbano creare, non devono esserci interferenze o esplosione di classi
+    }}
+    \bl{Il concetto di decoratore}{\iz{
+	\item Si definisce \cil{DataInputStream} che estende \cil{InputStream}{\iz{
+	    \item e similmente \cil{DataOutputStream} che estende \cil{OutputStream}
+	}}
+	\item Tale nuova classe comunque fa da wrapper per un \cil{InputStream}, al quale delega le varie operazioni
+	\item Un oggetto di tale nuova classe è un decoratore per quello interno.. visto che ne modifica il funzionamento
+	\item Con questa tecnica è possibile decorare sia un \cil{FileInputStream} che un \cil{ByteArrayInputStream} -- o altri
+    }}
+}
+
+\fr{Decorazione, in generale}{
+    \fg{height=0.85\textheight}{img/decorator.png}
+}
+
+\fr{Decorazione, il caso di \Cil{DataInputStream}}{
+    \fg{height=0.85\textheight}{img/dec.png}
+}
+
+\fr{\Cil{DataInputStream}}{
+    \sizedrangedcode{\ssmall}{1}{100}{short/DataInputStream.java}
+}
+
+\fr{\Cil{DataOutputStream}}{
+    \sizedrangedcode{\ssmall}{1}{100}{short/DataOutputStream.java}
+}
+
+\fr{\Cil{UseDataStream}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/files/UseDataStream.java}
+}
+
+\fr{Altra decorazione: \Cil{BufferedInputStream}, \Cil{BufferedOutputStream}}{
+    \bl{Esigenza}{\iz{
+	\item fornire una diversa implementazione interna dello stream
+	\item non legge un byte alla volta, ma riempie un buffer
+	\item questo aumenta le performance nell'accesso a file e rete
+	\item come fornire la funzionalità in modo ortogonale al resto della gestione degli stream?
+    }}
+    \bl{\cil{BufferedInputStream}, \cil{BufferedOutputStream}}{\iz{
+	\item sono ulteriori decoratori, della stessa forma dei precedenti
+	\item non aggiungono altri metodi
+	\item per come sono fatti i decoratori, possono essere usati in ``cascata'' a \cil{DataInputStream} e \cil{DataOutputStream}
+    }}
+}
+
+\fr{\Cil{UseBufferedDataStream}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/files/UseBufferedDataStream.java}
+}
+
+\fr{\Cil{UseBufferedDataStream2} -- chaining dei costruttori}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/files/UseBufferedDataStream2.java}
+}
+
+
+\fr{Decorazione, una visione complessiva}{
+    \fg{height=0.85\textheight}{img/dec-all.png}
+}
+
+\fr{Altri decoratori di \Cil{InputStream} (..e \Cil{OutputStream})}{
+    \bl{Sono molteplici, tutti usabili in combinazione}{\iz{
+      \item \cil{CheckedInputStream}: mantiene un ``checksum'' per verifica integrità
+      \item \cil{CipherInputStream}: legge dati poi processati dopo una cifratura
+      \item \cil{DeflateInputStream}: legge dati e li comprime in formato ``deflate''
+      \item \cil{InflaterInputStream}: legge dati e li scompatta dal formato ``deflate''
+      \item \cil{ProgressMonitorInputStream}: legge dati con possibilità di ``unread''
+    }}
+}
+
+
+\fr{Ancora sui decoratori}{
+    \bl{Pro e contro}{\iz{
+	\item Sono un mix di polimorfismo e incapsulamento
+	\item Consentono di comporre funzionalità in modo piuttosto flessibile
+	\item Danno luogo a più flessibilità rispetto all'ereditarietà
+	\item Più complicati da usare e comprendere
+    }}
+    \bl{Con gli stream, è possibile comporre:}{\iz{
+	\item Uno stream di sorgente dati: \cil{FileInputStream}, \cil{ByteArrayInputStream}, ..
+	\item Uno (o più) stream di gestione interna: \cil{BufferInputStream}, ..
+	\item Uno stream di presentazione dati: \cil{DataInputStream}, \cil{ObjectInputStream}, ..
+    }}
+}
+
+\section[De/serializzazione]{De/Serializzazione di oggetti}
+
+\fr{File ed encoding}{
+    \bl{Il contenuto dei file} {
+      Supponiamo utilizziate un \cil{DataOutputStream} per scrivere in sequenza i numeri da 0 a 20 (escluso)
+        \iz {
+            \item Che cosa avete realmente scritto?
+            \item avete scritto i byte da zero a 19
+            \item In esadecimale, \cil{0x000102030405060708090A0B0C0D0E0F10111213}
+            \item \textbf{Non} avete scritto il testo \cil{012345678910111213141516171819}
+        }
+    }
+    \iz {
+        \item I file sono sequenze di byte
+        \item Per fare input/output occorre stabilire:
+        \iz {
+          \item Una conversione dalla struttura dati che stiamo manipolando a sequenza di byte (encoding)
+          \item Una conversione da sequenza di byte a struttura dati (decoding)
+        }
+        \item I \cil{Data-Stream} offrono encoding e decoding per tipi primitivi
+        \item Come trattare strutture dati più articolate?
+    }
+}
+
+\fr{Serializzazione di oggetti}{
+    \bl{Motivazioni}{\iz{
+	\item Rendere gli oggetti persistenti, e trasferibili a istanze di JVM diverse
+	\item Esempio: memorizzarli su file, su array di byte, trasferirli via rete
+	\item Java Serialization{\iz{
+	    \item serializza con relativa semplicità strutture di oggetti anche complicate
+	    \item a volte è fondamentale apportarvi correzioni ad-hoc
+	}}
+	
+    }}
+    \bl{Ingredienti Serialization}{\iz{
+	    \item Interfaccia ``tag'' \cil{java.io.Serializable}
+	    \item Classi \cil{ObjectInputStream} e \cil{ObjectOutputStream}
+	    \item Keyword \cil{transient} per campi che non devono essere serializzati
+	    \item Metodi \cil{readObject} e \cil{writeObject} (e altri) per modificare la serializzazione di default per un oggetto, o per motivi di sicurezza
+	    \item Meccanismo \cil{UID} per gestire versioni diverse delle classi
+    }}
+}
+
+\fr{Diagramma UML con \Cil{ObjectInputStream}}{
+    \fg{height=0.85\textheight}{img/object.png}
+}
+
+\frs{5}{Classe \Cil{Person} e l'interfaccia ``tag'' \Cil{Serializable}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/files/Persona.java}
+    \bl{\cil{Serializable} -- implementata già da molte classi, non \cil{Object}}{\iz{
+	\item da implementare per avere oggetti ``automaticamente'' serializzabili
+	\item ciò non comporta alcun contratto da ottemperare
+    }}
+}
+
+\fr{Classe \Cil{UseObjectStream}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/files/UseObjectStream.java}
+}
+
+\fr{Classe \Cil{UseObjectStream}: note}{
+    \bl{Note}{\iz{
+	\item la \cil{writeObject()}/\cil{readObject()} fallisce se l'oggetto non è serializzabile{\iz{
+	  \item se la classe dell'oggetto non implementa \cil{Serializable}
+	  \item la la classe dell'oggetto ha un campo che sia un oggetto non serializzabile
+	}}
+	\item la \cil{readObject()} fallisce se la classe dell'oggetto non è disponibile
+	\item la \cil{readObject()} fallisce se la classe dell'oggetto è una versione diversa
+	
+    }}
+}
+
+\fr{Come funzionano \Cil{writeObject()}/\Cil{readObject()}}{
+    \bl{\cil{ObjectOutputStream.writeObject()}}{\iz{
+	\item Lancia una eccezione se l'oggetto non è serializzabile
+	\item Scrive sullo stream i campi dell'oggetto uno a uno \\ (di tipi primitivi o serializzabili a loro volta)
+	\item Si evitano i campi con modificatore \cil{transient}
+	\item In questo processo, si evita di scrivere due volte uno stesso oggetto
+    }}
+    \bl{\cil{ObjectInputStream.readObject()}}{\iz{
+	\item Lancia una eccezione se non trova la classe o non è \alert{compatibile}
+	\item Chiama il costruttore senza argomenti della prima sopra-classe non serializzabile, e da lì in giù non chiama altri costruttori
+	\item Ripristina il valore dei campi leggendoli dallo stream
+	\item Lascia inalterati i campi \cil{transient}
+    }}
+}
+
+\fr{Il problema delle versioni di una classe: \Cil{serialVersionUID}}{
+    \bl{Problema}{\iz{
+	\item Si serializza un oggetto, la classe viene modificata e ricompilata, e quindi si ritira su l'oggetto..  i dati sarebbero facilmente ``corrupted''
+    }}
+    \bl{Soluzione: ogni classe che implementa \cil{Serializable}...}{\iz{
+	\item .. deve fornire una costante ``\cil{long serialVersionUID}'' che contiene un numero univoco per quella versione della classe
+	\item Se non corrisponde a quello dell'oggetto caricato si ha eccezione
+    }}
+    \bl{Fatti}{\iz{
+	\item Se mancante Eclipse segnala warning. Può generarne uno a richiesta.
+	\item Se mancante la JVM ne calcola uno suo ma è sconsigliato.
+	\item Molti lasciano il campo al valore $1$, non preoccupandosene.
+    }}
+}
+
+\fr{I campi \Cil{transient}}{
+    \bl{I campi \cil{transient} non vengono serializzati. In quali casi servono?}{\iz{
+	\item Campi aggiunti per motivi di performance (p.e., caching di un calcolo), e che quindi possono essere ricostruiti a partire dagli altri campi
+	\item Campi che contengono info specifiche sul run corrente della JVM (p.e., logs), e che quindi non avrebbero più senso quando l'oggetto viene recuperato dallo stream
+	\item Campi che contengono oggetti comunque non serializzabili (p.e., \cil{Object}), e che quindi porterebbero ad una eccezione
+	\item Campi per i quali si vuole prevedere un meccanismo di serializzazione diverso
+    }}
+}
+
+\fr{\Cil{CPersona} con caching \Cil{toString}, pt1}{
+    \sizedrangedcode{\ssmall}{3}{29}{\ecl/trans/CPersona.java}
+}
+
+\fr{\Cil{CPersona} con caching \Cil{toString}, pt2}{
+    \sizedrangedcode{\ssmall}{31}{100}{\ecl/trans/CPersona.java}
+}
+
+\fr{\Cil{UseTransient}}{
+    \sizedrangedcode{\ssmall}{6}{100}{\ecl/trans/UseTransient.java}
+}
+
+\fr{Progettazione di una serializzazione ad-hoc}{
+    \bl{Serializzazione ad-hoc}{\iz{
+	\item Il modello transient/non-transient a volte non è sufficiente
+	\item A volte serve serializzare in modo diverso certi campi
+	\item \`E possibile definire per la classe serializzabile i metodi ``\cil{void readObject(ObjectInputStream in)}'' e ``\cil{void writeObject(ObjectOutputStream out)}''
+	\item Se definiti, \cil{ObjectInputStream} e \cil{ObjectOutputStream} chiamano quelli
+    }}
+    \bl{Dettagli}{\iz{
+	\item Tali metodi possono cominciare con la chiamata a \cil{defaultReadObject()}/\cil{defaultWriteObject()}, per leggere i campi non-statici e non-transienti
+	\item Si può quindi proseguire scrivendo/leggendo negli stream in input quello che si vuole
+    }}
+}
+
+\fr{\Cil{APersona}: serializzazione ad-hoc per una data}{
+    \sizedrangedcode{\tiny}{6}{35}{\ecl/trans/APersona.java}
+}
+
+
+\fr{\Cil{UseAdHocSerialization}}{
+    \sizedrangedcode{\scriptsize}{5}{100}{\ecl/trans/UseAdHocSerialization.java}
+}
+
+\fr{Serializzazione ad-hoc per \Cil{java.util.ArrayList}, pt1}{
+    \sizedrangedcode{\ssmall}{1}{23}{short/ArrayList.java}
+}
+
+\fr{Serializzazione ad-hoc per \Cil{java.util.ArrayList}, pt2}{
+    \sizedrangedcode{\ssmall}{25}{100}{short/ArrayList.java}
+}
+
+\fr{Note sulla serializzazione Java}{
+    \bl{Raramente utilizzata in applicazioni ``vere''}{
+        Applicazioni vere tendono a non utilizzare \cil{Object}(\cil{In}/\cil{Out})\cil{putStream}:
+        \iz{
+            \item Nessuna standardizzazione
+            \item Poco efficiente in termini di spazio
+            \item Dispendiosa in termini di performance
+            \item Scarsa portabilità (solo da/a software Java)
+            \item \cil{readObject} / \cil{writeObject} in qualche modo violano il linguaggio
+        }
+    }
+    \bl{Importanza di \cil{Serializable}}{
+        Approcci diversi alla serializzazione spesso:
+        \iz{
+            \item Serializzano oggetti \cil{Serializable} con campi \cil{Serializable} e non \cil{transient} (deve valere ricorsivamente)
+            \item Prevedono sistemi custom per la serializzazione di oggetti diversi
+            \item Non fanno uso di \cil{readObject} / \cil{writeObject}
+        }
+    }
+}
+
+
+\section{\texttt{RandomAccessFile}}
+
+\fr{Classe \Cil{RandomAccessFile}}{
+    \bl{Motivazioni}{\iz{
+	\item Alcuni file sono di grosse dimensioni, e non vengo letti/scritti per intero come nei casi visti finora
+	\item Bensì si modifica qualche elemento ``a metà'', o se ne aggiungono in fondo, o si legge un elemento in una data posizione
+    }}
+    \bl{Classe \cil{RandomAccessFile}}{\iz{
+	\item Non è usata tramite \cil{InputStream} o \cil{OutputStream}
+	\item Fornisce i metodi di \cil{DataInput} e \cil{DataOutput}
+	\item Fornisce metodi aggiuntivi:{\iz{
+	    \item \cil{getFilePointer}: torna la posizione corrente nel file
+	    \item \cil{seek}: imposta la nuova posizione nel file
+	    \item \cil{length}: torna la lunghezza del file
+	    \item \cil{setLength}: imposta la lunghezza del file
+	}}
+    }}
+}
+
+\fr{Classe \Cil{RandomAccessFile}}{
+    \fg{height=0.85\textheight}{img/random.png}
+}
+
+\fr{\Cil{UseRandomAccessFile}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/files/UseRandomAccessFile.java}
+}
+
+
+
+\section{File di testo}
+
+\fr{Limitazione degli stream binari visti finora}{
+  Finora abbiamo visto stream binari, ed in particolare di oggetti Java
+  \iz {
+    \item Non esiste uno standard documentato
+    \iz {
+      \item Gli standard descrivono in modo inequivoco un protocollo (in questo caso di de/serializzazione)
+      \item Difficile scrivere librerie per leggere e scrivere in quel formato
+      \item Bassa \textbf{standardizzazione}
+    }
+    \item Non comprensibili da applicazioni non-Java
+    \iz {
+      \item Oggetti serializzati non apribili da applicazioni in Javascript, Python, eccetera
+      \item Non adatti e.g., per applicazioni web
+      \item Bassa \textbf{portabilità}
+    }
+    \item Non comprensibili se aperti in formato testuale
+    \iz {
+      \item Non modificabili da umani
+      \item Non adatti e.g., per file di configurazione
+      \item Bassa \textbf{leggibilità} e quindi \textbf{intelligibilità}
+    }
+  }
+}
+
+\fr{Limitazione degli stream binari visti}{
+  \bl{Standardizzazione e portabilità} {
+    \iz {
+      \item Non direttamente ascrivibili al formato binario
+      \item (che comunque non aiuta...)
+      \item Esistono standard portabili binari, come ProtocolBuffers
+    }
+  }
+  \bl{Leggibilità e intelligibilità} {
+    \iz {
+      \item Problema comune a tutti i meccanismi finora visti
+      \item Esistono standard per scrivere oggetti in formato testuale
+      \item Problema da risolvere in due fasi:
+      \iz {
+        \item Conversione da oggetto a stringa di testo e viceversa
+        \item Conversione da stringa di testo a file e viceversa
+      }
+    }
+  }
+}
+
+\fr{Conversione da oggetto a stringa di testo e viceversa} {
+  \iz {
+    \item Banale nel caso in cui l'oggetto sia una stringa
+    \item Molto più complicato per strutture dati arbitrarie
+    \item Passo necessario verso l'interoperabilità fra linguaggi
+  }
+  \bl{(Alcuni) Formati standard per la conversione di oggetti in testo} {
+    \iz {
+      \item JavaScript Object Notation -- JSON (RFC 7159)
+      \iz {
+        \item Nato in seno a JavaScript (che non c'entra nulla con Java)
+        \item Molto usato nel web
+      }
+      \item Tom's Obvious, Minimal Language -- TOML
+      \iz {
+        \item Particolarmente indicato per file di configurazione
+      }
+      \item YAML Ain't Markup Language -- YAML
+      \iz {
+        \item Superset di JSON dalla versione 1.2
+        \item Supporto per funzioni avanzate (e.g. anchoring)
+        \item Molto usato per file di configurazione complessi
+      }
+    }
+  }
+}
+
+\frs{5}{Conversione stringa a file di testo} {
+  Problema risolto con tabelle di conversione (text encoding)
+
+  Nota: importante anche per la rappr. \textbf{in memoria} dei caratteri 
+  \bl{Text Encoding} {
+    \iz {
+        \item ASCII (RFC 20)
+        \iz {
+          \item l'encoding che usa il linguaggio C per i \cil{char}
+          \item 1 byte per carattere (massimo 256 caratteri)
+        }
+        \item UTF-8 (RFC 3629)
+        \iz {
+          \item Standard di fatto sul web, encoding di default in Linux
+          \item encoding da usare per i sorgenti di codice
+          \item da 1 a 4 byte per carattere
+          \item Codifica 1.112.064 simboli
+        }
+        \item UTF-16 (RFC 2781)
+        \iz {
+          \item Encoding in memoria delle \cil{String} in Java
+          \item 2 o 4 byte per carattere
+          \item Codifica 1.112.064 simboli
+        }
+        \item ISO Latin (ISO/IEC 8859-1:1998)
+        \iz {
+          \item Encoding di default del testo in Windows
+        }
+    }
+  }
+}
+
+% \fr{Encoding e interoperabilità}{
+%     \bl{Everything is a sequence of bytes} {
+%         \iz {
+%             \item Qualunque cosa leggiate o scriviate, in fondo è una sequenza di byte
+%             \item L'interpretazione di tali byte implica l'esistenza di una codifica
+%             \iz {
+%                 \item Per il formato testuale, un encoding
+%                 \item Per formati binari personalizzati, un algoritmo di (de)serializzazione
+%             }
+%         }
+% 
+%     }
+%     \bl{In questo corso} {
+%         \iz {
+%             \item Vedremo gli strumenti base inclusi nel JDK
+%             \item Per applicazioni moderne, si prediligono formati standard:
+%             \iz{
+%                 \item testuali: XML, JSON, YAML...
+%                 \item binari: Protocol Buffers, BSON, MessagePack, Blink protocol...
+%             }
+%             \item Motivo: dati accessibili per qualunque applicazione / linguaggio
+%             \item In Java, sono supportati da librerie esterne al JDK (eccetto XML)
+%             \item Ne vedrete un esempio d'uso in laboratorio
+%         }
+%     }
+% }
+
+\fr{File di testo}{
+    \bl{File binari vs file di testo}{\iz{
+	\item Gli stream binari sono quelli visti, sono costituiti da sequenze di byte e il modo col quale si ottengono da questi altri tipi primitivi è standard
+	\item Gli ``stream di testo'' hanno problematiche diverse:{\iz{
+	    \item sono sequenze di caratteri
+	    \item la codifica (UTF-8, UTF-16, ASCII) potrebbe variare 
+	    \item la codifica potrebbe dettare anche i codici speciali di ``a capo'' etc.
+	}}
+	\item Questa gestione richiede classi specifiche
+    }}
+    \bl{\Cil{Reader} (e \Cil{Writer)}}{\iz{
+	\item \cil{Reader}: la radice, con metodi per leggere caratteri, e linee di testo
+	\item \cil{StringReader}: decoratore per prelevare da \cil{String}
+	\item \cil{BufferedReader}: decoratore per ottimizzare gli accessi
+	\item \cil{InputStreamReader}: decoratore che incapsula un \cil{InputStream}
+	\item \cil{FileReader}: sua estensione per leggere da file via \cil{FileInputStream}
+    }}
+}
+
+\fr{UML classi relative ai reader (writer analoghi)}{
+    \fg{height=0.85\textheight}{img/text.png}
+}
+
+\fr{Esempio: \Cil{UseReadersWriters}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/files/UseReadersWriters.java}
+}
+
+\fr{Esempio: \Cil{UseStreamReadersWriters}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/files/UseStreamReadersWriters.java}
+}
+
+\fr{Il caso di: \Cil{System.in} e \Cil{System.out}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/files/SystemInOut.java}
+}
+
+\frs{5}{Riassunto classi}{
+  \bl{Identificazione di un file (o directory)}{\iz{
+    \item \cil{File}
+  }}
+  \bl{Accesso random}{\iz{
+    \item \cil{RandomAccessFile}
+  }}
+  \bl{Lettura di file dati (scrittura duale)}{\iz{
+    \item \cil{FileInputStream} + \cil{BufferedInputStream} + \cil{DataInputStream}
+    \item \cil{FileInputStream} + \cil{BufferedInputStream} + \cil{ObjectInputStream}
+  }}
+  \bl{Lettura di file di testo (scrittura duale)}{\iz{
+    \item \cil{FileReader} + \cil{BufferedReader}
+    \item \cil{FileInputStream} + \cil{InputStreamReader} + \cil{BufferedReader}
+  }}  
+}
+
+
+
+\end{document}

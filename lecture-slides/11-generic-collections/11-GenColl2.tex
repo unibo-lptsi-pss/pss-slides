@@ -1,0 +1,413 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{11}
+\newcommand{\lectitle}{Generici e collezioni, pt 2}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+
+\newcommand{\ecl}{\eclipsepath{p11gencoll2}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Approfondire alcuni concetti sui generici
+  \item Presentare altre classi per le collezioni
+  }}
+  \bl{Argomenti}{\iz{
+  \item Il problema della type-erasure
+  \item Polimorfismo vincolato
+  \item Approfondimento sulle Wildcards
+  \item Implementazioni di \cil{List} e \cil{Map}
+  }}
+}
+
+\section[Type erasure]{Il problema della type-erasure}
+
+\fr{La classe generica \Cil{List}}{
+  \sizedcode{\scriptsize}{../09-generics/code/List.java}
+}
+
+\fr{Uso di una classe generica}{
+  \sizedcode{\scriptsize}{../09-generics/code/generics/UseList.java}
+}
+
+\fr{Terminologia, e elementi essenziali}{
+  \bl{Data una classe generica \cil{C<X,Y>}..}{\iz{
+    \item \cil{X} e \cil{Y} sono dette le sue \alert{type-variable}
+    \item \cil{X} e \cil{Y} possono essere usate come un qualunque tipo dentro la classe (con alcune limitazioni che vedremo)
+  }}
+  \bl{I clienti delle classi generiche}{\iz{
+    \item Devono usare \alert{tipi generici}: versioni ``istanziate'' delle classi generiche\iz{
+      \item \cil{C<String,Integer>}, \cil{C<C<Object,Object>,Object>}
+      \item Non \cil{C} senza parametri, altrimenti vengono segnalati dei warning
+    }
+    \item Ogni type-variable va sostituita con un tipo effettivo, ossia con un \alert{parametro}, che può essere{\iz{
+      \item una classe (non-generica), p.e. \cil{Object}, \cil{String},..
+      \item una type-variable definita, p.e. \cil{X,Y} (usate dentro la classe \cil{C<X,Y>})
+      \item un tipo generico completamente istanziato, p.e. \cil{C<Object,Object>}
+      \item ..o  parzialmente istanziato, p.e. \cil{C<Object,X>} (in \cil{C<X,Y>})
+      \item NON con un tipo primitivo
+    }}
+  }}
+}
+
+\fr{Limitazioni all'uso dei generici}{
+  \bl{Una type-variable (\cil{X}) non è usabile in istruzioni del tipo:}{\iz{
+    \item \cil{new X()}, \cil{new X[]\{..\}}, \cil{new X[10]}, \cil{instanceof X}
+    \item Il compilatore segnala un errore
+    \item errore anche l'\cil{instanceof} su un tipo generico: \cil{o instanceof C<String>}
+  }}
+  \bl{Type-variable, e tipi generici danno warning se usati in situazioni ``borderline''}{\iz{
+    \item... \cil{(X)o}, \cil{(C<String>)o}
+    \item il compilatore segnala un ``unchecked warning''
+  }}
+  \bl{Perché queste limitazioni? (Odersky \& Runne \& Wadler, 1998)}{\iz{
+    \item Derivano dallo schema di supporto ad erasure
+    \item Il compilatore prende la classe \cil{List<X>} e la trasforma in qualcosa di simile alla classe \cil{ObjectList} prima di compilarla effettivamente..
+    
+  }}
+}
+
+\fr{Qualche prova}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/erasure/ErasurePitfalls.java}
+}
+
+
+\fr{La classe generica \Cil{Vector}}{
+  \bl{Un dettaglio della sua implementazione:}{
+  Per via della type erasure, il suo campo non può essere di tipo \cil{X[]}, bensì \cil{Object[]}
+  }
+  \sizedcode{\footnotesize}{../09-generics/code/Vector.java}
+}
+
+\fr{Uso di \Cil{Vector<X>}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\eclipsepath{p09generics}/generics/UseVector.java}
+}
+
+\fr{Implementazione di \Cil{Vector} pt 1}{
+\sizedrangedcode{\ssmall}{3}{26}{\eclipsepath{p09generics}/generics/Vector.java}
+}
+
+\fr{Implementazione di \Cil{Vector} pt 2}{
+\sizedrangedcode{\ssmall}{27}{100}{\eclipsepath{p09generics}/generics/Vector.java}
+}
+
+\fr{Ancora sugli ``unchecked warning'' coi generici}{
+\sizedrangedcode{\scriptsize}{3}{100}{\ecl/abstractions/ShowCast.java}
+}
+
+\section[Polimorf.vincolato]{Polimorfismo vincolato}
+
+\fr{Polimorfismo vincolato}{
+  \bl{Negli esempi visti finora..}{\iz{
+    \item Data una classe \cil{C<X>}, \cil{X} può essere istanziato a qualunque sottotipo di \cil{Object}
+    \item In effetti la definizione \cil{class C<X>\{..\}} equivale a \cil{class C<X extends Object>\{..\}}
+  }}
+  \bl{Polimorfismo vincolato (Igarashi \& Pierce \& Wadler, 2000)}{\iz{
+    \item In generale invece, può essere opportuno vincolare in qualche modo le possibili istanziazioni di \cil{X}, ad essere sottotipo di un tipo più specifico di \cil{Object}
+    \item \cil{class C<X extends D>\{..\}}
+    \item In tal caso, dentro \cil{C}, si potrà assumere che gli oggetti di tipo \cil{X} rispondano ai metodi della classe \cil{D}
+  }}
+}
+
+\fr{\Cil{LampsRow} generica: Definizione}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/constrained/LampsRow.java}
+}
+
+\fr{Uso}{
+  \bl{Motivazione per questa genericità. Ha senso se:}{\iz{
+    \item si ritiene molto frequente l'uso di \cil{SimpleLamp} simili tra loro, ossia di una comune specializzazione (classe)
+    \item è frequente l'uso di \cil{getLamp()}  e quindi del cast
+  }}
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/constrained/UseLampsRow.java}
+}
+
+%Wildcard\&sostituibilità
+\section[Wildcard]{Java Wildcards e sostituibilità}
+
+
+\fr{Java Wildcards}{
+  \sizedcode{\footnotesize}{../09-generics/code/Numbers.java}
+  \sizedcode{\footnotesize}{../09-generics/code/Wildcards.java}
+}
+
+\fr{Java Wildcards}{
+  \bl{3 tipi di wildcard (Igarashi \& Viroli, 2002)}{\iz{
+    \item Bounded (covariante): \cil{C<? extends T>}{\iz{
+      \item accetta un qualunque \cil{C<S>} con \cil{S <: T}
+    }}
+    \item Bounded (controvariante): \cil{C<? super T>}{\iz{
+      \item accetta un qualunque \cil{C<S>} con \cil{S >: T}
+    }}
+    \item Unbounded: \cil{C<?>}{\iz{
+      \item accetta un qualunque \cil{C<S>}
+    }}    
+  }}
+  \bl{Uso delle librerie che dichiarano tipi wildcard}{\iz{
+    \item Piuttosto semplice, basta passare un argomento compatibile o si ha un errore a tempo di compilazione
+  }}
+  \bl{Progettazione di librerie che usano tipi wildcard}{\iz{
+    \item Molto avanzato: le wildcard pongono limiti alle operazioni che uno può eseguire, derivanti dal principio di sostituibilità
+  }}
+}
+
+%\fr{Esempio Wildcard Bounded covariante: \Cil{C<? extends T>}}{
+%  \sizedcode{\scriptsize}{../09-generics/code/Cov.java}
+%}
+%
+%\fr{Esempio Wildcard Bounded controvariante: \Cil{C<? super T>}}{
+%  \sizedcode{\scriptsize}{../09-generics/code/Contra.java}
+%}
+%
+%\fr{Esempio Wildcard Unbounded: \Cil{C<?>}}{
+%  \sizedcode{\scriptsize}{../09-generics/code/Unbounded.java}
+%}
+
+
+\fr{Approfondimento: sulla sostituibilità dei generici}{
+  \bl{Domanda: \cil{Vector<Integer>} è un sottotipo di \cil{Vector<Object>}?}{
+    Ovvero, possiamo pensare di passare un \cil{Vector<Integer>} in tutti i contesti in cui invece ci si aspetta un \cil{Vector<Object>}?
+  }
+  \bl{Risposta: no!! Sembrerebbe di si.. ma:}{
+    cosa succede se nel metodo qui sotto passiamo un \cil{Vector<Integer>}?\\
+    $\Rightarrow$ potremmo facilmente compromettere l'integrità del vettore
+  }
+  \sizedcode{\footnotesize}{../09-generics/code/Covariance.java}
+}
+
+\fr{Subtyping e safety}{
+  \bl{\alert{Safety} di un linguaggio OO}{
+    Se nessuna combinazione di istruzioni porta a poter invocare un metodo su un oggetto la cui classe non lo definisce{\iz{
+      \item \`E necessario che il subtyping segua il principio di sostituibilità
+    }}
+    Più in generale, se non possono accadere errori a tempo di esecuzione..
+  }
+  \bl{Java}{\iz{
+    \item Si pone dove possibile l'obbiettivo della safety
+    \item Quindi, non è vero che \cil{Vector<Integer> <: Vector<Object>}
+  }}
+  \bl{Generici e safety}{
+    In generale, istanziazioni diverse di una classe generica sono scollegate
+    \iz{
+    \item non c'è \alert{covarianza}: non è vero che \cil{C<T> <: C<S>} con \cil{T <: S}
+    \item non c'è \alert{controvarianza}: non è vero che \cil{C<S> <: C<T>} con \cil{T <: S}
+  }}
+}
+
+\fr{Unsafety con gli array di Java}{
+  \bl{Gli array di Java sono trattati come covarianti!}{\iz{
+    \item Gli array assomigliano moltissimo ad un tipo generico
+    \item \cil{Integer[]} $\sim$ \cil{Array<Integer>}, \cil{T[]} $\sim$ \cil{Array<T>}
+    \item E quindi sappiamo che non sarebbe safe gestirli con covarianza
+    \item E invece in Java è esattamente così!! P.e. \cil{Integer[] <: Object[]}
+    \item Quindi ogni scrittura su array potrebbe potenzialmente fallire....lanciando un \cil{ArrayStoreException}
+  }}
+  \sizedcode{\footnotesize}{../09-generics/code/Arrays.java}
+}
+
+\fr{Covarianza e operazioni di accesso}{
+  \bl{La covarianza (\cil{C<T> <: C<S>} con \cil{T <: S}) sarebbe ammissibile se:}{\iz{
+    \item La classe \cil{C<X>} non avesse operazioni che ricevono oggetti \cil{X}
+    \item Ossia, ha solo campi privati e nessun metodo con argomento \cil{X}
+  }}
+  \bl{La controvarianza (\cil{C<S> <: C<T>} con \cil{T <: S}) sarebbe ammissibile se:}{\iz{
+    \item La classe \cil{C<X>} non avesse operazioni che producono oggetti \cil{X}
+    \item Ossia, ha solo campi privati e nessun metodo con tipo di ritorno \cil{X}
+  }}
+  \bl{In pratica:}{\iz{
+    \item La maggior parte delle classi generiche \cil{C<X>} hanno campi di tipo \cil{X} (composizione) e operazioni getter e setter, e quindi per loro covarianza e controvarianza non funzionano
+    \item Con le wildcard si aumenta il riuso dei metodi che non usano tutte le funzione del tipo generico in input
+  }}
+}
+
+
+\fr{Esempio Wildcard Bounded covariante: \Cil{C<? extends T>}}{
+  \sizedcode{\scriptsize}{../09-generics/code/variance/Cov.java}
+}
+
+\fr{Esempio Wildcard Bounded controvariante: \Cil{C<? super T>}}{
+  \sizedcode{\scriptsize}{../09-generics/code/variance/Contra.java}
+}
+
+\fr{Esempio Wildcard Unbounded: \Cil{C<?>}}{
+  \sizedcode{\scriptsize}{../09-generics/code/variance/Unbounded.java}
+}
+
+\fr{Un uso tipico: metodi in classi generiche}{
+  \sizedcode{\scriptsize}{../09-generics/code/VectFrag.java}
+  \sizedcode{\scriptsize}{../09-generics/code/variance/UseVector.java}
+}
+
+
+\fr{Un uso tipico: metodi in classi generiche}{
+  \sizedcode{\scriptsize}{../09-generics/code/VectFrag.java}
+  \sizedcode{\scriptsize}{../09-generics/code/variance/UseVector.java}
+}
+
+
+\section[Impl. \texttt{List}]{Implementazioni di \texttt{List}}
+
+\fr{Implementazione collezioni -- UML}{
+    \fg{height=0.75\textheight}{../10-collections/img/uml-abs.pdf}
+}
+
+
+\fr{\Cil{List}}{
+  \sizedcode{\scriptsize}{../10-collections/code/short/List2.java}
+}
+
+\fr{Implementazioni di \Cil{List}}{
+  \bl{Caratteristiche delle liste}{\iz{
+    \item Sono sequenze: ogni elemento ha una posizione
+    \item[$\rightarrow$] Il problema fondamentale è realizzare i metodi posizionali in modo efficiente, considerando il fatto che la lista può modificarsi nel tempo (altrimenti andrebbe bene un array)
+  }}
+  \bl{Approccio 1: \cil{ArrayList}}{
+   Internamente usa un array di elementi con capacità maggiore di quella al momento necessaria. Se serve ulteriore spazio si alloca trasparentemente un nuovo e più grande array
+  }
+  \bl{Approccio 2: \cil{LinkedList}}{
+   Usa una double-linked list. L'oggetto \cil{LinkedList} mantiene il riferimento al primo e ultimo elemento della lista, e alla dimensione della lista
+  }
+}
+
+\fr{\Cil{ArrayList}}{
+  \bl{Caratteristiche di performance}{\iz{
+    \item Lettura/scrittura in data posizione sono a tempo costante
+    \item La \cil{add()} è tempo costante ammortizzato, ossia, $n$ add si effettuano in $O(n)$
+    \item Tutte le altre operazioni sono a tempo lineare
+  }}
+  \bl{Funzionalità aggiuntive}{Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'utente esperto può usare funzioni aggiuntive\iz{
+    \item Specificare la dim iniziale dell'array interno nella \cil{new}
+    \item \cil{trimToSize()} e \cil{ensureCapacity()} per modifiche in itinere
+  }}
+}
+
+
+\fr{\Cil{ArrayList}: aspetti aggiuntivi}{
+  \sizedcode{\scriptsize}{../10-collections/code/short/ArrayList.java}
+}
+
+\fr{\Cil{UseArrayList}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/list/UseArrayList.java}
+}
+
+\fr{\Cil{LinkedList}}{
+  \bl{Caratteristiche di performance}{\iz{
+    \item Accesso e modifica in una data posizione hanno costo lineare
+    \item Operazioni in testa o coda, quindi, sono a tempo costante
+    \item Usa in generale meglio la memoria rispetto \cil{ArrayList}
+    \item (di norma però si preferisce \cil{ArrayList})
+  }}
+  \bl{Funzionalità aggiuntive}{\iz{
+    \item Implementa anche l'interfaccia \cil{Deque}, usata per rappresentare una coda bidirezionale, potenzialmente con dimensione limitata
+  }}
+}
+
+\fr{\Cil{LinkedList}: funzioni aggiuntive relative a code (e stack)}{
+  \sizedcode{\ssmall}{../10-collections/code/short/Queue.java}
+  \sizedcode{\ssmall}{../10-collections/code/short/Deque.java}
+}
+
+\fr{\Cil{LinkedList}: costruzione}{
+  \sizedcode{\ssmall}{../10-collections/code/short/LinkedList.java}
+}
+
+\fr{\Cil{UseLinkedList}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/list/UseLinkedList.java}
+}
+
+
+%[\texttt{Arrays}, \texttt{Collections}]
+\section[Classi di utilità]{Altre classi: \texttt{Arrays} e \texttt{Collections}}
+
+\fr{Classi di utilità (moduli): \Cil{Arrays} e \Cil{Collections}}{
+  \bl{\cil{java.util.Arrays}}{\iz{
+    \item Contiene varie funzionalità d'ausilio alla gestione degli array
+    \item In genere ha varie versione dei metodi per ogni array di tipo primitivo
+    \item Ricerca binaria (dicotomica), Ordinamento (quicksort), copia
+    \item Operazioni base (\cil{toString}, \cil{equals}, \cil{hashCode}), anche ricorsive
+  }}
+  \bl{\cil{java.util.Collections}}{\iz{
+    \item Raccoglie metodi statici che sarebbero potuti appartenere alle varie classi/interfacce viste
+    \item Ricerca binaria (dicotomica), Ordinamento (quicksort), copia, min, max, sublist, replace, reverse, rotate, shuffle
+    \item Con esempi notevoli d'uso delle wilcard
+  }}
+}
+
+\fr{\Cil{Arrays}: qualche esempio di metodi}{
+  \sizedcode{\ssmall}{../10-collections/code/short/Arrays.java}
+}
+
+\fr{\Cil{UseArrays}: qualche esempio di applicazione}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/functions/UseArrays.java}
+}
+
+\fr{\Cil{Collections}: qualche esempio di metodi}{
+  \sizedcode{\ssmall}{../10-collections/code/short/Collections.java}
+}
+
+\fr{\Cil{UseCollections}: qualche esempio di applicazione}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/functions/UseCollections.java}
+}
+
+\section[\texttt{Map}]{Il caso delle \texttt{java.util.Map}}
+
+
+\fr{JCF -- struttura semplificata}{
+  \fg{height=0.75\textheight}{../10-collections/img/tax.png}
+}
+
+\fr{\Cil{Map}}{
+  \sizedcode{\scriptsize}{code/short/Map_.java}
+}
+
+\fr{Usare le mappe}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/map/UseMap.java}
+}
+
+\frs{5}{Due implementazioni di \Cil{Map} e \Cil{AbstractMap}}{
+  \bl{\cil{Map<K,V>}}{\iz{
+    \item Rappresenta una funzione dal dominio \cil{K} in \cil{V}
+    \item La mappa tiene tutte le associazioni (o ``entry'')
+    \item Non posso esistere due entry con stessa chiave (\cil{Object.equals})
+    
+  }}
+  \bl{\cil{HashMap}}{\iz{
+    \item Sostanzialmente un \cil{HashSet} di coppie \cil{Key}, \cil{Value}
+    \item L'accesso ad un valore tramite la chiave è fatto con hashing
+    \item Accesso a tempo costante, a discapito di overhead in memoria
+  }}
+  \bl{\cil{TreeMap}}{\iz{
+    \item Sostanzialmente un \cil{TreeSet} di coppie \cil{Key}, \cil{Value}
+    \item L'accesso ad un valore tramite la chiave è fatto con red-black tree
+    \item Accesso in tempo logaritmico
+    \item Le chiavi devono essere ordinate, come per i \cil{TreeSet}
+  }}
+}
+
+\section[Es. su collezioni]{Un esercizio sulle collezioni}
+
+\fr{Interfaccia da implementare}{
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/exercise/Graph.java}
+}
+
+\fr{Codice di prova}{
+  \sizedrangedcode{\ssmall}{3}{30}{\ecl/exercise/UseGraph.java}
+}
+
+\fr{Strategia risolutiva}{ \bl{Passi:}{\en{
+    \item Capire bene cosa la classe deve realizzare
+    \item Pensare a quale tipo di collezioni può risolvere il problema in modo semplice e prestante
+    \item Realizzare i vari metodi
+    \item Controllare i casi particolari
+}}
+}
+
+
+\end{document}
+

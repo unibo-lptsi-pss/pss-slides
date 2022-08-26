@@ -1,0 +1,510 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{14}
+\newcommand{\lectitle}{Graphical User Interfaces (GUIs)}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+\newcommand{\ecl}{\eclipsepath{p14gui}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare la libreria Java Swing
+  \item Fornire pattern di progettazione per le GUI
+  }}
+  \bl{Argomenti}{\iz{
+    \item Organizzazione della libreria Swing
+    \item Panoramica dei meccanismi principali
+    \item La gestione degli eventi nelle GUI
+    \item Elementi di programmazione ad eventi
+    \item Organizzazione MVC delle GUI
+    \item ..in seguito, JavaFX
+  }}
+}
+
+\section[GUI]{Introduzione alle GUI}
+
+\fr{Graphical User Interfaces (GUI)}{
+  \bl{GUI}{\iz{
+    \item Interfacce grafiche per l'interazione con l'utente
+    \item Ritenute più semplici rispetto alle CUI (Console User Interfaces)
+    \item Sfruttano la possibilità di disegnare più o meno arbitrariamente i pixel della matrice dello schermo
+    \item Oltre allo schermo possono sfruttare altri dispositivi: mouse, tastiera,..
+    \item Si appoggiano su astrazioni grafiche (pulsanti, icone, finestre)
+  }}
+  \bl{Gestione delle GUI in Java}{\iz{
+    \item Abstract Window Toolkit (AWT) in Java 1 e 2 -- basso livello
+    \item Java Swing in Java 5,6,7,8 
+    \item Alternative: JavaFX (consigliata da Java 8), SWT (usato da Eclipse) 
+    \item[$\Rightarrow$] Vedremo Swing, che si appoggia su AWT
+    \item[$\Rightarrow$] In laboratorio vedrete la più moderna JavaFX
+  }}
+}
+
+\fr{AWT e Swing: UML}{
+    \fg{height=0.85\textheight}{img/swing.png}
+}
+
+\fr{AWT, Swing e concetti principali}{
+    \bl{I due package}{\iz{
+	\item \cil{java.awt}: Classi base e implementazioni supportate dal S.O.{\iz{
+	    \item non molto utili da guardare in dettaglio
+	    \item fornisce comunque l'architettura base
+	}}
+	\item \cil{javax.swing}: implementazioni gestite ``pixel per pixel''{\iz{
+	    \item le classi \cil{J*} e quelle sottostanti
+	}}
+    }}
+    \bl{Alcune classi base di Swing}{\iz{
+        \item \cil{JFrame}: finestra con ``cornice'' (menù, barra, icone chiusura)
+	\item \cil{JPanel}: pannello di componenti inseribili in un \cil{JFrame}
+	\item \cil{JComponent}: componente (pulsante, textfield, ..)
+	\item \cil{JDialog}: finestra di dialogo
+	\item \cil{JWindow}: componente piazzabile nel desktop (senza cornice)
+    }}
+}
+
+\fr{Concetti principali}{
+    \fg{height=0.75\textheight}{img/swing-comps.pdf}
+}
+
+
+\fr{Un primo esempio}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/TrySwing.java}
+    \backpick{4cm}{-2cm}{-1.5cm}{img/TrySwing.png}
+}
+
+\fr{Vari \Cil{JComponent} disponibili..}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/Components.java}
+    \backpick{7cm}{-3.2cm}{-1.3cm}{img/Components.png}
+}
+
+\fr{Classi di Swing}{
+    \fg{height=0.85\textheight}{img/swing-details.png}
+}
+
+\fr{Materiale da consultare}{
+    \bl{Collezione di riferimenti utili}{\iz{
+	\item JavaDoc delle librerie:{\iz{
+	    \item \texttt{http://docs.oracle.com/javase/8/docs/api}
+	}}
+	\item Tutorial ufficiali:{\iz{
+	    \item \texttt{http://docs.oracle.com/javase/tutorial/uiswing/}
+	}}
+  }}
+    \bl{Lezione di oggi}{\iz{
+	\item Mostriamo le tecniche principali
+	\item Occasionalmente mostreremo il funzionamento di vari componenti
+	\item Costruire GUI efficaci (e avanzate) richiede però conoscenze ulteriori ottenibili all'occorrenza dai riferimenti di cui sopra
+    }}
+}
+
+\section[Layout]{Il layout dei pannelli}
+
+\fr{Il problema del Layout di un pannello}{
+    \bl{Problema}{\iz{
+	\item Intervenire sulla politica di dislocazione dei componenti
+	\item Scegliere politiche indipendenti dalle dimensioni della finestra
+	\item Organizzare tali selezioni con una buona organizzazione OO
+    }}
+    \bl{La classe \cil{LayoutManager} e il pattern ``Strategy''}{\iz{
+	\item Al pannello si passa un oggetto di \cil{LayoutManager}
+	\item È lui che incapsula la strategia di inserimento dei componenti
+	\item Vari casi: \cil{FlowLayout} (default), \cil{BorderLayout}, \cil{GridBagLayout},.. (tipicamente da comporre tra loro)
+	\item Vedere: {\scriptsize \texttt{http://docs.oracle.com/javase/tutorial/uiswing/layout/visual.html}}
+	\item Il metodo \cil{add()} di \cil{JPanel} accetta un ulteriore argomento (\cil{Object} o \cil{int}) usato dal Layout Manager
+    }}
+}
+
+\fr{Senza Layout -- deprecabile}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseNoLayout.java}
+   \backpick{5cm}{-2.2cm}{-1.2cm}{img/NoLayout.png}
+}
+
+
+\fr{\Cil{BorderLayout}}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseBorderLayout.java}
+   \backpick{5cm}{-2.2cm}{-1.2cm}{img/BorderLayout.png}
+}
+
+\fr{Lavorare specializzando \Cil{JFrame}: \Cil{MyFrame}}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/MyFrame.java}
+}
+
+\fr{Nuova versione \Cil{UseBorderLayout2}}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseBorderLayout2.java}
+   \backpick{5cm}{-2.2cm}{-1.2cm}{img/BorderLayout.png}
+}
+
+\fr{Qualche modifica: \Cil{UseBorderLayout3}}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseBorderLayout3.java}
+   \backpick{5cm}{-2.2cm}{-1.2cm}{img/BorderLayoutBis.png}
+}
+
+\fr{\Cil{FlowLayout}}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseFlowLayout.java}
+   \backpick{5cm}{-2.2cm}{-1.4cm}{img/FlowLayout.png}
+}
+
+\fr{Un uso combinato di \Cil{FlowLayout} e \Cil{BorderLayout}}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseFlowBorder.java}
+   \backpick{4cm}{-1.8cm}{-2cm}{img/FlowBorder.png}
+
+}
+
+\fr{Altro uso combinato + \Cil{GridBagLayout}}{
+   \sizedrangedcode{\tiny}{7}{100}{\ecl/examples/UseMixedLayouts.java}
+   \backpick{4cm}{-1.8cm}{-1.2cm}{img/Mixed.png}
+}
+
+\fr{Lavorare incapsulando il frame dentro una classe}{
+   \bl{L'indipendenza dalla tecnologia delle GUI}{\iz{
+    \item sarà importante costruire GUI in modo che le scelte di basso livello dettate da Swing siano ben nascosti
+    \item così da tenere tutto il sistema ben organizzato e ad alto livello
+   }}
+   \bl{Tipica tecnica}{\iz{
+    \item si disegni una interfaccia pulita per la guida
+    \item i dettagli implementativi al solito siano delegati ad una classe che implementa
+   }}
+}
+
+\fr{Lavorare incapsulando il frame dentro una classe}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/gui/UserInterface.java}
+   \sizedrangedcode{\tiny}{8}{100}{\ecl/gui/UserInterfaceImpl.java}
+}
+
+\fr{Lavorare incapsulando il frame dentro una classe}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/gui/UseEncapsulatedFrame.java}
+}
+
+
+\section[Eventi]{La gestione degli eventi nelle GUI}
+
+\fr{La gestione degli eventi}{
+    \bl{Come rendere le interfacce ``vive''?}{\iz{
+	\item come programmare la possibilità di intercettare le varie azioni che un utente potrebbe compiere sull'interfaccia, ossia la parte ``input''?
+	\item al solito, sarebbe necessario uno strumento altamente configurabile e ben organizzato
+    }}
+    \bl{Il pattern Observer}{\iz{
+	\item È possibile ``registrare'' nei componenti degli oggetti ``ascoltatori'' (\alert{listeners})
+	\item Quando certi eventi accadono, il componente richiama un metodo dei listener registrati
+	\item Tale metodo contiene il codice da eseguire in risposta all'evento
+	\item Si assume (per ora) che tale codice arrivi ``velocemente'' a compimento
+    }}
+}
+
+\fr{Il pattern \alert{Observer}}{
+\fg{height=0.5\textheight}{img/observer.jpg}
+\bx{\iz{
+    \item \cil{Subject} è la sorgente degli eventi
+    \item \cil{Observer} si registra con la \cil{attach(o:Observer)}
+    \item Quando accade l'evento, \cil{Subject} chiama \cil{notify(e:Event)}
+}}
+}
+
+\begin{frame}[fragile]\frametitle{Il caso dei click sui pulsanti: 3 classi}
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily]
+// E' il subject degli eventi
+class JButton .. {
+    void setActionCommand(String s){..}
+    void addActionListener(ActionListener listener){..}
+    void removeActionListener(ActionListener listener){..}
+}
+
+// Interfaccia da implementare per ascoltare gli eventi
+interface ActionListener .. {
+    void actionPerformed(ActionEvent e);
+}
+
+// Classe per rappresentare un evento
+class ActionEvent .. {
+    String	getActionCommand(){..}
+    long	getWhen(){..}
+    ..
+}
+\end{lstlisting}
+\end{frame}
+
+\fr{Catturare gli eventi dei pulsanti con \Cil{ActionCommand}}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseButtonEvents.java}
+   \backpick{4cm}{-2.4cm}{-1.8cm}{img/actions.png}
+}
+
+\fr{Corrispondente listener, come classe esterna}{
+   \sizedrangedcode{\scriptsize}{3}{100}{\ecl/examples/MyActionListener.java}
+}
+
+\fr{Versione incapsulata (inner listener + source eventi)}{
+   \sizedrangedcode{\tiny}{9}{100}{\ecl/examples/EventsFrame.java}
+}
+
+
+\fr{Listeners come classi anonime}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseButtonEvents2.java}
+}
+
+\fr{Panoramica eventi-listeners}{
+    \fg{height=0.75\textheight}{p14gui/examples/events.png}
+}
+
+\fr{Sulla gestione degli eventi}{
+    \bl{Il flusso di controllo con le GUI di Swing}{\iz{
+	\item Quando si crea un \cil{JFrame}, la JVM crea l'\cil{EventDispatchThread} (EDT)
+	\item Quindi l'applicazione non termina quando il \cil{main} completa
+	\item Quando un evento si verifica la JVM fa eseguire il corrispondente codice all'EDT
+	\item Ecco perché la GUI non risponde a nuovi eventi finché uno precedente non è stato gestito
+	\item Per gestire con migliore flessibilità le GUI servono meccanismi di programmazione concorrente, che vedremo in futuro
+    }}    
+}
+
+
+
+\section[Funzionalità avanzate]{Alcune funzionalità avanzate delle GUI}
+
+\fr{GUI con I/O: listeners che modificano l'interfaccia}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseIOGUI.java}
+   \backpick{5cm}{-2.2cm}{-2cm}{img/iogui.png}
+}
+
+\fr{GUI con Layout dinamico}{
+   \sizedrangedcode{\ssmall}{3}{100}{\ecl/examples/UseDynamicLayout.java}
+   \backpick{5cm}{-2.2cm}{-2cm}{img/adding.png}
+}
+
+\fr{Uso di un pannello come Canvas}{
+   \sizedrangedcode{\tiny}{8}{100}{\ecl/examples/UseCanvas.java}
+   \backpick{4cm}{-1.8cm}{-1.2cm}{img/Canvas.png}
+}
+
+\fr{La classe \Cil{DrawPanel}}{
+   \sizedrangedcode{\tiny}{7}{100}{\ecl/examples/DrawPanel.java}
+}
+
+\fr{Uso delle finestre di dialogo}{
+   \sizedrangedcode{\tiny}{8}{100}{\ecl/examples/UseDialogs.java}
+   \backpick{4cm}{-1.8cm}{-1.3cm}{img/dialogs.png}
+}
+
+\fr{Le GUI builder}{
+    \bl{Cosa sono?}{\iz{
+	\item Sono sistemi software usabili per creare il codice che genera le interfacce
+	\item Permettono una descrizione WYSIWYG (What you see is what you get)
+	\item Spesso non sono particolarmente semplici da  usare
+	\item Con un po' di esperienza e una buona conoscenza delle librerie sottostanti, possono essere usati con successo
+	\item Se li si usasse, si deve però anche comprendere (e criticare) il codice che producono
+    }}
+}
+
+\fr{WindowBuilder: un plugin per Eclipse}{
+    \fg{height=0.75\textheight}{img/builder.png}
+}
+
+
+\section[App. con GUI]{Organizzazione applicazioni grafiche con MVC}
+
+\fr{Il pattern architetturale MVC}{
+  \bl{MVC -- divide l'applicazione in 3 parti}{\iz{
+    \item \cil{Model}: modello OO del dominio applicativo del sistema
+    \item \cil{View}: gestisce le interazioni con l'utente (input e output)
+    \item \cil{Controller}: gestisce il coordinamento fra Model e View
+  }}
+}
+
+
+\fr{Applicazione del MVC}{
+    \bl{Sulla costruzione di applicazioni con GUI}{\iz{
+	\item Specialmente se non esperti, possono essere alquanto laboriose
+	\item Usare un approccio strutturato sembra richiedere più tempo nel complesso, ma in realtà porta a soluzione più facilmente modificabili e controllabili
+    }}
+    \bl{Alcune linee guida}{\iz{
+	\item Usare il pattern MVC per la struttura generale
+	\item Identificate le varie ``interazioni'', e quindi costruire le interfacce dei vari componenti bene fin dall'inizio
+	\item Cercare massima indipendenza fra i vari componenti (interfacce con meno metodi possibile)
+	\item Costruire e testare modello e GUI separatamente (M e V), poi collegare il tutto col controllore (C) che risulterà particolarmente esile
+	\item Per la GUI eventualmente usare un GUI Builder
+    }}
+}
+
+\fr{MVC con le GUI: un esempio di struttura}{
+    \fg{height=0.55\textheight}{p14gui/mvc/MVC-abstract.png}
+}
+
+\fr{Componenti e loro interazioni}{
+    \bl{MVC}{\iz{
+	\item \cil{Model}: incapsula dati e logica relativi al dominio della applicazione
+	\item \cil{View}: incapsula la GUI, le sue sottoparti, e la logica di notifica
+	\item \cil{Controller}: intercetta gli eventi della View, comanda le modifiche al modello, cambia di conseguenza la View
+    }}
+    \bl{Interfacce -- nomi da modificare in una applicazione concreta}{\iz{
+	\item \cil{ModelInterface}: letture/modifiche da parte del Controller
+	\item \cil{ViewObserver}: comandi inviati dalla view al controller (\cil{void})
+	\item \cil{ViewInterface}: comandi per settare la view, notifiche a fronte dei comandi (errori..)
+    }}
+}
+
+\fr{Un esempio di applicazione: \Cil{DrawNumber}}{
+    \fg{height=0.5\textheight}{\ecl/mvc/class.png}
+}
+
+\fr{Interfaccia del model: \Cil{DrawNumber}}{
+\sizedrangedcode{\scriptsize}{3}{100}{\ecl/mvc/model/DrawNumber.java}
+\sizedrangedcode{\scriptsize}{3}{100}{\ecl/mvc/model/DrawResult.java}
+\sizedrangedcode{\scriptsize}{3}{100}{\ecl/mvc/model/AttemptsLimitReachedException.java}
+}
+
+\fr{Implementazione del model: \Cil{DrawNumberImpl} (1/2)}{
+\sizedrangedcode{\ssmall}{5}{25}{\ecl/mvc/model/DrawNumberImpl.java}
+}
+
+\fr{Implementazione del model: \Cil{DrawNumberImpl} (2/2)}{
+\sizedrangedcode{\ssmall}{26}{100}{\ecl/mvc/model/DrawNumberImpl.java}
+}
+
+\fr{Interfacce della view: \Cil{DrawNumberView}}{
+\sizedrangedcode{\scriptsize}{5}{100}{\ecl/mvc/view/DrawNumberView.java}
+\sizedrangedcode{\scriptsize}{3}{100}{\ecl/mvc/view/DrawNumberViewObserver.java}
+}
+
+\fr{Implementazione della view: \Cil{DrawNumberViewImpl} (1/3)}{
+\sizedrangedcode{\ssmall}{14}{40}{\ecl/mvc/view/DrawNumberViewImpl.java}
+}
+
+\fr{Implementazione della view: \Cil{DrawNumberViewImpl} (2/3)}{
+\sizedrangedcode{\ssmall}{41}{68}{\ecl/mvc/view/DrawNumberViewImpl.java}
+}
+
+\fr{Implementazione della view: \Cil{DrawNumberViewImpl} (3/3)}{
+\sizedrangedcode{\ssmall}{70}{110}{\ecl/mvc/view/DrawNumberViewImpl.java}
+}
+
+
+
+\fr{Implementazione del controller: \Cil{DrawNumberApp} (1/2)}{
+\sizedrangedcode{\ssmall}{6}{33}{\ecl/mvc/controller/DrawNumberApp.java}
+}
+
+\fr{Implementazione del controller: \Cil{DrawNumberApp} (2/2)}{
+\sizedrangedcode{\ssmall}{34}{100}{\ecl/mvc/controller/DrawNumberApp.java}
+}
+
+\fr{Linee guida generali consigliate su MVC}{
+   \bl{Metodologia proposta}{\iz{
+      \item progettare le 3 interfacce{\iz{
+         \item M: metodi di ``dominio'', chiamati da C
+         \item C: metodi (\cil{void}) chiamati da V, esprimono ``azioni utente''
+         \item V: metodi (\cil{void}) chiamati da C, esprimono richieste di visualizzazione
+      }}
+      \item la tecnologia scelta per le GUI sia interna a V, e mai menzionata altrove o nelle interfacce
+      \item implementare separatamente M, V e C, poi comporre e testare
+      \item in progetti reali, M, V e C si compongono di varie parti
+   }}
+   \bl{Aspetti}{\iz{ 
+      \item MVC è implementato in vari modi 
+      \item l'approccio proposto è particolarmente indicato per la sua semplicità
+      \item si usino altri approcci se non peggiorativi
+   }}
+}
+
+\end{document}
+
+
+\fr{Un esempio di applicazione}{
+    \fg{height=0.65\textheight}{img/person-editor.png}
+}
+
+\fr{Funzionalità della applicazione}{
+    \bl{Funzionalità lato utente}{\iz{
+	\item Editor di dati di persone
+	\item Load/save su file del set di persone
+	\item Comando add apre una dialog
+    }}
+    \bl{Alcuni dettagli interni}{\iz{
+	\item Il modello estende \cil{HashSet<Person>}, e incapsula la logica di load/save
+	\item La dialog invia i dati al controllore che ne controlla la correttezza attraverso il modello
+	\item Gli errori nel modello causano una interazione fra controllore e view per mostrare dialog d'errore
+	\item Il Frame disegnato via codice, la dialog con WindowBuilder (esperienza positiva!)
+    }}
+}
+
+\fr{UML più dettagliato}{
+    \vspace{-20pt}\fg{height=0.8\textheight}{p14gui/mvc/MVC.png}
+}
+
+\section[Programmazione event-based]{Elementi di programmazione ad eventi}
+
+\fr{Programmazione sequenziale vs event-based}{
+    \bl{Programmazione sequenziale}{\iz{
+        \item Un programma esegue passo-passo delle istruzioni, e controlla di quando in quando (bloccandosi o meno) se ha ricevuto input dall'esterno, e di quando in quando produce degli output
+        \item È lo stile tradizionale della computazione ``algoritmica''
+    }}    
+    \bl{Programmazione ad eventi}{\iz{
+        \item All'arrivo di un evento, uno (o più) handler corrispondente viene eseguito fino alla sua terminazione, eventualmente (non necessariamente) producendo un output
+        \item È lo stile della computazione ``interattiva'', usata tipicamente con le GUI, i sistemi Web, i sistemi embedded, i sistemi robotici
+    }}
+}
+
+\fr{Implementiamo una mini-libreria per il pattern observer}{
+    \bl{Classe \cil{ESource} e interfaccia \cil{EObserver}}{\iz{
+        \item Un \cil{ESource} è un generatore di eventi
+        \item Accetta registrazioni da uno o più \cil{EObserver}
+        \item \cil{EObserver} ha un metodo \cil{update} per ricevere gli eventi
+        \item \cil{ESource} fornisce un metodo per notificarli tutti
+    }}
+    \bl{Esempio di applicazione ad eventi}{\iz{
+        \item Leggiamo da tastiera un insieme di numeri positivi
+        \item All'arrivo di un numero negativo vogliamo stampare la somma dei numeri ottenuti fin lì sia su tastiera che su file (in generale su un qualunque stream)
+        \item Concepiamo il sistema ad ``eventi''
+    }}    
+}
+
+\fr{Diagramma delle classi}{
+    \fg{height=0.55\textheight}{p14gui/events/events.png}
+    \bl{Idea: 4 oggetti}{\iz{
+        \item un \cil{KbdInputSource} che genera un evento per ogni intero digitato
+        \item un \cil{Adder} che genera l'evento ``somma'' quando giunge un negativo
+        \item due \cil{ToStream} che ricevono quest'ultimo e lo stampano
+    }}
+}
+
+\fr{Classe di partenza}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/events/Application.java}
+}
+
+\fr{\Cil{EObserver} e \Cil{ESource}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/events/EObserver.java}
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/events/ESource.java}
+}
+
+\fr{\Cil{KbdInputSource}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/events/KbdInputSource.java}
+}
+
+\fr{\Cil{Adder}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/events/Adder.java}
+}
+
+\fr{\Cil{ToStream}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/events/ToStream.java}
+}
+
+
+\fr{Considerazioni sulla programmazione ad aventi}{
+    \bl{Aspetti positivi}{\iz{
+        \item Molto utile quando si gestisce l'interazione col SISOP
+        \item Consente altissimo disaccoppiamento fra i componenti
+        \item Consente alta flessibilità nella composizione dinamica
+        \item Se ben realizzata porta a buone performance 
+    }}
+    \bl{Aspetti negativi}{\iz{
+        \item Più sofisticata e meno intuitiva
+        \item Più difficile intercettare errori di programmazione
+        \item Più laboriosa
+        \item Potrebbe scomodare aspetti di multi-threading
+    }}    
+}

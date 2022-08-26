@@ -2,7 +2,7 @@ package it.unibo.apice.oop.p05encapsulation;
 
 public class Lamp {
 
-   /* Costanti luminosita' */
+   /* Costanti luminosità */
    private static final int LEVELS = 10;
    private static final double DELTA = 0.1;
 
@@ -58,6 +58,6 @@ public class Lamp {
    }
 
    public String toString() {
-	   return "Acceso: " + this.isSwitchedOn() + " Intensita': " + this.getIntensity();
+	   return "Acceso: " + this.isSwitchedOn() + " Intensità: " + this.getIntensity();
    }
 }

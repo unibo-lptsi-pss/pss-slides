@@ -1,0 +1,546 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{13}
+\newcommand{\lectitle}{Meccanismi Avanzati \\ Classi innestate e enumerazioni}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+\newcommand{\ecl}{\eclipsepath{p13advanced}}
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare meccanismi avanzati della programmazione OO
+  \item Dare linee guida sul loro utilizzo
+  }}
+  \bl{Argomenti}{\iz{
+  \item Enumerazioni
+  \item Classi innestate statiche
+  \item Inner class
+  \item Classi locali
+  \item Classi anonime
+  \item Mappe del Collection Framework
+  }}
+}
+
+\section{Classi innestate statiche}
+
+\begin{frame}[fragile]\frametitle{Classi innestate statiche -- idea e terminologia}
+  \bl{Principali elementi}{\iz{
+    \item Dentro una classe \cil{A}, chiamata \alert{outer} è possibile innestare la definizione di un'altra classe \cil{B}, chiamata \alert{innestata (statica)} -- in inglese, \alert{static nested}
+    \item \cil{B} viene quindi vista come se fosse una proprietà \cil{statica} di \cil{A} (richiamabile via \cil{A}, come: tipo, per le \cil{new} e le chiamate statiche)
+  }}
+\begin{lstlisting}
+// situazione di partenza
+class A {...}
+class B {...}
+\end{lstlisting}
+\begin{lstlisting}
+// modifica, usando le inner class
+class A {
+    ...
+    static class B { .. }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Classi innestate statiche -- casistica}
+  \bl{Possibilità di innestamento}{\iz{
+    \item Anche una interfaccia può fungere da \cil{Outer}
+    \item Si possono innestare anche interfacce
+    \item Il nesting può essere multiplo e/o multilivello
+    \item L'accesso alle classi/interfacce innestate statiche avviene con sintassi \cil{Outer.A}, \cil{Outer.B}, \cil{Outer.I}, \cil{Outer.A.C}
+  }}
+\begin{lstlisting}
+class Outer {
+    ...
+    static class A { .. static class C{..} ..}
+    static class B {..}
+    interface I {..} // static è implicito
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Classi innestate statiche -- accesso}
+  \bl{Uso}{\iz{
+    \item L'accesso alle classi/interfacce innestate statiche avviene con sintassi \cil{Outer.StaticNested}
+    \item Da dentro \cil{Outer} si può accedere anche direttamente con \cil{StaticNested}
+    \item L'accesso da fuori \cil{Outer} di \cil{StaticNested} segue le regole del suo modificatore d'accesso
+    \item Esterna e interna si vedono a vicenda anche le proprietà \cil{private}
+  }}
+\begin{lstlisting}
+class Outer {
+    ...
+    static class StaticNested { 
+       ...
+    }
+}
+..
+Outer.StaticNested obj = new Outer.StaticNested(...);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}\frametitle{Motivazioni}
+  \bl{Una necessità generale}{
+    Vi sono situazioni in cui per risolvere un singolo problema è opportuno generare più classi, e non si vuole affiancarle solo come classi dello stesso package
+  }
+  \bl{Almeno tre motivazioni (non necessariamente contemporanee)}{\iz{
+    \item Evitare il proliferare di classi in un package, specialmente quando solo una di queste debba essere pubblica
+    \item Migliorare l'incapsulamento, con un meccanismo per consentire un accesso locale anche a proprietà \cil{private}
+    \item Migliorare la leggibilità, inserendo classi là dove serve (con nomi qualificati, quindi più espressivi)
+    \item ..meglio comunque non abusare di questo meccanismo
+  }}
+\end{frame}
+
+\fr{Caso 1}{
+    \bl{Specializzazioni come classi innestate}{\iz{
+	\item La classe astratta, o comunque base, è la outer
+	\item Alcune specializzazioni ritenute frequenti e ovvie vengono innestate, ma comunque rese pubbliche
+	\item due implicazioni: {\iz{
+	  \item schema di nome delle inner class
+	  \item possibilità di accedere alle proprietà statiche
+	}}
+    }}
+    \bl{Esempio}{\iz{
+	\item \cil{Counter}, \cil{Counter.Bidirectional}, \cil{Counter.Multi}
+    }}
+    \bl{Note}{
+        Un sintomo della possibilità di usare le classi nested per questo caso è quando ci si trova a costruire classi diverse costuite da un nome composto con una parte comune (\cil{Counter}, \cil{BiCounter}, \cil{MultiCounter})
+    }
+}
+
+\fr{Classe \Cil{Counter} e specializzazioni innestate (1/2)}{
+  \sizedcode{\scriptsize}{code/nested/Counter_.java}
+}
+
+\fr{Classe \Cil{Counter} e specializzazioni innestate (2/2)}{
+  \sizedcode{\scriptsize}{code/nested/Counter_2.java}
+}
+
+\fr{Uso di \Cil{Counter} e specializzazioni innestate}{
+  \sizedrangedcode{\scriptsize}{5}{100}{\ecl/nested/UseCounter.java}
+}
+
+\fr{Caso 2}{
+    \bl{Necessità di una classe separata ai fini di ereditaerità}{
+    In una classe potrebbero servire sotto-comportamenti che debbano:
+    \iz{
+	\item implementare una data interfaccia
+	\item estendere una data classe
+    }}
+    \bl{Esempio}{\iz{
+	\item \cil{Range}, \cil{Range.Iterator}
+    }}
+    \bl{Nota}{
+    In tal caso spesso tale classe separata non deve essere visibile dall'esterno, quindi viene indicata come \cil{private}
+    }
+}
+
+\fr{Classe \Cil{Range} e suo iteratore (1/2)}{
+  \sizedcode{\scriptsize}{code/nested/Range_.java}
+}
+
+\fr{Classe \Cil{Range} e suo iteratore (2/2)}{
+  \sizedcode{\scriptsize}{code/nested/Range_2.java}
+}
+
+\fr{Uso di \Cil{Range}}{
+  \srcode{\scriptsize}{3}{30}{\ecl/nested/UseRange.java}
+}
+
+\fr{Caso 3}{
+    \bl{Necessità di comporre una o più classi diverse}{\iz{
+	\item Ognuna realizzi un sotto-comportamento
+	\item Per suddividere lo stato dell'oggetto
+	\item Tali classi non utilizzabili indipendentemente dalla outer
+    }}
+    \bl{Esempio tratto dal Collection Framework}{\iz{
+	\item \cil{Map}, \cil{Map.Entry}
+	\item (una mappa è ``osservabile'' come set di entry)
+    }}
+}
+
+\fr{Riassunto classi innestate statiche}{
+    \bl{Principali aspetti}{\iz{
+	\item Da fuori (se pubblica) vi si accede con nome \cil{Outer.StaticNested}
+	\item \cil{Outer} e \cil{StaticNested} sono co-locate: si vedono le proprietà \cil{private}
+    }}
+    \bl{Motivazione generale}{\iz{
+	\item Voglio evitare la proliferazione di classi nel package
+	\item Voglio sfruttare l'incapsulamento
+    }}
+    \bl{Motivazione per il caso \cil{public}}{\iz{
+	\item Voglio enfatizzare i nomi \cil{Out.C1}, \cil{Out.C2},..
+    }}
+    \bl{Motivazione per il caso \cil{private} -- è il caso più frequente}{\iz{
+      \item Voglio realizzare una classe a solo uso della outer, invisibile alle altre classi del package
+    }}
+}
+
+
+
+
+\section[Il caso di \texttt{Map}]{Il caso delle \texttt{java.util.Map}}
+
+
+\fr{JCF -- struttura semplificata}{
+  \fg{height=0.75\textheight}{../10-collections/img/tax.png}
+}
+
+\fr{\Cil{Map}}{
+  \sizedcode{\scriptsize}{code/short/Map_.java}
+}
+
+%\fr{Usare le mappe}{
+%  \sizedcode{\ssmall}{code/map/UseMap.java}
+%}
+
+\fr{Implementazione mappe -- UML}{
+    \fg{height=0.75\textheight}{img/uml-abs.pdf}
+}
+
+\fr{\Cil{Map.Entry}}{
+\bl{Ruolo di \cil{Map.Entry}}{\iz{
+    \item Una mappa può essere vista come una collezione di coppie chiave-valore, ognuna incapsulata in un \cil{Map.Entry}
+    \item Quindi, una mappa è composta da un set di \cil{Map.Entry}
+}}
+  \sizedcode{\scriptsize}{code/short/Map_2.java}
+}
+
+
+\fr{Uso di \Cil{Map.Entry}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/map/UseMap2.java}
+}
+
+\fr{La classe \Cil{AbstractMap}}{
+  \bl{In modo simile a \cil{AbstractSet}}{\iz{
+    \item Fornisce una implementazione scheletro per una mappa
+    \item Necessita di un solo metodo da implementare: \cil{entrySet()}
+    \item Così facendo si ottiene una mappa iterabile e non modificabile
+    \item Per fare modifiche è necessario ridefinire altri metodi..
+  }}
+}
+
+\fr{Una semplice specializzazione di \Cil{AbstractMap}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/map/CapitalsMap.java}
+}
+
+\fr{\Cil{UseCapitalsMap}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/map/UseCapitalsMap.java}
+}
+
+\section{Inner Class}
+
+\begin{frame}[fragile]\frametitle{Inner Class -- idea}
+  \bl{Principali elementi}{\iz{
+    \item Dentro una classe \cil{Outer}, è possibile innestare la definizione di un'altra classe \cil{InnerClass}, senza indicazione \cil{static}!
+    \item \cil{InnerClass} è vista come se fosse una proprietà \alert{non-statica} di \cil{Outer} al pari di altri campi o metodi
+    \item L'effetto è che una istanza di \cil{InnerClass} ha sempre un riferimento ad una istanza di \cil{Outer} (enclosing instance) che ne rappresenta il \alert{contesto}, accessibile con la sintassi \cil{Outer.this}, e ai suoi campi (privati) 
+  }}
+\begin{lstlisting}
+class Outer {
+    ...
+    class InnerClass { // Nota.. non è static!
+        ...
+        // ogni oggetto di InnerClass avrà un riferimento ad
+        // un oggetto di Outer, denominato Outer.this
+    }
+}
+\end{lstlisting}
+\end{frame}
+
+\fr{Un semplice esempio}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/nested/Outer.java}
+}
+
+\fr{Uso di \Cil{Inner} e \Cil{Outer}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/nested/UseOuter.java}
+}
+
+\fr{Enclosing instance -- istanza esterna}{
+    \bl{Gli oggetti delle inner class}{\iz{
+	\item Sono creati con espressioni: \cil{<obj-outer>.new <classe-inner>(<args>)}
+	\item (la parte \cil{<obj-outer>} è omettibile quando sarebbe \cil{this})
+	\item Possono accedere all'enclosing instance con notazione \cil{<classe-outer>.this}
+    }}
+    \bl{Motivazioni: quelle relative alle classi innestate statiche, più..}{\iz{
+	\item ...quando è necessario che ogni oggetto inner tenga un riferimento all'oggetto outer
+	\item pragmaticamente: usato quasi esclusivamente il caso \cil{private}
+    }}
+    \bl{Esempio}{\iz{
+	\item La classe \cil{Range} già vista usa una static nested class, che però ben usufruirebbe del riferimento all'oggetto di \cil{Range} che l'ha generata
+    }}
+}
+
+\fr{Una variante di \Cil{Range}}{
+  \sizedrangedcode{\tiny}{3}{100}{\ecl/nested/Range2.java}
+}
+
+\section{Classi locali}
+
+\begin{frame}[fragile,shrink=5]\frametitle{Classi locali -- idea}
+  \bl{Principali elementi}{\iz{
+    \item Dentro un metodo di una classe \cil{Outer}, è possibile innestare la definizione di un'altra classe \cil{LocalClass}, senza indicazione \cil{static}!
+    \item La \cil{LocalClass} è a tutti gli effetti una inner class (e quindi ha enclosing instance)
+    \item In più, la \cil{LocalClass} ``vede'' anche le variabili nello scope del metodo in cui è definita, \alert{usabili solo se final}, o se ``di fatto finali''
+  }}
+\begin{lstlisting}
+class Outer {
+    ...
+    void m(final int x){
+        final String s=..;
+        class LocalClass { // Nota.. non è static!
+        ... // può usare Outer.this, s e x
+        }
+        LocalClass c=new LocalClass(...);
+    }
+}
+\end{lstlisting}
+\end{frame}
+
+\fr{\Cil{Range} tramite classe locale}{
+  \sizedrangedcode{\tiny}{3}{100}{\ecl/nested/Range3.java}
+}
+
+\fr{Classi locali -- motivazioni}{
+    \bl{Perché usare una classe locale invece di una inner class}{\iz{
+	\item Tale classe è necessaria solo dentro ad un metodo, e lì la si vuole confinare
+	\item \`E eventualmente utile accedere anche alle variabili del metodo
+    }}
+    \bl{Pragmaticamente}{\iz{
+      \item Mai viste usarle.. si usano invece le classi anonime..
+    }}
+}
+
+\section{Classi anonime}
+
+\begin{frame}[fragile,shrink=5]\frametitle{Classi anonime -- idea}
+  \bl{Principali elementi}{\iz{
+    \item Con una variante dell'istruzione \cil{new}, è possibile innestare la definizione di un'altra classe senza indicarne il nome
+    \item In tale definizione non possono comparire costruttori
+    \item Viene creata al volo una classe locale, e da lì se ne crea un oggetto
+    \item Tale oggetto, come per le classi locali, ha enclosing instance e ``vede'' anche le variabili \alert{final} (o di fatto finali) nello scope del metodo in cui è definita
+  }}
+\begin{lstlisting}
+class C {
+    ...
+    Object m(final int x){
+        return new Object(){
+             public String toString(){ return "Valgo "+x; }
+        }
+    }
+}
+\end{lstlisting}
+\end{frame}
+
+\fr{\Cil{Range} tramite classe anonima -- la soluzione ottimale}{
+  \sizedrangedcode{\tiny}{3}{100}{\ecl/nested/Range4.java}
+}
+
+\fr{Classi anonime -- motivazioni}{
+    \bl{Perchè usare una classe anonima?}{\iz{
+	\item Se ne deve creare un solo oggetto, quindi è inutile anche solo nominarla
+	\item Si vuole evitare la proliferazione di classi
+	\item Tipicamente: per implementare ``al volo'' una interfaccia
+    }}
+}
+
+\fr{Altro esempio: classe anonima da  \Cil{Comparable}}{
+   \sizedrangedcode{\scriptsize}{5}{100}{\ecl/nested/UseSort.java}
+}
+
+\fr{Riassunto e linee guida}{
+    \bl{Inner class (e varianti)}{
+	Utili quando si vuole isolare un sotto-comportamento in una classe a sé, senza dichiararne una nuova che si affianchi alla lista di quelle fornite dal package, ma stia ``dentro'' una classe più importante
+    }
+    \bl{Se deve essere visibile alle altre classi}{\iz{
+	\item Quasi sicuramente, una static nested class
+    }}
+    \bl{Se deve essere invisibile da fuori}{\iz{
+	\item Si sceglie uno dei quattro casi a seconda della visibilità che la inner class deve avere/dare{\iz{
+	    \item static nested class: solo parte statica
+	    \item inner class: anche enclosing class, accessibile ovunque dall'outer
+	    \item local class: anche argomenti/variabili, accessibile da un solo metodo
+	    \item anonymous class: per creare un oggetto, senza un nuovo costruttore
+	}}
+    }}
+}
+
+\fr{Preview lambda expressions}{
+    \bl{Un pattern molto ricorrente}{\iz{
+	\item Avere classi anonime usate per incapsulare metodi ``funzionali''
+	\item Java 8 introduce le lambda come notazione semplificata
+	\item È il punto di partenza per la combinazione OO + funzionale
+    }}
+    \sizedrangedcode{\scriptsize}{5}{100}{\ecl/nested/UseSortLambda.java}
+}
+
+
+\section[Enum]{Enumerazioni}
+
+\frs{5}{Enumerazioni}{
+  \bl{Motivazioni}{\iz{
+    \item in alcune situazioni occorre definire dei tipi che possono assumere solo un numero fissato e limitato di possibili valori
+    \item Esempi:{\iz{
+	\item le cifre da 0 a 9, le regioni d'Italia, il sesso di un individuo, i 6 pezzi negli scacchi, i giorni della settimana, le tipologie di camere di un hotel, le scuole di un ateneo, eccetera
+    }}
+  }}
+  \bl{Possibili realizzazioni in Java}{\iz{
+    \item usare delle \cil{String} rappresentando il loro nome: quasi assurdo
+    \item usare degli \cil{int} per codificarli (come in C): poco leggibile
+    \item usare delle classi astratte, e una concreta per valore: prolisso
+  }}
+  \bl{Enumerazioni: \cil{enum \{ ...\}}}{\iz{
+    \item consentono di elencare i valori, associando ad ognuno un nome
+    \item è possibile collegare metodi e campi ad ogni ``valore''
+  }}
+}
+
+\fr{Esempio classe \Cil{Persona}: 1/2}{
+  \sizedrangedcode{\scriptsize}{5}{19}{\ecl/enums/en/Persona.java}
+}
+
+\fr{Esempio classe \Cil{Persona}: 2/2}{
+  \sizedrangedcode{\scriptsize}{19}{100}{\ecl/enums/en/Persona.java}
+}
+
+\fr{\Cil{UsePersona}}{
+  \sizedrangedcode{\ssmall}{6}{100}{\ecl/enums/en/UsePersona.java}
+}
+
+\fr{Soluzione alternativa, \Cil{Persona}: 1/2}{
+  \sizedcode{\ssmall}{code/enums/PersonaBis_1.java}
+}
+
+\fr{Soluzione alternativa \Cil{Persona}: 2/2}{
+  \sizedcode{\ssmall}{code/enums/PersonaBis_2.java}
+}
+
+\fr{Soluzione alternativa \Cil{UsePersona}}{
+  \sizedrangedcode{\ssmall}{3}{100}{code/enums/UsePersonaBis.java}
+}
+
+\frs{5}{Discussione}{
+    \bl{Approccio a stringhe}{\iz{
+	\item Penalizza molto le performance spazio-tempo
+	\item Può comportare errori gravi per scorrette digitazioni
+	\item Difficile intercettare gli errori
+    }}
+    \bl{Approccio a interi -- soluzione pre-enumerazioni}{\iz{
+	\item Buone performance ma cattiva leggibilità
+	\item Può comportare comunque errori, anche se più difficilmente
+	\item L'uso delle costante è un poco dispersivo
+    }}
+    \bl{altri approcci: uso di classi diverse per ogni valore}{\iz{
+	\item Impraticabile con un numero molto elevato di valori
+	\item Comunque molto prolisso in termini di quantità di codice
+	\item Tuttavia:{\iz{
+	  \item Previene gli errori che si possono commettere
+	  \item Consente facilmente di aggiungere nuovi elementi
+	 }}
+    }}
+}
+
+\fr{Soluzione via costanti e costruttore privato}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/enums/en/Regione.java}
+}
+
+\fr{\Cil{UseRegione}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/enums/en/UseRegione.java}
+}
+
+\fr{\Cil{enum} in Java}{
+    \bl{Un nuovo tipo di dato}{\iz{
+	\item Simile ad una classe
+	\item Realizza l'approccio a costanti e costruttore privato
+	\item Ottime performance, l'oggetto è già disponibile
+	\item Impedisce interamente errori di programmazione
+	\item Il codice aggiuntivo da produrre non è elevato
+    }}
+    \bl{Unica precauzione}{\iz{
+      \item Andrebbero usate per insiemi di valori che difficilmente cambieranno in futuro
+      \item Difficile modificare il codice successivamente
+    }}
+}
+
+\fr{\Cil{enum Regione}}{
+  \sizedcode{\scriptsize}{code/enums2/Regione.java}
+  \sizedrangedcode{\scriptsize}{3}{30}{\ecl/enums/en2/UseEnum.java}
+}
+
+\fr{\Cil{Persona} con uso della \Cil{enum}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/enums/en2/Persona.java}
+}
+
+
+\fr{\Cil{UsePersona} con uso della \Cil{enum}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/enums/en2/UsePersona.java}
+}
+
+\fr{\Cil{UsePersona} con \alert{import static}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/enums/en2/UsePersona2.java}
+}
+
+\fr{Metodi di default per ogni \Cil{enum}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/enums/en2/UseRegione.java}
+}
+
+
+\fr{\Cil{enum} negli \Cil{switch}}{
+  \sizedrangedcode{\ssmall}{3}{100}{\ecl/enums/en2/UseRegione2.java}
+}
+
+
+\fr{Metodi aggiuntivi nelle \Cil{enum}: \Cil{Zona}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/enums/en3/Zona.java}
+}
+
+\fr{Metodi e campi aggiuntivi nelle \Cil{enum}: \Cil{Regione} (1/2)}{
+  \sizedrangedcode{\tiny}{3}{100}{\ecl/enums/en3/Regione.java}
+}
+
+\fr{Metodi e campi aggiuntivi nelle \Cil{enum}: \Cil{Regione} (2/2)}{
+  \sizedrangedcode{\ssmall}{20}{100}{\ecl/enums/en3/Regione.java}
+}
+
+
+\fr{Metodi e campi aggiuntivi nelle \Cil{enum}: \Cil{UseZona}}{
+  \sizedrangedcode{\scriptsize}{3}{100}{\ecl/enums/en3/UseZona.java}
+}
+
+\fr{Meccanismi per le \Cil{enum}}{
+    \bl{Riassunto}{\iz{
+	\item Esistono metodi istanza e statici disponibili per \cil{Enum}
+	\item Si possono aggiungere metodi
+	\item Si possono aggiungere campi e costruttori
+    }}
+    \bl{Riguardando la \cil{enum Regione}}{\iz{
+	\item \`E una classe standard, con l'indicazioni di alcuni oggetti predefiniti
+	\item I 20 oggetti corrispondenti alle regioni italiane
+    }}
+    \bl{Quindi}{\iz{
+	\item \`E possibile intuirne la realizzazione interna
+	\item E quindi capire meglio quando e come usarli
+	\item[$\Rightarrow$] In caso in cui i valori sono ``molti e sono noti'', oppure..
+	\item[$\Rightarrow$] Anche se i valori sono pochi, ma senza aggiungere troppi altri metodi..
+    }}
+}
+
+\fr{\Cil{enum} innestate}{
+    \bl{Motivazione}{\iz{
+	\item Anche le \cil{enum} (statiche) possono essere innestate in una classe o interfaccia o enum
+	\item Questo è utile quando il loro uso è reputato essere confinato nel funzionamento della classe outer
+    }}
+    \bl{Esempio}{\iz{
+      \item \cil{enum Regione} potrebbe essere inserita dentro \cil{Persona}
+      \item \cil{enum Zona} potrebbe essere inserita dentro \cil{Regione}
+    }}
+    
+}
+
+\end{document}
+

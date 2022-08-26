@@ -1,0 +1,325 @@
+\documentclass[presentation]{beamer}
+\newcommand{\lectnum}{16}
+\newcommand{\lectitle}{Java 8: Lambda expressions}
+\usepackage{../oop-slides}
+
+\begin{document}
+
+\frame[label=coverpage]{\titlepage}
+
+\ackpage{}
+
+
+\newcommand{\ecl}{\eclipsepath{p16lambda}}
+
+
+\fr{Outline}{
+  \bl{Goal della lezione}{\iz{
+  \item Illustrare il concetto di lambda
+  \item Dettagliare il supporto alle lambda in Java 8
+  }}
+  \bl{Argomenti}{\iz{
+    \item Lambda expressions
+    \item Functional interfaces
+    \item Altri usi nell'API
+  }}
+}
+
+\section{Introduzione alle lambda}
+
+\frs{5}{Le novità di Java 8}{
+  \bl{Una release molto attesa, che ``rincorre'' C\# e Scala}{\iz{
+    \item Molte funzionalità rimandate da Java 7
+    \item Java 8 disponibile dall'estate 2014
+    \item Principale novità: lambda (ossia uno degli elementi fondamentali dello stile di programmazione funzionale)
+    \item Le lambda portano ad uno stile più elegante e astratto di programmazione
+    \item In Java, portano a codice più compatto e chiaro in certe situazioni
+    \item Impatta alcuni aspetti di linguaggio
+    \item Impatta varie librerie
+  }}
+  \bl{Risorse}{\iz{
+    \item Libri: R.Warburton, Java 8 Lambdas
+    \item Tutorial in rete: {\footnotesize \texttt{http://www.techempower.com/blog/2013/03/26/everything-about-java-8/}}
+    \item Specification: {\footnotesize \texttt{http://cr.openjdk.java.net/\~{}dlsmith/jsr335-0.6.1/}}
+  }}
+}
+
+\fr{Preview 1: strategie funzionali}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/FirstComparable.java}
+}
+
+\fr{Handler eventi senza lambda}{
+  \sizedrangedcode{\ssmall}{8}{100}{\ecl/first/UseButtonEvents.java}    
+}
+
+\fr{Preview 2: handler eventi con le lambda}{
+  \sizedrangedcode{\scriptsize}{7}{100}{\ecl/first/UseButtonEventsWithLambda.java}    
+}
+
+
+\fr{Preview 3: iterazioni ``dichiarative'' con gli \alert{stream}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/FirstStream.java}      
+}
+
+\section{Lambda expressions}
+
+\fr{Elementi delle lambda expression}{
+  \bl{Che cos'è una lambda}{\iz{
+    \item è una funzione (anonima) con accesso ad uno scope locale
+    \item è applicabile a certi input, e dà un risultato (oppure \cil{void})
+    \item per calcolare il risultato potrebbe usare qualche variabile nello scope in cui è definita
+    \item la lambda è usabile come ``valore'' (quindi, come dato), ossia è passabile a metodi, altre funzioni, o memorizzata in variabili/campi
+    \item ossia si può ``passare'' del ``codice''
+  }}
+  \bl{Caratteristica specifica di Java}{\iz{
+    \item come vedremo, una lambda è un oggetto, e il suo tipo è sempre quello di una \cil{interface} detta ``funzionale''
+    \item metodi statici o istanza possono essere usati a mo' di lambda (chiamati ``method reference'', perché sono interpretabili come funzioni (come i \texttt{delegate} di \texttt{C\#})
+  }}
+  
+}
+
+\fr{Come si esprime una lambda}{
+  \bl{Sintassi possibili}{\iz{
+    \item \texttt{(T1 x1,..,Tn xn) -> \{<body>\}}
+    \item \texttt{(x1,..,xn) -> \{<body>\}}
+    \item \texttt{x -> \{<body>\}}
+    \item \texttt{(T1 x1,..,Tn xn) -> <exp>}
+    \item \texttt{(x1,..,xn) -> <exp>}
+    \item \texttt{x -> <exp>}
+    \item .. oppure un ``method reference''
+  }}
+  \bl{Ossia:}{\iz{
+    \item Per gli argomenti si può esprimere un tipo o può essere inferito
+    \item Con un argomento, le parentesi tonde sono omettibili
+    \item Il body può essere direttamente una singola espressione/istruzione
+  }}  
+}
+
+
+\fr{\Cil{Esempi di Lambda}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/AllLambdas.java}      
+}
+
+\fr{Come si esprime una lambda: method references}{
+  \bl{Sintassi possibili}{\en{
+    \item \texttt{<class>::<static-method>}{\iz{ \item sta per \texttt{(x1,..,xn)-> <class>.<static-method>(x1,..,xn)}}}
+    \item \texttt{<class>::<instance-method>}{\iz{ \item sta per \texttt{(x1,x2,..,xn)-> x1.<instance-method>(x2,..,xn)}}}
+    \item \texttt{<obj>::<method>}{\iz{ \item sta per \texttt{(x1,..,xn)-> <obj>.<method>(x1,..,xn)}}}
+    \item \texttt{<class>::new}{\iz{ \item sta per \texttt{(x1,..,xn)-> new <class>(x1,..,xn)}}}
+  }}
+  \bl{Ossia:}{\iz{
+    \item Descrivibile come metodo (statico o non), o costruttore..
+    \item Usabile ``naturalmente'' (e opzionalmente) quando la lambda non fa altro che chiamare un metodo usando ``banalmente'' i suoi input e restituendo il suo ``output''
+  }}  
+}
+
+\fr{\Cil{Esempi di Method Reference (casi 1,2,3)}}{
+  \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/AllLambdas2.java}      
+}
+
+
+
+\fr{Dove si può usare una lambda?}{
+  \bl{Definizione di interfaccia ``funzionale'' (def. non definitiva)}{\iz{
+   \item E' una \cil{interface} con un singolo metodo
+  }}
+  \bl{Quale tipo è compatibile con una lambda?}{\iz{
+    \item Una lambda può essere passata dove ci si attende un oggetto che implementi una interfaccia funzionale
+    \item C'è compatibilità se i tipi in input/output della lambda (inferiti o non) sono compatibili con quelli dell'unico metodo dell'interfaccia
+  }}
+  \bl{Motivazione:}{\iz{
+    \item Di fatto, il compilatore traduce la lambda nella creazione di un oggetto di una classe anonima che implementa l'interfaccia funzionale
+    \item Uno specifico opcode a livello di bytecode evita di costruirsi effettivamente un \texttt{.class} per ogni lambda
+  }}  
+}
+
+\fr{Generazione automatica della classe anonima}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/FirstComparable2.java}
+}
+
+\fr{Esempio: funzione riusabile di filtraggio}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/first/Filter.java}
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/FilterUtility.java}
+}
+
+\fr{Lambda che accedono al loro scope}{
+    \sizedrangedcode{\ssmall}{8}{100}{\ecl/first/ChangeButton.java}
+}
+
+
+\frs{5}{Metodi \Cil{default} nelle interfacce}{
+  \bl{Da Java 8 è possibile fornire implementazioni ai metodi delle \cil{interface}}{\iz{
+    \item sintassi: \cil{interface I \{ ... default int m()\{...\}\}}
+    \item significato: non è necessario implementarli nelle sottoclassi
+    \item .. è possibile avere anche metodi statici
+  }}
+  \bl{Utilità}{\iz{
+    \item consente di aggiungere metodi a interfacce senza rompere la compatibilità con classi esistenti che le implementano
+    \item fornire ``behaviour'' ereditabile in modalità multipla
+    \item costruire più facilmente interfacce funzionali: \alert{queste devono in effetti avere un unico metodo senza default}
+    \item consente di realizzare il patter template method solo con interfacce
+  }}
+  \bl{Esempi di interfacce con metodi di default}{\iz{
+    \item \cil{Iterable}, \cil{Iterator}, \cil{Collection}, \cil{Comparator}
+  }}
+}
+
+
+\fr{Esempio \Cil{SimpleIterator}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/interfaces/SimpleIterator.java}
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/interfaces/UseSimpleIterator.java}
+}
+
+\fr{Annotazione \Cil{@FunctionalInterface}}{
+  \bl{Uso}{\iz{
+    \item da usare opzionalmente per interfacce funzionali
+    \item il compilatore la usa per assicurarsi che l'interfaccia sia funzionale, ossia che vi sia un solo metodo ``astratto''
+    \item nella Java API viene usata spesso
+  }}
+  \bl{Nota}{\iz{
+    \item le annotazioni sono usate per vari scopi, ad esempio per indicare al compilatore di fare ulteriori controlli   }}
+}
+
+\fr{Esempio \Cil{SimpleIterator}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/interfaces/SimpleIterator2.java}
+}
+
+\section{Lambda expressions nell'API di Java}
+
+\fr{Interfacce funzionali di libreria -- package \Cil{java.util.function}}{
+    \bl{Perché scriversi una nuova interfaccia funzionale all'occorrenza?}{\iz{
+      \item Lo si fa solo per rappresentare concetti specifici del dominio
+      \item Lo si fa se ha metodi default aggiuntivi
+    }}
+    \bl{In \cil{java.util.function} vengono fornite varie interfacce ``general purpose''}{\iz{
+      \item Sono tutte funzionali
+      \item Hanno metodi aggiuntivi default di cui non ci occupiamo
+      \item Hanno un metodo ``astratto'' chiamato, a seconda: \\ \cil{apply}, \cil{accept}, \cil{test} o \cil{get}
+    }}    
+}
+
+\frs{5}{Package \Cil{java.util.function}}{
+    \bl{Interfacce base}{\iz{
+\item \cil{Consumer<T>}: \texttt{accept:(T)->void}
+\item \cil{Function<T,R>}: \texttt{apply:(T)->R}
+\item \cil{Predicate<T>}: \texttt{test:(T)->boolean}	
+\item \cil{Supplier<T>}: \texttt{get:()->T}
+\item \cil{UnaryOperator<T>}: \texttt{apply:(T)->T}
+    \item \cil{BiConsumer<T,U>}: \texttt{accept:(T,U)->void}
+\item \cil{BiFunction<T,U,R>}:	\texttt{apply:(T,U)->R}
+\item \cil{BinaryOperator<T>}: 	\texttt{apply:(T,T)->T}
+\item \cil{BiPredicate<T,U>}: \texttt{test:(T,U)->boolean}
+\item \cil{java.lang.Runnable}: \texttt{run:()->void}
+    }}    
+  \bl{Altre interfacce (usano i tipi primitivi senza boxing)}{\iz{
+  \item \texttt{BooleanSupplier}: \texttt{get:()->boolean}
+  \item \texttt{IntConsumer}: \texttt{accept:(int)->void}
+  \item ...
+    }}    
+}
+
+\fr{Esempio: funzione riusabile di filtraggio via \Cil{Predicate}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/first/FilterUtility2.java}
+}
+
+\fr{Esempio: comandi ``programmati'' via \Cil{Runnable}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/RunnableUtility.java}
+}
+
+\frs{5}{Motivazioni e vantaggi nell'uso delle lambda in Java}{
+  \bl{Elementi di programmazione funzionale in Java}{\iz{
+    \item Le lambda consentono di aggiungere certe funzionalità della programmazione funzionale in Java, creando quindi una contaminazione OO + funzionale
+    \item Il principale uso è quello che concerne la creazione di funzionalità (metodi) ad alto riuso -- ad esempio \cil{filterAll}
+    \item Tali metodi possono prendere in ingresso funzioni, passate con sintassi semplificata rispetto a quella delle classi anonime, rendendo più ``naturale'' e agevole l'uso di questo meccanismo
+  }}
+  \bl{Miglioramento alle API di Java}{\iz{
+    \item Concetto di Stream e sue manipolazioni, per lavorare su dati sequenziali (collezioni, file,..)
+    \item Facilitare la costruzioni di software ``parallelo'' (multicore)
+    \item Supporto più diretto ad alcuni pattern: Command, Strategy, Observer
+    \item Alcune migliorie ``varie'' nelle API
+  }}
+  
+}
+
+\fr{Goal delle lambda, in una frase}{
+  \bx{\huge Realizzare ``più algoritmi possibili su sequenze'' in una sola istruzione}
+}
+
+
+\fr{``Nuove'' interfacce \Cil{Iterator} e \Cil{Iterable}}{
+    \sizedrangedcode{\tiny}{1}{100}{../17-streams/snippets/Iterable.java}
+    \sizedrangedcode{\tiny}{1}{100}{../17-streams/snippets/Iterator.java}
+}
+
+\fr{Uso delle ``nuove'' interfacce \Cil{Iterator} e \Cil{Iterable}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/UseIterators.java}
+}
+
+\fr{Interfaccia \Cil{java.util.Map} -- metodi aggiuntivi}{
+    \sizedrangedcode{\tiny}{1}{100}{../17-streams/snippets/Map.java}
+}
+
+\fr{Uso delle ``nuova'' interfacce \Cil{Map}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/first/UseMap.java}
+}
+
+
+\frs{5}{La classe \Cil{Optional}}{
+    \bl{Il problema del \cil{NullPointerException}}{\iz{
+      \item è una eccezione particolarmente annosa (è ora la più frequente)
+      \item a volte è inevitable inizializzare a \cil{null} campi/variabili, o tornare valori null.. ma poi si rischia di ritrovarsi l'eccezione in punti non aspettati
+      \item gestire l'assenza di una informazione con \cil{null} è inappropriato!
+    }}
+    \bl{Idea}{\iz{
+      \item la classe \cil{Optional<T>} và usata ove ci si attende opzionalmente un oggetto di tipo \cil{T}
+      \item un oggetto di \cil{Optional<T>} è un wrapper di un \cil{T}, ma potrebbe non contenere nulla, ossia è una collezione di 0 o 1 elemento di tipo \cil{T} 
+      \item accedendovi con metodi quali \cil{ifPresent()} o \cil{orElse()} si bypassa il problema del \cil{null}
+      \item c'è comunque un metodo \cil{get()} che rilancia l'eccezione uncheked \cil{NoSuchElementException}
+      \item purtroppo \cil{Optional<T>} NON è serializzabile!
+    }}
+    
+}
+
+\fr{Classe \Cil{java.util.Optional}}{
+    \sizedrangedcode{\tiny}{1}{100}{../17-streams/snippets/Optional.java}
+}
+
+\fr{\Cil{UseOptional}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/optional/UseOptional.java}
+}
+
+\fr{\Cil{UseOptional2}}{
+    \sizedrangedcode{\ssmall}{7}{100}{\ecl/optional/UseOptional2.java}
+}
+
+\fr{\Cil{UseOptional3}}{
+    \sizedrangedcode{\ssmall}{5}{100}{\ecl/optional/UseOptional3.java}
+}
+
+\frs{5}{\Cil{Optional} per campi opzionali, e manipolazioni con \Cil{map}}{
+    \bl{Come evitare il \cil{NullPointerException} in una applicazione?}{\iz{
+      \item Non si menzioni mai il \cil{null} nell'applicazione
+      \item Non si lascino variabili o campi non inizializzati
+      \item Si usi \cil{Optional} per campi con contenuto opzionale, inizializzati a \cil{Optional.empty}
+      \item I valori di \cil{Optional} vengano manipolati in modo ``dichiarativo'' con i suoi metodi, ad esempio, \cil{map}
+      \item[$\Rightarrow$] Il codice risultante sarà molto più espressivo
+     }}
+     \bl{Inconveniente:}{\iz{
+      \item e se non si può controllare che il caller di una classe non passi dei \cil{null}?
+      \item si intercettino gli eventuali \cil{null} in ingresso ad ogni metodo, ponendovi un rimedio che non sia il lancio di una eccezione unchecked
+      \item si usi \texttt{Objects.requireNonNull()}
+     }}
+}
+
+
+
+\fr{\Cil{Person}}{
+    \sizedrangedcode{\tiny}{5}{100}{\ecl/optional/Person.java}
+}
+
+\fr{\Cil{UsePerson}}{
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/optional/UsePerson.java}
+}
+
+
+\end{document}
