@@ -27,13 +27,13 @@ syntax: glob
 *META*
 
 # folders
-eclipse-code/oop19-slides/bin/*
+lecture-code/oop19-slides/bin/*
 old/*
-eclipse-code/.metadata/*
-eclipse-code/oop19-slides/src/it/unibo/apice/oop/old/*
-eclipse-code/oop19-slides/src/it/unibo/apice/oop/ol/*
-eclipse-code/oop19-slides/src/aula/*
-eclipse-code/oop19-slides/.*
+lecture-code/.metadata/*
+lecture-code/oop19-slides/src/it/unibo/apice/oop/old/*
+lecture-code/oop19-slides/src/it/unibo/apice/oop/ol/*
+lecture-code/oop19-slides/src/aula/*
+lecture-code/oop19-slides/.*
 slides/oop2019-slides/slides/old/*
 slides/build/*
 # no pdf and zip
@@ -43,3 +43,9 @@ slides/build/*
 *.fls
 *.fdb_latexmk
 
+*blx.bib
+*run.xml
+
+lecture-code/.classpath
+lecture-code/.project
+*.synctex.gz

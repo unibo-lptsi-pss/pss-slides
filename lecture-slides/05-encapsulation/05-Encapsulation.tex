@@ -3,12 +3,13 @@
 \newcommand{\lectitle}{Incapsulamento}
 \usepackage{../oop-slides}
 
-
 \begin{document}
 
 \newcommand{\ecl}{\eclipsepath{p05encapsulation}}
 
 \frame[label=coverpage]{\titlepage}
+
+\ackpage{}
 
 \fr{Outline}{
   \bl{Goal della lezione}{\iz{
@@ -21,7 +22,6 @@
   \item Incapsulamento in Java
   \item Una metodologia di progettazione
   \item Ulteriori convenzioni
-  
   }}
 }
 
@@ -41,7 +41,7 @@
 }
 
 
-\section{Alcuni principi di buona progettazione}
+\section[Principi di design]{Alcuni principi di buona progettazione}
 
 % Goal: avere criteri di progettazione che non solo permettano di arrivare alla soluzione del problema, ma anche permettere al risultato di essere facilmente mantenibile (spesso le due cose si assomigliano).. ossia se devo cambiare qualcosa ci metto poco e non mi rovina il resto
 % Decomposizione (con basse interdipendenze, se vogliamo, separation of concern)
@@ -78,7 +78,7 @@
   \bx{Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello di articolazione del linguaggio Java, ossia per rendere il suo uso più semplice possibile}
 }
 
-\section{Convenzioni su formattazione}
+\section[Formattazione]{Convenzioni su formattazione}
 
 
 \fr{Convenzioni sulla formattazione, pt 1}{
@@ -137,7 +137,7 @@
   \srcode{\tiny}{34}{100}{\ecl/Point3D.java}
 }
 
-\section{Decomposizione, incapsulamento, information hiding}
+\section[Decomposizione]{Decomposizione, incapsulamento, information hiding}
 
 \fr{Il principo di decomposizione}{
 \bx{\Huge divide et impera}
@@ -284,7 +284,7 @@
   \srcode{\ssmall}{3}{100}{\ecl/immutable/UseImmutablePoint3D.java}
 }
 
-\section{Una metodologia basata sull'incapsulamento}
+\section[Metodologia incapsulamento]{Una metodologia basata sull'incapsulamento}
 
 \fr{Altro esempio: classe \Cil{Lamp}}{
   \bl{Analisi del problema}{
@@ -379,7 +379,7 @@
 }
 
 \fr{Versione finale Classe Lamp -- B}{
-  \srcode{\ssmall}{32}{100}{\ecl/Lamp.java}
+  \srcode{\tiny}{32}{100}{\ecl/Lamp.java}
 }
 
 
@@ -432,7 +432,7 @@
 
 
 
-\section{Ulteriori convenzioni e linee guida}
+\section[Altre convenzioni]{Ulteriori convenzioni e linee guida}
 
 \fr{Convenzione Java sui nomi di metodi getter/setter}{
   \bl{Metodi getter/setter}{\iz{

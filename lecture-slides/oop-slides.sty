@@ -31,8 +31,9 @@
 %%\setbeamercolor{block title}{bg=black!10}
 %%\setbeamercolor{block body}{bg=black!5}
 
-%\usepackage[italian]{babel}
+\usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[active]{srcltx}
 \usepackage{fancyvrb}
 \usepackage{listings}
@@ -68,11 +69,14 @@
   stringstyle=\color{mymauve},     % string literal style
   tabsize=2,                       % sets default tabsize to 2 spaces
   %title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+     morecomment=[n]{/*}{*/},
+     extendedchars=\true{}, %If you type in such characters directly as characters of codes 128–255 and use them also in listings, let the package know it—or you’ll get really funny results. extendedchars=true allows and extendedchars=false prohibits listings from handling extended characters in listings
+     texcl=false, %activates or deactivates LATEX comment lines. If activated, comment line delimiters are printed as usual, but the comment line text (up to the end of line) is read as LATEX code and typeset in comment style.
   literate={à}{{\`a}}1
       {è}{{\`e}}1
       {ò}{{\`o}}1
       {ì}{{\`i}}1
-      {ù}{{\`u}}1
+      {ù}{{\`u}}1,
 }
 
 \author[R. Casadei]
@@ -92,6 +96,18 @@
   \end{frame}
 }
 
+
+\newcommand{\ackpage}[0]{
+  \begin{frame}<beamer>
+    \frametitle{Acknowledgment}
+    
+    \begin{itemize}
+    \item Questo materiale è ampiamente basato su quello realizzato dal Prof. Mirko Viroli, che ringrazio.
+    Ogni errore è esclusivamente di mia responsabilità.
+    \end{itemize}
+  \end{frame}
+}
+
 \newcommand{\eclipsepath}[1]{../../lecture-code/oop19-slides/src/it/unibo/apice/oop/#1}
 
 \newcommand{\fr}[2]{\begin{frame}\frametitle{#1}#2\end{frame}}
@@ -100,7 +116,7 @@
 \newcommand{\bl}[2]{\begin{block}{#1}#2\end{block}}
 \newcommand{\bx}[1]{\vspace{5pt}\begin{beamerboxesrounded}[shadow=true]{}#1\end{beamerboxesrounded}}
 %\newcommand{\iz}[1]{\begin{itemize}#1\end{itemize}}
-%\newcommand{\en}[1]{\begin{enumerate}#1\end{enumerate}}
+\newcommand{\en}[1]{\begin{enumerate}#1\end{enumerate}}
 
 \newcommand{\fg}[2]{\vspace{-5pt}\begin{center}\includegraphics[#1]{#2}\end{center}}
 \newcommand{\myurl}[1]{{\footnotesize{\url{#1}}}}
@@ -130,7 +146,7 @@
 \usetheme{CambridgeUS}
 \usepackage{../beamercolorthememyct}
  
-\usepackage[italian]{babel}
+%\usepackage[italian]{babel}
 \usepackage{hyperref}
 %\usepackage{soul}
 %\usepackage{enumitem}
@@ -153,10 +169,7 @@
 \usepackage{changepage}
 \usepackage{amsmath}
 
-\usepackage[utf8]{inputenc}
-
 \usepackage{times}
-\usepackage[T1]{fontenc}
 % Or whatever. Note that the encoding and the font should match. If T1
 % does not look nice, try deleting the line with the fontenc.
 \usepackage[makeroom]{cancel}
@@ -210,45 +223,45 @@
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 \definecolor{mylightgray}{rgb}{0.97,0.97,0.97}
 
-\lstset{ %
-  backgroundcolor=\color{mylightgray},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-  basicstyle=\ttfamily\small,        % the size of the fonts that are used for the code
-  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-  breaklines=true,                 % sets automatic line breaking
-  captionpos=b,                    % sets the caption-position to bottom
-  commentstyle=\color{mygreen},    % comment style
-  deletekeywords={...},            % if you want to delete keywords from the given language
-  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-  frame=none,                    % adds a frame around the code
-  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{blue},       % keyword style
-  keywordstyle=[2]\bfseries\color{red},
-  language=java,                 % the language of the code
-  otherkeywords={*,...},            % if you want to add more keywords to the set
-  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
-  numbersep=5pt,                   % how far the line-numbers are from the code
-  numberstyle=\tiny\color{gray}, % the style that is used for the line-numbers
-  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-  showstringspaces=false,          % underline spaces within strings only
-  extendedchars=\true,
-  showtabs=false,                  % show tabs within strings adding particular underscores
-  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-  stringstyle=\color{purple},     % string literal style
-  tabsize=4,                       % sets default tabsize to 2 spaces
-  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
-  columns=fullflexible,
-  lineskip={-1pt},
-  belowskip={-10px},
-  aboveskip={3px},
-  emphstyle=\textbf,
-  rulesepcolor=\color{gray},
-  framexleftmargin=0pt,
-  framextopmargin=4pt,
-  framexbottommargin=2pt, 
-  keywords=[2]{nbr,nbrvar,foldhood,rep,sense,aggregate,branch}
-}
+%\lstset{ %
+%  backgroundcolor=\color{mylightgray},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+%  basicstyle=\ttfamily\small,        % the size of the fonts that are used for the code
+%  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+%  breaklines=true,                 % sets automatic line breaking
+%  captionpos=b,                    % sets the caption-position to bottom
+%  commentstyle=\color{mygreen},    % comment style
+%  deletekeywords={...},            % if you want to delete keywords from the given language
+%  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+%  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+%  frame=none,                    % adds a frame around the code
+%  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+%  keywordstyle=\color{blue},       % keyword style
+%  keywordstyle=[2]\bfseries\color{red},
+%  language=java,                 % the language of the code
+%  otherkeywords={*,...},            % if you want to add more keywords to the set
+%  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+%  numbersep=5pt,                   % how far the line-numbers are from the code
+%  numberstyle=\tiny\color{gray}, % the style that is used for the line-numbers
+%  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+%  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+%  showstringspaces=false,          % underline spaces within strings only
+%  extendedchars=\true,
+%  showtabs=false,                  % show tabs within strings adding particular underscores
+%  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+%  stringstyle=\color{purple},     % string literal style
+%  tabsize=4,                       % sets default tabsize to 2 spaces
+%  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+%  columns=fullflexible,
+%  lineskip={-1pt},
+%  belowskip={-10px},
+%  aboveskip={3px},
+%  emphstyle=\textbf,
+%  rulesepcolor=\color{gray},
+%  framexleftmargin=0pt,
+%  framextopmargin=4pt,
+%  framexbottommargin=2pt, 
+%  keywords=[2]{nbr,nbrvar,foldhood,rep,sense,aggregate,branch}
+%}
  
  
 \lstdefinelanguage{scala}{
@@ -558,7 +571,7 @@ keywordstyle=[6]\color{orange}, keywords=[6]{Available,Serving,Done,Waiting,Remo
 %\bibliography{biblio}
 
 
-\lstset{language={java},basicstyle=\ttfamily\footnotesize}
+%\lstset{language={java},basicstyle=\ttfamily\footnotesize{}}
 
 
 \newtcblisting{mycode}[3]{%
@@ -614,13 +627,13 @@ keywordstyle=[6]\color{orange}, keywords=[6]{Available,Serving,Done,Waiting,Remo
 \lstdefinestyle{sss}{basicstyle=\ttfamily\tiny}
 
 \newcommand{\code}[1]{\lstinputlisting[language=java]{#1}}
-\newcommand{\titledcode}[2]{\vspace{-10pt}\lstinputlisting[title={#1},language=java]{#2}}
+\newcommand{\titledcode}[2]{\vspace{-10pt}\lstinputlisting[caption={},title={#1},language=java]{#2}}
 \newcommand{\cil}[1]{\lstinline[basicstyle=\normalsize\ttfamily]$#1$}
 \newcommand{\Cil}[1]{\lstinline[basicstyle=\Large\ttfamily]$#1$}
-\newcommand{\sizedcode}[2]{\lstinputlisting[basicstyle=#1\ttfamily]{#2}}
+\newcommand{\sizedcode}[2]{\lstinputlisting[caption={},basicstyle=#1\ttfamily]{#2}}
 \newcommand{\smallcode}[1]{\sizedcode{\tiny}{#1}}
 \newcommand{\sizedrangedcode}[4]{\lstinputlisting[caption={},basicstyle=#1\ttfamily,firstline=#2,lastline=#3]{#4}}
-\newcommand{\sizedrangedcodet}[4]{\lstinputlisting[tabsize=4,basicstyle=#1\ttfamily,firstline=#2,lastline=#3]{#4}}
+\newcommand{\sizedrangedcodet}[4]{\lstinputlisting[caption={},tabsize=4,basicstyle=#1\ttfamily,firstline=#2,lastline=#3]{#4}}
 % Example of use  \srcode{\tiny}{3}{100}{\ecl/app/Mandelbrot.java}
 \newcommand{\srcode}[4]{\sizedrangedcode{#1}{#2}{#3}{#4}}
 %\newcounter{java}
