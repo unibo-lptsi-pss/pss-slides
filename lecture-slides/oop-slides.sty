@@ -1,37 +1,37 @@
 %\mode<presentation>{\usetheme{Boadilla}}
 
-\ifdefined\ishandout
-  \usetheme{Boadilla}
-  \usecolortheme{default}
-  \setbeamertemplate{blocks}[rounded][shadow=true]
-  \setbeamercolor{block title}{bg=gray!5}
-  \setbeamertemplate{blocks}[framed]
-  \setbeamercolor{block body}{bg=white}
-  \setbeamertemplate{navigation symbols}{}
-  \pgfdeclareimage[height=0.3cm]{unibo-logo}{../img/unibo}
-\logo{\pgfuseimage{unibo-logo}}
-\setbeamercolor*{palette primary}{use=structure,fg=black,bg=gray!15}
-\setbeamercolor*{palette secondary}{use=structure,fg=black,bg=gray!10}
-\setbeamercolor*{palette tertiary}{use=structure,fg=black,bg=gray!5}
-\else
-    \usetheme{Boadilla}
-    \usecolortheme{beaver}
-    \setbeamertemplate{blocks}[rounded][shadow=true]
-    \pgfdeclareimage[height=0.625cm]{unibo-logo}{img/unibo}
-    \logo{\pgfuseimage{unibo-logo}}
+%\ifdefined\ishandout
+%  \usetheme{Boadilla}
+%  \usecolortheme{default}
+%  \setbeamertemplate{blocks}[rounded][shadow=true]
+%  \setbeamercolor{block title}{bg=gray!5}
+%  \setbeamertemplate{blocks}[framed]
+%  \setbeamercolor{block body}{bg=white}
+%  \setbeamertemplate{navigation symbols}{}
+%  \pgfdeclareimage[height=0.3cm]{unibo-logo}{../img/unibo}
+%\logo{\pgfuseimage{unibo-logo}}
+%\setbeamercolor*{palette primary}{use=structure,fg=black,bg=gray!15}
+%\setbeamercolor*{palette secondary}{use=structure,fg=black,bg=gray!10}
+%\setbeamercolor*{palette tertiary}{use=structure,fg=black,bg=gray!5}
+%\else
+%    \usetheme{Boadilla}
+%    \usecolortheme{beaver}
+%    \setbeamertemplate{blocks}[rounded][shadow=true]
+%    \pgfdeclareimage[height=0.625cm]{unibo-logo}{../img/unibo}
+%    \logo{\pgfuseimage{unibo-logo}}
+%
+%\fi
+%
+%
+%
+%\setbeamertemplate{itemize subitem}[triangle]
+%\setbeamertemplate{itemize subsubitem}[square]
+%\setbeamertemplate{enumerate items}[default]
+%%\setbeamercolor{block title}{fg=yellow!50!black}
+%%\setbeamercolor{block title}{bg=black!10}
+%%\setbeamercolor{block body}{bg=black!5}
 
-\fi
-
-
-
-\setbeamertemplate{itemize subitem}[triangle]
-\setbeamertemplate{itemize subsubitem}[square]
-\setbeamertemplate{enumerate items}[default]
-%\setbeamercolor{block title}{fg=yellow!50!black}
-%\setbeamercolor{block title}{bg=black!10}
-%\setbeamercolor{block body}{bg=black!5}
-
-\usepackage[italian]{babel}
+%\usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[active]{srcltx}
 \usepackage{fancyvrb}
@@ -75,13 +75,13 @@
       {ù}{{\`u}}1
 }
 
-\author[Mirko Viroli]
-{Mirko Viroli\\\texttt{mirko.viroli@unibo.it}}
+\author[R. Casadei]
+{Roberto Casadei\\\texttt{roby.casadei@unibo.it}}
 
 \institute[Università di Bologna]
 {C.D.L. Ingegneria e Scienze Informatiche \\\textsc{Alma Mater Studiorum}---Università di Bologna, Cesena}
 
-\date[a.a. 2019/2020]{a.a. 2019/2020}
+\date[a.a. 2022/2023]{a.a. 2022/2023}
 
 
 \AtBeginSection[]
@@ -99,17 +99,9 @@
 \newcommand{\ffr}[2]{\begin{frame}[fragile]\frametitle{#1}#2\end{frame}}
 \newcommand{\bl}[2]{\begin{block}{#1}#2\end{block}}
 \newcommand{\bx}[1]{\vspace{5pt}\begin{beamerboxesrounded}[shadow=true]{}#1\end{beamerboxesrounded}}
-\newcommand{\iz}[1]{\begin{itemize}#1\end{itemize}}
-\newcommand{\en}[1]{\begin{enumerate}#1\end{enumerate}}
-\newcommand{\code}[1]{\lstinputlisting[language=java]{#1}}
-\newcommand{\titledcode}[2]{\vspace{-10pt}\lstinputlisting[title={#1},language=java]{#2}}
-\newcommand{\cil}[1]{\lstinline[basicstyle=\normalsize\ttfamily]$#1$}
-\newcommand{\Cil}[1]{\lstinline[basicstyle=\Large\ttfamily]$#1$}
-\newcommand{\sizedcode}[2]{\lstinputlisting[basicstyle=#1\ttfamily]{#2}}
-\newcommand{\smallcode}[1]{\sizedcode{\tiny}{#1}}
-\newcommand{\sizedrangedcode}[4]{\lstinputlisting[basicstyle=#1\ttfamily,firstline=#2,lastline=#3]{#4}}
-\newcommand{\sizedrangedcodet}[4]{\lstinputlisting[tabsize=4,basicstyle=#1\ttfamily,firstline=#2,lastline=#3]{#4}}
-\newcommand{\srcode}[4]{\sizedrangedcode{#1}{#2}{#3}{#4}}
+%\newcommand{\iz}[1]{\begin{itemize}#1\end{itemize}}
+%\newcommand{\en}[1]{\begin{enumerate}#1\end{enumerate}}
+
 \newcommand{\fg}[2]{\vspace{-5pt}\begin{center}\includegraphics[#1]{#2}\end{center}}
 \newcommand{\myurl}[1]{{\footnotesize{\url{#1}}}}
 \newcommand{\ssmall}[0]{\fontsize{7pt}{8pt}\selectfont}
@@ -120,3 +112,520 @@
     {\includegraphics[width=#1]{#4}};
 \end{tikzpicture}
 }
+
+
+
+
+
+
+
+\usepackage[most]{tcolorbox}
+
+
+\geometry{paperwidth=140mm,paperheight=105mm}
+
+% CHEATSHEET!!!!!
+% http://www.cpt.univ-mrs.fr/~masson/latex/Beamer-appearance-cheat-sheet.pdf
+
+\usetheme{CambridgeUS}
+\usepackage{../beamercolorthememyct}
+ 
+\usepackage[italian]{babel}
+\usepackage{hyperref}
+%\usepackage{soul}
+%\usepackage{enumitem}
+
+\usepackage{fontawesome}
+
+
+\usepackage{tabu}
+\usepackage{multirow}
+
+\usepackage{graphicx}
+
+\usepackage[caption = false]{subfig}
+\captionsetup[subfigure]{labelformat=empty}
+
+%\usepackage{movie15}
+%\usepackage{media9}
+\usepackage{multimedia}
+
+\usepackage{changepage}
+\usepackage{amsmath}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+\usepackage[makeroom]{cancel}
+ 
+\usepackage{tcolorbox} 
+
+\usepackage{xspace}
+\newcommand{\scafi}{{\sc scafi}\xspace}
+\newcommand{\then}{$\Rightarrow$\xspace}
+ 
+ 
+%\author[R. Casadei] % (optional, use only with lots of authors)
+%{Roberto Casadei, Gianluca Aguzzi, Mirko Viroli\\
+%%Post-Doc in CS\&Eng {@} DISI, UNIBO\\
+%%\url{roby.casadei@unibo.it}\\[0.5cm]
+%%Mirko Viroli\\
+%%Full Professor {@} DISI, UNIBO\\
+%%\url{mirko.viroli@unibo.it}
+%} %\inst{1} \and S.~Another\inst{2}}
+%% - Give the names in the same order as the appear in the paper.
+%% - Use the \inst{?} command only if the authors have different
+%%   affiliation. 
+%\institute[Università di Bologna] %]Universities of Somewhere and Elsewhere] % (optional, but mostly needed)
+%{
+%  %\inst{1}%
+%%  \normalsize
+%%  Department of Computer Science and Engineering (DISI)\\ \vspace{0.2cm}
+%%  Alma Mater Studiorum -- Università of Bologna
+%}
+% % \and
+% % \inst{2}%
+% % Department of Theoretical Philosophy\\
+% % University of Elsewhere}
+%% - Use the \inst command only if there are several affiliations.
+%% - Keep it simple, no one is interested in your street address.
+%\date[] % (optional, should be abbreviation of conference name)
+%{\bo{Pervasive Computing} 2021/22 MEng Course}
+
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+
+\usepackage{listings}
+
+%\makeatletter
+%\lst@AddToHook{TextStyle}{\let\lst@basicstyle\ttfamily\normalsize}
+%\makeatother
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mylightgray}{rgb}{0.97,0.97,0.97}
+
+\lstset{ %
+  backgroundcolor=\color{mylightgray},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\ttfamily\small,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=none,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  keywordstyle=[2]\bfseries\color{red},
+  language=java,                 % the language of the code
+  otherkeywords={*,...},            % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{gray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  extendedchars=\true,
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{purple},     % string literal style
+  tabsize=4,                       % sets default tabsize to 2 spaces
+  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  columns=fullflexible,
+  lineskip={-1pt},
+  belowskip={-10px},
+  aboveskip={3px},
+  emphstyle=\textbf,
+  rulesepcolor=\color{gray},
+  framexleftmargin=0pt,
+  framextopmargin=4pt,
+  framexbottommargin=2pt, 
+  keywords=[2]{nbr,nbrvar,foldhood,rep,sense,aggregate,branch}
+}
+ 
+ 
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,lazy,%
+    type,val,var,while,with,yield,forSome},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]"""
+} 
+
+\definecolor{ddarkgreen}{rgb}{0,0.5,0}
+\lstdefinelanguage{scafi}{frame=single,basewidth=0.5em,language={scala},
+keywordstyle=\color{blue}\textbf, commentstyle=\color{ddarkgreen},
+keywordstyle=[2]\color{red}\textbf, keywords=[2]{rep,nbr,foldhood,foldhoodPlus,aggregate,branch,spawn},
+keywordstyle=[3]\color{gray}, keywords=[3]{Me,AroundMe,Everywhere,Forever}, %,@@,@@@
+keywordstyle=[4]\color{red}\textbf, keywords=[4]{in,out,rd},
+keywordstyle=[5]\color{violet}, keywords=[5]{evolve,when,andNext,workflow,C,gossip},
+keywordstyle=[6]\color{orange}, keywords=[6]{Available,Serving,Done,Waiting,Removing}}
+
+
+ 
+\newcommand{\at}{\makeatletter @\makeatother}
+ 
+\subject{Computer Science}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+ 
+ \everymath{\color{blue}}
+ 
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+ 
+% \pgfdeclareimage[height=0.5cm]{university-logo}{university-logo-filename}
+% \logo{\pgfuseimage{university-logo}}
+ 
+ 
+ \definecolor{questcolor}{rgb}{0.8,0.6,0}
+ \definecolor{myblue}{rgb}{0.1,0.1,0.4}
+ \definecolor{mydgray}{rgb}{0.4,0.4,0.4}
+ \definecolor{ddarkgreen}{rgb}{0,0.6,0}
+ 
+ 
+\newcommand{\enf}[1]{\textcolor{darkred}{#1}}
+\newcommand{\tw}[1]{\texttt{#1}}
+\newcommand{\bo}[1]{\textbf{#1}}
+\newcommand{\question}[1]{\textcolor{questcolor}{#1}}
+
+\newcommand{\lex}[1]{\textcolor{ddarkgreen}{#1}}
+\newcommand{\ex}[1]{\textbf{\color{mygreen}{#1}}}
+\newcommand{\highlight}[1]{\textbf{\color{red}{#1}}}
+\newcommand{\empha}[1]{\textcolor{red}{#1}}
+\newcommand{\emphb}[1]{\textcolor{blue}{#1}}
+\newcommand{\emphc}[1]{\textcolor{darkblue}{#1}}
+\newcommand{\extt}[1]{\ttb{\color{mygreen}{#1}}}
+\newcommand{\ttb}[1]{\textbf{\texttt{#1}}}
+\newcommand{\hlb}[1]{\highlight{\texttt{#1}}}
+
+\newcommand{\lbl}[1]{\textbf{\textcolor{airforceblue}{#1}}}
+ \newcommand{\nwl}[1]{\vspace{0.2cm}}
+\newcommand{\nwll}[1]{\vspace{0.1cm}}
+\newcommand{\imp}[1]{\textbf{\emphc{#1}}}
+
+\newcommand{\itm}{\item[\color{airforceblue}\textbullet]} 
+\newcommand{\barrow}{\item[\color{myblue}\ding{228}]}
+\newcommand{\bwarrow}{\item[\color{myblue}\ding{227}]}
+
+\newcommand{\hsplit}[2]{
+\begin{minipage}{0.48\textwidth}
+#1
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+#2
+\end{minipage}
+}
+\newcommand{\hsplits}[4]{
+\begin{minipage}{#1\textwidth}
+#3
+\end{minipage}
+\hfill
+\begin{minipage}{#2\textwidth}
+#4
+\end{minipage}
+}
+ 
+%\setbeamertemplate{enumerate items}[circle]
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/shaded]
+  \end{frame}
+}
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection,subsubsectionstyle=show/shaded]
+  \end{frame}
+}
+
+\usepackage{marvosym}
+\lstset{literate={@}{\MVAt}1}
+\patchcmd{\verb}{\dospecials}{\dospecials\atspecial}{}{}
+\def\atspecial{\begingroup\lccode`~=`@
+  \lowercase{\endgroup\let~}\MVAt
+  \catcode`@=\active}
+  
+\setlength{\parskip}{0.15cm} 
+ 
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+ 
+%\beamerdefaultoverlayspecification{<+->}
+
+\usepackage{multicol}
+
+\usepackage{keycommand}
+% Patch by Joseph Wright ("bug in the definition of \ifcommandkey (2010/04/27 v3.1415)"),
+% http://tex.stackexchange.com/a/35794
+\begingroup
+  \makeatletter
+  \catcode`\/=8 %
+  \@firstofone
+    {
+      \endgroup
+      \renewcommand{\ifcommandkey}[1]{%
+        \csname @\expandafter \expandafter \expandafter
+        \expandafter \expandafter \expandafter \expandafter
+        \kcmd@nbk \commandkey {#1}//{first}{second}//oftwo\endcsname
+      }
+    }
+%--------%
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\newkeycommand{\hcancel}[hshiftstart=0pt,vshiftstart=0pt,hshiftend=0pt,vshiftend=0pt,color=black][1]{%
+  \tikz[baseline=(tocancel.base)]{
+        \node[inner sep=0pt,outer sep=0pt] (tocancel) {#1};
+        \draw[\commandkey{color}] ($(tocancel.south west)+(\commandkey{hshiftstart},\commandkey{vshiftstart})$) --
+                                  ($(tocancel.north east)+(\commandkey{hshiftend},\commandkey{vshiftend})$);
+  }%
+}%
+
+\newcommand{\twoparts}[2]{
+\begin{minipage}[t]{0.48\textwidth}
+#1
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+#2
+\end{minipage}
+}
+
+\newcommand{\imgv}[2]{
+\begin{figure}
+\centering
+\includegraphics[height=#1\textheight]{imgs/#2}
+\end{figure}
+}
+
+\newcommand{\imgh}[2]{
+\begin{figure}
+\centering
+\includegraphics[width=#1\textwidth]{imgs/#2}
+\end{figure}
+}
+
+\newcommand{\backupbegin}{
+   \newcounter{finalframe}
+   \setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \setcounter{framenumber}{\value{finalframe}}
+} 
+
+\setbeamercolor{linescolor}{fg=white,bg=airforceblue}
+
+
+\definecolor{pbfilling}{HTML}{ffffff}% filling color for the progress bar
+%\definecolor{pbfilling}{HTML}{aaaaaa}% background color for the progress bar
+\definecolor{pbbackground}{rgb}{0.36, 0.54, 0.66}
+
+\makeatletter
+\def\progressbar@progressbar{} % the progress bar
+\newcount\progressbar@tmpcounta% auxiliary counter
+\newcount\progressbar@tmpcountb% auxiliary counter
+\newdimen\progressbar@pbht %progressbar height
+\newdimen\progressbar@pbwd %progressbar width
+\newdimen\progressbar@tmpdim % auxiliary dimension
+\progressbar@pbwd=\paperwidth
+\progressbar@pbht=0.5ex
+% the progress bar
+\def\progressbar@progressbar{%
+    \progressbar@tmpcounta=\insertframenumber
+    \progressbar@tmpcountb=\inserttotalframenumber
+    \progressbar@tmpdim=\progressbar@pbwd
+    % to show current values
+    %\rlap{\the\progressbar@tmpdim, \the\progressbar@tmpcounta}%
+    \pgfmathparse{\progressbar@tmpcounta/\progressbar@tmpcountb}%
+    \progressbar@tmpdim=\pgfmathresult\progressbar@tmpdim
+    \begin{tikzpicture}
+    \useasboundingbox (0pt, 0pt) rectangle ++ (\progressbar@pbwd, \progressbar@pbht);
+    \begin{scope}
+      \clip (\progressbar@tmpdim, 0pt) rectangle (\progressbar@pbwd, \progressbar@pbht);
+      \node[anchor=south west,inner sep=0pt,outer sep=0pt,minimum height=1cm,minimum width=\paperwidth,fill=airforceblue] at (0pt,0pt) {};
+    \end{scope}
+    \end{tikzpicture}%
+}
+    \setbeamercolor{footlcolor}{fg=white,bg=black!20!airforceblue}
+    
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \vbox{
+  \hbox{
+    \begin{beamercolorbox}[wd=1\paperwidth,ht=0.7ex,sep=0pt,center,dp=0ex]{white}%
+    \progressbar@progressbar%
+    \end{beamercolorbox}%
+  }
+  \hbox{%
+  \hypersetup{linkcolor=white}
+    \begin{beamercolorbox}[wd=1.02\paperwidth,ht=2.5ex,dp=1.125ex]{footlcolor}%
+%    \insertsectionnavigationhorizontal{\paperwidth}{\bfseries\hfill}{\hfill}
+    \insertsubsectionnavigationhorizontal{\paperwidth}{\bfseries\hfill}{\hfill}
+    \end{beamercolorbox}%
+  }
+  }
+}
+
+\setbeamertemplate{footline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=0.12\paperwidth,ht=2.5ex,dp=1.125ex]{footlcolor}
+    \hspace{0.3em}\insertshortauthor\hspace{0.3em}
+    \end{beamercolorbox}\hspace{0.25mm}%
+    \begin{beamercolorbox}[wd=0.76\paperwidth,ht=2.5ex,dp=1.125ex]{footlcolor}%
+    \insertsectionnavigationhorizontal{0.76\paperwidth}{\bfseries\hfill}{\hfill}
+    \end{beamercolorbox}\hspace{0.25mm}%
+    \begin{beamercolorbox}[wd=0.12\paperwidth,ht=2.5ex,dp=1.125ex,right]{footlcolor}
+    PSS-\lectnum{} $\cdot$ \insertframenumber/\inserttotalframenumber~~
+    \end{beamercolorbox}
+  }
+}
+\renewcommand{\refname}{Refs}
+\setbeamercolor{headline}{fg=red,bg=gray}
+\setbeamercolor{subsection in head/foot}{fg=white,bg=gray}
+\setbeamercolor{section in head/foot}{fg=white,bg=gray}
+
+\beamertemplatenavigationsymbolsempty
+
+\hypersetup{colorlinks=false,linkcolor=blue!50!red,urlcolor=orange!60!black}
+
+\newcommand{\iz}[1]{\begin{itemize}#1\end{itemize}}
+
+\newcommand{\trm}[1]{{\color{darkred}\sc{}#1}}
+\newcommand{\trmu}[1]{{\color{darkblue}\sc{}#1}}
+
+%\renewcommand{\labelitemi}{$\color{black}\bullet$}
+\setbeamertemplate{itemize item}{$\color{black}\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{$\color{airforceblue}\blacktriangleright$}
+
+%\setbeamertemplate{enumerate items}[square]
+\setbeamertemplate{section in toc}[square]
+\setbeamertemplate{subsection in toc}[square]
+
+\let\oldcite\cite
+\renewcommand{\cite}[1]{\normalfont{\color{blue}\oldcite{#1}}}
+
+\newcommand{\tlink}[1]{{\color{red}\href{#1}{\faExternalLink}}}
+\newcommand{\llink}[1]{{\color{black}\href{#1}{\faExternalLink}}}
+\newcommand{\nalink}[1]{{\color{blue}\href{#1}{\faExternalLink}}}
+\newcommand{\rfto}[1]{\hyperlink{#1}{\color{red}\faArrowCircleRight}}
+
+\newcommand\extrafootertext[1]{%
+    \bgroup
+    \renewcommand\thefootnote{\fnsymbol{footnote}}%
+    \renewcommand\thempfootnote{\fnsymbol{mpfootnote}}%
+    \footnotetext[0]{#1}%
+    \egroup
+}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.geometric,positioning,automata}
+\usetikzlibrary{trees,decorations.pathmorphing,calc}
+\usetikzlibrary{intersections,patterns,hobby,backgrounds}
+
+
+\usepackage[backend=bibtex,mincitenames=9,maxnames=99,maxcitenames=99]{biblatex}
+
+\newcommand{\citeinslide}[1]{\cite{#1}\extrafootertext{\scriptsize\cite{#1} \fullcite{#1}}}
+\newcommand{\citeinslideref}[2]{$\text{\citeinslide{#1}}_{\text{\scriptsize{}#2}}$}
+\newcommand{\citewref}[2]{$\text{\cite{#1}}_{\text{\scriptsize{}#2}}$}
+
+
+
+%\AtBeginBibliography{\scriptsize}
+%\bibliography{biblio}
+
+
+\lstset{language={java},basicstyle=\ttfamily\footnotesize}
+
+
+\newtcblisting{mycode}[3]{%
+  boxsep=1pt,
+  boxrule=2pt,
+  arc=1mm, 
+  left=1mm,
+  %auto outer arc,
+  size=fbox,%tight,
+  %colframe=blue!40!black, colframe=black!30!white,
+  %colbacktitle=blue!80!white,
+  colback=blue!5,
+  toprule=0.1mm, bottomrule=0.1mm, rightrule=0.1mm, leftrule=1mm, 
+  listing options={language=java, alsoletter={-},
+    frame=none,
+    backgroundcolor={},
+  	columns=fullflexible,
+  	lineskip={-1.5pt},
+  	xleftmargin=0px,
+  	belowskip={0px},
+  	aboveskip={0px},
+  	#2
+  },
+  listing only,
+  title={#3},#1
+}
+
+\lstdefinestyle{mycodesrc}{
+  boxsep=1pt,
+  boxrule=2pt,
+  arc=1mm, 
+  left=1mm,
+  %auto outer arc,
+  size=fbox,%tight,
+  %colframe=blue!40!black, colframe=black!30!white,
+  %colbacktitle=blue!80!white,
+  colback=blue!5,
+  toprule=0.1mm, bottomrule=0.1mm, rightrule=0.1mm, leftrule=1mm, 
+  listing options={language=java, alsoletter={-},
+    frame=none,
+    backgroundcolor={},
+  	columns=fullflexible,
+  	lineskip={-1.5pt},
+  	xleftmargin=0px,
+  	belowskip={0px},
+  	aboveskip={0px}
+  },
+  listing only
+}
+
+\lstdefinestyle{s}{basicstyle=\ttfamily\footnotesize}
+\lstdefinestyle{ss}{basicstyle=\ttfamily\scriptsize}
+\lstdefinestyle{sss}{basicstyle=\ttfamily\tiny}
+
+\newcommand{\code}[1]{\lstinputlisting[language=java]{#1}}
+\newcommand{\titledcode}[2]{\vspace{-10pt}\lstinputlisting[title={#1},language=java]{#2}}
+\newcommand{\cil}[1]{\lstinline[basicstyle=\normalsize\ttfamily]$#1$}
+\newcommand{\Cil}[1]{\lstinline[basicstyle=\Large\ttfamily]$#1$}
+\newcommand{\sizedcode}[2]{\lstinputlisting[basicstyle=#1\ttfamily]{#2}}
+\newcommand{\smallcode}[1]{\sizedcode{\tiny}{#1}}
+\newcommand{\sizedrangedcode}[4]{\lstinputlisting[caption={},basicstyle=#1\ttfamily,firstline=#2,lastline=#3]{#4}}
+\newcommand{\sizedrangedcodet}[4]{\lstinputlisting[tabsize=4,basicstyle=#1\ttfamily,firstline=#2,lastline=#3]{#4}}
+% Example of use  \srcode{\tiny}{3}{100}{\ecl/app/Mandelbrot.java}
+\newcommand{\srcode}[4]{\sizedrangedcode{#1}{#2}{#3}{#4}}
+%\newcounter{java}
+%\newtcbinputlisting[use counter=java]{\srcode}[4][]{
+%  listing file = {#4}, label={#1#2#3}
+%}
+
+\title[PSS\lectnum{} -- Intro]{PSS-\lectnum{} \\ Progettazione e Sviluppo del Software\\\lectitle{}}
