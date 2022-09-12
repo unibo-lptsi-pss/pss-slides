@@ -66,7 +66,7 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
-          branch: master
+          branch: gh-pages
           folder: lecture-markdown/build
           repository-name: unibo-lptsi-pss/unibo-lptsi-pss.github.io
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
