@@ -47,5 +47,5 @@ enableSourceMap = true
 [[params.reveal_hugo.mermaid]]
 startOnLoad = false
 # theme = "default"
-fontFamily = "Inconsolata"
+# fontFamily = "Inconsolata"
 #useMaxWidth = true
