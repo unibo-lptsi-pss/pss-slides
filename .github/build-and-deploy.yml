@@ -56,6 +56,9 @@ jobs:
         run: hugo
       - name: Transform and Inline Mermaid charts
         uses: cric96/inline-mermaid@v1.4.4
+        with:
+          root-folder: lecture-markdown/build
+          config-file: lecture-markdown/config.toml
       - name: Deploy website
         if: ${{ github.event_name != 'pull_request' }}
         uses: JamesIves/github-pages-deploy-action@v4.4.0
