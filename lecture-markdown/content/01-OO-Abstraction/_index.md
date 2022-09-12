@@ -452,47 +452,40 @@ flowchart TB
 
 ---
 
-## Sviluppo storico di Java
+## Sviluppo storico di Java fino agli anni 10
 
-### Pricipali versioni
 *  Java (1996): versione iniziale
 *  Java 1.2 (1998): aggiunta del framework grafico Swing
 *  Java 5 (1.5) (2004): aggiunta di generici, inner class, annotazioni
-  * Java è così diffuso che si decide non avrà una versione 2.x
-  * Da qui, si usa il secondo numero per contare la release
+    * Java è così diffuso che si decide non avrà una versione 2.x
+    * Da qui, si usa il secondo numero per contare la release
 *  Java 6 (2006): miglioramento prestazionale importante
 *  Java 7 (2011): supporto a più linguaggi nella JVM, diamond operator
 *  Java 8 (2014): aggiunta lambda expression e streams
 *  Java 9 (2017): aggiunta Java Module System (Jigsaw)
-  * Passaggio a nuove versioni con ritmo semestrale
+    * Da qui, un rilascio ogni 6 mesi
 * Java 10 (2018): aggiunta local variable type-inference
-* ...
-* $\Rightarrow$ Java 17 (2019): ultima versione (piccole aggiunte: switch expressions..)
-
-
-
-
-
-### Modello di sviluppo attuale
-
-
-
-  *  Da Java 9, si ha una nuova release ogni 6 mesi
-  *  Java 11 è l'ultima LTS, e si raccomanda di non rimanere indietro
-  *  Oracle detiene il marchio e una implementazione "commerciale"
-  *  L'iniziativa OpenJDK produce una ulteriore implementazione open che è di riferimento -- quella che useremo noi
-  *  Esistono anche altre JVM (Eclipse, Amazon,...)
-
-
-
-
+* Java 11 LTS (2018): rimozione di API deprecate e miglioramenti di performance
+* Java 12 (2019): switch expressions
+* Java 13 (2019): blocchi di testo
 
 ---
 
+## Sviluppo storico di Java dagli anni 20
 
+* Java 14 (2020): pattern Matching per `instanceof` e records
+* Java 15 (2020): classi `sealed` (gerarchie sigillate, sum types)
+* Java 16 (2021): stabilizzazione di features
+* **$\Rightarrow$ Java 17 LTS (2021)**: miglioramento delle switch expressions
+* Java 18 (2022): miglioramenti minori
+* Java 19 (2022): supporto a Linux/RISC-V
 
+---
 
+### Modello di sviluppo attuale
+* Da Java 9, si ha una nuova release ogni 6 mesi
+* Ogni due anni, si ha una nuova LTS, e si raccomanda di non rimanere indietro
+* OpenJDK produce l'implmentazione di riferimento del JDK
+    * Ne esistono anche altre!
+        * Eclipse OpenJ9, Amazon Corretto, GraalVM...
 
-
-
-\end{document}
