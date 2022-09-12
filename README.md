@@ -160,6 +160,16 @@ Nella versione in deployment invece renderizza in modo corretto,
 grazie ad un'action che fa inlining,
 creata da @cric96, cui dovete una birra.
 
+#### Pezzi di LaTeX
+
+Le slide supportano MathJax. Scrivere cose tipo `$\LaTeX\ \ e=mc^2$` renderizza $LaTeX\ \ e=mc^2$ inline,
+e scrivere cose tipo:
+```latex
+$$\sum_{i=0}^{n}\delta\int_0^{\infty}\frac{x^x}{log_2{x}}dx$$
+```
+renderizza:
+$$\sum_{i=0}^{n}\delta\int_0^{\infty}\frac{x^x}{log_2{x}}dx$$
+
 ## Deployment
 
 Qua viene il bello. Fa tutto da solo.
