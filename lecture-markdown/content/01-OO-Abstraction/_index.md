@@ -115,7 +115,7 @@ il problema (realizzate mediante i linguaggi e le tecnologie scelte e a fronte d
 ### Astrazione e programmazione
 *  Ogni linguaggio di programmazione introduce un livello di astrazione
 *  I concetti del sistema da realizzare (nel gestionale esami: corsi, voti, studenti, calcolo media voti) devono essere tradotti nei "costrutti" forniti dal linguaggio
-*  È facile? È conveniente? È flessibile? Dipende dal linguaggio..
+*  È facile? È conveniente? È flessibile? Dipende dal linguaggio...
   
 ### Il livello di astrazione del C (e della progr. procedurale/imperativa)
 *  Stato del sistema $\Rightarrow$ È costituito da strutture dati (costruite con tipi primitivi, array, puntatori e struct) tenute in stack e/o heap
@@ -173,7 +173,7 @@ Machine Lang $\xrightarrow{1950-1960}$ Assembly $\xrightarrow{1970-'190}$ C $\xr
 
 ### Le critiche all'OOP
 *  Serve molta disciplina per "scalare" bene con la complessità del problema
-*  Altri paradigmi (fra cui quello funzionale) suggeriscono come farlo..
+*  Altri paradigmi (fra cui quello funzionale) suggeriscono come farlo...
 
 ---
 
@@ -209,7 +209,7 @@ Come organizzarla? Quale servizi fornisce?
 
 ### Visione object-oriented
 *  Un corso di laurea (CdL) è un "oggetto"
-*  Che operazioni consente? Iscrivi studente, laurea studente, assegna docente a corso, concludi anno accademico,..
+*  Che operazioni consente? Iscrivi studente, laurea studente, assegna docente a corso, concludi anno accademico, ...
 *  Un programma (sistema) è fatto da oggetti: facoltà, corso di laurea, corsi, studente, docente
 *  Le interazioni fra questi oggetti sono "scambi di messaggi"
 *  Il CdL ha uno stato fatto da altri oggetti: docenti, studenti, corsi
