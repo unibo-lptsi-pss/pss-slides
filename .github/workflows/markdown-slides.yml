@@ -13,6 +13,8 @@ on:
 
 jobs:
   Build-Slides:
+    concurrency:
+      group: markdown-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
@@ -53,10 +55,18 @@ jobs:
         with:
           root-folder: lecture-markdown/build
           config-file: lecture-markdown/config.toml
-      - name: Deploy website
+      - name: Deploy locally
         if: ${{ github.event_name != 'pull_request' }}
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
-          folder: build
+          folder: lecture-markdown/build
+      - name: Deploy globally
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        with:
+          branch: gh-pages
+          folder: lecture-markdown/build
+          repository-name: unibo-lptsi-pss.github.io
+          token: ${{ secrets.DEPLOYMENT_TOKEN }}
