@@ -2,6 +2,10 @@
 
 Sempre live a: https://unibo-lptsi-pss.github.io/
 
+Ultima versione PDF stampabile disponibile a https://github.com/unibo-lptsi-pss/pss-slides/releases/latest
+
+## Idea
+
 Le slide in `lecture-markdown` sono gestite dal processo di CI.
 Sono scritte in markdown più o meno pulito,
 e vengono compilate da [hugo](https://gohugo.io/).
