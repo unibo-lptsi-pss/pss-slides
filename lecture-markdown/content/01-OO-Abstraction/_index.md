@@ -254,7 +254,7 @@ Come organizzarla? Quale servizi fornisce?
 Esempio "lampadina" in notazione UML (Unified Modelling Language):
 
 ```mermaid
-%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '1em' }}}%%
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', fontFamily: 'Inconsolata' }}}%%
 classDiagram
 class Light {
 << interface >>
