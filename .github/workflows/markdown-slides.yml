@@ -11,6 +11,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   Build-Slides:
     concurrency:
@@ -59,14 +62,14 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: lecture-markdown/build
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy globally
         if: ${{ github.event_name != 'pull_request' }}
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
-          branch: gh-pages
+          branch: master
           folder: lecture-markdown/build
           repository-name: unibo-lptsi-pss.github.io
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
