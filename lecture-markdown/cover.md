@@ -4,6 +4,8 @@
 ### [Roberto Casadei --- `roby.casadei@unibo.it`](mailto:roby.casadei@unibo.it)
 ### [Danilo Pianini --- `danilo.pianini@unibo.it`](mailto:danilo.pianini@unibo.it)
 
+[<i class="fa fa-print" aria-hidden="true"></i> versione stampabile](?print-pdf&pdfSeparateFragments=false)
+
 ---
 
 ## Nota
