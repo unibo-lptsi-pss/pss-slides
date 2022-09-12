@@ -61,7 +61,7 @@ jobs:
         with:
           branch: gh-pages
           folder: lecture-markdown/build
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.DEPLOYMENT_TOKEN }}
       - name: Deploy globally
         if: ${{ github.event_name != 'pull_request' }}
         uses: JamesIves/github-pages-deploy-action@v4.4.0
