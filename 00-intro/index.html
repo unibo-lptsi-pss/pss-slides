@@ -1,0 +1,320 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+<title>Progettazione e Sviluppo del Software</title>
+<meta name="description" content="Progettazione e Sviluppo del Software, Tecnologie dei Sistemi Informatici">
+<meta name="author" content="Danilo Pianini">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/reveal-js/dist/reveal.css">
+  <link rel="stylesheet" href="/css/custom-theme.min.32aa8c973730165ed3eeb998f2c9ccf2aa2e59e9ee44cdb47ab9fca2a5d39bc7.css" id="theme"><link rel="stylesheet" href="/highlight-js/pastie.min.css">
+    
+<link rel="stylesheet" href="https://gitcdn.link/repo/DanySK/css-blur-animation/master/blur.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h1 id="introduzione-al-corso">Introduzione al corso</h1>
+<h4 id="progettazione-e-sviluppo-del-software">Progettazione e Sviluppo del Software</h4>
+<h4 id="cdl-tecnologie-dei-sistemi-informatici">C.D.L. Tecnologie dei Sistemi Informatici</h4>
+<h3 id="roberto-casadei-----robycasadeiuniboitmailtorobycasadeiuniboit"><a href="mailto:roby.casadei@unibo.it">Roberto Casadei — <code>roby.casadei@unibo.it</code></a></h3>
+<h3 id="danilo-pianini-----danilopianiniuniboitmailtodanilopianiniuniboit"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — <code>danilo.pianini@unibo.it</code></a></h3>
+</section><section>
+<h2 id="nota">Nota</h2>
+<ul>
+<li>
+<p>Questo materiale è ampiamente basato su quello realizzato dal Prof.
+Mirko Viroli, che ringrazio.</p>
+</li>
+<li>
+<p>Ogni errore riscontratovi è esclusiva responsabilità degli autori di questo documento.</p>
+</li>
+</ul>
+</section><section>
+<h1 id="docenti">Docenti</h1>
+<ul>
+<li>Titolare del corso: Prof. Roberto Casadei
+<ul>
+<li>e-mail: <a href="mailto:roby.casadei@unibo.it"><code>roby.casadei@unibo.it</code></a></li>
+<li>homepage: <a href="https://www.unibo.it/sitoweb/roby.casadei/"><code>https://www.unibo.it/sitoweb/roby.casadei/</code></a></li>
+</ul>
+</li>
+<li>Modulo 2: Prof. Danilo Pianini
+<ul>
+<li>e-mail: <a href="mailto:danilo.pianini@unibo.it"><code>danilo.pianini@unibo.it</code></a></li>
+<li>homepage: <a href="https://www.unibo.it/sitoweb/danilo.pianini"><code>https://www.unibo.it/sitoweb/danilo.pianini/</code></a></li>
+</ul>
+</li>
+<li>Modulo 3: Prof.ssa Sara Montagna
+<ul>
+<li>e-mail: <a href="mailto:sara.montagna@unibo.it"><code>sara.montagna@unibo.it</code></a></li>
+<li>homepage: <a href="https://www.unibo.it/sitoweb/sara.montagna"><code>https://www.unibo.it/sitoweb/sara.montagna/</code></a></li>
+</ul>
+</li>
+<li>Tutor: Dott. Francesco Dente
+<ul>
+<li>e-mail: <a href="mailto:francesco.dente@studio.unibo.it"><code>francesco.dente@studio.unibo.it</code></a></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h1 id="contatti">Contatti</h1>
+<h3 id="come-contattare">Come contattare</h3>
+<ul>
+<li>Attraverso il forum per domande la cui risposta è di interesse generale
+<ul>
+<li>tutte le domande tecniche</li>
+<li>tutte le domande sull’organizzazione</li>
+</ul>
+</li>
+<li>Via email <em>tenendo in copia tutti i docenti</em>
+<ul>
+<li>Per questioni personali</li>
+</ul>
+</li>
+<li>Ricevimento
+<ul>
+<li>Si vedano le pagine web dei docenti</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h1 id="sito-del-corso">Sito del corso</h1>
+<ul>
+<li><a href="https://virtuale.unibo.it/course/view.php?id=42156"><code>https://virtuale.unibo.it/course/view.php?id=42156</code></a>
+<ul>
+<li>sarà il luogo degli avvisi (e notifiche), forum di discussione, produzione di materiale</li>
+<li>tutti gli studenti che seguono il corso si iscrivano, e lo tengano d’occhio</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h1 id="organizzazione-generale-del-corso">Organizzazione generale del corso</h1>
+<h2 id="lezioni-aula-due-da-2-ore-la-settimana">Lezioni aula (due da 2 ore la settimana)</h2>
+<ul>
+<li>Illustrano i concetti teorici, metodologici e pratici</li>
+<li>Basate su slide proiettate (ma non solo)</li>
+</ul>
+<h2 id="laboratorio-3-ore-a-settimana">Laboratorio (3 ore a settimana)</h2>
+<ul>
+<li>Illustra ulteriori aspetti metodologici e pratici</li>
+<li>Con esercizi necessari alla comprensione e alla sperimentazione</li>
+<li><em>È parte integrante del corso</em></li>
+</ul>
+<h2 id="studio-a-casa">Studio a casa</h2>
+<ul>
+<li>Rilettura slide, esperimenti pre- e/o post-laboratorio</li>
+<li>È praticamente obbligatorio se volete rimanere in pari…</li>
+</ul>
+</section><section>
+<h1 id="programma-di-massima-del-corso">Programma (di massima) del corso</h1>
+<h2 id="parti-principali">Parti principali</h2>
+<ul>
+<li>Elementi base di programmazione OO e Java</li>
+<li>Polimorfismo (ereditarietà, subtyping, genericità)</li>
+<li>Librerie (I/O, grafica, concorrenza)</li>
+<li>Integrazione col paradigma funzionale (Java 8 lambda)</li>
+<li>Pattern e buone pratiche di programmazione</li>
+</ul>
+</section><section>
+<h1 id="testi-di-riferimento-non-necessario-lacquisto">Testi di riferimento (non necessario l’acquisto)</h1>
+<h2 id="programmazione-in-java">Programmazione in Java</h2>
+<ul>
+<li>B.Eckel. Thinking in Java, 4th edition.</li>
+<li>J.Block. Effective Java, 2nd edition.</li>
+<li>R.Warburton. Java 8 Lambdas.</li>
+</ul>
+<h2 id="programmazione-in-c">Programmazione in C#</h2>
+<ul>
+<li>Jon Skeet. C# in depth, 3rd edition.</li>
+</ul>
+<h2 id="altri-riferimenti">Altri riferimenti</h2>
+<ul>
+<li>E.Gamma et al. Design Patterns Elements of Reusable Object-Oriented Software.</li>
+<li>R.Martin. Clean Code: A Handbook of Agile Software Craftsmanship</li>
+<li>Java e C# online documentation (tutorials, Language Specification, APIs)</li>
+</ul>
+</section><section>
+<h1 id="software">Software</h1>
+<h2 id="java">Java</h2>
+<ul>
+<li>OpenJDK 17 (Open Java Development KIT) <a href="https://adoptium.net/">https://adoptium.net/</a></li>
+<li>Visual Studio Code <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>Gradle <a href="https://gradle.org/">https://gradle.org/</a></li>
+<li>Git <a href="https://git-scm.com/">https://git-scm.com/</a></li>
+</ul>
+<h2 id="istruzioni-sullinstallazione-sul-pc-di-casa">Istruzioni sull’installazione (sul PC di casa)</h2>
+<ul>
+<li><a href="https://oop-at-disi.github.io/software-installation-instructions/">https://oop-at-disi.github.io/software-installation-instructions/</a></li>
+<li>Molto importante rendersi operativi a casa nel giro di una settimana!
+<ul>
+<li>$\Rightarrow$ sarebbe consigliato l’uso del sistema operativo Linux…</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h1 id="sul-ruolo-di-questo-corso">Sul ruolo di questo corso</h1>
+<h2 id="elementi-essenziali">Elementi essenziali</h2>
+<ul>
+<li>Costruzione del software, e quindi di sistemi</li>
+<li>Analisi problemi, e organizzazione di soluzioni</li>
+<li>Tecniche base ed (alcune) avanzate di programmazione ad oggetti</li>
+<li>Introduzione al trend della programmazione moderna</li>
+<li>Gestione del progetto</li>
+<li>Utilizzo di strumenti integrati di sviluppo</li>
+</ul>
+<h2 id="limportanza-nel-vostro-percorso">L’importanza nel vostro percorso</h2>
+<ul>
+<li>Enfasi sull’approccio metodologico</li>
+<li>Competenze a curriculum</li>
+<li>Target di qualità piuttosto elevato</li>
+<li>È cruciale dedicargli subito il tempo necessario</li>
+</ul>
+</section><section>
+<h1 id="esame">Esame</h1>
+<h2 id="discussione-progetto">Discussione progetto</h2>
+<ul>
+<li>Progetto sviluppato in gruppo, 60-70 ore a testa</li>
+<li>Concordato col docente prima di iniziare</li>
+<li>Da relazionare con qualità, poi discusso su appuntamento
+<ul>
+<li>I dettagli discussi a metà corso</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h1 id="prerequisiti">Prerequisiti</h1>
+<h2 id="buona-conoscenza">Buona conoscenza</h2>
+<ul>
+<li>tecniche di programmazione imperativa/strutturata</li>
+<li>costruzione e comprensione di semplici algoritmi e strutture dati</li>
+</ul>
+<h2 id="attenzione-a-chi-è-già-fluente-in-linguaggi-ad-oggetti">Attenzione a chi è già “fluente” in linguaggi ad oggetti</h2>
+<ul>
+<li>Java o C#</li>
+<li>è difficile disimparare le ``bad practice’’…</li>
+</ul>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src="/reveal-hugo/object-assign.js"></script>
+
+<a href="/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
+
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"900","highlight_theme":"pastie","history":true,"mermaid":[{"fontFamily":"Inconsolata","startOnLoad":false}],"slide_number":true,"theme":"white","transition":"slide","transition_speed":"fast","width":"1440"}</script>
+<script type="application/json" id="reveal-hugo-page-params">null</script>
+
+<script src="/reveal-js/dist/reveal.js"></script>
+
+
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/zoom/zoom.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+
+  var revealHugoPlugins = { 
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ]
+   };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams),
+    camelize(revealHugoPlugins));
+  Reveal.initialize(options);
+</script>
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({"fontFamily":"Inconsolata","startOnLoad":false});
+
+    let render = (event) => {
+      let mermaidElems = event.currentSlide.querySelectorAll('.mermaid');
+      if (!mermaidElems.length){
+          return
+      }
+      mermaidElems.forEach(mermaidElem => {
+          let processed = mermaidElem.getAttribute('data-processed');
+          if (!processed){
+              
+              mermaid.init(undefined, mermaidElem);
+          }
+      });
+    };
+    Reveal.addEventListener('slidechanged', render);
+    Reveal.addEventListener('ready', render);
+  </script>
+
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+    
+  
+
+</body></html>

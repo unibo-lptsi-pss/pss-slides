@@ -1,0 +1,554 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+<title>Progettazione e Sviluppo del Software</title>
+<meta name="description" content="Progettazione e Sviluppo del Software, Tecnologie dei Sistemi Informatici">
+<meta name="author" content="Danilo Pianini">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/reveal-js/dist/reveal.css">
+  <link rel="stylesheet" href="/css/custom-theme.min.32aa8c973730165ed3eeb998f2c9ccf2aa2e59e9ee44cdb47ab9fca2a5d39bc7.css" id="theme"><link rel="stylesheet" href="/highlight-js/pastie.min.css">
+    
+<link rel="stylesheet" href="https://gitcdn.link/repo/DanySK/css-blur-animation/master/blur.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h1 id="ingegneria-e-astrazione-orientata-agli-oggetti">Ingegneria e astrazione orientata agli oggetti</h1>
+<h4 id="progettazione-e-sviluppo-del-software">Progettazione e Sviluppo del Software</h4>
+<h4 id="cdl-tecnologie-dei-sistemi-informatici">C.D.L. Tecnologie dei Sistemi Informatici</h4>
+<h3 id="roberto-casadei-----robycasadeiuniboitmailtorobycasadeiuniboit"><a href="mailto:roby.casadei@unibo.it">Roberto Casadei — <code>roby.casadei@unibo.it</code></a></h3>
+<h3 id="danilo-pianini-----danilopianiniuniboitmailtodanilopianiniuniboit"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — <code>danilo.pianini@unibo.it</code></a></h3>
+</section><section>
+<h2 id="nota">Nota</h2>
+<ul>
+<li>
+<p>Questo materiale è ampiamente basato su quello realizzato dal Prof.
+Mirko Viroli, che ringrazio.</p>
+</li>
+<li>
+<p>Ogni errore riscontratovi è esclusiva responsabilità degli autori di questo documento.</p>
+</li>
+</ul>
+</section><section>
+<h1 id="sistemi-software-e-ingegneria">Sistemi software e Ingegneria</h1>
+</section><section>
+<h2 id="sistemi-software">Sistemi software</h2>
+<h3 id="obiettivo-di-questo-corso">Obiettivo di questo corso</h3>
+<p>Insegnare tecniche moderne per la costruzione di sistemi software<br>
+$\Rightarrow$ utilizzando i concetti dei <em><strong>sistemi ad oggetti</strong></em>, che sono “mainstream”</p>
+<h3 id="programma-vs-sistema-software">Programma vs sistema software</h3>
+<p><em><strong>Programma</strong></em>: un set di istruzioni che automatizzano la soluzione di una classe di problemi, spesso associato ad una visione algoritmica della computazione (Input $\rightarrow$ Output).<br>
+<em><strong>Sistema software</strong></em>: un’aggregazione di componenti di varia natura (programmi, librerie, parti del sistema operativo, basi di dati, interfacce grafiche, servizi Web, rete, dispositivi hardware) che cooperano per fornire una funzionalità computazionale.</p>
+</section><section>
+<h2 id="casi-di-sistemi-software">Casi di sistemi software</h2>
+<h3 id="esempi">Esempi</h3>
+<ul>
+<li>Calcolatrice matematica</li>
+<li>Applicazione per gestire esami universitari</li>
+<li>Simulatore di circuiti elettronici, movimento di folle, movimento pianeti</li>
+<li>Monitor e elaborazione di dati biometrici (pressione, dati cardiaci,..)</li>
+<li>App per smartphone che mostra dove si trovano i miei contatti social</li>
+<li>Video-game in cui personaggi virtuali vivono in un ambiente 3D</li>
+<li>Controllore per dispositivi domotici (luce, termosifoni, acqua)</li>
+</ul>
+<h3 id="caratteristiche-comuni">Caratteristiche comuni</h3>
+<ul>
+<li>Non meri programmi, ma sistemi “pilotati” da software</li>
+<li>Includono componenti algoritmiche, ma anche interazioni complesse</li>
+<li>Alcuni realizzabili già alla fine di questo corso OOP, altri nei 5 anni</li>
+</ul>
+</section><section>
+<h2 id="fasi-del-processo-di-sviluppo">Fasi del processo di sviluppo</h2>
+<h3 id="analisi">Analisi</h3>
+<p>Si definisce in modo preciso il <em><strong>problema</strong></em> da risolvere (non la soluzione!)</p>
+<h3 id="design">Design</h3>
+<p>Si definisce la struttura del sistema da sviluppare</p>
+<ul>
+<li>progetto architetturale + progetto di dettaglio</li>
+<li>si descrive la <em><strong>soluzione</strong></em>, ad uno specifico livello di dettaglio</li>
+</ul>
+<h3 id="implementazionecodifica">Implementazione/codifica</h3>
+<p>Si realizza il sistema sulla base del progetto, scegliendo le tecnologie adeguate (efficienti, efficaci)</p>
+<ul>
+<li>ad esempio, il linguaggio di programmazione</li>
+</ul>
+<h3 id="attività-di-manutenzione-collaudo-deployment">Attività di manutenzione: Collaudo, Deployment</h3>
+<p>Fasi necessarie, che spesso impiegano più del 70% delle risorse complessive</p>
+</section><section>
+<h2 id="il-problema-dello-sviluppo-di-sistemi-software">Il problema dello sviluppo di sistemi software</h2>
+<p><a href="http://it.wikipedia.org/wiki/Software_crisis">http://it.wikipedia.org/wiki/Software_crisis</a></p>
+<h3 id="quali-cause-possono-comportare-il-fallimento-di-un-progetto-sw">Quali cause possono comportare il fallimento di un progetto SW?</h3>
+<ul>
+<li>Inadeguata analisi (requisiti non compresi appieno)</li>
+<li>Inadeguata (o assente) progettazione</li>
+<li>Cattive pratiche di programmazione</li>
+<li>Aspetti organizzativi nel team di sviluppo</li>
+</ul>
+</section><section>
+<h2 id="problem-space-vs-solution-space-il-buon-progetto">Problem space vs solution space: il “buon progetto”</h2>
+<h3 id="problem-space-fase-di-analisi">Problem space (fase di analisi)</h3>
+<p>L’insieme delle entità e relazioni nel mondo “reale” sulla base delle quali si formula il problema che il sistema software deve risolvere</p>
+<ul>
+<li>per il gestionale per esami universitari: studente, corso, corso di laurea, appello, voto</li>
+</ul>
+<h3 id="solution-space-fase-di-progetto-e-implementazione">Solution space (fase di progetto e implementazione)</h3>
+<p>Il corrispondente insieme di entità e relazioni nel mondo “artificiale” che devono risolvere
+il problema (realizzate mediante i linguaggi e le tecnologie scelte e a fronte del progetto).</p>
+<ul>
+<li>funzione per il calcolo della media</li>
+<li>struttura dati per rappresentare i dati di uno studente</li>
+<li>form per visualizzare gli esami di uno studente</li>
+</ul>
+<p><strong>Un buon progetto mappa al meglio il problem space nel solution space</strong></p>
+</section><section>
+<h2 id="concetti-del-solutionproblem-space-livello-di-astrazione">Concetti del solution/problem space: “livello di astrazione”</h2>
+<h3 id="definizione-di-astrazione-nellinformatica">Definizione di astrazione (nell’informatica)</h3>
+<ul>
+<li>È un metodo per descrivere un sistema informatico complesso mettendone da parte alcune caratteristiche specifiche, per facilitarne la progettazione, implementazione e manutenzione.</li>
+<li>Un <em><strong>livello di astrazione</strong></em> è un insieme di concetti e relazioni che definiscono una astrazione, usabili quindi per definire in modo conveniente un sistema informatico</li>
+</ul>
+</section><section>
+<h2 id="il-livello-dastrazione-dei-linguaggi-di-programmazione">Il livello d’astrazione dei linguaggi di programmazione</h2>
+<h3 id="astrazione-e-programmazione">Astrazione e programmazione</h3>
+<ul>
+<li>Ogni linguaggio di programmazione introduce un livello di astrazione</li>
+<li>I concetti del sistema da realizzare (nel gestionale esami: corsi, voti, studenti, calcolo media voti) devono essere tradotti nei “costrutti” forniti dal linguaggio</li>
+<li>È facile? È conveniente? È flessibile? Dipende dal linguaggio..</li>
+</ul>
+<h3 id="il-livello-di-astrazione-del-c-e-della-progr-proceduraleimperativa">Il livello di astrazione del C (e della progr. procedurale/imperativa)</h3>
+<ul>
+<li>Stato del sistema $\Rightarrow$ È costituito da strutture dati (costruite con tipi primitivi, array, puntatori e struct) tenute in stack e/o heap</li>
+<li>Dinamica $\Rightarrow$ Esecuzione di procedure imperative, innestate ricorsivamente appoggiandosi allo stack</li>
+<li>Organizzazione $\Rightarrow$ Librerie come set di funzioni, ricongiunte in un unico programma all’atto della compilazione/linking</li>
+</ul>
+</section><section>
+<h2 id="i-limiti-del-linguaggio-c">I limiti del linguaggio C</h2>
+<h3 id="c-porta-ad-una-visione-piuttosto-machine-oriented">C porta ad una visione piuttosto machine-oriented</h3>
+<ul>
+<li>È un livello di astrazione <em>fortemente influenzato dall’HW</em> sul quale si eseguono i programmi (CPU, memoria)
+<ul>
+<li>uso criptico di direttive di compilazione</li>
+<li>allocazione/deallocazione dinamica manuale della memoria via librerie</li>
+<li>difficile controllo degli errori di esecuzione</li>
+<li>difficoltà a controllare gli aspetti HW-dependent</li>
+<li>difficoltà a modificare codice già “acquisito”
+<ul>
+<li>Nota: il C nasce negli anni ‘70 per rimpiazzare l’Assembly nell’implementazione del sistema operativo UNIX</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="la-direzione-dei-linguaggi-moderni----o-di-alto-livello-dastrazione">La direzione dei linguaggi moderni – o di “alto livello” (d’astrazione)</h3>
+<ul>
+<li>Introdurre un livello di astrazione vicino al problema da risolvere, ignorando il più possibile i dettagli dell’HW per risolverlo</li>
+</ul>
+</section><section>
+<h2 id="lecosistema-dei-linguaggi-di-programmazione">L’ecosistema dei linguaggi di programmazione</h2>
+<h3 id="linguaggi-e-livelli-di-astrazione--paradigma">Linguaggi e livelli di astrazione / paradigma</h3>
+<ul>
+<li>C, Pascal: Computing function/procedure over data structures</li>
+<li>Lisp,ML: Everything is a function</li>
+<li>Prolog: Everything is a decision predicate</li>
+<li>Java,C++,C#: Everything is an object (OO Programming)</li>
+<li>$\Rightarrow$ L’OOP si è dimostrata ideale per sistemi complessi general-purpose</li>
+</ul>
+<h3 id="levoluzione-del-mainstream">L’evoluzione del “mainstream”</h3>
+<p>Machine Lang $\xrightarrow{1950-1960}$ Assembly $\xrightarrow{1970-‘190}$ C $\xrightarrow{‘90-2000}$ OOP (Java,..) $\xrightarrow{?}$ ?</p>
+<h3 id="il-futuro-dei-linguaggi-e-anche-la-direzione-dei-linguaggi-oop">Il futuro dei linguaggi (e anche la direzione dei linguaggi OOP)</h3>
+<ul>
+<li>OO + funzionale: Scala, Kotlin, Java 8+</li>
+<li>Multi-target: Kotlin, Scala, LLVM</li>
+<li>Linguaggi dinamici: Python, Ruby, Javascript, Groovy
+<ul>
+<li>O quasi…: TypeScript</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="i-vantaggi-della-programmazione-ad-oggetti">I vantaggi della programmazione ad oggetti</h2>
+<h3 id="vantaggi">Vantaggi</h3>
+<ul>
+<li>Poche astrazioni chiave (classe, oggetto, metodo, campo)</li>
+<li>Usabili sia in progettazione che in codifica</li>
+<li>Supporto a estendibilità e riuso</li>
+<li>Supporto alla costruzione di librerie di qualità</li>
+<li>Facilmente integrabile in linguaggi C-like</li>
+<li>Eseguibile con alta efficienza
+<ul>
+<li>$\Rightarrow$ (quasi) tutti aspetti da discutere nel corso</li>
+</ul>
+</li>
+</ul>
+<h3 id="le-critiche-alloop">Le critiche all’OOP</h3>
+<ul>
+<li>Serve molta disciplina per “scalare” bene con la complessità del problema</li>
+<li>Altri paradigmi (fra cui quello funzionale) suggeriscono come farlo..</li>
+</ul>
+</section><section>
+<h1 id="lastrazione-object-oriented">L’astrazione object-oriented</h1>
+</section><section>
+<h2 id="lastrazione-object-oriented-oo">L’astrazione object-oriented (OO)</h2>
+<h1 id="un-oggetto-possiede">Un <strong>oggetto</strong> possiede</h1>
+<h2 id="1-stato">1. <em>stato</em></h2>
+<h2 id="2-comportamento">2. <em>comportamento</em></h2>
+<h2 id="3-identità">3. <em>identità</em></h2>
+</section><section>
+<h2 id="astrazione-oo-definizione-più-dettagliata">Astrazione OO: definizione più dettagliata</h2>
+<ul>
+<li><strong>Everything is an object.</strong> Un oggetto è una entità che fornisce operazioni per essere manipolata.</li>
+<li><strong>Un programma è un set di oggetti che si comunicano cosa fare scambiandosi messaggi.</strong> Questi messaggi sono richieste per eseguire le operazioni fornite.</li>
+<li><strong>Un oggetto ha una memoria fatta di altri oggetti.</strong> Un oggetto è ottenuto impacchettando altri oggetti.</li>
+<li><strong>Ogni oggetto è istanza di una classe.</strong> Una classe descrive il comportamento dei suoi oggetti.</li>
+<li><strong>Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.</strong> La classe indica tra le altre cose quali operazioni sono fornite, quindi per comunicare con un oggetto basta sapere qual è la sua classe.</li>
+</ul>
+</section><section>
+<h2 id="sono-questi-concetti-utili-per-il-problem-space">Sono questi concetti utili per il problem space?</h2>
+<h3 id="esempio-di-sistema-reale-la-gestione-informativa-di-un-ateneo">Esempio di sistema reale: la gestione informativa di un ateneo</h3>
+<p>Come organizzarla? Quale servizi fornisce?</p>
+
+
+<span class="fragment ">
+  <h3 id="visione-object-oriented">Visione object-oriented</h3>
+<ul>
+<li>Un corso di laurea (CdL) è un “oggetto”</li>
+<li>Che operazioni consente? Iscrivi studente, laurea studente, assegna docente a corso, concludi anno accademico,..</li>
+<li>Un programma (sistema) è fatto da oggetti: facoltà, corso di laurea, corsi, studente, docente</li>
+<li>Le interazioni fra questi oggetti sono “scambi di messaggi”</li>
+<li>Il CdL ha uno stato fatto da altri oggetti: docenti, studenti, corsi</li>
+<li>Il CdL è istanza di una classe: la classe dei CdL (con una gestione comune) – UNIBO ne gestisce dozzine contemporaneamente</li>
+</ul>
+
+</span>
+
+</section><section>
+<h2 id="oo-problem-space-solution-space">OO: problem space, solution space</h2>
+<h3 id="lesperienza-mostra-che">L’esperienza mostra che:</h3>
+<ul>
+<li>È piuttosto agevole modellare sistemi reali (o artificiali) come sistemi orientati agli oggetti</li>
+<li>Infatti, gli strumenti di modellazione standard usano il paradigma object-oriented! (Vedi UML)</li>
+</ul>
+<h3 id="il-vantaggio-delle-soluzioni-object-oriented">Il vantaggio delle soluzioni object-oriented</h3>
+<ul>
+<li>Consentono di “portare” il problem space nel solution space in modo diretto</li>
+<li>Usando gli stessi concetti object-oriented anche a livello di programmazione</li>
+<li>…ossia supportano il concetto di “buon progetto” che abbiamo discusso</li>
+</ul>
+</section><section>
+<h2 id="overview">Overview</h2>
+<ul>
+<li>Ogni oggetto ha un’<em>interfaccia</em></li>
+<li>Un oggetto <em>fornisce un servizio</em></li>
+<li>Un oggetto deve <em>nascondere l’implementazione</em></li>
+<li>Le implementazioni possono essere <em>riusate</em></li>
+<li>Il riuso tramite ereditarietà</li>
+</ul>
+</section><section>
+<h2 id="ogni-oggetto-ha-una-interfaccia">Ogni oggetto ha una interfaccia</h2>
+<h3 id="classi-istanze-metodi-interfaccia">Classi, istanze, metodi, interfaccia</h3>
+<ul>
+<li>Oggetti simili sono istanze della stessa <em><strong>classe</strong></em>, o <em><strong>tipo</strong></em></li>
+<li>La classe definisce i messaggi ricevibili, attraverso <em><strong>metodi</strong></em></li>
+<li>L’insieme dei metodi prende il nome di <em><strong>interfaccia</strong></em></li>
+<li>Un messaggio ha effetto su stato e comportamento dell’oggetto</li>
+</ul>
+</section><section>
+<p>Esempio “lampadina” in notazione UML (Unified Modelling Language):</p>
+<div class="mermaid" data-processed="true" pre-rendered="true"><svg aria-labelledby="chart-title-mermaid-1662984737729 chart-desc-mermaid-1662984737729" role="img" viewBox="0 0 110.953125 183" style="max-width: 110.953125px;" height="183" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="mermaid-1662984737729"><title id="chart-title-mermaid-1662984737729"></title><desc id="chart-desc-mermaid-1662984737729"></desc><style>#mermaid-1662984737729 {font-family:Inconsolata;font-size:1em;fill:#333;}#mermaid-1662984737729 .error-icon{fill:#552222;}#mermaid-1662984737729 .error-text{fill:#552222;stroke:#552222;}#mermaid-1662984737729 .edge-thickness-normal{stroke-width:2px;}#mermaid-1662984737729 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1662984737729 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1662984737729 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1662984737729 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1662984737729 .marker{fill:#333333;stroke:#333333;}#mermaid-1662984737729 .marker.cross{stroke:#333333;}#mermaid-1662984737729 svg{font-family:Inconsolata;font-size:1em;}#mermaid-1662984737729 g.classGroup text{fill:#9370DB;fill:#131300;stroke:none;font-family:Inconsolata;font-size:10px;}#mermaid-1662984737729 g.classGroup text .title{font-weight:bolder;}#mermaid-1662984737729 .nodeLabel,#mermaid-1662984737729 .edgeLabel{color:#131300;}#mermaid-1662984737729 .edgeLabel .label rect{fill:#ECECFF;}#mermaid-1662984737729 .label text{fill:#131300;}#mermaid-1662984737729 .edgeLabel .label span{background:#ECECFF;}#mermaid-1662984737729 .classTitle{font-weight:bolder;}#mermaid-1662984737729 .node rect,#mermaid-1662984737729 .node circle,#mermaid-1662984737729 .node ellipse,#mermaid-1662984737729 .node polygon,#mermaid-1662984737729 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-1662984737729 .divider{stroke:#9370DB;stroke:1;}#mermaid-1662984737729 g.clickable{cursor:pointer;}#mermaid-1662984737729 g.classGroup rect{fill:#ECECFF;stroke:#9370DB;}#mermaid-1662984737729 g.classGroup line{stroke:#9370DB;stroke-width:1;}#mermaid-1662984737729 .classLabel .box{stroke:none;stroke-width:0;fill:#ECECFF;opacity:0.5;}#mermaid-1662984737729 .classLabel .label{fill:#9370DB;font-size:10px;}#mermaid-1662984737729 .relation{stroke:#333333;stroke-width:1;fill:none;}#mermaid-1662984737729 .dashed-line{stroke-dasharray:3;}#mermaid-1662984737729 #compositionStart,#mermaid-1662984737729 .composition{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737729 #compositionEnd,#mermaid-1662984737729 .composition{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737729 #dependencyStart,#mermaid-1662984737729 .dependency{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737729 #dependencyStart,#mermaid-1662984737729 .dependency{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737729 #extensionStart,#mermaid-1662984737729 .extension{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737729 #extensionEnd,#mermaid-1662984737729 .extension{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737729 #aggregationStart,#mermaid-1662984737729 .aggregation{fill:#ECECFF!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737729 #aggregationEnd,#mermaid-1662984737729 .aggregation{fill:#ECECFF!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737729 .edgeTerminals{font-size:11px;}#mermaid-1662984737729 :root{--mermaid-font-family:Inconsolata;}</style><g transform="translate(0, 0)"><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker aggregation classDiagram" id="classDiagram-aggregationStart"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker aggregation classDiagram" id="classDiagram-aggregationEnd"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker extension classDiagram" id="classDiagram-extensionStart"><path d="M 1,7 L18,13 V 1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker extension classDiagram" id="classDiagram-extensionEnd"><path d="M 1,1 V 13 L18,7 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker composition classDiagram" id="classDiagram-compositionStart"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker composition classDiagram" id="classDiagram-compositionEnd"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker dependency classDiagram" id="classDiagram-dependencyStart"><path d="M 5,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker dependency classDiagram" id="classDiagram-dependencyEnd"><path d="M 18,7 L9,13 L14,7 L9,1 Z"></path></marker></defs><g class="root"><g class="clusters"></g><g class="edgePaths"></g><g class="edgeLabels"></g><g class="nodes"><g transform="translate(55.4765625, 91.5)" id="classid-Light-0" class="node default"><rect height="167" width="94.953125" y="-83.5" x="-47.4765625" class="outer title-state"></rect><line y2="-31.5" y1="-31.5" x2="47.4765625" x1="-47.4765625" class="divider"></line><line y2="-15.5" y1="-15.5" x2="47.4765625" x1="-47.4765625" class="divider"></line><g class="label"><foreignObject transform="translate( -39.9765625, -76)" height="18" width="79.953125"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">« interface »</span></div></foreignObject><foreignObject transform="translate( -18.671875, -54)" height="18" width="37.34375" class="classTitle"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Light</span></div></foreignObject><foreignObject transform="translate( -39.9765625, -8)" height="18" width="26.65625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">on()</span></div></foreignObject><foreignObject transform="translate( -39.9765625, 14)" height="18" width="29.03125"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">off()</span></div></foreignObject><foreignObject transform="translate( -39.9765625, 36)" height="18" width="63.984375"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">brighten()</span></div></foreignObject><foreignObject transform="translate( -39.9765625, 58)" height="18" width="35.546875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">dim()</span></div></foreignObject></g></g></g></g></g></svg></div>
+
+</section><section>
+<h2 id="un-oggetto-fornisce-un-servizio">Un oggetto fornisce un servizio</h2>
+<h3 id="quale-entità-del-problem-space-deve-diventare-un-oggetto">Quale entità del problem space deve diventare un oggetto?</h3>
+<ul>
+<li>Conviene considerare un oggetto come un fornitore di un servizio</li>
+<li>Tutto il programma può essere visto come un servizio dato all’utente</li>
+<li>Principio di decomposizione: i sotto-servizi sono affidati ai vari oggetti</li>
+</ul>
+<h3 id="vantaggi-di-questo-approccio">Vantaggi di questo approccio</h3>
+<ul>
+<li>Semplifica la progettazione degli oggetti, e il mapping col problema</li>
+<li>Semplifica il loro riuso in programmi diversi – come parte di libreria</li>
+<li>Semplifica la comprensione dei programmi, specialmente da terzi</li>
+</ul>
+<p>Opportunità: $\Rightarrow$ Se non se ne riesce a descrivere (e comprendere) il servizio
+offerto, allora probabilmente un oggetto non ha ragione d’esistere!</p>
+<p>Coerenza: $\Rightarrow$ Se sembra che un oggetto realizzi due servizi diversi, allora probabilmente bisogna in realtà realizzare due oggetti!</p>
+</section><section>
+<h2 id="un-oggetto-deve-nascondere-limplementazione">Un oggetto deve nascondere l’implementazione</h2>
+<h3 id="le-due-figure-creatore-di-classi-vs-programmatore-cliente">Le due figure: creatore di classi vs. programmatore cliente</h3>
+<ul>
+<li>Chi produce la classe (e ha la responsabilità del suo funzionamento)</li>
+<li>Chi usa la classe (per fornire un servizio più di alto livello)</li>
+</ul>
+<h3 id="information-hiding">Information hiding</h3>
+<ul>
+<li>Il creatore rende visibile solo una piccola parte della classe</li>
+<li>Il resto è invisibile perché suscettibile di modifiche future</li>
+<li>Principio: “less is more”</li>
+<li>Tipica struttura di una classe
+<ul>
+<li>interfaccia: la sola visibile al cliente, di norma</li>
+<li><em><strong>membri</strong></em> (o <em><strong>campi</strong></em>) della classe (i sotto-oggetti di cui è costituito)</li>
+<li>implementazione metodi (cosa fa l’oggetto quando riceve messaggi)
+<ul>
+<li>come cambia lo stato (membri)</li>
+<li>quali messaggi manda ad altri oggetti</li>
+<li>quale risultato fornisce (risposta al messaggio)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="le-implementazioni-possono-essere-riusate">Le implementazioni possono essere riusate</h2>
+<h3 id="fasi-del-processo-di-riuso">Fasi del processo di riuso</h3>
+<ul>
+<li>Il creatore produce una classe e ne verifica il corretto funzionamento: diventa una unità riusabile di codice</li>
+<li>Un cliente può ri-utilizzarla per creare nuovi concetti</li>
+</ul>
+<h3 id="la-tecnica-di-riuso-più-usata-è-la-composizione">La tecnica di riuso più usata è la <strong>composizione</strong></h3>
+<ul>
+<li>Un nuovo oggetto è costituito da oggetti di altre classi</li>
+<li>Relazione chiamata “has-a” (“ha un”)</li>
+<li>Questa relazione può essere nascosta, e resa dinamica</li>
+</ul>
+</section><section>
+<h4 id="esempio-carengine-in-notazione-uml">Esempio “car+engine” in notazione UML:</h4>
+<div class="mermaid" data-processed="true" pre-rendered="true"><svg aria-labelledby="chart-title-mermaid-1662984737695 chart-desc-mermaid-1662984737695" role="img" viewBox="0 0 74.5625 180" style="max-width: 74.5625px;" height="180" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="mermaid-1662984737695"><title id="chart-title-mermaid-1662984737695"></title><desc id="chart-desc-mermaid-1662984737695"></desc><style>#mermaid-1662984737695 {font-family:Inconsolata;font-size:16px;fill:#333;}#mermaid-1662984737695 .error-icon{fill:#552222;}#mermaid-1662984737695 .error-text{fill:#552222;stroke:#552222;}#mermaid-1662984737695 .edge-thickness-normal{stroke-width:2px;}#mermaid-1662984737695 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1662984737695 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1662984737695 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1662984737695 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1662984737695 .marker{fill:#333333;stroke:#333333;}#mermaid-1662984737695 .marker.cross{stroke:#333333;}#mermaid-1662984737695 svg{font-family:Inconsolata;font-size:16px;}#mermaid-1662984737695 g.classGroup text{fill:#9370DB;fill:#131300;stroke:none;font-family:Inconsolata;font-size:10px;}#mermaid-1662984737695 g.classGroup text .title{font-weight:bolder;}#mermaid-1662984737695 .nodeLabel,#mermaid-1662984737695 .edgeLabel{color:#131300;}#mermaid-1662984737695 .edgeLabel .label rect{fill:#ECECFF;}#mermaid-1662984737695 .label text{fill:#131300;}#mermaid-1662984737695 .edgeLabel .label span{background:#ECECFF;}#mermaid-1662984737695 .classTitle{font-weight:bolder;}#mermaid-1662984737695 .node rect,#mermaid-1662984737695 .node circle,#mermaid-1662984737695 .node ellipse,#mermaid-1662984737695 .node polygon,#mermaid-1662984737695 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-1662984737695 .divider{stroke:#9370DB;stroke:1;}#mermaid-1662984737695 g.clickable{cursor:pointer;}#mermaid-1662984737695 g.classGroup rect{fill:#ECECFF;stroke:#9370DB;}#mermaid-1662984737695 g.classGroup line{stroke:#9370DB;stroke-width:1;}#mermaid-1662984737695 .classLabel .box{stroke:none;stroke-width:0;fill:#ECECFF;opacity:0.5;}#mermaid-1662984737695 .classLabel .label{fill:#9370DB;font-size:10px;}#mermaid-1662984737695 .relation{stroke:#333333;stroke-width:1;fill:none;}#mermaid-1662984737695 .dashed-line{stroke-dasharray:3;}#mermaid-1662984737695 #compositionStart,#mermaid-1662984737695 .composition{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737695 #compositionEnd,#mermaid-1662984737695 .composition{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737695 #dependencyStart,#mermaid-1662984737695 .dependency{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737695 #dependencyStart,#mermaid-1662984737695 .dependency{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737695 #extensionStart,#mermaid-1662984737695 .extension{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737695 #extensionEnd,#mermaid-1662984737695 .extension{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737695 #aggregationStart,#mermaid-1662984737695 .aggregation{fill:#ECECFF!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737695 #aggregationEnd,#mermaid-1662984737695 .aggregation{fill:#ECECFF!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737695 .edgeTerminals{font-size:11px;}#mermaid-1662984737695 :root{--mermaid-font-family:Inconsolata;}</style><g transform="translate(0, 0)"><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker aggregation classDiagram" id="classDiagram-aggregationStart"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker aggregation classDiagram" id="classDiagram-aggregationEnd"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker extension classDiagram" id="classDiagram-extensionStart"><path d="M 1,7 L18,13 V 1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker extension classDiagram" id="classDiagram-extensionEnd"><path d="M 1,1 V 13 L18,7 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker composition classDiagram" id="classDiagram-compositionStart"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker composition classDiagram" id="classDiagram-compositionEnd"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker dependency classDiagram" id="classDiagram-dependencyStart"><path d="M 5,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker dependency classDiagram" id="classDiagram-dependencyEnd"><path d="M 18,7 L9,13 L14,7 L9,1 Z"></path></marker></defs><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-start="url(#classDiagram-compositionStart)" style="fill:none" class="edge-pattern-solid relation" id="id1" d="M37.28125,65L37.28125,69.16666666666667C37.28125,73.33333333333333,37.28125,81.66666666666667,37.28125,90C37.28125,98.33333333333333,37.28125,106.66666666666667,37.28125,110.83333333333333L37.28125,115"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g transform="translate(37.28125, 36.5)" id="classid-classC-0" class="node default"><rect height="57" width="58.5625" y="-28.5" x="-29.28125" class="outer title-state"></rect><line y2="1.5" y1="1.5" x2="29.28125" x1="-29.28125" class="divider"></line><line y2="17.5" y1="17.5" x2="29.28125" x1="-29.28125" class="divider"></line><g class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"></span></div></foreignObject><foreignObject transform="translate( -21.78125, -21)" height="18" width="43.5625" class="classTitle"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">classC</span></div></foreignObject></g></g><g transform="translate(37.28125, 143.5)" id="classid-classD-1" class="node default"><rect height="57" width="58.5625" y="-28.5" x="-29.28125" class="outer title-state"></rect><line y2="1.5" y1="1.5" x2="29.28125" x1="-29.28125" class="divider"></line><line y2="17.5" y1="17.5" x2="29.28125" x1="-29.28125" class="divider"></line><g class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"></span></div></foreignObject><foreignObject transform="translate( -21.78125, -21)" height="18" width="43.5625" class="classTitle"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">classD</span></div></foreignObject></g></g></g></g></g></svg></div>
+
+</section><section>
+<h2 id="il-riuso-tramite-ereditarietà">Il riuso tramite ereditarietà</h2>
+<h3 id="è-una-ulteriore-fondamentale-tecnica-di-riuso">È una ulteriore, fondamentale, tecnica di riuso</h3>
+<ul>
+<li>Un nuovo oggetto(/classe) estende i servizi di uno esistente</li>
+<li>Fornisce i metodi della sopra-classe, ma anche altri</li>
+<li>Relazione chiamata “is-a” (“è un”)</li>
+</ul>
+</section><section>
+<h4 id="esempio-shape-in-notazione-uml">Esempio “shape” in notazione UML:</h4>
+<div class="mermaid" data-processed="true" pre-rendered="true"><svg aria-labelledby="chart-title-mermaid-1662984737679 chart-desc-mermaid-1662984737679" role="img" viewBox="0 0 398.265625 334" style="max-width: 398.265625px;" height="334" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="mermaid-1662984737679"><title id="chart-title-mermaid-1662984737679"></title><desc id="chart-desc-mermaid-1662984737679"></desc><style>#mermaid-1662984737679 {font-family:Inconsolata;font-size:16px;fill:#333;}#mermaid-1662984737679 .error-icon{fill:#552222;}#mermaid-1662984737679 .error-text{fill:#552222;stroke:#552222;}#mermaid-1662984737679 .edge-thickness-normal{stroke-width:2px;}#mermaid-1662984737679 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1662984737679 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1662984737679 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1662984737679 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1662984737679 .marker{fill:#333333;stroke:#333333;}#mermaid-1662984737679 .marker.cross{stroke:#333333;}#mermaid-1662984737679 svg{font-family:Inconsolata;font-size:16px;}#mermaid-1662984737679 g.classGroup text{fill:#9370DB;fill:#131300;stroke:none;font-family:Inconsolata;font-size:10px;}#mermaid-1662984737679 g.classGroup text .title{font-weight:bolder;}#mermaid-1662984737679 .nodeLabel,#mermaid-1662984737679 .edgeLabel{color:#131300;}#mermaid-1662984737679 .edgeLabel .label rect{fill:#ECECFF;}#mermaid-1662984737679 .label text{fill:#131300;}#mermaid-1662984737679 .edgeLabel .label span{background:#ECECFF;}#mermaid-1662984737679 .classTitle{font-weight:bolder;}#mermaid-1662984737679 .node rect,#mermaid-1662984737679 .node circle,#mermaid-1662984737679 .node ellipse,#mermaid-1662984737679 .node polygon,#mermaid-1662984737679 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-1662984737679 .divider{stroke:#9370DB;stroke:1;}#mermaid-1662984737679 g.clickable{cursor:pointer;}#mermaid-1662984737679 g.classGroup rect{fill:#ECECFF;stroke:#9370DB;}#mermaid-1662984737679 g.classGroup line{stroke:#9370DB;stroke-width:1;}#mermaid-1662984737679 .classLabel .box{stroke:none;stroke-width:0;fill:#ECECFF;opacity:0.5;}#mermaid-1662984737679 .classLabel .label{fill:#9370DB;font-size:10px;}#mermaid-1662984737679 .relation{stroke:#333333;stroke-width:1;fill:none;}#mermaid-1662984737679 .dashed-line{stroke-dasharray:3;}#mermaid-1662984737679 #compositionStart,#mermaid-1662984737679 .composition{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737679 #compositionEnd,#mermaid-1662984737679 .composition{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737679 #dependencyStart,#mermaid-1662984737679 .dependency{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737679 #dependencyStart,#mermaid-1662984737679 .dependency{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737679 #extensionStart,#mermaid-1662984737679 .extension{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737679 #extensionEnd,#mermaid-1662984737679 .extension{fill:#333333!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737679 #aggregationStart,#mermaid-1662984737679 .aggregation{fill:#ECECFF!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737679 #aggregationEnd,#mermaid-1662984737679 .aggregation{fill:#ECECFF!important;stroke:#333333!important;stroke-width:1;}#mermaid-1662984737679 .edgeTerminals{font-size:11px;}#mermaid-1662984737679 :root{--mermaid-font-family:Inconsolata;}</style><g transform="translate(0, 0)"><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker aggregation classDiagram" id="classDiagram-aggregationStart"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker aggregation classDiagram" id="classDiagram-aggregationEnd"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker extension classDiagram" id="classDiagram-extensionStart"><path d="M 1,7 L18,13 V 1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker extension classDiagram" id="classDiagram-extensionEnd"><path d="M 1,1 V 13 L18,7 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker composition classDiagram" id="classDiagram-compositionStart"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker composition classDiagram" id="classDiagram-compositionEnd"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" class="marker dependency classDiagram" id="classDiagram-dependencyStart"><path d="M 5,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" class="marker dependency classDiagram" id="classDiagram-dependencyEnd"><path d="M 18,7 L9,13 L14,7 L9,1 Z"></path></marker></defs><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-start="url(#classDiagram-extensionStart)" style="fill:none" class="edge-pattern-solid relation" id="id1" d="M141.421875,134.5014639339899L126.65625,145.41788661165825C111.890625,156.3343092893266,82.359375,178.16715464466333,67.59375,195.08357732233165C52.828125,212,52.828125,224,52.828125,230L52.828125,236"></path><path marker-start="url(#classDiagram-extensionStart)" style="fill:none" class="edge-pattern-solid relation" id="id2" d="M199.5859375,175L199.5859375,179.16666666666666C199.5859375,183.33333333333334,199.5859375,191.66666666666666,199.5859375,201.83333333333334C199.5859375,212,199.5859375,224,199.5859375,230L199.5859375,236"></path><path marker-start="url(#classDiagram-extensionStart)" style="fill:none" class="edge-pattern-solid relation" id="id3" d="M257.75,134.63464516473542L272.4401041666667,145.52887097061284C287.1302083333333,156.42309677649027,316.5104166666667,178.21154838824512,331.2005208333333,193.27244086078926C345.890625,208.33333333333334,345.890625,216.66666666666666,345.890625,220.83333333333334L345.890625,225"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g transform="translate(199.5859375, 91.5)" id="classid-Shape-0" class="node default"><rect height="167" width="116.328125" y="-83.5" x="-58.1640625" class="outer title-state"></rect><line y2="-53.5" y1="-53.5" x2="58.1640625" x1="-58.1640625" class="divider"></line><line y2="-37.5" y1="-37.5" x2="58.1640625" x1="-58.1640625" class="divider"></line><g class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"></span></div></foreignObject><foreignObject transform="translate( -20.8984375, -76)" height="18" width="41.796875" class="classTitle"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Shape</span></div></foreignObject><foreignObject transform="translate( -50.6640625, -30)" height="18" width="42.640625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">draw()</span></div></foreignObject><foreignObject transform="translate( -50.6640625, -8)" height="18" width="43.515625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">erase()</span></div></foreignObject><foreignObject transform="translate( -50.6640625, 14)" height="18" width="46.203125"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">move()</span></div></foreignObject><foreignObject transform="translate( -50.6640625, 36)" height="18" width="66.65625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">getColor()</span></div></foreignObject><foreignObject transform="translate( -50.6640625, 58)" height="18" width="101.328125"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">setColor(Color)</span></div></foreignObject></g></g><g transform="translate(52.828125, 275.5)" id="classid-Circle-1" class="node default"><rect height="79" width="89.65625" y="-39.5" x="-44.828125" class="outer title-state"></rect><line y2="-9.5" y1="-9.5" x2="44.828125" x1="-44.828125" class="divider"></line><line y2="6.5" y1="6.5" x2="44.828125" x1="-44.828125" class="divider"></line><g class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"></span></div></foreignObject><foreignObject transform="translate( -20.734375, -32)" height="18" width="41.46875" class="classTitle"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Circle</span></div></foreignObject><foreignObject transform="translate( -37.328125, 14)" height="18" width="74.65625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">getRadius()</span></div></foreignObject></g></g><g transform="translate(199.5859375, 275.5)" id="classid-Square-2" class="node default"><rect height="79" width="103.859375" y="-39.5" x="-51.9296875" class="outer title-state"></rect><line y2="-9.5" y1="-9.5" x2="51.9296875" x1="-51.9296875" class="divider"></line><line y2="6.5" y1="6.5" x2="51.9296875" x1="-51.9296875" class="divider"></line><g class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"></span></div></foreignObject><foreignObject transform="translate( -24.3046875, -32)" height="18" width="48.609375" class="classTitle"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Square</span></div></foreignObject><foreignObject transform="translate( -44.4296875, 14)" height="18" width="88.859375"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">getDiagonal()</span></div></foreignObject></g></g><g transform="translate(345.890625, 275.5)" id="classid-Triangle-3" class="node default"><rect height="101" width="88.75" y="-50.5" x="-44.375" class="outer title-state"></rect><line y2="-20.5" y1="-20.5" x2="44.375" x1="-44.375" class="divider"></line><line y2="-4.5" y1="-4.5" x2="44.375" x1="-44.375" class="divider"></line><g class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"></span></div></foreignObject><foreignObject transform="translate( -28.7421875, -43)" height="18" width="57.484375" class="classTitle"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Triangle</span></div></foreignObject><foreignObject transform="translate( -36.875, 3)" height="18" width="61.3125"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">getBase()</span></div></foreignObject><foreignObject transform="translate( -36.875, 25)" height="18" width="73.75"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">getHeight()</span></div></foreignObject></g></g></g></g></g></svg></div>
+
+</section><section>
+<h2 id="altri-aspetti----organizzazione-del-corso">Altri aspetti – organizzazione del corso</h2>
+<h3 id="funzionalità-base----i-parte">Funzionalità base – I parte</h3>
+<ul>
+<li>I concetti appena introdotti</li>
+</ul>
+<h3 id="funzionalità-aggiuntive----ii-parte">Funzionalità aggiuntive – II parte</h3>
+<ul>
+<li>Polimorfismo per genericità</li>
+<li>Gestione delle eccezioni</li>
+<li>Riflessività, classi innestate, enumerazioni</li>
+</ul>
+<h3 id="tecniche-avanzate----iii-parte">Tecniche Avanzate – III parte</h3>
+<ul>
+<li>Librerie avanzate (I/O, GUI, Concorrenza)</li>
+<li>Integrazione con la programmazione funzionale</li>
+<li>Pattern di progettazione</li>
+<li>Prassi di programmazione efficace</li>
+</ul>
+</section><section>
+<h1 id="java">Java</h1>
+</section><section>
+<h2 id="java-1">Java</h2>
+<ul>
+<li>Linguaggio inventato da J. Gosling, alla Sun Microsystems (1995)</li>
+<li>Ora gestito da un board che ne porta avanti l’evoluzione</li>
+<li>Una semplificazione di C++ pensata per sistemi embedded</li>
+<li>Filosofia <em>Write once run everywhere</em>
+<ul>
+<li>Software scritto in Java può funzionare su Windows, MacOS, Linux, Solaris, su architetture ARM, x86, PowerPC, amd64…</li>
+<li>Senza bisogno di ricompilare!</li>
+</ul>
+</li>
+<li>Molto diffuso in industria
+<ul>
+<li><a href="https://www.tiobe.com/tiobe-index/">https://www.tiobe.com/tiobe-index/</a></li>
+<li><a href="https://pypl.github.io/PYPL.html">https://pypl.github.io/PYPL.html</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="in-questo-corso">In questo corso</h3>
+<ul>
+<li>Useremo Java come riferimento per programmazione/progettazione</li>
+<li>Le guideline progettuali che daremo sono di validità generale
+<ul>
+<li>Meccanismi simili o identici in C#, C++, Ruby, Python, Kotlin, Scala…</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="strumenti-java">Strumenti Java</h2>
+<h3 id="java-development-kit-jdk">Java Development Kit (JDK)</h3>
+<ul>
+<li>Insieme di tool per lo sviluppatore</li>
+<li>useremo l’ultima versione “long term support” (LTS)</li>
+<li><a href="https://adoptium.net/">https://adoptium.net/</a></li>
+</ul>
+<h3 id="java-virtual-machine-jvm----inclusa-nel-jdk">Java Virtual Machine (JVM) – inclusa nel JDK</h3>
+<ul>
+<li>Un programma (C/C++) che carica il bytecode delle classi e lo esegue</li>
+<li>Fornisce indipendenza dall’HW, e servizi aggiuntivi (SISOP, GC)</li>
+</ul>
+<h3 id="schema-compilazioneinterpretazione">Schema compilazione/interpretazione</h3>
+<ul>
+<li>Compilazione dei programmi col compilatore Java (comando <code>javac</code>)</li>
+<li>Esecuzione del programma con la JVM (comando <code>java</code>)</li>
+</ul>
+</section><section>
+<h2 id="write-once-run-everywhere">Write once, run everywhere</h2>
+<div class="mermaid" data-processed="true" pre-rendered="true"><svg viewBox="0 0 484.5 485" style="max-width: 484.5px;" height="485" aria-labelledby="chart-title-mermaid-1662984737508 chart-desc-mermaid-1662984737508" role="img" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="mermaid-1662984737508"><title id="chart-title-mermaid-1662984737508"></title><desc id="chart-desc-mermaid-1662984737508"></desc><style>#mermaid-1662984737508 {font-family:Inconsolata;font-size:16px;fill:#333;}#mermaid-1662984737508 .error-icon{fill:#552222;}#mermaid-1662984737508 .error-text{fill:#552222;stroke:#552222;}#mermaid-1662984737508 .edge-thickness-normal{stroke-width:2px;}#mermaid-1662984737508 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1662984737508 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1662984737508 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1662984737508 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1662984737508 .marker{fill:#333333;stroke:#333333;}#mermaid-1662984737508 .marker.cross{stroke:#333333;}#mermaid-1662984737508 svg{font-family:Inconsolata;font-size:16px;}#mermaid-1662984737508 .label{font-family:Inconsolata;color:#333;}#mermaid-1662984737508 .cluster-label text{fill:#333;}#mermaid-1662984737508 .cluster-label span{color:#333;}#mermaid-1662984737508 .label text,#mermaid-1662984737508 span{fill:#333;color:#333;}#mermaid-1662984737508 .node rect,#mermaid-1662984737508 .node circle,#mermaid-1662984737508 .node ellipse,#mermaid-1662984737508 .node polygon,#mermaid-1662984737508 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-1662984737508 .node .label{text-align:center;}#mermaid-1662984737508 .node.clickable{cursor:pointer;}#mermaid-1662984737508 .arrowheadPath{fill:#333333;}#mermaid-1662984737508 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-1662984737508 .flowchart-link{stroke:#333333;fill:none;}#mermaid-1662984737508 .edgeLabel{background-color:#e8e8e8;text-align:center;}#mermaid-1662984737508 .edgeLabel rect{opacity:0.5;background-color:#e8e8e8;fill:#e8e8e8;}#mermaid-1662984737508 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-1662984737508 .cluster text{fill:#333;}#mermaid-1662984737508 .cluster span{color:#333;}#mermaid-1662984737508 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:Inconsolata;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1662984737508 :root{--mermaid-font-family:Inconsolata;}</style><g transform="translate(0, 0)"><marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="9" viewBox="0 0 10 10" class="marker flowchart" id="flowchart-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="0" viewBox="0 0 10 10" class="marker flowchart" id="flowchart-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="11" viewBox="0 0 10 10" class="marker flowchart" id="flowchart-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="-1" viewBox="0 0 10 10" class="marker flowchart" id="flowchart-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="12" viewBox="0 0 11 11" class="marker cross flowchart" id="flowchart-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="-1" viewBox="0 0 11 11" class="marker cross flowchart" id="flowchart-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"><g id="subGraph0" class="cluster default"><rect height="83" width="400.1953125" y="210" x="35.03125" ry="0" rx="0" style=""></rect><g transform="translate(164.26171875, 215)" class="cluster-label"><foreignObject height="18" width="141.734375"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Delivered Application</span></div></foreignObject></g></g></g><g class="edgePaths"><path marker-end="url(#flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-code LE-compiler" id="L-code-compiler-0" d="M248.0078125,41L248.0078125,46.666666666666664C248.0078125,52.333333333333336,248.0078125,63.666666666666664,248.0078125,75C248.0078125,86.33333333333333,248.0078125,97.66666666666667,248.0078125,103.33333333333333L248.0078125,109"></path><path marker-end="url(#flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-compiler LE-bytecode" id="L-compiler-bytecode-0" d="M248.0078125,142L248.0078125,147.66666666666666C248.0078125,153.33333333333334,248.0078125,164.66666666666666,248.0078125,176C248.0078125,187.33333333333334,248.0078125,198.66666666666666,248.0078125,208.5C248.0078125,218.33333333333334,248.0078125,226.66666666666666,248.0078125,230.83333333333334L248.0078125,235"></path><path marker-end="url(#flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-bytecode LE-winJVM" id="L-bytecode-winJVM-0" d="M179.4140625,267.95679960254733L162.01692708333334,272.1306663354561C144.61979166666666,276.3045330683649,109.82552083333333,284.65226653418244,92.42838541666667,294.4927999337579C75.03125,304.3333333333333,75.03125,315.6666666666667,75.03125,327C75.03125,338.3333333333333,75.03125,349.6666666666667,75.03125,355.3333333333333L75.03125,361"></path><path marker-end="url(#flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-bytecode LE-linuxJVM" id="L-bytecode-linuxJVM-0" d="M248.0078125,268L248.0078125,272.1666666666667C248.0078125,276.3333333333333,248.0078125,284.6666666666667,248.0078125,294.5C248.0078125,304.3333333333333,248.0078125,315.6666666666667,248.0078125,327C248.0078125,338.3333333333333,248.0078125,349.6666666666667,248.0078125,355.3333333333333L248.0078125,361"></path><path marker-end="url(#flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-bytecode LE-macJVM" id="L-bytecode-macJVM-0" d="M314.492375753012,268L331.28140687751005,272.1666666666667C348.0704380020081,276.3333333333333,381.648500251004,284.6666666666667,398.43753137550203,294.5C415.2265625,304.3333333333333,415.2265625,315.6666666666667,415.2265625,327C415.2265625,338.3333333333333,415.2265625,349.6666666666667,415.2265625,355.3333333333333L415.2265625,361"></path><path marker-end="url(#flowchart-pointEnd)" marker-start="url(#flowchart-pointStart)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-winJVM LE-win" id="L-winJVM-win-0" d="M75.03125,394L75.03125,398.1666666666667C75.03125,402.3333333333333,75.03125,410.6666666666667,75.03125,419C75.03125,427.3333333333333,75.03125,435.6666666666667,75.03125,439.8333333333333L75.03125,444"></path><path marker-end="url(#flowchart-pointEnd)" marker-start="url(#flowchart-pointStart)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-linuxJVM LE-linux" id="L-linuxJVM-linux-0" d="M248.0078125,394L248.0078125,398.1666666666667C248.0078125,402.3333333333333,248.0078125,410.6666666666667,248.0078125,419C248.0078125,427.3333333333333,248.0078125,435.6666666666667,248.0078125,439.8333333333333L248.0078125,444"></path><path marker-end="url(#flowchart-pointEnd)" marker-start="url(#flowchart-pointStart)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-macJVM LE-mac" id="L-macJVM-mac-0" d="M415.2265625,394L415.2265625,398.1666666666667C415.2265625,402.3333333333333,415.2265625,410.6666666666667,415.2265625,419C415.2265625,427.3333333333333,415.2265625,435.6666666666667,415.2265625,439.8333333333333L415.2265625,444"></path></g><g class="edgeLabels"><g transform="translate(248.0078125, 75)" class="edgeLabel"><g transform="translate(-41.546875, -9)" class="label"><foreignObject height="18" width="83.09375"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel">processed by</span></div></foreignObject></g></g><g transform="translate(248.0078125, 176)" class="edgeLabel"><g transform="translate(-28.8828125, -9)" class="label"><foreignObject height="18" width="57.765625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel">produces</span></div></foreignObject></g></g><g transform="translate(75.03125, 327)" class="edgeLabel"><g transform="translate(-44.6484375, -9)" class="label"><foreignObject height="18" width="89.296875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel">interpreted by</span></div></foreignObject></g></g><g transform="translate(248.0078125, 327)" class="edgeLabel"><g transform="translate(-44.6484375, -9)" class="label"><foreignObject height="18" width="89.296875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel">interpreted by</span></div></foreignObject></g></g><g transform="translate(415.2265625, 327)" class="edgeLabel"><g transform="translate(-44.6484375, -9)" class="label"><foreignObject height="18" width="89.296875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel">interpreted by</span></div></foreignObject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignObject height="0" width="0"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g transform="translate(248.0078125, 251.5)" id="flowchart-bytecode-52" class="node default default"><rect height="33" width="137.1875" y="-16.5" x="-68.59375" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-61.09375, -9)" style="" class="label"><foreignObject height="18" width="122.1875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Byte code (*.class)</span></div></foreignObject></g></g><g transform="translate(248.0078125, 24.5)" id="flowchart-code-50" class="node default default"><rect height="33" width="176.703125" y="-16.5" x="-88.3515625" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-80.8515625, -9)" style="" class="label"><foreignObject height="18" width="161.703125"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Java source code (*.java)</span></div></foreignObject></g></g><g transform="translate(248.0078125, 125.5)" id="flowchart-compiler-51" class="node default default"><rect height="33" width="152.703125" y="-16.5" x="-76.3515625" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-68.8515625, -9)" style="" class="label"><foreignObject height="18" width="137.703125"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Java compiler (javac)</span></div></foreignObject></g></g><g transform="translate(75.03125, 377.5)" id="flowchart-winJVM-57" class="node default default"><rect height="33" width="134.0625" y="-16.5" x="-67.03125" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-59.53125, -9)" style="" class="label"><foreignObject height="18" width="119.0625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">JVM for Windows</span></div></foreignObject></g></g><g transform="translate(415.2265625, 377.5)" id="flowchart-macJVM-58" class="node default default"><rect height="33" width="122.546875" y="-16.5" x="-61.2734375" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-53.7734375, -9)" style="" class="label"><foreignObject height="18" width="107.546875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">JVM for MacOS</span></div></foreignObject></g></g><g transform="translate(248.0078125, 377.5)" id="flowchart-linuxJVM-59" class="node default default"><rect height="33" width="111.890625" y="-16.5" x="-55.9453125" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-48.4453125, -9)" style="" class="label"><foreignObject height="18" width="96.890625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">JVM for Linux</span></div></foreignObject></g></g><g transform="translate(75.03125, 460.5)" id="flowchart-win-60" class="node default default"><rect height="33" width="75.6875" y="-16.5" x="-37.84375" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-30.34375, -9)" style="" class="label"><foreignObject height="18" width="60.6875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Windows</span></div></foreignObject></g></g><g transform="translate(415.2265625, 460.5)" id="flowchart-mac-61" class="node default default"><rect height="33" width="79.4375" y="-16.5" x="-39.71875" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-32.21875, -9)" style="" class="label"><foreignObject height="18" width="64.4375"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">MacOS X</span></div></foreignObject></g></g><g transform="translate(248.0078125, 460.5)" id="flowchart-linux-62" class="node default default"><rect height="33" width="53.21875" y="-16.5" x="-26.609375" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-19.109375, -9)" style="" class="label"><foreignObject height="18" width="38.21875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Linux</span></div></foreignObject></g></g></g></g></g></svg></div>
+
+</section><section>
+<h2 id="sviluppo-storico-di-java">Sviluppo storico di Java</h2>
+<h3 id="pricipali-versioni">Pricipali versioni</h3>
+<ul>
+<li>Java (1996): versione iniziale</li>
+<li>Java 1.2 (1998): aggiunta del framework grafico Swing</li>
+<li>Java 5 (1.5) (2004): aggiunta di generici, inner class, annotazioni</li>
+<li>Java è così diffuso che si decide non avrà una versione 2.x</li>
+<li>Da qui, si usa il secondo numero per contare la release</li>
+<li>Java 6 (2006): miglioramento prestazionale importante</li>
+<li>Java 7 (2011): supporto a più linguaggi nella JVM, diamond operator</li>
+<li>Java 8 (2014): aggiunta lambda expression e streams</li>
+<li>Java 9 (2017): aggiunta Java Module System (Jigsaw)</li>
+<li>Passaggio a nuove versioni con ritmo semestrale</li>
+<li>Java 10 (2018): aggiunta local variable type-inference</li>
+<li>…</li>
+<li>$\Rightarrow$ Java 17 (2019): ultima versione (piccole aggiunte: switch expressions..)</li>
+</ul>
+<h3 id="modello-di-sviluppo-attuale">Modello di sviluppo attuale</h3>
+<ul>
+<li>Da Java 9, si ha una nuova release ogni 6 mesi</li>
+<li>Java 11 è l’ultima LTS, e si raccomanda di non rimanere indietro</li>
+<li>Oracle detiene il marchio e una implementazione “commerciale”</li>
+<li>L’iniziativa OpenJDK produce una ulteriore implementazione open che è di riferimento – quella che useremo noi</li>
+<li>Esistono anche altre JVM (Eclipse, Amazon,…)</li>
+</ul>
+</section><section>
+<p>\end{document}</p>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src="/reveal-hugo/object-assign.js"></script>
+
+<a href="/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
+
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"900","highlight_theme":"pastie","history":true,"mermaid":[{"fontFamily":"Inconsolata","startOnLoad":false}],"slide_number":true,"theme":"white","transition":"slide","transition_speed":"fast","width":"1440"}</script>
+<script type="application/json" id="reveal-hugo-page-params">null</script>
+
+<script src="/reveal-js/dist/reveal.js"></script>
+
+
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/zoom/zoom.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+
+  var revealHugoPlugins = { 
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ]
+   };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams),
+    camelize(revealHugoPlugins));
+  Reveal.initialize(options);
+</script>
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({"fontFamily":"Inconsolata","startOnLoad":false});
+
+    let render = (event) => {
+      let mermaidElems = event.currentSlide.querySelectorAll('.mermaid');
+      if (!mermaidElems.length){
+          return
+      }
+      mermaidElems.forEach(mermaidElem => {
+          let processed = mermaidElem.getAttribute('data-processed');
+          if (!processed){
+              
+              mermaid.init(undefined, mermaidElem);
+          }
+      });
+    };
+    Reveal.addEventListener('slidechanged', render);
+    Reveal.addEventListener('ready', render);
+  </script>
+
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+    
+  
+
+</body></html>
