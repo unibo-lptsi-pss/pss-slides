@@ -1,6 +1,3 @@
 [submodule "lecture-markdown/shared-slides"]
 	path = lecture-markdown/shared-slides
 	url = https://github.com/DanySK/shared-slides.git
-[submodule "lecture-markdown/themes/reveal-hugoc96"]
-	path = lecture-markdown/themes/reveal-hugo/reveal-hugoc96
-	url = https://github.com/cric96/reveal-hugo.git
