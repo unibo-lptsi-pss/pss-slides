@@ -13,3 +13,4 @@ outputs = ["Reveal"]
 
 * [Introduzione al corso](intro/)
 * [Astrazione orientata agli oggetti](oo-abstraction/)
+* [Oggetti e classi](objects/)
