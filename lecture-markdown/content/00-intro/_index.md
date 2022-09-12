@@ -99,7 +99,7 @@ aliases = ["/intro/"]
 * Git https://git-scm.com/
 
 ## Istruzioni sull'installazione (sul PC di casa)
-* https://oop-at-disi.github.io/software-installation-instructions/
+* https://apice-at-disi.github.io/software-installation-instructions/
 * Molto importante rendersi operativi a casa nel giro di una settimana!
   * $\Rightarrow$ sarebbe consigliato l'uso del sistema operativo Linux...
 
