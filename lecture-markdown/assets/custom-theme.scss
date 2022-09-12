@@ -12,11 +12,11 @@
 // @import url('https://fonts.googleapis.com/css2?family=Open+Sans');
 
 // Serif
-// @import url('https://fonts.googleapis.com/css2?family=Cinzel');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel');
 
 // Handwriting
 
-// @import url('https://fonts.googleapis.com/css2?family=Dancing+Script');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script');
 // @import url('https://fonts.googleapis.com/css2?family=Satisfy');
 
 // Display
@@ -93,12 +93,49 @@ section.has-light-background {
 
 .reveal code {
 	color: rgb(209, 28, 124);
-	font-family: "JetBrains Mono", "Oxygen Mono", "Roboto Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
+	line-height: 130%;
 	font-weight: bold;
+	font-size: 110%;
+	font-family: "Inconsolata";
+	// font-family: "JetBrains Mono", "Oxygen Mono", "Roboto Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
+	// font-weight: bold;
+}
+
+.reveal pre {
+	width: min-content;
+	min-width: 70%;
+	max-width: 113%;
+	margin: 0em;
+	padding: 0em;
+	border-radius: 1em;
+	padding-left: 1em;
+	padding-right: 1em;
+	border: #000;
+	border-width: 1em;
+	box-shadow: 0.4em 0.4em 1em .01em #888888;
 }
 
 .reveal pre code {
+	max-width: 100%;
+	line-height: 100%;
+	font-size: 1.48em;
 	color: black;
+	max-height: none;
+	font-family: 'Inconsolata';
+	font-weight: normal;
+	margin: .2em;
+	// line-height: 1.2em;
+	// font-size: 1.5em;
+	// font-weight: normal;
+}
+
+
+.reveal div.highlight {
+	max-width: 120%;
+	overflow-x: visible;
+	display: flex;
+	justify-content: center;
+	margin: 0;
 }
 
 .reveal h3 {
@@ -118,7 +155,7 @@ section.has-light-background {
 .reveal blockquote {
 	width:90%;
 	margin:0.3em auto;
-	font-family: 'Satisfy';
+	font-family: 'Dancing Script';
 	font-style: normal;
 	font-size: 1.2em;
 	color: #333333;

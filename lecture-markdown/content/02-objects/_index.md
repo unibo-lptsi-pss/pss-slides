@@ -50,7 +50,7 @@ String s = new String();
 // Accetta 0,1 o più argomenti, a seconda del tipo:
 // valori primitivi (numeri), string literals, o oggetti
 String s2 = new String("prova");
-Point2D p = new Point2D(10.5,20.3);
+Point2D p = new Point2D(10.5, 20.3);
 Object o = new Object();
 ```
 
@@ -63,15 +63,24 @@ Object o = new Object();
   
 ### Concetti base
 
+* Variabile: un contenitore con nome (come in C), usabile per denotare un oggetto
+* Valore primitivo: p.e. un numero, anche assegnabile ad una variabile
 
+```java
+String s = new String("prova");
 
-  *  Variabile: un contenitore con nome (come in C), usabile per denotare un oggetto
-  *  Valore primitivo: p.e. un numero, anche assegnabile ad una variabile
-  
+// Un caso ad-hoc di Java, equivalente a:
+// String s2 = new String("casa");
+String s2 = "casa";
 
+// Definisco il nome s4, ma non lo inizializzo
+String s4;
+// ora assegno s4, da qui in poi è utilizzabile
+s4 = "auto";
 
-  \sizedcode{\footnotesize}{code/references2.java}
-
+// Il nome i è assegnato al valore primitivo 5
+int i = 5;
+```
 
 ---
 
@@ -79,341 +88,363 @@ Object o = new Object();
 
 ## "(Almost) Everything is an object"
 
-
+### Tipi primitivi: rappresentano i valori "built-in"
+Assomigliano molto a quelli del C, ma hanno dimensioni fissate
   
-### Tipi primitivi: tipi speciali usati per valori atomici
+| Type name | Size (bits) | Minimum | Maximum |
+| --------- | ---- | ------- | ------- |
+| boolean | -- | -- | -- |
+| char | 16 | `\u0000` | `\uFFFF` |
+| byte | 8 | $-128$ | $128$ |
+| short | 16 | $-2^{15}$ | $2^{15}+1$ |
+| int | 32 | $-2^{31}$ | $2^{31}+1$ |
+| long | 64 | $-2^{63}$ | $2^{63}+1$ |
+| float | 32 | IEEE754 | IEEE754 |
+| double | 64 | IEEE754 | IEEE754 |
+| void | -- | -- | -- |
 
-
-
-  *  Assomigliano molto a quelli del C, ma hanno dimensioni fissate
-  *  I \cil{boolean} possono valere \cil{true} o \cil{false}
-  %*  Sono assegnabili a variabili, ma in questo caso lo sono "per valore"
-  %*  Ognuno ha una corrispondente classe chiamata *__wrapper__*
-  *  Altre classi di libreria (\cil{BigDecimal}, \cil{BigInteger}) gestiscono numeri di dimensione/precisione arbitraria
-  
-
-
-  ![](img/primitive.png)
-
+*  I `boolean` possono valere `true` o `false`
+*  Altre classi di libreria (`BigDecimal`, `BigInteger`) gestiscono numeri di dimensione/precisione arbitraria
 
 ---
 
 
 ## Una prima classificazione dei tipi
 
-
-  ![](img/types0.pdf)
-
+```mermaid
+flowchart TB
+  subgraph Java types
+    subgraph Primitive types
+      int(int)
+      boolean(boolean)
+      short(short)
+      char(char)
+      byte(byte)
+      long(long)
+      float(float)
+      double(double)
+      void(void)
+    end
+    subgraph Classes
+      Object(Object)
+      String(String)
+      other(...)
+    end
+  end
+```
 
 ---
-
 
 ## Variabili e tipi
 
+``` java
+// assegnamenti con tipi primitivi
+int i = 5;
+double d = 145e-20;
+boolean b = true;
 
-  \sizedcode{\footnotesize}{code/vars0.java}
+// assegnamenti con classi
+Object o = new Object(); 
+String s = "altra stringa";
+Point2D p = new Point2D(10.4, 20.3);
 
+// assegnamento da/a variabile
+int other = i;
+Point2D q = p;
 
----
-
-
-## Costrutto \Cil{var}: "local variable type inference" (da Java 10)
-
-
-  
-### Costrutto \cil{var}
-
-
-
-    *  usabile nelle variabili locali (a funzioni/metodi) per avere maggiore concisione
-    *  il compilatore capisce (inferisce) il tipo della varibile dall'espressione assegnata
-    *  non abusarne, e comunque noi non lo useremo molto all'inizio del corso
-  
-
-
-  \sizedcode{\footnotesize}{code/vars1.java}
-
+// assegnamento a null
+Object on = null;
+```
 
 ---
 
 
+## Costrutto `var`: local variable type inference (Java 10+)
+  
+* usabile nelle variabili locali (a funzioni/metodi) per avere maggiore concisione
+* il compilatore capisce (inferisce) il tipo della varibile dall'espressione assegnata
+* non abusarne, specialmente all'inizio!
+  
+```java
+// assegnamenti con tipi primitivi
+var i = 5;
+var d = 145e-20;
+var b = true;
+
+// assegnamenti con classi
+var o = new Object(); 
+var s = "altra stringa";
+var p = new Point2D(10.4, 20.3);
+
+// assegnamento da/a variabile
+var other = i;
+var q = p;
+```
+
+---
 
 ## Oggetti e memoria
-
-
   
-### Gestione della memoria -- entriamo nella JVM solo temporanemante
+### Gestione della memoria
 
+* tutti gli *oggetti* sono allocati nella memoria __heap__
+* le *variabili* allocate nello **stack**, nei rispettivi record di attivazione
+* le variabili di *tipi primitivi contengono direttamente il valore*
+* le variabili che contengono *oggetti in realtà hanno un riferimento* verso lo heap
+* nota: ancora non sappiamo cosa contiene un oggetto
 
-
-    *  tutti gli oggetti sono allocati nella memoria *__heap__*
-    *  le variabili allocate nello stack, nei rispettivi record di attivazione
-    *  le variabili di tipi primitivi contengono direttamente il valore
-    *  le variabili che contengono oggetti in realtà hanno un riferimento verso lo heap
-    *  nota: ancora non sappiamo cosa contiene un oggetto
-  
-
-
-  
-### Situazione relativa al codice della slide precedente
-
-
-
-    *  le variabili \cil{i}, \cil{d}, \cil{b}, \cil{other} contengono valori
-    *  tutte le altre contengono un riferimento ad un oggetto, nello heap
-    *  solo \cil{p} e \cil{q} "(si) riferiscono (al)lo stesso oggetto"
-    *  \cil{on} contiene un riferimento speciale, \cil{null}
-  
-
-
-
+```java
+// assegnamenti con tipi primitivi: contengono VALORI!
+var i = 5;
+var d = 145e-20;
+var b = true;
+// assegnamenti con classi contengono RIFERIMENTI!
+var o = new Object(); 
+var s = "altra stringa";
+var p = new Point2D(10.4, 20.3);
+var other = i; // VALORE!
+var q = p; // Stesso RIFERIMENTO!
+Object on = null; // Riferimento speciale al valore null
+```
 
 ---
-
 
 ## Visibilità
-
-
   
 ### "Scope" delle variabili
-
-
-
-    *  È simile a quello del C
-    *  variabili dentro un blocco non sono visibili fuori
-    *  differenza rispetto al C: variabili non inizializzate non sono utilizzabili!
-  
-
-
+*  È simile a quello di C
+*  variabili dentro un blocco non sono visibili fuori
+*  differenza rispetto a C: variabili non inizializzate non sono utilizzabili!
   
 ### Tempo di vita degli oggetti
-
-
-
-    *  finito lo scope di una variabile, l'oggetto continua a esistere
-    *  verrà deallocato automaticamente dal sistema se non più usato{
-
-	*  se, direttamente o indirettamente, nessuna variabile lo può raggiungere
-	*  un componente della JVM, il *__garbage collector__*, è preposto a questo compito
-	*  ne vedremo il funzionamento a breve..
-    
-}
-  
-
-
-
+*  finito lo scope di una variabile, l'oggetto continua a esistere
+*  verrà deallocato automaticamente dal sistema se non più usato
+    *  se, direttamente o indirettamente, nessuna variabile lo può raggiungere
+    *  un componente della JVM, il *__garbage collector__*, è preposto a questo compito
 
 ---
 
-\section[Costrutti OOP]{Principali costrutti dell'object-orientation}
+# Principali costrutti dell'object-orientation
 
+---
 
 ## Costruire classi
 
-
-  
 ### Premesse
+* la *__classe__* è l'unità fondamentale di programmazione OO
+* progettare e costruire classi correttamente sarà l'obbiettivo del corso
+* incominciamo descrivendo la loro struttura generale
+* solo nelle prossime lezioni daremo linee guida definitive
 
-
-
-    *  la *__classe__* è l'unità fondamentale di programmazione OO
-    *  progettare e costruire classi correttamente sarà l'obbiettivo del corso
-    *  incominciamo descrivendo la loro struttura generale
-    *  solo nelle prossime lezioni daremo linee guida definitive
-  
-
-
-  
 ### Cos'è una classe
+* è un template (*stampino*) per generare oggetti di una certa forma
+* ne definisce *tipo*, *struttura* in memoria e *comportamento*
 
-
-
-    *  è un template (stampino) per generare oggetti di una certa forma
-    *  ne definisce tipo, struttura in memoria e comportamento
-  
-
-
-  
 ### Classe vs. oggetto
-
-
-
-    *  classe: è una descrizione (parte di programma)
-    *  oggetto: è una entità a tempo di esecuzione, è *__istanza__* di una classe
-  
-
-
-  
-
+* classe: è una descrizione (parte di programma)
+* oggetto: è una entità a tempo di esecuzione, è *__istanza__* di una classe
 
 ---
 
-
-
 ## Struttura di una classe
 
-
-  
 ### Nome della classe
-
-
-  è anche il nome del tipo
+È anche il nome del tipo
   
+### Membri della classe
+*__Campi__* (fields)
+* descrivono la struttura/stato dell'oggetto in memoria
 
-  
-### Proprietà della classe
-
-
-    *__Campi__* (o membri, o fields){
-
-      *  descrivono la struttura/stato dell'oggetto in memoria
-    
-}
-    *__Metodi__* della classe{
-
-      *  descrivono i messaggi accettati e il comportamento corrispondente
-    
-}
-    (altri elementi che vedremo..)
-   
-
-
+*__Metodi__* (methods)
+* descrivono i messaggi accettati e il comportamento corrispondente
 
 ---
 
 
 ## Classi: un po' di codice
 
+#### Costruzione di classi
+```java
+class A { // A è il nome della classe
+  ... // qui si riporta il suo contenuto
+}
 
-  \titledcode{Costruzione classi}{code/classes1.java}
-  \titledcode{Uso}{code/classes2.java}
+class AltroEsempioDiClasse { // Nota il CamelCase
+  ...
+}
+```
+<br>
 
+#### Uso
+
+```java
+// codice cliente
+A obj1 = new A(); // creo un oggetto di A, con nome obj1
+A obj2 = new A(); // creo un altro oggetto di A
+AltroEsempioDiClasse obj3 = new AltroEsempioDiClasse();
+A obj4; // variabile obj4 non inizializzata
+obj4 = new A(); // ok
+obj4 = new AltroEsempioDiClasse(); // NO!! Errore semantico
+```
 
 ---
-
 
 ## Campi
-
-
   
 ### Elementi costitutivi dei campi
-
-
-
-    *  i campi di una classe assomigliano ai membri di una struct del C
-    *  ognuno è una sorta di variabile (nome + tipo)<br> (per i campi non è usabile il costrutto \cil{var})
-    *  ve ne possono essere 0,1, molti
-    *  lo stato di un oggetto è l'attuale valore associato ai campi
-    *  potrebbero essere valori primitivi, o altri oggetti
-  
-
-
+* i campi di una classe assomigliano ai membri di una struct del C
+* ognuno è una sorta di variabile (nome + tipo)
+    * per i campi non è usabile il costrutto `var`!
+* ve ne possono essere 0,1, molti
+* lo stato di un oggetto è l'attuale valore associato ai campi
+* potrebbero essere valori primitivi, o altri oggetti
   
 ### Valore di un campo
-
-
-
-    *  impostabile al momento della sua dichiarazione
-    *  se non inizializzato vale:
-    {
-
-      *  \cil{0} per i tipi numerici
-      *  \cil{false} per i booleani
-      *  \cil{null} per le classi
-    
-}
-    *  accessibile da codice cliente con notazione *__obj.field__*
-  
-
-
-  
+*  impostabile al momento della sua dichiarazione
+*  se non inizializzato vale:
+    *  `0` per i tipi numerici
+    *  `false` per i booleani
+    *  `null` per le classi
+*  accessibile da codice cliente con notazione `object.field`
+    * c.d. "dot notation"
 
 ---
-  
 
-## Campi: Un semplice esempio (toy)
+## Campi: Un semplice esempio giocattolo
 
+#### Classe
 
-  \titledcode{Classe}{code/fields1.java}
-  \titledcode{Uso}{code/fields2.java}
+```java
+class A {
+  int i;
+  int j = 2;
+  Object o;
+}
+```
+<br>
 
+#### Uso
+
+```java
+A obj = new A();
+int a = obj.i; // a varrà 0
+int b = obj.j; // b varrà 2
+obj.i = 10; // modifico lo stato di obj
+int d = obj.i; // d varrà 10
+obj.o = new Object(); // riassegno obj.o
+A obj2 = new A();
+obj.i = obj2.i; // quanto varrà ora obj.i?
+```
 
 ---
 
 
 ## Campi: l'esempio Point3D
 
+#### Classe
 
-  \titledcode{Classe}{code/fields_p3d_1.java}
-  \titledcode{Uso}{code/fields_p3d_2.java}
+```java
+class Point3D {
+  double x;	// Nota, l'ordine dei campi è irrilevante
+  double y;
+  double z;
+}
+```
+<br>
 
+#### Uso
+
+```java
+Point3D a = new Point3D(); // Creo due punti, di nome a e b
+Point3D b = new Point3D();
+a.x = 10.0;	// Imposto lo stato di a
+a.y = 20.0;
+a.z = 30.0;
+b.x = a.x * 2; // Imposto lo stato di b
+b.y = a.y * 2; // .. a partire da quello di a
+b.z = a.z * 2;
+int mod2a = a.x * a.x + a.y * a.y + a.z * a.z;
+int mod2b = b.x * b.x + b.y * b.y + b.z * b.z;
+boolean aGreater = (mod2a > mod2b); // false
+```
 
 ---
-
 
 ## Metodi
-
-
   
 ### Elementi costitutivi dei metodi
-
-
-
-    *  i metodi di una classe assomigliano a funzioni (del C)
-    *  ognuno ha una *__intestazione__* (o signature) e un corpo{
-
-     *  a sua volta l'intestazione ha il nome, tipo di ritorno, argomenti
-    
-}
-    *  di metodi ve ne possono essere 0,1, molti
-    *  definiscono il comportamento dell'oggetto
-  
-
-
+*  i metodi di una classe assomigliano a funzioni (del C)
+*  ognuno ha una *__intestazione__* (o signature) e un corpo
+    * a sua volta l'intestazione ha il *nome*, tipo di *ritorno*, *argomenti*
+*  di metodi ve ne possono essere 0,1, molti
+*  definiscono il *comportamento* dell'oggetto
   
 ### Significato di un metodo
-
-
-
-    *  codice cliente richiama un metodo con notazione *__obj.meth(args)__*
-    *  ciò corrisponde a inviargli un messaggio
-    *  \cil{obj} è chiamato il *__receiver__* del messaggio (o della invocazione)
-    *  il comportamento conseguente è dato dall'esecuzione del corpo
-    *  il corpo può leggere/scrivere il valore dei campi
-  
-
-
-  
-
----
-  
-
-## Metodi: Un esempio "giocattolo" (toy example)
-
-
-  \titledcode{Classe}{code/methods1.java}
-  \titledcode{Uso}{code/methods2.java}
-
+* codice cliente richiama un metodo con notazione `object.method(arguments)`
+  * Di nuovo, *dot notation*! (stavolta con le parentesi)
+* corrisponde ad inviare un messaggio a `object`
+* `object` è chiamato il *__receiver__* del messaggio (o dell'invocazione)
+* il comportamento conseguente è dato dall'esecuzione del corpo
+* il corpo può leggere/scrivere il valore dei campi
 
 ---
 
+## Metodi: Un esempio giocattolo
 
-## La variabile speciale \Cil{this}
+#### Classe
+
+```java
+class Adder {
+  int total;
+
+  void add(int a){ // input "int a"
+    total = total + a;              
+  }
+
+  int getValue(){ // intestazione funzione
+    return total; // corpo funzione
+  }
+}
+```
+
+<br>
+
+#### Uso
+
+```java
+Adder adder = new Adder();
+int v = adder.total; // vale 0
+adder.add(10); // modifico adder
+adder.add(20); // modifico adder
+int v2 = adder.total; // vale 30
+int v3 = adder.getValue(); // vale 30
+```
+
+---
 
 
-  
-### \cil{this}
+## La variabile speciale `this`
+
+* dentro ad un metodo si può accedere agli argomenti o ai campi
+* per rendere meno ambigua la sintassi, Java fornisce una variabile speciale denotata con `this`
+  * contiene il riferimento all'oggetto che sta gestendo il messaggio
+* per motivi di leggibilità, viene spesso omessa
+  * all'inizio, è opportuno usarla sempre!
 
 
+```java
+class Adder {
+  int total;
 
-    *  dentro ad un metodo si può accedere agli argomenti o ai campi
-    *  per rendere meno ambigua la sintassi, Java fornisce una variabile speciale denotata con \cil{this}, che contiene il riferimento all'oggetto che sta gestendo il messaggio
-    *  per motivi di leggibilità, è opportuno usarla sempre
-  
+  void add(int a){ // input "int a"
+    this.total = this.total + a;              
+  }
 
-
-  \sizedcode{\scriptsize}{code/methods1this.java}
-
+  int getValue(){ // intestazione funzione
+    return this.total; // corpo funzione
+  }
+}
+```
 
 ---
 
@@ -421,293 +452,196 @@ Object o = new Object();
 
 ## Metodi: altro esempio Point3D
 
+```java
+class Point3D { // Class declaration
+    double x; // 3 campi
+    double y;
+    double z;
 
-  \sizedcode{\scriptsize}{code/methods_p3d_1.java}
-  %\titledcode{Uso}{code/methods_p3d_2.java}
+    void build(double a, double b, double c){
+        this.x = a;
+        this.y = b;
+        this.z = c;
+    }
 
+    double getNormSquared(){
+        return this.x * this.x + this.y * this.y + this.z * this.z;
+    }
+
+    boolean equal(Point3D q){	// true if two points are equal
+        return this.x == q.x && this.y == q.y && this.z == q.z;    
+    }
+}
+// codice cliente
+Point3D p = new Point3D(); // Create a new point p
+p.build(10.0, 20.0, 30.0); // set up the point 
+Point3D q = new Point3D(); // create a new point q
+q.build(10.0, 20.0, 31.0); // set up point q
+double m2 = p.getNormSquared(); // get the squared norm of m2
+boolean samePoint = p.equal(q); // chiedo a p se è uguale a q
+```
 
 ---
-
 
 # Programmi Java
 
 ---
 
-
-
 ## Programmi Java
-
-
   
 ### Elementi costitutivi dei programmi Java
-
-
-
-    *  librerie di classi del Java Development Kit
-    *  librerie esterne (nostre o di altri)
-    *  un insieme di classi che costituiscono l'applicazione
-    *  almeno una di tali classi ha un metodo speciale \cil{main}
-    *  un \cil{main} è il punto d'accesso di un programma
-  
-
-
-  
-### Il main
-
-Il \cil{main} deve avere la seguente dichiarazione:{
-
-  *  \cil{public static void main(String[] args)\{..\}}
-}
-  tre concetti che spiegheremo in dettaglio nel prosieguo:
-
-  *  \cil{public} indica il fatto che debba essere visibile "a tutti"
-  *  \cil{static} indica che non è un metodo dell'oggetto, ma della classe
-  *  \cil{String[]} indica il tipo "array di stringhe"
-  
-
-
-
+* librerie (insiemi di classi)
+  * Incluse nel Java Development Kit
+  * esterne (nostre o di altri, vedremo come importarle)
+* un insieme di classi che costituiscono l'applicazione
+* almeno una di tali classi ha un metodo speciale `main`
+  * Ma possono essercene più d'una
+* un `main` è un punto d'accesso di un programma
 
 ---
 
+## Il metodo `main`
+
+Il `main` deve avere la seguente dichiarazione:
+
+## `public static void main(String[] args)`
+
+tre concetti che spiegheremo in dettaglio nel prosieguo:
+* `public` indica il fatto che debba essere visibile "a tutti"
+* `static` indica che non è un metodo dell'oggetto, ma della classe
+* `String[]` indica il tipo "array di stringhe"
+
+---
 
 ## Package e librerie Java: organizzazione
-
-
   
 ### Librerie di Java
 
-
-
-    *  Documentazione auto-generata, consultabile offline, o online: <br> https://docs.oracle.com/en/java/javase/11/docs/api/ <br> (google search "`javadoc 11`")
-    *  contano più di 4000 classi, raggruppate in 200+ *__package__* (e 50+ *__moduli__*)
-  
-
-
+*  Documentazione auto-generata, consultabile offline, o online:
+  * https://docs.oracle.com/en/java/javase/17/docs/api/
+  <br>
+  (google search "*java 17 javadoc*")
+*  contano più di 4000 classi, raggruppate in 200+ *__package__* (e 50+ *__moduli__*)
   
 ### Package
-
-
-
-    *  un package è un contenitore di classi con uno scopo comune, di alto livello
-    *  tipicamente un package contiene qualche decina di classi
-    *  i package sono organizzati ad albero, con notazione \cil{nome1.nome2.nome3}
-    *  Package principali: \cil{java.lang}, \cil{java.util}, \cil{java.io}
+*  un package è un contenitore di classi con uno scopo comune, di alto livello
+*  tipicamente un package contiene qualche decina di classi
+*  i package sono organizzati ad albero, con notazione `name1.name2.name3`
+*  Package principali: `java.lang`, `java.util`, `java.io`
   
-
-
-
-
 ---
 
 
-## Package, moduli e librerie Java: moduli
-
-
+## Package, moduli e librerie Java
   
 ### Moduli (Java 9+)
-
-
-
-    *  un modulo definisce un frammento di codice "autonomo":{
-
-    *  testabile, distribuibile, con chiara interfaccia e dipendenze da altri
-    
-}
-    *  p.e., \cil{java.base}, \cil{java.desktop}, \cil{java.sql}, \cil{java.xml}
-    *  librerie esterne compatibili con Java 9+ sono distribuite in uno o più moduli
-    *  un modulo è costituito internamente da uno o più package
-    *  p.e., \cil{java.base} contiene i package principali che useremo    
-  
-
-
+* un modulo definisce un frammento di codice "autonomo":
+  * con chiara interfaccia ed esplicite dipendenze da altri
+  * esempi: `java.base`, `java.desktop`, `java.sql`, `java.xml`
+* le librerie per Java 9+ possono essere distribuite in uno o più moduli
+* un modulo è costituito internamente da uno o più package
+* ad esempio, `java.base` contiene i package principali che useremo    
   
 ### Impatto sulla programmazione "base"
-
-
-
-    *  il concetto di modulo *__non impatta__* i sorgenti, ma solo il "project management": per il momento non ce ne occuperemo perché il JDK fornisce "di default" accesso a tutti i moduli che ci servono (\cil{java.*})
-    *  il concetto di package *__invece impatta__* i sorgenti: il nome completo di una classe dipende dal package in cui si trova 
-  
-
-
-
+*  il concetto di modulo *__non impatta__* i sorgenti,
+  ma "solo" la gestione dei componenti:
+  per il momento non ce ne occuperemo perché il JDK fornisce "di default" accesso a tutti i moduli che ci servono (`java.*`)
+*  il concetto di package, invece, *__impatta__* i sorgenti:
+  *il nome completo di una classe include il package* in cui si trova 
 
 ---
-
-
 
 ## Package, moduli e librerie Java: uso
-
-
   
 ### Importare una classe di "libreria"
-
-
-
-    *  per usare le classi di una libreria prima le si importa
-    *  lo si fa con la clausola \cil{import}, da usare all'inizio del sorgente
-    {
-
-      *  importo la singola classe: \cil{import java.util.Date;}
-      *  importo l'intero package: \cil{import java.util.*;}
-      *  importazione di default: \cil{import java.lang.*;}
-    
-}
-    *  senza importazioni, ogni classe andrebbe sempre qualificata indicandone anche il package completo: \cil{java.util.Date obj = new java.util.Date();}
-    *  importare evita quindi solo di dover indicare ogni volta il package
-  
-
-
+* per usare le classi di una libreria prima le si importa
+* lo si fa con la clausola `import`, da usare all'inizio del sorgente
+    * importo la singola classe: `import java.util.Date;`
+    * importo l'intero package: `import java.util.*;`
+    * importazione di default: `import java.lang.*;`
+* senza importazioni, ogni classe andrebbe sempre qualificata indicandone anche il package completo:
+  * `java.util.Date now = new java.util.Date();`
+*  importare evita quindi solo di dover indicare ogni volta il package
   
 ### Classi (e funzionalità) "deprecate"
-
-
-
-    *  dichiarate come "scadute", ossia preferibilmente "da non usare più" (legacy)
-    *  noi le utilizzeremo per scopi didattici
-    *  p.e. \cil{java.util.Date}
-  
-
-
-
+* dichiarate come "scadute", ossia preferibilmente "da non usare più"
+  * Tipicamente perché il loro funzionamento è stato mal progettato
+  * Potrebbero essere *rimosse* in una nuova versione di Java!
+* noi le utilizzeremo per **solo scopo didattico** `java.util.Date`
 
 ---
 
-
-## Stampe su schermo
-
-
+## Stampe su terminale
   
-### La procedura di stampa \cil{System.out.println}
-
-
-
-    *  \cil{System} è una classe nel package \cil{java.lang}
-    *  \cil{out} è un suo campo statico, rappresenta lo standard output
-    *  \cil{println} è un metodo che accetta una stringa e la stampa
-    *  l'operatore \cil{+} concatena stringhe a valori
-    %*  \cil{format} è un analogo metodo usabile in stile "\cil{printf}"
-  
-
-
-  \code{code/print.java}
-
+### Il metodo `System.out.println`
+* `System` è una *classe* nel package `java.lang`
+* `out` è un suo *campo* che rappresenta lo standard output
+  * `static`o, ossia uguale per ogni istanza di `System`
+* `println` è un *metodo* che accetta una `String`a e la stampa
+* l'operatore `+` concatena stringhe a valori
 
 ---
-
 
 ## "Hello world" Java Program
 
-
-  \titledcode{Hello.java}{exec/Hello.java}
+```java
+{{% import-raw path="code/objects/hello-world/HelloWorld.java" %}}
+```
   
 ### Compilazione ed esecuzione
-
-
-
-    *  con un editor di testo si scrive la classe in un file \cil{Hello.java}
-    *  si compila la classe col comando: \cil{javac Hello.java}
-    *  se non ci sono errori, viene generato il *__bytecode__* \cil{Hello.class}
-    *  si esegua il programma con: \cil{java Hello}
-    *  la JVM cerca la classe \cil{Hello}, e ne esegue il \cil{main}
-    
-  
-
-
-
+* con un editor di testo si scrive la classe in un file `Hello.java`
+* si compila la classe col comando: `javac Hello.java`
+* se non ci sono errori, viene generato il *__bytecode__* `Hello.class`
+* si esegue il programma con: `java Hello`
+* la JVM cerca la classe `Hello`, e ne esegue il `main`
+  * Nota: la JVM cerca la **classe** `Hello`, *non il file* `Hello.class`
 
 ---
-
 
 ## Librerie, oggetti, e stampe
 
-
-  \sizedcode{\scriptsize}{exec/PrintingObjects.java}
-
-
----
-
-
-## Il caso delle classi Wrapper dei tipi primitivi
-
-
-   
-### Le classi Wrapper
-
-
-
-      *  ce ne è una per tipo primitivo, nel package \cil{java.lang}{
-
-         *  \cil{Integer}, \cil{Double}, \cil{Boolean},...
-      
-}
-      *  hanno qualche metodo utile per fare conversioni
-      *  poco usate per il momento
-   
-
-
-   \srcode{\ssmall}{3}{100}{\ecl/Wrappers.java}
-
+```java
+{{% import-raw path="code/objects/prints/PrintingObjects.java" %}}
+```
 
 ---
-
-
-## Una nuova classificazione dei tipi
-
-
-  ![](img/types.pdf)
-
-
----
-
 
 ## Costruire e provare classi
 
+```java
+{{% import-raw path="code/objects/print/Print.java" %}}
+```
 
-  \sizedcode{\scriptsize}{exec/Point3D.java}
-
-
----
-
-
-## Classi, e classi clienti
-
-
-  \sizedcode{\tiny}{code/Point3D_a.java}
-  \sizedcode{\tiny}{exec/UsePoint3D.java}
-  \vspace{-10pt}
-
-
-  *  si compilano separatamente, o con: \cil{javac *.java}
-  *  si esegue a partire dalla classe col \cil{main}: \cil{java UsePoint3D}
-  
-
-
-
+* Dopo aver compilato, si esegue la classe col `main`:
+  * `java Print`
 
 ---
 
+## Classi...
+
+```java
+{{% import-raw path="code/objects/point/Point3D.java" %}}
+```
+
+---
+
+## ...e classi clienti
+
+```java
+{{% import-raw path="code/objects/point/UsePoint3D.java" %}}
+```
+* si compilano separatamente
+  * Siccome per compilare `UsePoint3D.java` serve la *classe* `Point3D`, il *file* `Point3D.java` va compilato prima
+* si possono anche compilare insieme, dandoli entrambi al compilatore
+  * `javac UsePoint3D.java Point3D.java`
+  * o, usando la sintassi "glob": `javac *.java`
+* si esegue la classe col `main`
+  * `java UsePoint3D`
+
+---
 
 ## Preview del prossimo laboratorio
-
-
   
-### Obbiettivi
-
-
-
-    *  familiarizzare con la compilazione da linea di comando in Java
-    *  fare qualche esercizio con la costruzione e uso di classi
-  
-
-
-
-
----
-
-
-
-
-
-\end{document}
+### Obiettivi
+* familiarizzare con la compilazione da linea di comando in Java
+* fare qualche esercizio con la costruzione e uso di classi

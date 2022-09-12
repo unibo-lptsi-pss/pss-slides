@@ -1,5 +1,5 @@
 // This class necessarily goes into a file Hello.java
-class Hello{
+class HelloWorld{
   public static void main(String[] args){
     System.out.println("Hello World!");
   }
