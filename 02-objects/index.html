@@ -1,0 +1,491 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+<title>Progettazione e Sviluppo del Software</title>
+<meta name="description" content="Progettazione e Sviluppo del Software, Tecnologie dei Sistemi Informatici">
+<meta name="author" content="Danilo Pianini">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/reveal-js/dist/reveal.css">
+  <link rel="stylesheet" href="/css/custom-theme.min.32aa8c973730165ed3eeb998f2c9ccf2aa2e59e9ee44cdb47ab9fca2a5d39bc7.css" id="theme"><link rel="stylesheet" href="/highlight-js/pastie.min.css">
+    
+<link rel="stylesheet" href="https://gitcdn.link/repo/DanySK/css-blur-animation/master/blur.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h1 id="oggetti-e-classi">Oggetti e classi</h1>
+<h4 id="progettazione-e-sviluppo-del-software">Progettazione e Sviluppo del Software</h4>
+<h4 id="cdl-tecnologie-dei-sistemi-informatici">C.D.L. Tecnologie dei Sistemi Informatici</h4>
+<h3 id="roberto-casadei-----robycasadeiuniboitmailtorobycasadeiuniboit"><a href="mailto:roby.casadei@unibo.it">Roberto Casadei — <code>roby.casadei@unibo.it</code></a></h3>
+<h3 id="danilo-pianini-----danilopianiniuniboitmailtodanilopianiniuniboit"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — <code>danilo.pianini@unibo.it</code></a></h3>
+<p><a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
+</section><section>
+<h2 id="nota">Nota</h2>
+<ul>
+<li>
+<p>Questo materiale è ampiamente basato su quello realizzato dal Prof.
+Mirko Viroli, che ringrazio.</p>
+</li>
+<li>
+<p>Ogni errore riscontratovi è esclusiva responsabilità degli autori di questo documento.</p>
+</li>
+</ul>
+</section><section>
+<h2 id="outline">Outline</h2>
+<h3 id="goal-della-lezione">Goal della lezione</h3>
+<ul>
+<li>Illustrare i concetti base del paradigma object-oriented</li>
+<li>Mostrare un primo semplice programma Java</li>
+<li>Fornire una panoramica di alcuni meccanismi Java</li>
+</ul>
+<h3 id="argomenti">Argomenti</h3>
+<ul>
+<li>Oggetti e riferimenti</li>
+<li>Tipi primitivi</li>
+<li>Classi, metodi e campi</li>
+<li>Accenno a package e librerie</li>
+<li>Stampe a video</li>
+<li>Primo semplice programma Java</li>
+</ul>
+</section><section>
+<h1 id="elementi-base-dei-tipi-di-java">Elementi base dei tipi di Java</h1>
+</section><section>
+<blockquote>
+<p>Everything is an object</p>
+</blockquote>
+<h3 id="riferimenti-ad-oggetti">Riferimenti ad oggetti</h3>
+<ul>
+<li>Nessun meccanismo per accedere ai dati per valore o puntatore!</li>
+<li>Le variabili conterranno dei riferimenti agli oggetti veri e propri, sono quindi dei nomi “locali” utilizzabili per denotare l’oggetto</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Creo un oggetto String, e lo assegno al nome s
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// questo oggetto stringa rappresenta la sequenza 
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// vuota di caratteri
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">String</span> <span style="color:#000">s</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">String</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// In generale si crea un oggetto con l'operatore &lt;new&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Accetta 0,1 o più argomenti, a seconda del tipo:
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// valori primitivi (numeri), string literals, o oggetti
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">String</span> <span style="color:#000">s2</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">String</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">"prova"</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Point2D</span> <span style="color:#000">p</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Point2D</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">10</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">5</span><span style="color:#ce5c00;font-weight:bold">,</span><span style="color:#000">20</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">3</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Object</span> <span style="color:#000">o</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Object</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span></code></pre></div></section><section>
+<h2 id="variabili-oggetti-e-valori-primitivi">Variabili, oggetti, e valori primitivi</h2>
+<h3 id="concetti-base">Concetti base</h3>
+<ul>
+<li>Variabile: un contenitore con nome (come in C), usabile per denotare un oggetto</li>
+<li>Valore primitivo: p.e. un numero, anche assegnabile ad una variabile</li>
+</ul>
+<p>\sizedcode{\footnotesize}{code/references2.java}</p>
+</section><section>
+<h2 id="almost-everything-is-an-object">“(Almost) Everything is an object”</h2>
+<h3 id="tipi-primitivi-tipi-speciali-usati-per-valori-atomici">Tipi primitivi: tipi speciali usati per valori atomici</h3>
+<ul>
+<li>Assomigliano molto a quelli del C, ma hanno dimensioni fissate</li>
+<li>I \cil{boolean} possono valere \cil{true} o \cil{false}
+%*  Sono assegnabili a variabili, ma in questo caso lo sono “per valore”
+%*  Ognuno ha una corrispondente classe chiamata <em><strong>wrapper</strong></em></li>
+<li>Altre classi di libreria (\cil{BigDecimal}, \cil{BigInteger}) gestiscono numeri di dimensione/precisione arbitraria</li>
+</ul>
+<p><img src="img/primitive.png" alt=""></p>
+</section><section>
+<h2 id="una-prima-classificazione-dei-tipi">Una prima classificazione dei tipi</h2>
+<p><img src="img/types0.pdf" alt=""></p>
+</section><section>
+<h2 id="variabili-e-tipi">Variabili e tipi</h2>
+<p>\sizedcode{\footnotesize}{code/vars0.java}</p>
+</section><section>
+<h2 id="costrutto-cilvar-local-variable-type-inference-da-java-10">Costrutto \Cil{var}: “local variable type inference” (da Java 10)</h2>
+<h3 id="costrutto-cilvar">Costrutto \cil{var}</h3>
+<pre><code>*  usabile nelle variabili locali (a funzioni/metodi) per avere maggiore concisione
+*  il compilatore capisce (inferisce) il tipo della varibile dall'espressione assegnata
+*  non abusarne, e comunque noi non lo useremo molto all'inizio del corso
+</code></pre>
+<p>\sizedcode{\footnotesize}{code/vars1.java}</p>
+</section><section>
+<h2 id="oggetti-e-memoria">Oggetti e memoria</h2>
+<h3 id="gestione-della-memoria----entriamo-nella-jvm-solo-temporanemante">Gestione della memoria – entriamo nella JVM solo temporanemante</h3>
+<pre><code>*  tutti gli oggetti sono allocati nella memoria *__heap__*
+*  le variabili allocate nello stack, nei rispettivi record di attivazione
+*  le variabili di tipi primitivi contengono direttamente il valore
+*  le variabili che contengono oggetti in realtà hanno un riferimento verso lo heap
+*  nota: ancora non sappiamo cosa contiene un oggetto
+</code></pre>
+<h3 id="situazione-relativa-al-codice-della-slide-precedente">Situazione relativa al codice della slide precedente</h3>
+<pre><code>*  le variabili \cil{i}, \cil{d}, \cil{b}, \cil{other} contengono valori
+*  tutte le altre contengono un riferimento ad un oggetto, nello heap
+*  solo \cil{p} e \cil{q} "(si) riferiscono (al)lo stesso oggetto"
+*  \cil{on} contiene un riferimento speciale, \cil{null}
+</code></pre>
+</section><section>
+<h2 id="visibilità">Visibilità</h2>
+<h3 id="scope-delle-variabili">“Scope” delle variabili</h3>
+<pre><code>*  È simile a quello del C
+*  variabili dentro un blocco non sono visibili fuori
+*  differenza rispetto al C: variabili non inizializzate non sono utilizzabili!
+</code></pre>
+<h3 id="tempo-di-vita-degli-oggetti">Tempo di vita degli oggetti</h3>
+<pre><code>*  finito lo scope di una variabile, l'oggetto continua a esistere
+*  verrà deallocato automaticamente dal sistema se non più usato{
+
+*  se, direttamente o indirettamente, nessuna variabile lo può raggiungere
+*  un componente della JVM, il *__garbage collector__*, è preposto a questo compito
+*  ne vedremo il funzionamento a breve..
+</code></pre>
+<p>}</p>
+</section><section>
+<p>\section[Costrutti OOP]{Principali costrutti dell’object-orientation}</p>
+<h2 id="costruire-classi">Costruire classi</h2>
+<h3 id="premesse">Premesse</h3>
+<pre><code>*  la *__classe__* è l'unità fondamentale di programmazione OO
+*  progettare e costruire classi correttamente sarà l'obbiettivo del corso
+*  incominciamo descrivendo la loro struttura generale
+*  solo nelle prossime lezioni daremo linee guida definitive
+</code></pre>
+<h3 id="cosè-una-classe">Cos’è una classe</h3>
+<pre><code>*  è un template (stampino) per generare oggetti di una certa forma
+*  ne definisce tipo, struttura in memoria e comportamento
+</code></pre>
+<h3 id="classe-vs-oggetto">Classe vs. oggetto</h3>
+<pre><code>*  classe: è una descrizione (parte di programma)
+*  oggetto: è una entità a tempo di esecuzione, è *__istanza__* di una classe
+</code></pre>
+</section><section>
+<h2 id="struttura-di-una-classe">Struttura di una classe</h2>
+<h3 id="nome-della-classe">Nome della classe</h3>
+<p>è anche il nome del tipo</p>
+<h3 id="proprietà-della-classe">Proprietà della classe</h3>
+<pre><code>*__Campi__* (o membri, o fields){
+
+  *  descrivono la struttura/stato dell'oggetto in memoria
+</code></pre>
+<p>}
+<em><strong>Metodi</strong></em> della classe{</p>
+<pre><code>  *  descrivono i messaggi accettati e il comportamento corrispondente
+</code></pre>
+<p>}
+(altri elementi che vedremo..)</p>
+</section><section>
+<h2 id="classi-un-po-di-codice">Classi: un po’ di codice</h2>
+<p>\titledcode{Costruzione classi}{code/classes1.java}
+\titledcode{Uso}{code/classes2.java}</p>
+</section><section>
+<h2 id="campi">Campi</h2>
+<h3 id="elementi-costitutivi-dei-campi">Elementi costitutivi dei campi</h3>
+<pre><code>*  i campi di una classe assomigliano ai membri di una struct del C
+*  ognuno è una sorta di variabile (nome + tipo)&lt;br&gt; (per i campi non è usabile il costrutto \cil{var})
+*  ve ne possono essere 0,1, molti
+*  lo stato di un oggetto è l'attuale valore associato ai campi
+*  potrebbero essere valori primitivi, o altri oggetti
+</code></pre>
+<h3 id="valore-di-un-campo">Valore di un campo</h3>
+<pre><code>*  impostabile al momento della sua dichiarazione
+*  se non inizializzato vale:
+{
+
+  *  \cil{0} per i tipi numerici
+  *  \cil{false} per i booleani
+  *  \cil{null} per le classi
+</code></pre>
+<p>}
+*  accessibile da codice cliente con notazione <em><strong>obj.field</strong></em></p>
+</section><section>
+<h2 id="campi-un-semplice-esempio-toy">Campi: Un semplice esempio (toy)</h2>
+<p>\titledcode{Classe}{code/fields1.java}
+\titledcode{Uso}{code/fields2.java}</p>
+</section><section>
+<h2 id="campi-lesempio-point3d">Campi: l’esempio Point3D</h2>
+<p>\titledcode{Classe}{code/fields_p3d_1.java}
+\titledcode{Uso}{code/fields_p3d_2.java}</p>
+</section><section>
+<h2 id="metodi">Metodi</h2>
+<h3 id="elementi-costitutivi-dei-metodi">Elementi costitutivi dei metodi</h3>
+<pre><code>*  i metodi di una classe assomigliano a funzioni (del C)
+*  ognuno ha una *__intestazione__* (o signature) e un corpo{
+
+ *  a sua volta l'intestazione ha il nome, tipo di ritorno, argomenti
+</code></pre>
+<p>}
+*  di metodi ve ne possono essere 0,1, molti
+*  definiscono il comportamento dell’oggetto</p>
+<h3 id="significato-di-un-metodo">Significato di un metodo</h3>
+<pre><code>*  codice cliente richiama un metodo con notazione *__obj.meth(args)__*
+*  ciò corrisponde a inviargli un messaggio
+*  \cil{obj} è chiamato il *__receiver__* del messaggio (o della invocazione)
+*  il comportamento conseguente è dato dall'esecuzione del corpo
+*  il corpo può leggere/scrivere il valore dei campi
+</code></pre>
+</section><section>
+<h2 id="metodi-un-esempio-giocattolo-toy-example">Metodi: Un esempio “giocattolo” (toy example)</h2>
+<p>\titledcode{Classe}{code/methods1.java}
+\titledcode{Uso}{code/methods2.java}</p>
+</section><section>
+<h2 id="la-variabile-speciale-cilthis">La variabile speciale \Cil{this}</h2>
+<h3 id="cilthis">\cil{this}</h3>
+<pre><code>*  dentro ad un metodo si può accedere agli argomenti o ai campi
+*  per rendere meno ambigua la sintassi, Java fornisce una variabile speciale denotata con \cil{this}, che contiene il riferimento all'oggetto che sta gestendo il messaggio
+*  per motivi di leggibilità, è opportuno usarla sempre
+</code></pre>
+<p>\sizedcode{\scriptsize}{code/methods1this.java}</p>
+</section><section>
+<h2 id="metodi-altro-esempio-point3d">Metodi: altro esempio Point3D</h2>
+<p>\sizedcode{\scriptsize}{code/methods_p3d_1.java}
+%\titledcode{Uso}{code/methods_p3d_2.java}</p>
+</section><section>
+<h1 id="programmi-java">Programmi Java</h1>
+</section><section>
+<h2 id="programmi-java-1">Programmi Java</h2>
+<h3 id="elementi-costitutivi-dei-programmi-java">Elementi costitutivi dei programmi Java</h3>
+<pre><code>*  librerie di classi del Java Development Kit
+*  librerie esterne (nostre o di altri)
+*  un insieme di classi che costituiscono l'applicazione
+*  almeno una di tali classi ha un metodo speciale \cil{main}
+*  un \cil{main} è il punto d'accesso di un programma
+</code></pre>
+<h3 id="il-main">Il main</h3>
+<p>Il \cil{main} deve avere la seguente dichiarazione:{</p>
+<ul>
+<li>
+<p>\cil{public static void main(String[] args){..}}
+}
+tre concetti che spiegheremo in dettaglio nel prosieguo:</p>
+</li>
+<li>
+<p>\cil{public} indica il fatto che debba essere visibile “a tutti”</p>
+</li>
+<li>
+<p>\cil{static} indica che non è un metodo dell’oggetto, ma della classe</p>
+</li>
+<li>
+<p>\cil{String[]} indica il tipo “array di stringhe”</p>
+</li>
+</ul>
+</section><section>
+<h2 id="package-e-librerie-java-organizzazione">Package e librerie Java: organizzazione</h2>
+<h3 id="librerie-di-java">Librerie di Java</h3>
+<pre><code>*  Documentazione auto-generata, consultabile offline, o online: &lt;br&gt; https://docs.oracle.com/en/java/javase/11/docs/api/ &lt;br&gt; (google search "`javadoc 11`")
+*  contano più di 4000 classi, raggruppate in 200+ *__package__* (e 50+ *__moduli__*)
+</code></pre>
+<h3 id="package">Package</h3>
+<pre><code>*  un package è un contenitore di classi con uno scopo comune, di alto livello
+*  tipicamente un package contiene qualche decina di classi
+*  i package sono organizzati ad albero, con notazione \cil{nome1.nome2.nome3}
+*  Package principali: \cil{java.lang}, \cil{java.util}, \cil{java.io}
+</code></pre>
+</section><section>
+<h2 id="package-moduli-e-librerie-java-moduli">Package, moduli e librerie Java: moduli</h2>
+<h3 id="moduli-java-9">Moduli (Java 9+)</h3>
+<pre><code>*  un modulo definisce un frammento di codice "autonomo":{
+
+*  testabile, distribuibile, con chiara interfaccia e dipendenze da altri
+</code></pre>
+<p>}
+*  p.e., \cil{java.base}, \cil{java.desktop}, \cil{java.sql}, \cil{java.xml}
+*  librerie esterne compatibili con Java 9+ sono distribuite in uno o più moduli
+*  un modulo è costituito internamente da uno o più package
+*  p.e., \cil{java.base} contiene i package principali che useremo</p>
+<h3 id="impatto-sulla-programmazione-base">Impatto sulla programmazione “base”</h3>
+<pre><code>*  il concetto di modulo *__non impatta__* i sorgenti, ma solo il "project management": per il momento non ce ne occuperemo perché il JDK fornisce "di default" accesso a tutti i moduli che ci servono (\cil{java.*})
+*  il concetto di package *__invece impatta__* i sorgenti: il nome completo di una classe dipende dal package in cui si trova 
+</code></pre>
+</section><section>
+<h2 id="package-moduli-e-librerie-java-uso">Package, moduli e librerie Java: uso</h2>
+<h3 id="importare-una-classe-di-libreria">Importare una classe di “libreria”</h3>
+<pre><code>*  per usare le classi di una libreria prima le si importa
+*  lo si fa con la clausola \cil{import}, da usare all'inizio del sorgente
+{
+
+  *  importo la singola classe: \cil{import java.util.Date;}
+  *  importo l'intero package: \cil{import java.util.*;}
+  *  importazione di default: \cil{import java.lang.*;}
+</code></pre>
+<p>}
+*  senza importazioni, ogni classe andrebbe sempre qualificata indicandone anche il package completo: \cil{java.util.Date obj = new java.util.Date();}
+*  importare evita quindi solo di dover indicare ogni volta il package</p>
+<h3 id="classi-e-funzionalità-deprecate">Classi (e funzionalità) “deprecate”</h3>
+<pre><code>*  dichiarate come "scadute", ossia preferibilmente "da non usare più" (legacy)
+*  noi le utilizzeremo per scopi didattici
+*  p.e. \cil{java.util.Date}
+</code></pre>
+</section><section>
+<h2 id="stampe-su-schermo">Stampe su schermo</h2>
+<h3 id="la-procedura-di-stampa-cilsystemoutprintln">La procedura di stampa \cil{System.out.println}</h3>
+<pre><code>*  \cil{System} è una classe nel package \cil{java.lang}
+*  \cil{out} è un suo campo statico, rappresenta lo standard output
+*  \cil{println} è un metodo che accetta una stringa e la stampa
+*  l'operatore \cil{+} concatena stringhe a valori
+%*  \cil{format} è un analogo metodo usabile in stile "\cil{printf}"
+</code></pre>
+<p>\code{code/print.java}</p>
+</section><section>
+<h2 id="hello-world-java-program">“Hello world” Java Program</h2>
+<p>\titledcode{Hello.java}{exec/Hello.java}</p>
+<h3 id="compilazione-ed-esecuzione">Compilazione ed esecuzione</h3>
+<pre><code>*  con un editor di testo si scrive la classe in un file \cil{Hello.java}
+*  si compila la classe col comando: \cil{javac Hello.java}
+*  se non ci sono errori, viene generato il *__bytecode__* \cil{Hello.class}
+*  si esegua il programma con: \cil{java Hello}
+*  la JVM cerca la classe \cil{Hello}, e ne esegue il \cil{main}
+</code></pre>
+</section><section>
+<h2 id="librerie-oggetti-e-stampe">Librerie, oggetti, e stampe</h2>
+<p>\sizedcode{\scriptsize}{exec/PrintingObjects.java}</p>
+</section><section>
+<h2 id="il-caso-delle-classi-wrapper-dei-tipi-primitivi">Il caso delle classi Wrapper dei tipi primitivi</h2>
+<h3 id="le-classi-wrapper">Le classi Wrapper</h3>
+<pre><code>  *  ce ne è una per tipo primitivo, nel package \cil{java.lang}{
+
+     *  \cil{Integer}, \cil{Double}, \cil{Boolean},...
+</code></pre>
+<p>}
+*  hanno qualche metodo utile per fare conversioni
+*  poco usate per il momento</p>
+<p>\srcode{\ssmall}{3}{100}{\ecl/Wrappers.java}</p>
+</section><section>
+<h2 id="una-nuova-classificazione-dei-tipi">Una nuova classificazione dei tipi</h2>
+<p><img src="img/types.pdf" alt=""></p>
+</section><section>
+<h2 id="costruire-e-provare-classi">Costruire e provare classi</h2>
+<p>\sizedcode{\scriptsize}{exec/Point3D.java}</p>
+</section><section>
+<h2 id="classi-e-classi-clienti">Classi, e classi clienti</h2>
+<p>\sizedcode{\tiny}{code/Point3D_a.java}
+\sizedcode{\tiny}{exec/UsePoint3D.java}
+\vspace{-10pt}</p>
+<ul>
+<li>si compilano separatamente, o con: \cil{javac *.java}</li>
+<li>si esegue a partire dalla classe col \cil{main}: \cil{java UsePoint3D}</li>
+</ul>
+</section><section>
+<h2 id="preview-del-prossimo-laboratorio">Preview del prossimo laboratorio</h2>
+<h3 id="obbiettivi">Obbiettivi</h3>
+<pre><code>*  familiarizzare con la compilazione da linea di comando in Java
+*  fare qualche esercizio con la costruzione e uso di classi
+</code></pre>
+</section><section>
+<p>\end{document}</p>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src="/reveal-hugo/object-assign.js"></script>
+
+<a href="/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
+
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"900","highlight_theme":"pastie","history":true,"mermaid":[{"startOnLoad":false}],"slide_number":true,"theme":"white","transition":"slide","transition_speed":"fast","width":"1440"}</script>
+<script type="application/json" id="reveal-hugo-page-params">null</script>
+
+<script src="/reveal-js/dist/reveal.js"></script>
+
+
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/zoom/zoom.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+
+  var revealHugoPlugins = { 
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ]
+   };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams),
+    camelize(revealHugoPlugins));
+  Reveal.initialize(options);
+</script>
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({"startOnLoad":false});
+
+    let render = (event) => {
+      let mermaidElems = event.currentSlide.querySelectorAll('.mermaid');
+      if (!mermaidElems.length){
+          return
+      }
+      mermaidElems.forEach(mermaidElem => {
+          let processed = mermaidElem.getAttribute('data-processed');
+          if (!processed){
+              
+              mermaid.init(undefined, mermaidElem);
+          }
+      });
+    };
+    Reveal.addEventListener('slidechanged', render);
+    Reveal.addEventListener('ready', render);
+  </script>
+
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+    
+  
+
+</body></html>
