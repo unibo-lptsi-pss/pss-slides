@@ -68,5 +68,5 @@ jobs:
         with:
           branch: master
           folder: lecture-markdown/build
-          repository-name: unibo-lptsi-pss.github.io
+          repository-name: unibo-lptsi-pss/unibo-lptsi-pss.github.io
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
