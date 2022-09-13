@@ -103,7 +103,6 @@ section.has-light-background {
 
 .reveal pre {
 	width: min-content;
-	min-width: 70%;
 	max-width: 113%;
 	margin: 0em;
 	padding: 0em;
@@ -129,13 +128,14 @@ section.has-light-background {
 	// font-weight: normal;
 }
 
-
 .reveal div.highlight {
 	max-width: 120%;
 	overflow-x: visible;
 	display: flex;
 	justify-content: center;
 	margin: 0;
+	margin-top: -0em;
+	margin-bottom: .8em;
 }
 
 .reveal h3 {
