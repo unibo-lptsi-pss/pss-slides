@@ -31,7 +31,8 @@ aliases = ["/intro/"]
 # Contatti
 
 ### Come contattare
-* Attraverso il forum per domande la cui risposta è di interesse generale
+* Attraverso il **forum** per domande la cui risposta è di interesse generale
+  * https://virtuale.unibo.it/mod/forum/view.php?id=952233
   * tutte le domande tecniche
   * tutte le domande sull'organizzazione
 * Via email *tenendo in copia tutti i docenti*
@@ -140,4 +141,4 @@ aliases = ["/intro/"]
 
 ## Attenzione a chi è già "fluente" in linguaggi ad oggetti
 * Java o C#
-* è difficile disimparare le ``bad practice''...
+* è difficile disimparare le cattive abitudini!

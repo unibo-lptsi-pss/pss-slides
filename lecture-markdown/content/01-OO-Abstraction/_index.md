@@ -44,8 +44,8 @@ $\Rightarrow$ utilizzando i concetti dei *__sistemi ad oggetti__*, che sono "mai
 ### Caratteristiche comuni
 *  Non meri programmi, ma sistemi "pilotati" da software
 *  Includono componenti algoritmiche, ma anche interazioni complesse
-*  Alcuni realizzabili già alla fine di questo corso OOP, altri nei 5 anni
-  
+*  Alcuni realizzabili già alla fine di questo corso, altri richiedono maggiore expertise
+
 ---
 
 
@@ -144,10 +144,10 @@ il problema (realizzate mediante i linguaggi e le tecnologie scelte e a fronte d
   
 ### Linguaggi e livelli di astrazione / paradigma
 *  C, Pascal: Computing function/procedure over data structures
-*  Lisp,ML: Everything is a function
+*  Lisp, ML: Everything is a function
 *  Prolog: Everything is a decision predicate
-*  Java,C++,C\#: Everything is an object (OO Programming)
-* $\Rightarrow$ L'OOP si è dimostrata ideale per sistemi complessi general-purpose
+*  Java, C++, C\#: Everything is an object (OO Programming)
+* $\Rightarrow$ L'OOP si è dimostrata efficace per sistemi complessi general-purpose
   
 ### L'evoluzione del "mainstream"
 Machine Lang $\xrightarrow{1950-1960}$ Assembly $\xrightarrow{1970-'190}$ C $\xrightarrow{'90-2000}$ OOP (Java,..) $\xrightarrow{?}$ ?
@@ -163,16 +163,17 @@ Machine Lang $\xrightarrow{1950-1960}$ Assembly $\xrightarrow{1970-'190}$ C $\xr
 ## I vantaggi della programmazione ad oggetti
   
 ### Vantaggi
-*  Poche astrazioni chiave (classe, oggetto, metodo, campo)
+*  *Poche astrazioni* chiave (classe, oggetto, metodo, campo)
 *  Usabili sia in progettazione che in codifica
-*  Supporto a estendibilità e riuso
+*  Supporto a *estendibilità e riuso*
 *  Supporto alla costruzione di librerie di qualità
 *  Facilmente integrabile in linguaggi C-like
 *  Eseguibile con alta efficienza
-    * $\Rightarrow$ (quasi) tutti aspetti da discutere nel corso
+
+$\Rightarrow$ (quasi) tutti aspetti da discutere nel corso
 
 ### Le critiche all'OOP
-*  Serve molta disciplina per "scalare" bene con la complessità del problema
+*  Serve molta *disciplina* per "scalare" bene con la complessità del problema
 *  Altri paradigmi (fra cui quello funzionale) suggeriscono come farlo...
 
 ---
