@@ -107,8 +107,6 @@ section.has-light-background {
 	margin: 0em;
 	padding: 0em;
 	border-radius: 1em;
-	padding-left: 1em;
-	padding-right: 1em;
 	border: #000;
 	border-width: 1em;
 	box-shadow: 0.4em 0.4em 1em .01em #888888;
@@ -126,6 +124,15 @@ section.has-light-background {
 	// line-height: 1.2em;
 	// font-size: 1.5em;
 	// font-weight: normal;
+	padding-left: 1em;
+	padding-right: 1em;
+	padding-top: .5em;
+	padding-bottom: .5em;
+	border: #000000AA;
+	border-style: solid;
+	border-width: .1em;
+	border-radius: .50em;
+	// box-sizing: border-box;
 }
 
 .reveal div.highlight {

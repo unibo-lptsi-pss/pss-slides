@@ -230,7 +230,7 @@ Object on = null; // Riferimento speciale al valore null
 
 ### Premesse
 * la *__classe__* è l'unità fondamentale di programmazione OO
-* progettare e costruire classi correttamente sarà l'obbiettivo del corso
+* progettare e costruire classi correttamente sarà l'obiettivo del corso
 * incominciamo descrivendo la loro struttura generale
 * solo nelle prossime lezioni daremo linee guida definitive
 
