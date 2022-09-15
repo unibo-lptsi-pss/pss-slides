@@ -148,7 +148,7 @@ il problema (realizzate mediante i linguaggi e le tecnologie scelte e a fronte d
 *  Prolog: Everything is a decision predicate
 *  Java, C++, C\#: Everything is an object (OO Programming)
 * $\Rightarrow$ L'OOP si è dimostrata efficace per sistemi complessi general-purpose
-  
+
 ### L'evoluzione del "mainstream"
 Machine Lang $\xrightarrow{1950-1960}$ Assembly $\xrightarrow{1970-'190}$ C $\xrightarrow{'90-2000}$ OOP (Java,..) $\xrightarrow{?}$ ?
   
@@ -324,7 +324,7 @@ Coerenza: $\Rightarrow$ Se sembra che un oggetto realizzi due servizi diversi, a
 
 ```mermaid
 classDiagram
-classC *-- classD
+Car *-- Engine
 ```
 
 ---
