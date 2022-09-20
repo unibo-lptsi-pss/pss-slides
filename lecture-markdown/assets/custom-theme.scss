@@ -233,10 +233,14 @@ section.has-light-background {
 	border-style: none;
 }
 
-// body > div.reveal.no-hover.slide.center.focused.has-horizontal-slides.ready > div.slides > section.present > span > div {
+// allineo a sx il testo delle slide
+.slides section {
+  text-align: left;
+}
 
-// 	text-align: left;
-// }
+.slides h3 {
+  color: #a00;
+}
 
 // .mermaid foreignObject {
 // 	text-align: left;

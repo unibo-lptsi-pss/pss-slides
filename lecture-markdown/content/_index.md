@@ -1,4 +1,4 @@
- 
+
 +++
 
 title = "Progettazione e Sviluppo del Software"
@@ -14,3 +14,4 @@ outputs = ["Reveal"]
 * [Introduzione al corso](intro/)
 * [Astrazione orientata agli oggetti](oo-abstraction/)
 * [Oggetti e classi](objects/)
+* [Programmazione strutturata in Java](java-structured-programming/)
