@@ -211,7 +211,6 @@ new Object() == new Object() // false (confronta i riferimenti)
 {{% import-raw path="code/java-structured/Try.java" %}}
 ```
 
-
 ---
 
 
@@ -799,7 +798,7 @@ for(var v: array){ /* uso di v */ }
 ### Esempi comuni d'errore
 
 
-  *  Uso inappropriato dei tipi: 
+  *  Uso inappropriato dei tipi:
 ```
 int a=true;
 int a=5+false;
