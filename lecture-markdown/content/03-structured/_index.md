@@ -60,7 +60,7 @@ aliases = ["/java-structured-programming/"]
 
 
   *  È un meccanismo per classificare valori (e oggetti)
-  *  È costituito da un nome, un set di valori, e un set di operatori/meccanismi per manipolarli
+  *  Un *tipo* è costituito da un *nome*, un *set di valori*, e un *set di operatori*/meccanismi per manipolarli
 
 
 
@@ -69,9 +69,9 @@ aliases = ["/java-structured-programming/"]
 
 
 
-  *  Primitivi: `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `char`
-  *  Array: `boolean[]`, `byte[]`, `String[]`, `String[][]`, $\ldots$
-  *  Classi: `Object`, `String`, `Integer`, `ArrayList`, `JFrame`, $\ldots$
+  *  *Primitivi*: `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `char`
+  *  *Array*: `boolean[]`, `byte[]`, `String[]`, `String[][]`, $\ldots$
+  *  *Classi*: `Object`, `String`, `Integer`, `ArrayList`, `JFrame`, $\ldots$
   *  Altri che vedremo in seguito: interfacce, classi innestate, generici, ...
 
 
@@ -79,8 +79,8 @@ aliases = ["/java-structured-programming/"]
 
 ### Java e i tipi
 
-  * Java ha "typing statico": ogni espressione ha un tipo noto al compilatore
-  * Java ha "typing forte": non si accettano espressioni con errori di tipo
+  * Java ha *"typing statico"*: ogni espressione ha un tipo noto al compilatore
+  * Java ha *"typing forte"*: non si accettano espressioni con errori di tipo
   * $\Rightarrow$ .. permette l'intercettazione a priori di molti errori
   * $\Rightarrow$ .. disciplina progettazione e programmazione
 
@@ -88,24 +88,22 @@ aliases = ["/java-structured-programming/"]
 ---
 
 
-## Booleani
+## Tipo Booleano
 
+  * Nome del tipo: `boolean`
+  *  *Valori*: `true`, `false`
 
-
-### Nome: `boolean`
-
-
-
-  *  Valori: `true`, `false`
   *  Operatori unari: `!` (not)
-  *  Operatori binari: `\&` (and), `|` (or), \string^ (xor), `\&\&` (and-c), `||` (or-c)
+  *  Operatori binari: `&` (and), `|` (or), `^` (xor), `&&` (and-c), `||` (or-c)
       * `&&` e `||` valutano il secondo argomento solo se necessario
       * `false && X` dà comunque `false`
       * `true || X` dà comunque `true`
   *  Operatori di confronto numerici: `>`, `<`, `>=`, `<=`
   *  Operatori di uguaglianza (su tutti i tipi): `==`, `!=`
-      * `10 == 20` (`false`)
-      * `new Object() == new Object()` (`false`, confronta i riferimenti)
+```java
+10 == 20`                    // false
+new Object() == new Object() // false (confronta i riferimenti)
+```
   *  Operatore ternario (booleano,tipo,tipo): `?:`
       *  `b ? v1 : v2` restituisce `v1` se `b` è vero, `v2` altrimenti
 
@@ -134,7 +132,7 @@ aliases = ["/java-structured-programming/"]
 
 
   *  Base: `+`, `-`, `*`, `/` (con resto), `%` (resto), `+` e `-` anche unari
-  *  Bit-a-bit: `\&` (and), `|` (or), \string^ (xor), \string~ (not)
+  *  Bit-a-bit: `&` (and), `|` (or), `^` (xor), `~` (not)
   *  Shift: `>>` (dx senza segno), `<<` (sx), `>>>` (dx con segno)
   *  Operatori unari/binari applicati ad un tipo, restituiscono il tipo stesso
 
@@ -146,8 +144,8 @@ aliases = ["/java-structured-programming/"]
 
 
   *  Interi codificati in complemento a 2 (ciò impatta il suo range)
-  *  Rappresentazione decimale (200), ottale (0310), esadecimale (0xC8)
-  *  Di default sono `int`, per avere un `long` va aggiunta una `L` (15L)
+  *  Rappresentazione decimale (`200`), ottale (`0310`), esadecimale (`0xC8`)
+  *  Di default sono `int`, per avere un `long` va aggiunta una `L` (`15L`)
 
 
 
@@ -156,8 +154,8 @@ aliases = ["/java-structured-programming/"]
 
 
 
-  *  Raro l'uso di `byte` e `short`, non molto più efficienti di `int`
-  *  `int` più efficiente di `long`
+*  Raro l'uso di `byte` e `short`, non molto più efficienti di `int`
+*  `int` più efficiente di `long`
 
 
 
@@ -184,7 +182,7 @@ aliases = ["/java-structured-programming/"]
 
 
   *  Codificati secondo lo standard IEEE 754
-  *  Rappresentazione standard (-128.345), o scientifica (-1.2835E+2)
+  *  Rappresentazione standard (`-128.345`), o scientifica (`-1.2835E+2`)
   *  Di default sono `double`, per avere un `float` va aggiunta una `F`
 
 
@@ -351,27 +349,30 @@ aliases = ["/java-structured-programming/"]
 
 
 *  Due notazioni, per elenco e per dimensione
-    *  `int[] ar1 = new int[]{10,20,30,40,50,7,8,9};`
-    *  `int[] ar2 = new int[200]; // new int[]{0,0,...,0}`
-    *  (variante con `var`: `var ar3 = new int[]{10,20,30}`)
-    *  (variante senza `new`: `new : int[] ar4 = {10,20,30}`)
+```java
+int[] ar1 = new int[]{10,20,30,40,50,7,8,9};
+int[] ar2 = new int[200];      // new int[]{0,0,...,0}
+var ar3 = new int[]{10,20,30}; // variante con `var`
+int[] ar4 = {10,20,30}`        // variante senza `new`
+```
 *  quando creati per dimensione, gli elementi sono inizializzati come se fossero campi di una classe
 *  la creazione di array di array è analoga:
-    *  `int[][] m = new int[][]{new int[]{..},..};`
-    *  `int[][] m2 = new int[200][200];`
-
+```java
+int[][] m = new int[][]{new int[]{..},..};
+int[][] m2 = new int[200][200];
+```
 
 
 
 
 ### Accesso array
 
-
-
-  *  `ar1.length // lunghezza`
-  *  `ar2[23] // espressione per leggere 24-esimo elemento`
-  *  `ar2[23]=10; // assegnamento del 24-esimo elemento`
-  *  `m[1][2]=10; // assegnamento riga 2 colonna 3`
+```java
+ar1.length  // lunghezza
+ar2[23]     // espressione per leggere 24-esimo elemento
+ar2[23]=10; // assegnamento del 24-esimo elemento
+m[1][2]=10; // assegnamento riga 2 colonna 3
+```
 
 
 
@@ -442,7 +443,12 @@ Object[] ar2 = new Object[200];
 
 
 
-  *  Variabili e assegnamenti: `int x;`   `int x=5;`    `var x=5;`   `x=5;`
+  *  Variabili e assegnamenti:
+```java
+int x;              // dichiarazione
+int x=5;  var x=5;  // dichiarazione e inizializzazione (assegnamento)
+x=5;                // assegnamento
+```
   *  Ritorno: `return 5;`
   *  Chiamate: `meth(3,4);` `obj.meth(3);`  `cls.meth(4);`
   *  Costrutti: `for`, `while`, `do`, `switch`, `if`, `break`, `continue`
@@ -498,11 +504,9 @@ for(int i=0;i<10;i++){..}
 
 ### Un uso limitato (ma a volte utile) di Java
 
-
-
   *  Una classe ha solo metodi o campi dichiarati `static`
   *  In questo caso tale classe definice un insieme di funzioni pure e variabili globali (a quella classe), ossia una struttura analoga a quella di una libreria C
-  *  Un metodo (o campo) statico viene richiamato nel seguente modo:{
+  *  Un metodo (o campo) *statico* viene richiamato nel seguente modo:
       *  da fuori la classe (se dichiarato `public`): `<nome-classe>.<nome-metodo>(...)`
       *  da dentro la classe: `<nome-metodo>(...)`
   *  E' una tecnica usata per realizzare "utility class", come ad esempio la classe delle funzioni matematiche `java.lang.Math`
@@ -795,7 +799,7 @@ for(var v: array){ /* uso di v */ }
 ### Esempi comuni d'errore
 
 
-  *  Uso inappropriato dei tipi: ``
+  *  Uso inappropriato dei tipi: 
 ```
 int a=true;
 int a=5+false;
@@ -885,9 +889,3 @@ if (5) ..
 *  Prediligeremo sempre la soluzione più semplice/compatta
 *  Ci si aspetta non si usino soluzioni sia più complesse che più lente
 *  Ci si aspetta che si sappiano allocare correttamente le risorse (memoria, tempo) qualora richiesto
-
-
-
-
-
----
