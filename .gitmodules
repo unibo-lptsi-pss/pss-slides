@@ -4,3 +4,6 @@
 [submodule "lecture-markdown/themes/reveal-hugo"]
 	path = lecture-markdown/themes/reveal-hugo
 	url = https://github.com/cric96/reveal-hugo.git
+[submodule "lecture-markdown/pss-code"]
+	path = lecture-markdown/pss-code
+	url = git@github.com:unibo-lptsi-pss/pss-code.git
