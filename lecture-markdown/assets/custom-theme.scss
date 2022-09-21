@@ -94,9 +94,9 @@ section.has-light-background {
 
 .reveal code {
 	color: rgb(209, 28, 124);
-	line-height: 130%;
+	line-height: 120%;
 	font-weight: bold;
-	font-size: 110%;
+	font-size: 105%;
 	font-family: "Inconsolata";
 	// font-family: "JetBrains Mono", "Oxygen Mono", "Roboto Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 	// font-weight: bold;
@@ -153,6 +153,25 @@ section.has-light-background {
 
 .reveal ul {
 	margin: .2em .2em .2em;
+}
+
+.reveal li ul {
+	list-style: none;
+}
+
+.reveal li li {
+	margin-left: .2em;
+	font-size: 90%;
+}
+
+
+.reveal li li:before {
+	font-size: 70%;
+	line-height: 1.8em;
+	content: '▶';
+	margin-left: 1.2em;
+	position: absolute;
+	left: 0;
 }
 
 .gist-it-gist .gist-file .gist-data pre, .gister-gist .gist-file .gist-data pre {
@@ -254,3 +273,10 @@ section.has-light-background {
 // .mermaid span.nodelabel {
 // 	font-size: 40em;
 // }
+
+.container{
+    display: flex;
+}
+.col{
+    flex: 1;
+}

@@ -5,3 +5,4 @@ _gen/
 *.hprof
 *build.lock
 pid
+node_modules/

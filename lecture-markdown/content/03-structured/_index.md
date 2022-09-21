@@ -38,7 +38,7 @@ aliases = ["/java-structured-programming/"]
     - lifetime di oggetti va oltre lo scope; no deallocazione manuale (cf. *GC*)
     - classi: *campi* & *metodi* (statici o d'istanza) -- accedibili mediante _dot notation_
     - concetto di *receiver* di una *method call* e variabile speciale `this`
-    - *programmi*: `public static void main(String[] args)` in classe pubblica
+    - *programmi*: metodo pubblico statico `main` in classe pubblica
 - Strumenti: compilazione con `javac` ed esecuzione con `java`
 
 _Competenza attuale attesa: costruzione di semplici classi; loro esercizio mediante programmi; compilazione ed esecuzione di programmi_
@@ -73,7 +73,21 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
   *  Elementi iniziali di buona programmazione
 
 
+---
 
+
+## Il tool `JShell`
+
+
+
+### JShell (JDK 9+)
+
+
+
+  *  richiamabile da linea di comando: `jshell`
+  *  è una console Java, dove si possono eseguire istruzioni vedendone subito l'effetto
+  *  si ispira a tool *REPL (Read-Eval-Print Loop)* di altri linguaggi
+  *  non molto usata, ma utile per veloci esperimenti (cf. slide seguenti)
 
 
 ---
@@ -111,8 +125,8 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 
 ### Java e i tipi
 
-  * Java ha *"typing statico"*: ogni espressione ha un tipo noto al compilatore
-  * Java ha *"typing forte"*: non si accettano espressioni con errori di tipo
+  * Java ha *tipizzazione statica*: ogni espressione ha un tipo noto dal compilatore
+  * Java ha *tipizzazione forte*: non si accettano espressioni con errori di tipo
   * $\Rightarrow$ .. permette l'intercettazione a priori di molti errori
   * $\Rightarrow$ .. disciplina progettazione e programmazione
 
@@ -123,13 +137,13 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 ## Tipo Booleano
 
   * Nome del tipo: `boolean`
-  *  *Valori*: `true`, `false`
+  * Valori: `true`, `false`
 
   *  Operatori unari: `!` (not)
   *  Operatori binari: `&` (and), `|` (or), `^` (xor), `&&` (and-c), `||` (or-c)
-      * `&&` e `||` valutano il secondo argomento solo se necessario
-      * `false && X` dà comunque `false`
-      * `true || X` dà comunque `true`
+      * `&&` e `||` valutano il secondo argomento solo se necessario (*short-circuiting*)
+      * `false && X` restituisce `false` senza valutare `X`
+      * `true || X` restituisce `true` senza valutare `X`
   *  Operatori di confronto numerici: `>`, `<`, `>=`, `<=`
   *  Operatori di uguaglianza (su tutti i tipi): `==`, `!=`
 ```java
@@ -255,32 +269,11 @@ new Object() == new Object() // false (confronta i riferimenti)
 ---
 
 
-## Il tool `JShell`
-
-
-
-### JShell (JDK 9+)
-
-
-
-  *  richiamabile da linea di comando: `jshell`
-  *  è una console Java, dove si possono eseguire istruzioni vedendone subito l'effetto.. via via
-  *  si ispira a tool REPL di altri linguaggi
-  *  non molto usata, ma utile per veloci esperimenti
-
-
-
-
-
----
-
-
-
 ## Conversioni
 
 
 
-### Conversioni di tipo, dette anche *__cast__*: `(tipo)valore`
+### Conversioni di tipo, dette anche *cast*: `(tipo)valore`
 
 
 
@@ -291,13 +284,13 @@ new Object() == new Object() // false (confronta i riferimenti)
 
 
 
-### Conversioni automatiche, dette anche *__coercizioni__*
+### Conversioni automatiche, dette anche *coercizioni*
 
 
 
   *  Le inserisce automaticamente il compilatore in certi casi
   *  Quando ci si aspetta un tipo, e si usa un valore diverso
-  *  Solo da un tipo più specifico a uno più generale
+  *  Solo da un tipo più specifico a uno più generale (*promozione*)
       *  (+ Specifico $\rightarrow$ + Generale) `byte`$\rightarrow$`short`$\rightarrow$`int`$\rightarrow$`long`$\rightarrow$`float`$\rightarrow$`double`
   *  Due casi:
       *  In assegnamenti: `long l=100;` diventa `long l=(long)100;`
@@ -316,7 +309,7 @@ new Object() == new Object() // false (confronta i riferimenti)
 
 
 
-### Rappresentazione
+### Rappresentazione (esterna)
 
   *  Singolo carattere: `'a'`, `'z'`, `'A'`, `'='`
   *  Codice ASCII: 65 (`'A'`), 66 (`'B'`)
@@ -326,9 +319,7 @@ new Object() == new Object() // false (confronta i riferimenti)
 
 
 
-### Codifica
-
-
+### Codifica (rappresentazione interna)
 
   *  16 bit UTF16
   *  automaticamente convertibile ad un numerico fra 0 e 65535
@@ -358,7 +349,7 @@ new Object() == new Object() // false (confronta i riferimenti)
 
 
 
-  *  Internamente sono degli oggetti
+  *  Internamente sono degli oggetti (cf. creazione con `new`)
   *  Quindi sono gestiti con riferimenti sullo heap
   *  Notazione ad-hoc (e C-like) per creare, leggere e scrivere elementi
 
@@ -369,8 +360,8 @@ new Object() == new Object() // false (confronta i riferimenti)
 
 
 
-  *  Un array ha una lunghezza esplicita e accessibile (non modificabile)
-  *  È impossibile violare i limiti di una array, pena un errore (`ArryIndexOutOfBoundsException`)
+  *  Un array ha una lunghezza (campo `length`) esplicita e accessibile (non modificabile)
+  *  È impossibile violare i limiti di una array, pena un errore (`ArrayIndexOutOfBoundsException`)
   *  L'accesso all'array è di conseguenza leggermente rallentato
 
 
@@ -388,30 +379,31 @@ new Object() == new Object() // false (confronta i riferimenti)
 
 
 
-*  Due notazioni, per elenco e per dimensione
+* Due notazioni, per elenco (elencazione di valori) 
+  ```java
+  int[] ar1 = new int[]{10,20,30,40,50,7,8,9};
+  var   ar2 = new int[]{10,20,30}; // variante con `var`
+  int[] ar3 = {10,20,30};          // variante senza `new`
+  ```
+  e per dimensione
+  ```java
+  int[] ar4 = new int[200];        // new int[]{0,0,...,0}
+  ```
+    *  quando creati per dimensione, gli elementi sono inizializzati (come se fossero campi di una classe)
+*  la creazione di array di array (*matrici*) è analoga:
+
 ```java
-int[] ar1 = new int[]{10,20,30,40,50,7,8,9};
-int[] ar2 = new int[200];      // new int[]{0,0,...,0}
-var ar3 = new int[]{10,20,30}; // variante con `var`
-int[] ar4 = {10,20,30}`        // variante senza `new`
-```
-*  quando creati per dimensione, gli elementi sono inizializzati come se fossero campi di una classe
-*  la creazione di array di array è analoga:
-```java
-int[][] m = new int[][]{new int[]{..},..};
+int[][] m  = new int[][]{ new int[]{...}, ... };
 int[][] m2 = new int[200][200];
 ```
 
-
-
-
-### Accesso array
+### Accesso array (*zero-indexed*)
 
 ```java
-ar1.length  // lunghezza
-ar2[23]     // espressione per leggere 24-esimo elemento
-ar2[23]=10; // assegnamento del 24-esimo elemento
-m[1][2]=10; // assegnamento riga 2 colonna 3
+ar4.length    // 200 (lunghezza)
+ar4[23]       // espressione per leggere 24-esimo elemento
+ar4[23] = 10; // assegnamento del 24-esimo elemento
+m[1][2] = 10; // assegnamento riga 2 colonna 3
 ```
 
 
@@ -474,7 +466,8 @@ Object[] ar2 = new Object[200];
 
   *  Come C++ e C\#, Java è alla base anche imperativo/strutturato -- altri linguaggi come Scala invece no
   *  Il codice di un metodo è un insieme di comandi C-like
-  *  Ecco perché li si chiama object-oriented e non object-based
+<!--  *  Ecco perché li si chiama object-oriented e non object-based -->
+<!-- In realtà: object-based PLs consentono di creare e usare oggetti; quelli object-oriented forniscono inoltre supporto per ereditarietà e polimorfismo -->
 
 
 
@@ -490,8 +483,8 @@ int x=5;  var x=5;  // dichiarazione e inizializzazione (assegnamento)
 x=5;                // assegnamento
 ```
   *  Ritorno: `return 5;`
-  *  Chiamate: `meth(3,4);` `obj.meth(3);`  `cls.meth(4);`
-  *  Costrutti: `for`, `while`, `do`, `switch`, `if`, `break`, `continue`
+  *  Chiamate: `meth(3,4);` `obj.meth(3);`  `Cls.meth(4);`
+  *  Costrutti di controllo del flusso: `for`, `while`, `do`, `switch`, `if`, `break`, `continue`
   *  Qualche altra tipologia, che vedremo nel prosieguo
 
 
@@ -509,12 +502,21 @@ x=5;                // assegnamento
 
 
 
-*  La condizione dell'`if`, `for`, `while` e `do` è un `boolean`
-*  Nel `for` è possibile dichiarare la variabile di ciclo (come nel C99), sarà visibile solo internamente
-```java
-for(int i=0;i<10;i++){..}
-```
+* No coercizione da altri tipi verso `boolean` (cf. strong typing)
+    * Nota: la condizione dell'`if`, `for`, `while` e `do` è un `boolean`
+  ```java
+  boolean b = 1;            // ERROR: incompatible types: int cannot be converted to boolean
+  boolean b = (boolean) 1;  // incompatible types: int cannot be converted to boolean
+  if(1){ /* ... */ }        // ERROR: incompatible types: int cannot be converted to boolean
+  ```
+* No puntatori, no de/allocazione manuale di oggetti
 
+<!--
+*  Nel `for` è possibile dichiarare la variabile di ciclo (come nel C99), che sarà visibile solo internamente
+```java
+for(int i=0; i<10; i++){ /* .. */ }
+```
+--->
 
 
 
@@ -531,25 +533,19 @@ for(int i=0;i<10;i++){..}
 *  Può sembrare una filosofia che rende la programmazione "rigida", e invece è cruciale per supportare lo sviluppo di software di qualità
 *  Le prassi che discuteremo ci porteranno ulteriori rigidità
 
-
-
-
-
 ---
 
 
-## Java come linguaggio puramente strutturato
-
-
+## Java come linguaggio puramente strutturato-procedurale
 
 ### Un uso limitato (ma a volte utile) di Java
 
   *  Una classe ha solo metodi o campi dichiarati `static`
-  *  In questo caso tale classe definice un insieme di funzioni pure e variabili globali (a quella classe), ossia una struttura analoga a quella di una libreria C
-  *  Un metodo (o campo) *statico* viene richiamato nel seguente modo:
+  *  In questo caso tale classe definice un insieme di *funzioni/procedure* e *variabili globali* (a quella classe), ossia una struttura analoga a quella di una libreria C
+  *  Un metodo (o campo) *__statico__* viene richiamato nel seguente modo:
       *  da fuori la classe (se dichiarato `public`): `<nome-classe>.<nome-metodo>(...)`
       *  da dentro la classe: `<nome-metodo>(...)`
-  *  E' una tecnica usata per realizzare "utility class", come ad esempio la classe delle funzioni matematiche `java.lang.Math`
+  *  E' una tecnica usata per realizzare *utility class*, come ad esempio la classe delle funzioni matematiche `java.lang.Math`
 
 
 ---
@@ -595,7 +591,7 @@ Costruire una funzione che dato un array ne produce in uscita uno della stessa l
 
    *  supporta l'astrazione di "per ogni elemento della collezione fai.."
    *  utile con gli array quando non importa il valore corrente dell'indice
-   *  utilizzabile anche con le Collection di Java (liste, insiemi,..)
+   *  utilizzabile con oggetti *iterabili*, quindi anche con le Collection di Java (liste, insiemi,..)
 
 
 
@@ -692,8 +688,8 @@ for(var v: array){ /* uso di v */ }
 
 
 
-  *  `java.io.Console.readLine` usabile per leggere input da tastiera
-  *  `java.lang.Integer.parseInt` usabile per convertire una stringa in un numero
+  *  `java.io.Console#readLine` usabile per leggere input da tastiera (console ottenibile da `System.console()`, se associata alla JVM in uso)
+  *  `java.lang.Integer.parseInt(String)` usabile per convertire una stringa in un numero
   *  `java.util.Random.nextInt` usabile per ottenere un numero random
 
 
@@ -741,8 +737,8 @@ for(var v: array){ /* uso di v */ }
 
 
   *  Performance adeguate (alle specifiche)
-  *  Uso adeguato delle risorse del sistema (memoria, CPU)
-  *  Caratteristiche di sicurezza, usabilità, etc..
+  *  Uso efficiente/adeguato delle risorse del sistema (memoria, CPU)
+  *  Caratteristiche di sicurezza, affidabilità, usabilità, etc..
 
 
 
@@ -753,7 +749,7 @@ for(var v: array){ /* uso di v */ }
 
   *  Facilmente manutenibile (leggibile, flessibile, riusabile)
   *  E quindi: meno "costoso", a breve-/medio-/lungo-termine
-  * $\Rightarrow$ ci concentriamo per ora su questa tipologia
+      * ci concentriamo per ora su questa tipologia
 
 
 
@@ -762,30 +758,21 @@ for(var v: array){ /* uso di v */ }
 ---
 
 
-## Caratteristiche di qualità interna
+## Caratteristiche di *qualità interna*
 
 
 
 ### Elementi necessari per il funzionamento
 
-
-
   *  *Sintassi*: soddisfa la grammatica del linguaggio
   *  *Semantica*: passa tutti i check del compilatore
 
 
-
-
 ### Elementi aggiuntivi di qualità
-
-
 
   *  *Convenzioni*: soddisfa le convenzioni d'uso del linguaggio
   *  *Commenti*: usa i commenti mirati necessari a comprenderlo
   *  *Efficace*: usa tecniche che portano a evitare problemi futuri
-
-
-
 
 
 ---
@@ -829,9 +816,10 @@ for(var v: array){ /* uso di v */ }
 
 
 
-  *  Oltre ad errori sintattici (forma), il compilatore segnala anche gli errori semantici (significato)
-  *  Ed è molto più rigido del C
-  *  Possono essere di varia natura, e a volte più difficili da comprendere
+*  Oltre ad errori sintattici (forma), il compilatore segnala anche gli errori semantici (significato)
+    * ad es. quelli legati all'utilizzo dei tipi
+*  Ed è molto più rigido del C
+*  Possono essere di varia natura, e a volte più difficili da comprendere
 
 
 
@@ -839,15 +827,15 @@ for(var v: array){ /* uso di v */ }
 ### Esempi comuni d'errore
 
 
-  *  Uso inappropriato dei tipi:
+  *  Uso inappropriato dei tipi (e.g. *incompatible types* o *bad operand types for operator*):
 ```
-int a=true;
-int a=5+false;
+int a = true;
+int a = 5 + false;
 if (5) ..
 ```
-  *  Refusi nel nome di campi, metodi, classi: `string`, `system`, `Sistem`
+  *  Refusi nel nome di campi, metodi, classi: `string`, `system`, `Sistem` (cf. Errore *cannot find symbol*)
   *  Accesso a variabili, campi, metodi, classi che non esistono o non sono visibili
-  *  Errori di flusso: missing return statement
+  *  Errori di flusso: *missing return statement*
 
 
 
@@ -916,7 +904,7 @@ if (5) ..
 
 *  I linguaggi OO sono stati spesso criticati perchè più lenti rispetto ai linguaggi imperativi/strutturati
 *  Java e C\# in più hanno una VM d'esecuzione che introduce ulteriori rallentamenti
-*  Di recente, tecniche avanzate nelle VM hanno ridotto, se non in alcuni casi annullato, le differenze in performance
+*  Di recente, tecniche avanzate (cf. *JIT compilation*) nelle VM hanno ridotto, se non in alcuni casi annullato, le differenze in performance
 
 
 

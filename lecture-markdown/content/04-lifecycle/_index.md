@@ -67,20 +67,18 @@ aliases = ["/objects-lifecycle/"]
       *  il metodo `java.util.Arrays.toString()` (ossia, il metodo `toString` nella classe `Arrays` dentro al package `java.util`)
       *  il campo `java.lang.System.out`
       *  il metodo `java.lang.System.getProperty()`
-  *  Tali campi e metodi sono considerate proprietà della classe, non dell'oggetto
-  *  Sintassi: `classe.metodo(argomenti)`, e `classe.campo`
-    *  omettendo la classe si assume quella da cui parte la chiamata
+  *  Tali campi e metodi sono considerate *proprietà della classe*, non dell'oggetto
+  *  Sintassi: `Classe.metodo(argomenti)`, e `Classe.campo`
+      *  omettendo la classe si assume quella da cui parte la chiamata
 
 
 
 
 ### Sulla notazione
 
-
-
-*  Iniziano con minuscolo: nomi di package, metodi e campi
-*  Iniziano con maiuscolo: nomi di classe
-* $\Rightarrow$ Questo consente di capire facilmente il significato delle istruzioni
+*  Iniziano con *minuscolo*: nomi di package (`it.unibo.students`), metodi (`getName`) e campi (`firstName`)
+*  Iniziano con *maiuscolo*: nomi di classe (e.g. `Student`)
+    * Questo consente di capire facilmente il significato delle istruzioni
 
 
 
@@ -93,7 +91,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 
-### Codice non statico (detto anche codice istanza)
+### Codice non statico (detto anche *codice d'istanza*)
 
 
 
@@ -109,7 +107,7 @@ aliases = ["/objects-lifecycle/"]
 
 *  Non è codice puro object-oriented, ma codice in stile "imperativo/strutturato"
 *  Definisce funzioni e variabili del componente software definito da `C`
-    *  possono essere visti come metodi e campi dell'unico oggetto "classe `C`"
+    *  possono essere visti come metodi e campi dell'unico oggetto "classe `C`" (cf. *reflection*)
 
 
 
@@ -132,7 +130,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/Point3D.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/points/Point3D.java" %}}
 ```
 
 
@@ -143,7 +141,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/UsePoint3D.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/points/UsePoint3D.java" %}}
 ```
 
 ---
@@ -152,15 +150,11 @@ aliases = ["/objects-lifecycle/"]
 ## Point3D: commenti
 
 
-
 ### Si notino le due diverse chiamate
 
 
-
-*  `build` è sempre chiamata su un oggetto, ossia su: `new Point3D()`
-*  `zero` e `max` sono chiamate sulla classe `Point3D`
-
-
+*  `build` è sempre chiamata *su un oggetto*, ossia su: `new Point3D()`
+*  `zero` e `max` sono chiamate *sulla classe* `Point3D`
 
 
 ### Razionale
@@ -178,7 +172,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 *  se si omette l'indicazione del receiver, si rischia di chiamare una proprietà non statica da un metodo statico, e questo comporta un errore segnalato dal compilatore
-* $\Rightarrow$ a questo si ovvia inserendo sempre l'indicazione del receiver
+    * a questo si ovvia inserendo sempre l'indicazione del receiver
 
 
 
@@ -191,7 +185,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/Point3DBis.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Point3DBis.java" %}}
 ```
 
 ---
@@ -201,7 +195,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/UsePoint3DBis.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/UsePoint3DBis.java" %}}
 ```
 
 ---
@@ -226,7 +220,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 *  è possibile concatenare creazione di oggetto e sua inizializzazione
-*  schema chiamato "fluente"
+*  schema chiamato *"fluente"*
 
 
 
@@ -255,7 +249,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 
-*  se `XYZ` è una classe usata per generare oggetti, la classe `XYZs` conterrà solo proprietà statiche relative
+*  se `C` è una classe usata per generare oggetti, la classe `Cs` (plurale) conterrà solo proprietà statiche relative
 *  es: `Object`/`Objects`, `Array`/`Arrays`, `Collection`/`Collections`
 
 
@@ -279,7 +273,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/points/Point3D.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Point3D.java" %}}
 ```
 
 ---
@@ -289,7 +283,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/points/Points.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Points.java" %}}
 ```
 
 
@@ -300,7 +294,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/points/UsePoint3D.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/UsePoint3D.java" %}}
 ```
 
 ---
@@ -331,22 +325,22 @@ aliases = ["/objects-lifecycle/"]
 
 
 
-*  Allo stato attuale delle nostre conoscenze, crea un oggetto inizializzando tutti i suoi campi al loro valore di default (p.e. $0$ per i numeri), e ne restituisce il riferimento
-*  Altri metodi devono gestire la inizializzazione vera e propria
-*  Problema: garantire una corretta inizializzazione
+*  Allo stato attuale delle nostre conoscenze, l'operatore `new T` crea un oggetto di tipo `T` inizializzando tutti i suoi campi al loro valore di default (p.e. $0$ per i numeri), e ne restituisce il riferimento
+```java
+Point3D   p  = new Point3D();
+Point3D[] ps = new Point3D[2]; // [null, null]
+```
+*  Problema: garantire una corretta *inizializzazione*
 
 
+### *Costruttori* di una classe
 
-
-### Costruttori di una classe
-
-
-
-*  Assomigliano per struttura ai metodi
-*  Hanno lo stesso nome della classe in cui si trovano
-*  Nessun tipo di ritorno, possono avere dei parametri formali
-    * $\Rightarrow$ alla `new` si possono quindi passare dei valori
-*  Il costruttore di default (a zero argomenti) è implicitamente definito solo se non se ne aggiungono altri -- ecco perché era consentito scrivere: `new Point3D()`
+*  I *costruttori* assomigliano per struttura ai metodi: hanno un nome e possono avere dei parametri formali
+    * alla `new` si possono quindi passare dei valori
+* Particolarità (rispetto ai metodi)
+    * Hanno lo *stesso nome della classe* in cui si trovano
+    * Si dichiarano *senza tipo di ritorno* (è implicito che il tipo di ritorno sia il tipo della classe)
+*  Il *costruttore di default* (a zero argomenti) è implicitamente definito solo se non se ne aggiungono altri -- ecco perché era consentito scrivere: `new Point3D()`
 
 
 
@@ -357,7 +351,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/Point3Dcons.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Point3Dcons.java" %}}
 ```
 
 ---
@@ -367,7 +361,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/Point3Dvar.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Point3Dvar.java" %}}
 ```
 
 ---
@@ -377,7 +371,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/Persona.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Persona.java" %}}
 ```
 
 ---
@@ -387,7 +381,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/UsePersona.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/UsePersona.java" %}}
 ```
 
 ### Sequenza d'azioni effettuate con una `new`
@@ -418,7 +412,7 @@ aliases = ["/objects-lifecycle/"]
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/Persona2.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Persona2.java" %}}
 ```
 
 ---
@@ -432,27 +426,23 @@ aliases = ["/objects-lifecycle/"]
 
 
 
-*  L'overloading è un meccanismo importante per il programmatore
-*  La difficoltà che comporta è dovuta alla tecnica di disambiguazione
-*  Due esempi visti finora: overloading operatori matematici, overloading costruttori
+*  L'*overloading* è un meccanismo che consente di definire più metodi/operatori con lo stesso nome
+*  La difficoltà che comporta è dovuta alla necessità di disambiguazione
+*  Due esempi visti finora: overloading operatori matematici (cf. `+`) e overloading costruttori
 
 
 
 
 ### Overloading dei costruttori
 
-
 Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
-
-*  si scartano i costruttori con numero di argomenti che non corrisponde
-*  si scartano i costruttori il cui tipo d'argomenti non è compatibile
-*  se ve ne è uno allora è quello che verrà chiamato..
-*  altrimenti il compilatore segnala un errore
-
+*  si scartano i costruttori con *numero di argomenti* che non corrisponde
+*  si scartano i costruttori il cui *tipo d'argomenti* non è compatibile
+*  se ve ne è *uno solo* allora è quello che verrà chiamato..
+*  altrimenti il compilatore segnala un errore (per ambiguità)
 
 ---
-
 
 ## Overloading dei metodi
 
@@ -464,7 +454,7 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/ExampleOverloading.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/ExampleOverloading.java" %}}
 ```
 
 
@@ -486,8 +476,9 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 *  Un framework mainstream come quello di Java può disporre  di decine di migliaia di classi di libreria e di applicazione
-*  È necessario un meccanismo per consentire di strutturarle in gruppi (a più livelli gerarchici)
+*  È necessario un meccanismo per consentire di strutturarle in gruppi (a più *livelli gerarchici*)
 *  Per poter meglio gestirli in memoria secondaria, e per meglio accedervi
+    * cf. filesystem nei sistemi operativi
 
 
 
@@ -518,9 +509,8 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 *  Ogni unità di compilazione (file `.java`) deve specificare il suo package
 *  Lo fa con la direttiva `package pname;`
-*  Se non lo fa, allora trattasi del package di "default"
+*  Se non lo fa, allora trattasi del *package di "default"*
 *  Se lo fa, tale file dovrà stare nella opportuna directory
-
 
 
 
@@ -532,16 +522,44 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 *  Per evitare tale specifica, si inserisce una direttiva di importazione
     *  `import java.util.*;` importa tutte le classi di `java.util`
     *  `import java.util.Date;` importa la sola `java.util.Date`
-
-
-
-
-
-
-
+* L'importazione non è necessaria per classi che si trovano nello stesso package
 
 ---
 
+## Package: esempio di organizzazione dei sorgenti .class e dei file compilati .class
+
+<div class="container">
+<div class="col">
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', fontFamily: 'Inconsolata' }}}%%
+
+graph TB
+  A((it)) --> B((unibo))
+  B --> C((Foo.java)):::f
+  B --> D((Bar.java)):::f;
+
+classDef f fill:#ddd;
+```
+
+</div>
+<div class="col">
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', fontFamily: 'Inconsolata' }}}%%
+
+graph TB
+  A((it)) --> B((unibo))
+  B --> C((Foo.class)):::c
+  B --> D((Bar.class)):::c
+
+classDef c fill:#fff;
+```
+
+</div>
+</div>
+
+---
 
 ## Unità di compilazione e livello d'accesso "package"
 
@@ -551,7 +569,7 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 
-*  È un file compilabile in modo atomico da `javac`
+*  Un'*unità di compilazione* è un file compilabile in modo atomico da `javac`
 *  Si deve chiamare con estensione `.java`
 *  Può contenere varie classi indicate una dopo l'altra
 
@@ -562,9 +580,9 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 
-*  Le classi in una unità di compilazione, i loro metodi, campi, e costruttori hanno di default il *__livello d'accesso package__*
-* $\Rightarrow$ sono visibili e richiamabili solo dentro al package stesso
-* $\Rightarrow$ sono invisibili da fuori
+*  Le classi in una unità di compilazione, i loro metodi, campi, e costruttori hanno di *default* il *__livello d'accesso package__*
+    * sono *visibili e richiamabili solo dentro al package stesso*
+    * sono invisibili da fuori
 
 
 
@@ -609,7 +627,8 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 
-*  In una unità di compilazione solo una classe può essere `public`, e questa deve avere lo stesso nome del file `.java`
+* In una unità di compilazione solo una classe può essere `public`
+* Tale classe deve avere lo stesso nome del file `.java`
 
 
 
@@ -672,7 +691,7 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
   ```java
-  {{% import-raw path="code/objects-lifecycle/MagicExample.java" %}}
+  {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/MagicExample.java" %}}
   ```
 
 ---
@@ -683,7 +702,7 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/GuessMyNumberApp.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/GuessMyNumberApp.java" %}}
 ```
 
 ---
@@ -733,10 +752,10 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 
-*  Durante l'esecuzione di un programma, è verosimile che molto oggetti vengano creati
+*  Durante l'esecuzione di un programma, è verosimile che *molti oggetti* vengano creati
 *  Ogni creazione comporta l'uso di una parte di memoria centrale
-*  Non è noto quanto durerà l'esecuzione del programma
-* $\Rightarrow$ Qualcuno dovrà preoccuparsi di deallocare la memoria
+*  Non è noto quanto *durerà* l'esecuzione del programma
+    * Qualcuno dovrà preoccuparsi di deallocare la memoria
 
 
 
@@ -745,9 +764,9 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 
-*  E' un componente della JVM richiamato dalla JVM con una frequenza che dipende dallo stato della memoria
+*  Il *garbage collector (GC)* è un componente della JVM richiamato dalla JVM con una frequenza che dipende dallo stato della memoria
 *  Ogni volta, cerca oggetti in memoria heap che nessuna parte attiva del programma (thread) sta più usando (neanche indirettamente)
-*  Trovatili, li dealloca (come la `free` del C) *__senza che il programmatore debba occuparsene__*
+*  Una volta trovati, li dealloca (come la `free` del C) *__senza che il programmatore debba occuparsene__*
 
 
 
@@ -760,7 +779,7 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/GC.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/GC.java" %}}
 ```
 
 
@@ -790,11 +809,11 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 
-*  Classe fornita `Picture` -- codice non comprensibile ora{
+*  Classe fornita `Picture` -- codice non comprensibile ora
     *  ha un costruttore che accetta larghezza e altezza in pixel della finestra
     *  metodo `void drawPixel(int x,int y,int color)`
 *  Classe `Complex` modella numeri complessi e operazioni base
-*  Classe `Mandelbrot` si occupa di calcolare il valore di ogni punto del rettangolo{
+*  Classe `Mandelbrot` si occupa di calcolare il valore di ogni punto del rettangolo
     *  metodo `void advancePosition()` passa al prossimo punto
     *  metodo `boolean isCompleted()` dice se ci sono altri punti da calcolare
     *  metodo `int computeIteratrions()` dice quante iterazioni vengono calcolate per il punto corrente
@@ -820,7 +839,7 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 ```java
-{{% import-raw from=3 to=100 path="code/objects-lifecycle/app/Complex.java" %}}
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/lifecycle/app/Complex.java" %}}
 ```
 
 
@@ -831,7 +850,7 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/app/Mandelbrot.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/app/Mandelbrot.java" %}}
 ```
 
 ---
@@ -841,7 +860,7 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 
 ```java
-{{% import-raw path="code/objects-lifecycle/app/MandelbrotApp.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/app/MandelbrotApp.java" %}}
 ```
 
 ---
