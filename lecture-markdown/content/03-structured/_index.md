@@ -12,6 +12,38 @@ aliases = ["/java-structured-programming/"]
 
 {{% import path="cover.md" %}}
 
+## Riassunto delle puntate precedenti (i)
+
+- Programma vs. sistema software
+- Fasi processo di sviluppo: analisi $\to$ design $\to$ implementazione $\to$ collaudo $\to$ deployment
+- Problem space (dominio/logica business) vs. solution space (scelte realizzative)
+    - livello di astrazione
+- Astrazione object-oriented
+    - *oggetto = stato + comportamento + identità* (cf. *incapsulamento*)
+    - interazione attraverso "scambio di messaggi"
+    - *classe* come "tipo" di oggetti e come "template" di costruzione di oggetti simili (*istanze*)
+    - *interfaccia* vs. implementazione (cf. *information-hiding*)
+- Riuso mediante
+    - utilizzo di altri oggetti (*composizione*) 
+    - estensione dei servizi offerti da altri oggetti (*ereditarietà*)
+
+---
+
+- Java 17
+    - *write once, run everywhere*
+    - JDK: JRE (JVM [`java`] + JCL) + strumenti di sviluppo (`javac`, ...)
+- Costrutti Java per la OOP
+    - tipi primitivi vs. tipi oggetto (classi)
+    - variabili e riferimenti ad oggetti (allocati nello *heap*) (assegnamento per copia)
+    - lifetime di oggetti va oltre lo scope; no deallocazione manuale (cf. *GC*)
+    - classi: *campi* & *metodi* (statici o d'istanza) -- accedibili mediante _dot notation_
+    - concetto di *receiver* di una *method call* e variabile speciale `this`
+    - *programmi*: `public static void main(String[] args)` in classe pubblica
+- Strumenti: compilazione con `javac` ed esecuzione con `java`
+
+_Competenza attuale attesa: costruzione di semplici classi; loro esercizio mediante programmi; compilazione ed esecuzione di programmi_
+
+---
 
 ## Outline
 
@@ -101,7 +133,7 @@ aliases = ["/java-structured-programming/"]
   *  Operatori di confronto numerici: `>`, `<`, `>=`, `<=`
   *  Operatori di uguaglianza (su tutti i tipi): `==`, `!=`
 ```java
-10 == 20`                    // false
+10 == 20                     // false
 new Object() == new Object() // false (confronta i riferimenti)
 ```
   *  Operatore ternario (booleano,tipo,tipo): `?:`
@@ -117,8 +149,17 @@ new Object() == new Object() // false (confronta i riferimenti)
 ## Tipi numerici
 
 
-  ![](img/primitive.png)
-
+| Type name | Size (bits) | Minimum | Maximum |
+| --------- | ---- | ------- | ------- |
+| char | 16 | `\u0000` ($0$) | `\uFFFF` ($2^{16}-1$) |
+| byte | 8 | $-128$ | $128$ |
+| short | 16 | $-2^{15}$ | $2^{15}+1$ |
+| int | 32 | $-2^{31}$ | $2^{31}+1$ |
+| long | 64 | $-2^{63}$ | $2^{63}+1$ |
+| float | 32 | IEEE754 | IEEE754 |
+| double | 64 | IEEE754 | IEEE754 |
+<!--| void | -- | -- | -- |-->
+<!--| boolean | -- | -- | -- |-->
 
 ---
 
@@ -133,7 +174,7 @@ new Object() == new Object() // false (confronta i riferimenti)
 
   *  Base: `+`, `-`, `*`, `/` (con resto), `%` (resto), `+` e `-` anche unari
   *  Bit-a-bit: `&` (and), `|` (or), `^` (xor), `~` (not)
-  *  Shift: `>>` (dx senza segno), `<<` (sx), `>>>` (dx con segno)
+  *  Shift: `>>` (dx senza segno), `<<` (sx), `>>>` (dx senza segno)
   *  Operatori unari/binari applicati ad un tipo, restituiscono il tipo stesso
 
 
@@ -208,7 +249,7 @@ new Object() == new Object() // false (confronta i riferimenti)
 <!--  \srcode{\scriptsize}{3}{100}{\ecl/Try.java} -->
 
 ```java
-{{% import-raw path="code/java-structured/Try.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/Try.java" %}}
 ```
 
 ---
@@ -297,7 +338,7 @@ new Object() == new Object() // false (confronta i riferimenti)
 <!--  \srcode{\scriptsize}{3}{100}{\ecl/TryChars.java} -->
 
 ```java
-{{% import-raw path="code/java-structured/TryChars.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/TryChars.java" %}}
 ```
 
 ---
@@ -386,7 +427,7 @@ m[1][2]=10; // assegnamento riga 2 colonna 3
 <!--  \srcode{\scriptsize}{3}{100}{\ecl/UseArrays.java} -->
 
 ```java
-{{% import-raw path="code/java-structured/UseArrays.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/UseArrays.java" %}}
 ```
 
 ---
@@ -521,7 +562,7 @@ for(int i=0;i<10;i++){..}
 <!--  \srcode{\ssmall}{3}{100}{\ecl/UseMath.java} -->
 
 ```java
-{{% import-raw path="code/java-structured/UseMath.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/UseMath.java" %}}
 ```
 
 ---
@@ -538,7 +579,7 @@ Costruire una funzione che dato un array ne produce in uscita uno della stessa l
   \srcode{\scriptsize}{3}{100}{\ecl/Reverse.java} -->
 
 ```java
-{{% import-raw path="code/java-structured/Reverse.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/Reverse.java" %}}
 ```
 
 ---
@@ -588,7 +629,7 @@ for(var v: array){ /* uso di v */ }
   \srcode{\scriptsize}{3}{100}{\ecl/Sum.java} -->
 
 ```java
-{{% import-raw path="code/java-structured/Sum.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/Sum.java" %}}
 ```
 
 ---
@@ -601,7 +642,7 @@ for(var v: array){ /* uso di v */ }
   \srcode{\scriptsize}{3}{100}{\ecl/SumMain.java}-->
 
 ```java
-{{% import-raw path="code/java-structured/SumMain.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/SumMain.java" %}}
 ```
 
 ---
@@ -669,7 +710,7 @@ for(var v: array){ /* uso di v */ }
 <!--  \srcode{\scriptsize}{3}{100}{\ecl/GuessMyNumberApp.java} -->
 
 ```java
-{{% import-raw path="code/java-structured/GuessMyNumberApp.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/GuessMyNumberApp.java" %}}
 ```
 
 ---
