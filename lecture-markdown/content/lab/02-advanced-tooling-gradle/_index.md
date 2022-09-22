@@ -180,7 +180,7 @@ dei package. Si noti però che (dato che il compilatore lavora su *__file__*) qu
 **non è \underline{teoricamente} obbligatoria**!
 * Lo è di fatto in questo corso, perché le cose van fatte bene
 * Lo sarà nel mondo del lavoro, perché è prassi assolutamente comune
-   
+
 ### Risultato della compilazione
 
 Quando ad essere compilata è una classe dichiarata in un package, il compilatore
@@ -189,56 +189,63 @@ Quando ad essere compilata è una classe dichiarata in un package, il compilator
 Dato che l'interprete non lavora con file ma con *__classi__*, il loro layout
 sul file system **non può essere modificato!**
     
-## Esecuzione
-
-
-        L'esecuzione è identica al caso precedente, si faccia solo attenzione ad
+### Esecuzione
+L'esecuzione è identica al caso precedente, si faccia solo attenzione ad
 usare l'intero nome della classe, che in Java include anche il nome del package!
-   
-
 
 ---
 
-
 ## Uso del classpath in fase di compilazione
+Supponiamo di avere in mano la seguente classe:
 
-   Supponiamo di avere in mano la seguente classe:
-    \sizedcode{\tiny}{../../workspace/lab02/02-classpathcompilation/src/oop/lab02/math/UseComplex.java}
-    
+```java
+{{% import-raw path="pss-code/src/main/java/it/unibo/compilation/math/UseComplex.java" %}}
+```
+
+---
+
 ## Comprensione degli errori
 
+Se provassimo a compilarla, otterremmo degli errori
 
-        Se provassimo a compilarla, otterremmo degli errori
-        \sizedcode{\tiny}{code/esempio3/src/oop/lab02/math/error.txt}
-        
-        * Il compilatore ha bisogno di conoscere la classe `ComplexNum` per poterla
+```text
+src\oop\lab2\math\UseComplex.java:6: error: cannot find symbol
+    ComplexNum c1 = new ComplexNum();
+    ^
+  symbol:   class ComplexNum
+  location: class UseComplex
+src\oop\lab2\math\UseComplex.java:6: error: cannot find symbol
+    ComplexNum c1 = new ComplexNum();
+                        ^
+  symbol:   class ComplexNum
+  location: class UseComplex
+src\oop\lab2\math\UseComplex.java:8: error: cannot find symbol
+    ComplexNum c2 = new ComplexNum();
+    ^
+...
+```
+
+* Il compilatore ha bisogno di conoscere la classe `ComplexNum` per poterla
 linkare e per poter compilare una classe che la riferisce
-        * Il compilatore cerca nel classpath il bytecode della classe `ComplexNum`
-        * Come risolviamo?
-       
+* Il compilatore cerca nel classpath il bytecode della classe `ComplexNum`
+* Come risolviamo?
 
-   
+---
 
-    
 ## Utilizzo di `-cp` in fase di compilazione
+* Supponiamo di avere solo la versione compilata di `ComplexNum` (ovvero non il sorgente)
+  * Notate che questa è la *norma* quando si usano delle librerie: vengono fornite già compilate!
 
 
-        
-            * Supponiamo di avere solo la versione compilata di `ComplexNum` (ovvero non il sorgente)
-            
-                * Notate che questa è la *norma* quando si usano delle librerie: vengono
-                fornite già compilate!
-           
+    * Basterà mettere il percorso in cui `ComplexNum` è stata compilata nel
+    classpath di `javac`!
+    * Supponiamo di avere `UseComplex.java` nel percorso
+    `src/oop/lab02/math/`
+    * Supponiamo di aver `ComplexNum` compilato dentro `lib/`
+    * Possiamo usare:
 
-            * Basterà mettere il percorso in cui `ComplexNum` è stata compilata nel
-            classpath di `javac`!
-            * Supponiamo di avere `UseComplex.java` nel percorso
-            `src/oop/lab02/math/`
-            * Supponiamo di aver `ComplexNum` compilato dentro `lib/`
-            * Possiamo usare:
-       
 
-        *__{javac -d bin -cp lib src/oop/lab02/math/UseComplex.java}__*
+*__{javac -d bin -cp lib src/oop/lab02/math/UseComplex.java}__*
    
 
     

@@ -49,3 +49,4 @@ slides/build/*
 lecture-code/.classpath
 lecture-code/.project
 *.synctex.gz
+.vscode
