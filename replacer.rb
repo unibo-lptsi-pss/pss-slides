@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+
+def beginEndRegex(name) = /\\begin{#{name}}(\[(?<options>.*?)\])?({(?<title>[^}]+)})?(?<content>.*?)\\end{#{name}}/m
+
 replacements = {
     /^%.*$/ => -> { '' },
     "\\`E" => -> { "È" },
@@ -15,12 +18,28 @@ replacements = {
     /\\emph\s*(\{([^}{]+|\g<1>)*\})/ => -> { "*#{$2}*" },
     /\\item\s*(\[(.*)\])?\s+/ => -> { "* #{$2} " },
     /\\(iz|en)\s*(?<content>\{([^}{]+|\g<content>)*\})/ => -> { "\n#{$~[:content][1...-1]}\n" },
+    beginEndRegex('itemize') => -> { "\n#{$~[:content][1...-1]}\n" },
+    beginEndRegex('quote') => -> {
+        "\n> #{$~[:content][1...-1]}\n\n"
+    },
     /\\bl\s*(?<title>\{([^}{]+|\g<title>)*\})\s*(?<content>\{([^}{]+|\g<content>)*\})/m => -> {
+        title = $~[:title]
+        title = if title.nil? then "\n" else "\n## #{title}\n" end
         "\n### #{$~[:title][1...-1]}\n\n#{$~[:content][1...-1]}\n"
+    },
+    beginEndRegex('block') => -> {
+        title = $~[:title]
+        title = if title.nil? then "\n" else "\n### #{title}\n" end
+        "#{title}\n\n#{$~[:content][1...-1]}\n"
     },
     /\\bx\s*(?<content>\{([^}{]+|\g<content>)*\})/m => -> { "\n#{$~[:content][1...-1]}\n" },
     /\\fr(s\{[^}]*\})?\s*(?<title>\{([^}{]+|\g<title>)*\})\s*(?<content>\{([^}{]+|\g<content>)*\})/m => -> {
         "\n## #{$~[:title][1...-1]}\n\n#{$~[:content][1...-1]}\n\n---"
+    },
+    beginEndRegex('frame') => -> {
+        title = $~[:title]
+        title = if title.nil? then "\n" else "\n## #{title}\n" end
+        "#{title}\n#{$~[:content][1...-1]}\n\n---"
     },
     /\{\\bf\s+(?<content>[^}]*)}/  => -> { "**#{$~[:content]}**" },
     '\\\\' => -> { '<br>' },
