@@ -63,14 +63,7 @@ section.has-light-background {
 	}
 }
 
-.reveal h2 {
-	padding-top: .3em;
-  text-transform: none;
-}
-
-.reveal pre {
-	margin: 1em auto;
-}
+// Text
 
 .reveal strong,
 .reveal b {
@@ -82,6 +75,67 @@ section.has-light-background {
 	font-style: italic;
 	color: #039418
 }
+
+.reveal p {
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+}
+
+// Headers
+
+.reveal h2 {
+	padding-top: .3em;
+	text-transform: none;
+}
+
+.reveal h3 {
+	color: rgb(0, 0, 202);
+	margin: .5em 0 0;
+	text-transform: none;
+}
+
+.reveal h4 {
+	text-align: center;
+	margin: .5em 0 0;
+}
+
+.reveal pre {
+	margin: 1em auto;
+}
+
+// Lists
+
+.reveal ul {
+	margin-left: 3vw;
+}
+
+.reveal li ul {
+	margin-left: 1vw;
+	list-style: none;
+}
+
+.reveal li ul li ul {
+	list-style: none;
+	content: '▶';
+}
+
+.reveal li li {
+	margin-left: 0.5em;
+	font-size: 90%;
+}
+
+
+.reveal li li:before {
+	font-size: 75%;
+	line-height: 100%;
+	content: '▶';
+	position: relative;
+	right: 1em;
+}
+
+
+
+// Images
 
 .reveal section img {
 	border: 0em;
@@ -146,33 +200,6 @@ section.has-light-background {
 	margin-bottom: .8em;
 }
 
-.reveal h3 {
-	margin: .5em 0 0;
-  text-transform: none;
-}
-
-.reveal ul {
-	margin: .2em .2em .2em;
-}
-
-.reveal li ul {
-	list-style: none;
-}
-
-.reveal li li {
-	margin-left: .2em;
-	font-size: 90%;
-}
-
-
-.reveal li li:before {
-	font-size: 70%;
-	line-height: 1.8em;
-	content: '▶';
-	margin-left: 1.2em;
-	position: absolute;
-	left: 0;
-}
 
 .gist-it-gist .gist-file .gist-data pre, .gister-gist .gist-file .gist-data pre {
 	box-shadow: none !important;
@@ -254,13 +281,9 @@ section.has-light-background {
 	border-style: none;
 }
 
-// allineo a sx il testo delle slide
+// Left alignment
 .slides section {
   text-align: left;
-}
-
-.slides h3 {
-  color: #a00;
 }
 
 // .mermaid foreignObject {
@@ -280,3 +303,4 @@ section.has-light-background {
 .col{
     flex: 1;
 }
+
