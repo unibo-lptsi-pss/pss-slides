@@ -230,8 +230,12 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
   *  Rappresentazione standard (`-128.345`), o scientifica (`-1.2835E+2`)
   *  Di default sono `double`, per avere un `float` va aggiunta una `F`
 
-
-
+```java
+5   // int
+5.  // double
+5d  // double
+5f  // float
+```
 
 ### Prassi
 
@@ -267,12 +271,10 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 
 
 
-  *  Fra tipi numerici sono sempre consentite
-  *  Possono causare perdita di informazione
-  *  Es.: `(int)3.33`, `((double)10)/3`, `(short)100`
-
-
-
+* Fra tipi numerici sono sempre consentite
+    * mentre non lo sono, ad es. tra tipi numerici e `boolean`
+* Possono causare perdita di informazione
+* Es.: `(int)3.33`, `((double)10)/3`, `(short)100`
 
 ### Conversioni automatiche, dette anche *coercizioni*
 
@@ -311,8 +313,9 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 
 ### Codifica (rappresentazione interna)
 
-  *  16 bit UTF16
-  *  automaticamente convertibile ad un numerico fra 0 e 65535
+*  UTF16
+    - variable-length encoding (ogni *codepoint* in 1 o 2 unità di 16 bit) $\to$ non compatibile con ASCII
+*  automaticamente convertibile ad un numerico fra 0 e 65535
 
 
 
@@ -321,6 +324,20 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/TryChars.java" %}}
 ```
+
+
+<!--
+
+---
+
+```
+a".getBytes(java.nio.charset.StandardCharsets.ISO_8859_1) // byte[1] { 97 }
+
+a".getBytes(java.nio.charset.StandardCharsets.UTF_8)      // byte[1] { 97 }
+
+a".getBytes(java.nio.charset.StandardCharsets.UTF_16)     // byte[4] { -2, -1, 0, 97 }
+```
+-->
 
 ---
 
