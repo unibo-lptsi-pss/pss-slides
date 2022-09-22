@@ -103,32 +103,22 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 
 ### Cos'è un tipo
 
-
-
   *  È un meccanismo per classificare valori (e oggetti)
   *  Un *tipo* è costituito da un *nome*, un *set di valori*, e un *set di operatori*/meccanismi per manipolarli
 
-
-
-
 ### Tipi di Java
 
-
-
-  *  *Primitivi*: `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `char`
-  *  *Array*: `boolean[]`, `byte[]`, `String[]`, `String[][]`, $\ldots$
-  *  *Classi*: `Object`, `String`, `Integer`, `ArrayList`, `JFrame`, $\ldots$
-  *  Altri che vedremo in seguito: interfacce, classi innestate, generici, ...
-
-
-
+*  *Primitivi*: `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `char`
+*  *Classi*: `Object`, `String`, `Integer`, `ArrayList`, `JFrame`, $\ldots$
+*  *Array*: `boolean[]`, `byte[]`, `String[]`, `String[][]`, $\ldots$
+*  Altri che vedremo in seguito: interfacce, classi innestate, generici, ...
 
 ### Java e i tipi
 
-  * Java ha *tipizzazione statica*: ogni espressione ha un tipo noto dal compilatore
-  * Java ha *tipizzazione forte*: non si accettano espressioni con errori di tipo
-  * $\Rightarrow$ .. permette l'intercettazione a priori di molti errori
-  * $\Rightarrow$ .. disciplina progettazione e programmazione
+* Java ha *tipizzazione statica*: ogni espressione ha un tipo noto dal compilatore
+* Java ha *tipizzazione forte*: non si accettano espressioni con errori di tipo
+* $\Rightarrow$ .. permette l'intercettazione a priori di molti errori
+* $\Rightarrow$ .. disciplina progettazione e programmazione
 
 
 ---
@@ -136,22 +126,22 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 
 ## Tipo Booleano
 
-  * Nome del tipo: `boolean`
-  * Valori: `true`, `false`
+* Nome del tipo: `boolean`
+* Valori: `true`, `false`
 
-  *  Operatori unari: `!` (not)
-  *  Operatori binari: `&` (and), `|` (or), `^` (xor), `&&` (and-c), `||` (or-c)
-      * `&&` e `||` valutano il secondo argomento solo se necessario (*short-circuiting*)
-      * `false && X` restituisce `false` senza valutare `X`
-      * `true || X` restituisce `true` senza valutare `X`
-  *  Operatori di confronto numerici: `>`, `<`, `>=`, `<=`
-  *  Operatori di uguaglianza (su tutti i tipi): `==`, `!=`
-```java
-10 == 20                     // false
-new Object() == new Object() // false (confronta i riferimenti)
-```
-  *  Operatore ternario (booleano,tipo,tipo): `?:`
-      *  `b ? v1 : v2` restituisce `v1` se `b` è vero, `v2` altrimenti
+*  Operatori unari: `!` (not)
+*  Operatori binari: `&` (and), `|` (or), `^` (xor), `&&` (and-c), `||` (or-c)
+    * `&&` e `||` valutano il secondo argomento solo se necessario (*short-circuiting*)
+    * `false && X` restituisce `false` senza valutare `X`
+    * `true || X` restituisce `true` senza valutare `X`
+*  Operatori di confronto numerici: `>`, `<`, `>=`, `<=`
+*  Operatori di uguaglianza (su tutti i tipi): `==`, `!=`
+  ```java
+  10 == 20                     // false
+  new Object() == new Object() // false (confronta i riferimenti)
+  ```
+*  Operatore ternario (booleano,tipo,tipo): `?:`
+    *  `b ? v1 : v2` restituisce `v1` se `b` è vero, `v2` altrimenti
 
 
 
@@ -167,9 +157,9 @@ new Object() == new Object() // false (confronta i riferimenti)
 | --------- | ---- | ------- | ------- |
 | char | 16 | `\u0000` ($0$) | `\uFFFF` ($2^{16}-1$) |
 | byte | 8 | $-128$ | $128$ |
-| short | 16 | $-2^{15}$ | $2^{15}+1$ |
-| int | 32 | $-2^{31}$ | $2^{31}+1$ |
-| long | 64 | $-2^{63}$ | $2^{63}+1$ |
+| short | 16 | $-2^{15}$ | $2^{15}-1$ |
+| int | 32 | $-2^{31}$ | $2^{31}-1$ |
+| long | 64 | $-2^{63}$ | $2^{63}-1$ |
 | float | 32 | IEEE754 | IEEE754 |
 | double | 64 | IEEE754 | IEEE754 |
 <!--| void | -- | -- | -- |-->

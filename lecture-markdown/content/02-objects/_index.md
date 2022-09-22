@@ -94,9 +94,9 @@ Assomigliano molto a quelli del C, ma hanno dimensioni fissate
 | boolean | -- | -- | -- |
 | char | 16 | `\u0000` | `\uFFFF` |
 | byte | 8 | $-128$ | $128$ |
-| short | 16 | $-2^{15}$ | $2^{15}+1$ |
-| int | 32 | $-2^{31}$ | $2^{31}+1$ |
-| long | 64 | $-2^{63}$ | $2^{63}+1$ |
+| short | 16 | $-2^{15}$ | $2^{15}-1$ |
+| int | 32 | $-2^{31}$ | $2^{31}-1$ |
+| long | 64 | $-2^{63}$ | $2^{63}-1$ |
 | float | 32 | IEEE754 | IEEE754 |
 | double | 64 | IEEE754 | IEEE754 |
 | void | -- | -- | -- |
