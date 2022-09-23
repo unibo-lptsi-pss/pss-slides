@@ -10,6 +10,8 @@ aliases = ["/intro/"]
 
 # Strumenti di compilazione avanzati
 
+### Esercizi e soluzioni: https://github.com/unibo-lptsi-pss/pss-lab/releases/latest/
+
 {{% import path="cover.md" %}}
 
 ## Pre-requisiti
@@ -156,7 +158,7 @@ Possono essere aggiunte directory al classpath
 * Si usa l'opzione `-cp` (o, equivalentemente, `-classpath`), seguita da un elenco di percorsi
   * separati dal simbolo `:` (Unix)
   * o dal simbolo `;` (Windows)
-  * Per evitare problemi con simboli e percorsi, conviene circondare l'intero classpath con doppi apici (simbolo `"`)
+  * Per evitare problemi con simboli e percorsi, conviene circondare l'intero classpath con doppi apici (`"`)
 
 ---
 
