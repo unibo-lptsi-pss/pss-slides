@@ -729,17 +729,16 @@ for(var v: array){ /* uso di v */ }
 
 
 
-### Qualità esterna -- aspetti funzionali
+### Qualità *esterna* -- aspetti *funzionali*
+
+
+* Realizza correttamente il suo compito
+* In termini di quali funzionalità fornisce
 
 
 
-  *  Realizza correttamente il suo compito
-  *  In termini di quali funzionalità fornisce
 
-
-
-
-### Qualità esterna -- aspetti non-funzionali
+### Qualità *esterna* -- aspetti *non-funzionali*
 
 
 
@@ -750,7 +749,7 @@ for(var v: array){ /* uso di v */ }
 
 
 
-### Qualità interna -- software ben costruito
+### Qualità *interna* -- software ben costruito
 
 
 
@@ -891,9 +890,10 @@ if (5) ..
 
 
 *  Vi sono un insieme di tecniche di programmazione che l'esperienza ha mostrato migliorare l'efficacia della programmazione
-*  Molte sono connesse a buone pratiche di programmazone OO e all'uso di pattern di progettazione noti
-*  Si vedano i libri "Effectiva Java" e "Design Patterns"
-*  Ne vedremo un po' mano a mano, e in dettaglio a fine del corso
+*  Molte sono connesse a *best practice* di programmazone OO e all'uso di *pattern* di progettazione noti
+    *  Si vedano i libri *"Effectiva Java"* e *"Design Patterns"*
+*  Ne vedremo un po', mano a mano
+<!--, e in dettaglio a fine del corso-->
 
 
 

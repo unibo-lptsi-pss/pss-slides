@@ -869,12 +869,9 @@ classDef c fill:#fff;
 
 ## Preview del prossimo laboratorio
 
-
-
 ### Obiettivi
 
-
-
-*  Esercizi su piccoli algoritmi su array e tipi primitivi
-*  Uso costruttori
-*  Aspetti avanzati della compilazione in Java
+* Esercizi su piccoli algoritmi su array e tipi primitivi
+* Uso costruttori
+* Aspetti avanzati della compilazione in Java (cf. classpath)
+* Introduzione al build system Gradle
