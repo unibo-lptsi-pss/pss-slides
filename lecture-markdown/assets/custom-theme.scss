@@ -86,12 +86,14 @@ section.has-light-background {
 .reveal h2 {
 	padding-top: .3em;
 	text-transform: none;
+	// text-shadow: 2px 2px #acacac;
 }
 
 .reveal h3 {
 	color: rgb(0, 0, 202);
-	margin: .5em 0 0;
+	margin: .5em 0 .2em;
 	text-transform: none;
+	// text-shadow: 1px 1px #6e6eff;
 }
 
 .reveal h4 {
@@ -133,9 +135,13 @@ section.has-light-background {
 	right: 1em;
 }
 
-
-
 // Images
+
+.reveal p img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
 
 .reveal section img {
 	border: 0em;
@@ -233,7 +239,7 @@ section.has-light-background {
 	font-size: 4em;
 	position: absolute;
 	left: 0.05em;
-	top: 0.25em;
+	top: 0.3em;
 }
 
 .reveal blockquote p::before{
