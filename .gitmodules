@@ -7,6 +7,6 @@
 [submodule "lecture-markdown/pss-code"]
 	path = lecture-markdown/pss-code
 	url = git@github.com:unibo-lptsi-pss/pss-code.git
-[submodule "lecture-markdown/sample-gradle-project"]
-	path = lecture-markdown/sample-gradle-project
-	url = https://github.com/APICe-at-DISI/sample-gradle-project.git
+[submodule "lecture-markdown/PPS-ci-examples"]
+	path = lecture-markdown/PPS-ci-examples
+	url = https://github.com/APICe-at-DISI/PPS-ci-examples.git
