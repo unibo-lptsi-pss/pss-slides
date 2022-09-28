@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-def beginEndRegex(name) = /\\begin{#{name}}(\[(?<options>.*?)\])?({(?<title>[^}]+)})?(?<content>.*?)\\end{#{name}}/m
+def beginEndRegex(name)
+    /\\begin{#{name}}(\[(?<options>.*?)\])?({(?<title>[^}]+)})?(?<content>.*?)\\end{#{name}}/m
+end
 
 replacements = {
     /^%.*$/ => -> { '' },
