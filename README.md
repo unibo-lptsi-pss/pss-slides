@@ -27,6 +27,8 @@ git submodule update --recursive --init
 ``
 
 Adesso, bisogna installare Hugo, in *versione estesa*.
+Una volta installato, è possibile procedere alla costruzione del progetto.
+
 Piazzate un terminale dentro `lecture-markdown`, quindi lanciate:
 
 ``
@@ -72,6 +74,40 @@ Per capire come scrivere le slide, fare riferimento al contenuto della cartella 
 Dentro si troverà una cartella per pacco di slide,
 e dentro ogni pacco un file `_index.md` con il contenuto della slide.
 
+## Slide generate da altre (riuso di slide condivise)
+
+Dentro il submodule `shared-slides`,
+sono conservate delle slide riusabili e degli script per riusarle senza ammattirsi.
+
+Se si vogliono generare anche le slide dei pacchetti che usano queste slide,
+occorre lanciare
+
+```
+lecture-markdown/serve.sh
+```
+
+Invece del semplice `hugo server`.
+Internamente, oltre al server,
+vengono lanciati dei file system watch che rieseguono l'iniezione del codice riusabile.
+
+### Costruire un pacchetto riusabile
+
+Se le slide invece di `_index.md` si chiamano `generator.md`,
+allora il file `_index.md` viene generato dall'infrastruttura suddetta.
+
+Molto semplicemente, il generatore rimpiazza ricorsivamente commenti HTML del tipo:
+
+```
+<!-- write-here "shared-slides/devops/devops-intro.md" -->
+
+<!-- end-write -->
+```
+
+con il contenuto del parametro passato dopo `write-here`.
+La sostituzione è ricorsiva
+(si possono usare slide che usano slide che usano slide),
+cosa impossibile in Hugo senza diventare scemi.
+
 ### Cose molto belle
 
 #### Convertire il sorgente delle slide di Mirko
@@ -80,9 +116,9 @@ e dentro ogni pacco un file `_index.md` con il contenuto della slide.
 2. Copiare il contenuto del pacco di slide che si vuole portare da `\begin{document}` a `\end{document}` esclusi
 3. lanciare lo script di sostituzione dalla root del progetto:
 
-``
+```
 ./replacer.rb lecture-markdown/content/my_new_slides/index.md
-``
+```
 
 **Nota**: lo script è in Ruby. *Per lanciarlo vi server Ruby 3.0.4 o successivo*.
 
