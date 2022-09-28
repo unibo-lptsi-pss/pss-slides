@@ -143,12 +143,12 @@ Gradle è in grado capire le *dipendenze* fra task ed eseguirli nell'ordine corr
 
 `settings.gradle.kts`
 ```kotlin
-{{% import-raw path="PPS-ci-examples/00-minimal/settings.gradle.kts" %}}
+{{% import-raw path="shared-slides/PPS-ci-examples/00-minimal/settings.gradle.kts" %}}
 ```
 
 `build.gradle.kts`
 ```kotlin
-{{% import-raw path="PPS-ci-examples/00-minimal/build.gradle.kts" %}}
+{{% import-raw path="shared-slides/PPS-ci-examples/00-minimal/build.gradle.kts" %}}
 ```
 
 Così configurato, Gradle autonomamente:
@@ -183,7 +183,7 @@ rootProject.name = "hello-world"
 
 `HelloWorld.java`
 ```java
-{{% import-raw path="PPS-ci-examples/00-minimal/src/main/java/HelloWorld.java" %}}
+{{% import-raw path="shared-slides/PPS-ci-examples/00-minimal/src/main/java/HelloWorld.java" %}}
 ```
 
 ---
