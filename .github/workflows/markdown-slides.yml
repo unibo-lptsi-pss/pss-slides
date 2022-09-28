@@ -49,7 +49,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1.117.0
         with:
-          working-directory: slides/shared-slides
+          working-directory: lecture-markdown/shared-slides
       - name: Run the pre-processor
         working-directory: lecture-markdown
         run: shared-slides/preprocess.rb
