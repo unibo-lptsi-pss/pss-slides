@@ -16,6 +16,9 @@ aliases = ["/build-systems/"]
 
 ---
 
+
+<!-- this file includes generated content. Do not edit. Edit content/05-build-systems/generator.md, instead. -->
+
 ## La costruzione del software
 
 Costruire sistemi software non è solo *programmare*.
@@ -589,3 +592,5 @@ per eseguire lo script occorre anche elencare il percorso corrente:
 o, in alternativa, chiedere all'interprete dei comandi di eseguire
   * `sh gradlew`
   * `bash gradlew`
+
+

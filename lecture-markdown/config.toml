@@ -4,6 +4,7 @@ title = "Progettazione e Sviluppo del Software"
 disableKinds = ["sitemap", "RSS"]
 theme = "reveal-hugo"
 publishDir = "build"
+ignoreFiles = ['.*generator.md$']
 
 # uncomment for browsing at file:///
 # relativeURLs = true
