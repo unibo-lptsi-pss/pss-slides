@@ -17,7 +17,7 @@ outputs = ["Reveal"]
 * [Programmazione strutturata in Java](java-structured-programming/)
 * [Ciclo di vita degli oggetti](objects-lifecycle/)
 * [Costruzione del software e librerie](build-systems/)
-* [Testing con JUnit 5](junit-and-annots/)
+* [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 
 
 ### Contenuti del laboratorio
