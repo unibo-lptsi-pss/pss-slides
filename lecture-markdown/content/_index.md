@@ -17,6 +17,8 @@ outputs = ["Reveal"]
 * [Programmazione strutturata in Java](java-structured-programming/)
 * [Ciclo di vita degli oggetti](objects-lifecycle/)
 * [Costruzione del software e librerie](build-systems/)
+* [Testing con JUnit 5](junit-and-annots/)
+
 
 ### Contenuti del laboratorio
 * [Strumenti di compilazione avanzati](lab/02-advanced-tooling-gradle/)
