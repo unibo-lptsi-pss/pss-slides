@@ -203,6 +203,8 @@ under specified conditions, the results are observed or recorded, and an evaluat
     - Sorgenti di test sotto `src/test/java`
 - Questa prassi è così consolidata che è diventata una *convenzione* di organizzazione di sorgenti in progetti Java
     - Strumenti di build come Maven e Gradle utilizzano tale convenzione: dunque, se mettiamo i sorgenti (di test e dell'applicazione principale) nel posto giusto, le cose funzioneranno senza bisogno di configurazione (principio *convention over configuration*)
+- Altra prassi è quella di dichiarare le classi di test *nello stesso package* delle classi di produzione
+    - In questo modo, i test possono accedere ai membri package-private
 
 ---
 
@@ -269,10 +271,10 @@ $ ./gradlew test --rerun-tasks --tests it.unibo.test.Buggy*Test
 
 ---
 
-## Esempio
+## Esempio: classe di test
 
 - Supponiamo di voler testare la funzionalità della classe `String`
-- Possiamo definire una classe di test `StringTest`
+- Possiamo definire una *classe di test* `StringTest`
     - sorgente sotto `src/test/java/`
 
 ```java
@@ -282,8 +284,241 @@ public class StringTest {
 ```
 
 - E' una classe normale.
-- All'interno, possiamo aggiungere dei *metodi di test*
+    - Nel contesto di tale classe, `String` è la nostra *Unit Under Test (UUT)*
+- All'interno, possiamo aggiungere dei *metodi di test* (con opportune annotazioni)
+    - Quindi, una classe modella una suite di test (case) correlati (ovvero una *test suite*)
+
+---
+
+## Esempio: metodi di test
+
+```java
+{{% import-raw from=5 path="pss-code/src/test/java/it/unibo/test/StringTest.java" %}}
+```
+
+
+---
+
+## Test case (casi di test) e metodi di test
+
+### Test case
+
+[(ISTQB Glossary)](https://glossary.istqb.org/en/term/test-case-3) Un **test case** è 
+
+- un insieme di (1) valori di input; (2) precondizioni e postcondizioni d'esecuzione
+- sviluppato per un particolare obiettivo o "condizione di test",
+  come ad esempio per esercitare un percorso d'esecuzione di un programma
+  o verificare la conformità con uno specifico requisito.
+
+### Metodi di test vs. test case
+
+- un metodo di test (ovvero, un metodo void annotato con `@Test`) può esprimere uno *o più* test case
+
+```java
+    @Test public void checkContains(){
+      String s = "hello world";
+      Assertions.assertTrue(s.contains("hello") && !s.contains("bar"));
+    } // questo metodo di test copre due test case
+```
+
+- cf. *test parametrizzati* (nb: richiedono la dipendenza `junit-jupiter-params`)
+
+```java
+@ParameterizedTest @ValueSource(strings = {"hello", "world", " ", ""})
+public void checkContainsParameterized(String substr){
+    String s = "hello world";
+    Assertions.assertTrue(s.contains(substr));
+}
+```
 
 ---
 
 ## Pattern AAA (Arrange - Act - Assert)
+
+- E' il tipico pattern di organizzazione dei metodi di test
+
+```java
+// Arrange: imposta la UUT (unit under test) e il contesto del test
+String s = "hello world";
+String substring = "world";
+// Act: esercita la funzionalità
+boolean contained = s.contains(substring);
+// Assert: asserisce l'aspettativa rispetto al risultato effettivo
+Assertions.assertTrue(contained);
+```
+
+---
+
+## Asserzioni
+
+```java
+{{% import-raw from=5 path="pss-code/src/test/java/it/unibo/test/OnAssertions.java" %}}
+```
+
+- Note
+    - `import static C.m;` consente di importare nello scope il metodo statico `m` della classe `C`
+    - E' possibile importare tutti i membri statici con istruzione `import static C.*;`
+
+---
+
+## Ciclo di vita dei test
+
+- Di default, JUnit crea una nuova istanza della classe di test prima di invocare ogni metodo di test
+- Esistono delle annotazioni per agganciarci alle varie fasi del ciclo di vita di nostri test
+    - `@BeforeAll`, `@AfterAll`: da applicare a un metodo `static`; tale metodo verrà eseguito una sola volta prima o dopo l'esecuzione di tutti i test della classe di test
+    - `@BeforeEach`, `@AfterEach`: da applicare a un metodo d'istanza; tale metodo verrà eseguito prima o dopo ogni test case
+
+
+---
+
+# Introduzione allo sviluppo guidato dai test
+
+---
+
+### Test-Driven Development (TDD)
+
+- Il testing non è da pensare solo come attività da svolgersi *dopo* la fase di sviluppo
+- I test possono essere usati per *guidare* l'attività di *progettazione (design)*
+    - ovvero, *prima* dell'implementazione effettiva
+- Come funziona? Si segue il processo **RED-GREEN-REFACTOR**
+    1. **RED**: si scrive un test per catturare la funzionalità che si vuole realizzare (visto che è ancora da implementare, questa fallirà)
+    2. **GREEN**: si implementa la funzionalità fino a che il test passa
+    3. **REFACTOR**: eventualmente, si migliora l'implementazione
+        - rieseguendo i test, saremo sicuri che questi interventi non causano *regressioni*
+
+---
+
+### Esempio TDD: step 1 (RED)
+
+- Si supponga di voler progettare/implementare la funzionalità di un televisore (diciamo, una classe `Tv`)
+    - ad es. che modelli accensione/spegnimento e switch del canale
+- Prima di implementare la classe `Tv`, scriviamo un test associato
+    ```java
+    public class TvTest {
+        @Test
+        public void testTurnOnWhenOff() {
+            Tv tv = new Tv();
+            Assumptions.assumeTrue(!tv.isOn());
+            tv.turnOn();
+            Assertions.assertTrue(tv.isOn());
+        }
+    }
+    ```
+    - Nota: `Assumptions.assumeTrue(x)` esprime una *assunzione* sul test, ovvero una precondizione che, se non verificata, farà sì che il test venga saltato (*SKIPPED*) dall'esecutore dei test
+
+- Assicuriamoci che tale test compili. Per farlo, dobbiamo inizializzare la classe `Tv`
+
+```java
+public class Tv {
+    public void turnOn(){  }
+    public boolean isOn(){ return false; }
+}
+```
+
+- Ora *dobbiamo lanciare i test*: dobbiamo vedere **RED** (fallimento)
+
+---
+
+### Esempio TDD: step 2 (GREEN)
+
+- Dopo che abbiamo implementato e visto fallire il test, procediamo ad implementare la funzionalità
+    - scriviamo *just enough code* che consenta il test di passare
+
+```java
+public class Tv {
+    boolean acceso;
+
+    public void turnOn(){ 
+        this.acceso = true;
+    }
+
+    public boolean isOn(){ 
+        return acceso;
+    }
+}
+```
+
+- Eseguiamo i test per assicurarci che la funzionalità è stata implementata correttamente: dobbiamo vedere **GREEN** (cioè devono passare tutti i test)
+
+---
+
+### Esempio TDD: step 3 (REFACTOR)
+
+- Dopo che la funzionalità è stata implementata correttamente, possiamo valutare di applicare miglioramenti al codice
+    - sia della UUT, sia del test stesso
+- *Per ogni modifica, rieseguiamo i test* per assicurarci di non aver introdotto regressioni
+    - Una **regressione** si ha quando si introduce un difetto su un componente che prima non presentava tale difetto
+
+<div class="container">
+<div class="col">
+
+```java
+public class Tv {
+    boolean on;
+
+    public Tv(){
+        this.on = false;
+    }
+
+    public void turnOn(){ 
+        this.on = true;
+    }
+
+    public boolean isOn(){ 
+        return on;
+    }
+}
+```
+
+</div>
+<div class="col">
+
+```java
+    public class TvTest {
+        Tv tv;
+
+        @BeforeEach
+        public void setUp(){ tv = new Tv(); }
+
+        @Test
+        public void testTurnOnWhenOff() {
+            Assumptions.assumeTrue(!tv.isOn());
+            tv.turnOn();
+            Assertions.assertTrue(tv.isOn());
+        }
+    }
+```
+
+</div>
+</div>
+
+---
+
+### Esempio TDD: dopo REFACTOR?
+
+- Terminata un'iterazione RED-GREEN-REFACTOR, si può procedere a un'altra iterazione, ovvero alla realizzazione di un incremento di funzionalità
+- Potete provare voi stessi
+    - funzionalità di spegnimento: `turnOff()`
+    - modellazione del canale `Channel` e dello switch dei canali `switch(Channel)`
+
+---
+
+## E ora?
+
+### Un nuovo strumento nella vostra "toolbox" di sviluppatori software
+
+- Consolideremo la vostra familiarità con lo *unit testing* già in laboratorio
+
+### Tanto altro ...
+
+- Il tema del testing del software è molto ampio
+- Esistono *figure professionali* specializzate nel testing
+    - cf. Google *Test Engineer (TE)*
+- Esistono tanti altri concetti importanti
+    - *test double*, *ispezione*, ...
+- Esistono tantissime *tecniche* di testing
+    - *property-based testing*, *mutation testing*, ...
+- Esistono tantissimi *strumenti* a supporto di varie tipologie di test
+    - *Cucumber*, *Mountebank*, *Akka TestKit* ...
+- C'è molta letturatura sul testing
+    - *pattern* per il testing, ...
