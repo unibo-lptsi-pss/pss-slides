@@ -109,17 +109,17 @@ aliases = ["/junit-tdd/"]
 ### Verifica vs. validazione
 
 - __Verifica__: controllo di *correttezza* del software rispetto a *specifiche*
-    - "Have we build the *thing right*?" (abbiamo costruito [il software] nel modo giusto?)
+    - "Have we built the *thing right*?" (abbiamo costruito [il software] nel modo giusto?)
     - "Un progetto senza specifiche non può essere giusto o sbagliato, ma solo sorprendente!"
     - Tuttavia, le specifiche potrebbero essere incomplete o sbagliate
 - __Validazione__: controllo dell'*adeguatezza* del software rispetto alle *aspettative degli stakeholder*
-    - "Have we build the *right thing*?"(abbiamo costruito [il software] giusto?)
+    - "Have we built the *right thing*?"(abbiamo costruito [il software] giusto?)
 
 ---
 
 ## Definizione di "software testing"
 
-### Definizioni di *software testing* in letteratura
+### Definizioni di *software testing*
 
 - "An *investigation* conducted to provide stakeholders with information about the *quality* of the software product or service under test" (Cem Kaner/Wikipedia)
  * "*Activity* in which a system or component is executed
@@ -154,13 +154,16 @@ under specified conditions, the results are observed or recorded, and an evaluat
 
 <div class="container">
 <div class="col">
-<div class="smaller">
+
+
+{{% smaller %}}
 
 ```java
 {{% import-raw from=3 path="pss-code/src/test/java/it/unibo/test/BuggyNumFinderJUnitTest.java" %}}
 ```
 
-</div>
+{{% /smaller %}}
+
 </div>
 <div class="col">
 
@@ -190,7 +193,7 @@ under specified conditions, the results are observed or recorded, and an evaluat
 - Quali costrutti del linguaggio Java si possono annotare?
     - dichiarazioni di classe
     - dichiarazioni di campi, metodi
-    - ... in vari altri posti ...
+    - ... 
 - Non vediamo come implementare nuove annotazioni e come processarle, al momento
     - Ma sappiamo che esistono e che si possono usare
 
@@ -224,24 +227,22 @@ repositories {
     mavenCentral() // occorre per risolvere le dipendenze di JUnit
 }
 
-val junitPlatformVersion = "5.9.1"
-
 dependencies {
     // Dipendenza per scrivere i test
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitPlatformVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
     // Dipendenza per eseguire i test
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitPlatformVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
 }
 
 tasks.test {
     useJUnitPlatform() // configura il task "test" per usare la JUnit Platform
-    testLogging { events("passed", "skipped", "failed") }
+    testLogging { events("passed", "skipped", "failed") } // per stampare l'esito di ogni test
 }
 ```
 
 ```bash
 $ ./gradlew test 
-$ ./gradlew test --rerun-tasks --tests it.unibo.test.Buggy*Test
+$ ./gradlew test --tests it.unibo.*.Buggy*Test # filtra i test da eseguire
 ```
 
 ---
@@ -252,7 +253,7 @@ $ ./gradlew test --rerun-tasks --tests it.unibo.test.Buggy*Test
     - `org.junit.platform:junit-platform-engine:_`
     - `org.junit.platform:junit-platform-launcher:_` API usata dai build tool e dagli IDE
         - i task Gradle interagiranno con tale componente 
-- vari librerie di testing consentono di scrivere test per l'esecuzione sulla JUnit Platform 
+- varie librerie di testing consentono di scrivere test per l'esecuzione sulla JUnit Platform 
     - __JUnit Jupiter__ (JUnit 5):
         - `org.junit.jupiter:junit-jupiter-api:_` API per *scrivere* test
         - `org.junit.jupiter:junit-jupiter-engine:_` engine corrispondente
@@ -433,7 +434,7 @@ public class Tv {
     }
 
     public boolean isOn(){ 
-        return acceso;
+        return this.acceso;
     }
 }
 ```
@@ -465,7 +466,7 @@ public class Tv {
     }
 
     public boolean isOn(){ 
-        return on;
+        return this.on;
     }
 }
 ```
