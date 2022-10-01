@@ -19,3 +19,15 @@ aliases = ["/build-systems/"]
 <!-- write-here "shared-slides/build-systems/it-gradle-basics.md" -->
 
 <!-- end-write -->
+
+---
+
+<!-- write-here "shared-slides/build-systems/it-gradle-dependencies.md" -->
+
+<!-- end-write -->
+
+---
+
+<!-- write-here "shared-slides/build-systems/it-gradle-wrapper.md" -->
+
+<!-- end-write -->
