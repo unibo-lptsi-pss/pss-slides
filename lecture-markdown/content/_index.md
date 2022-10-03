@@ -18,7 +18,7 @@ outputs = ["Reveal"]
 * [Ciclo di vita degli oggetti](objects-lifecycle/)
 * [Costruzione del software e librerie](build-systems/)
 * [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
-
+* [Sistemi di controllo versione](git/)
 
 ### Contenuti del laboratorio
 * [Strumenti di compilazione avanzati](lab/02-advanced-tooling-gradle/)

@@ -6,5 +6,3 @@
 Mirko Viroli, che ringrazio.
 
 * Ogni errore riscontratovi è esclusiva responsabilità degli autori di questo documento.
-
----
