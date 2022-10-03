@@ -57,7 +57,7 @@ jobs:
         working-directory: lecture-markdown
         run: hugo
       - name: Transform and Inline Mermaid charts
-        uses: cric96/inline-mermaid@v1.4.4
+        uses: cric96/inline-mermaid@v1.7.4
         with:
           root-folder: lecture-markdown/build
           config-file: lecture-markdown/config.toml
