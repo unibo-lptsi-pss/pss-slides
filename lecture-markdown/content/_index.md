@@ -19,6 +19,9 @@ outputs = ["Reveal"]
 * [Costruzione del software e librerie](build-systems/)
 * [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 * [Sistemi di controllo versione](git/)
+* [Incapsulamento](encapsulation/)
+* [Interfacce](interfaces/)
+
 
 ### Contenuti del laboratorio
 * [Strumenti di compilazione avanzati](lab/02-advanced-tooling-gradle/)
