@@ -158,19 +158,33 @@ Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello
 
 *  *Indentazione* di 4 caratteri (comunque non 1, non 10..)
 *  *Lughezza linee*: non più di 90 caratteri -- spezzare in modo coerente
-  
+
+{{% smaller %}}
+
 ```java
 // NON OK
 void m() {
+        // indentazione di 8 caratteri, da evitare, in quanto i sorgenti crescono facilmente orizzontalmente
+        for(int i : new int[] {1, 2, 3}) {
+                if(i % 2 == 0){
+                        System.out.println(i);
+                }
+        }
         System.out.println("Questa è una stringa veramente lungha che potrebbe portare ad infrangere la regola")
 }
-
 // OK
 void m() {
+    for(int i : new int[] {1, 2, 3}) {
+        if(i % 2 == 0){
+            System.out.println(i);
+        }
+    }
     System.out.println("Questa è una stringa veramente lungha " + 
         "che potrebbe portare ad infrangere la regola")
 }
 ```
+
+{{% /smaller %}}
 
 ---
   
@@ -179,11 +193,34 @@ void m() {
 
 
 *  `// ...` su una linea
-*  `/* ..*/` su più linee per commentare sezioni
-*  `/**..*/` su più linee per commenti che generano documentazione
-  
+*  `/* ... */` su più linee per commentare sezioni
+*  `/** ... */` su più linee per commenti che generano documentazione
 
+```java
+/**
+ * (Commento di documentazione)
+ * Questa classe modella un generico dispositivo elettronico.
+ */
+class Device {
+    /*
+     * Campi di istanza per modellare lo stato del dispositivo.
+     */
+    boolean on;
 
+    /*
+     * Metodi per accensione e spegnimento.
+     */
+    void switchOn() {
+        if(!this.on){
+            // Se non acceso, allora accendiamo 
+            this.on = true;
+        }
+    }
+    void switchOff() { ... }
+}
+```
+
+---
   
 ### Istruzioni
 
@@ -193,7 +230,22 @@ void m() {
 *  Meglio inizializzare sempre le variabili!
 *  Una sola istruzione per riga 
   
+```java
+// NON OK
+int a, b, c;
+b = c = 5;
+if(a > b) { System.out.println("a = " + a); } else { System.out.println("b = " + b); }
 
+// OK
+int a = 0;
+int b = 5;
+int c = 5;
+if(a > b) { 
+    System.out.println("a = " + a); 
+} else { 
+    System.out.println("b = " + b); 
+}
+```
 
 
 
@@ -212,21 +264,62 @@ void m() {
 *  Usare graffe anche con blocchi ad uno statement
 *  Non usare assegnamenti dentro a espressioni
 *  Disambiguare priorità operatori con parentesi
-  
 
+```java
+// NON OK
+void m()
+{
+    if(this.disabled ? true : this.unavailable ? true : this.urgent) return; 
+}
+void f() 
+{
+    // ...
+}
+
+// OK
+void m() {
+    if(this.disabled ? true : (this.unavailable ? true : this.urgent)) { 
+      return; 
+    }
+}
+
+void f() {
+    // ...
+}
+```
+
+---
 
  
 ### Nomi
 
 
 
-*  Classi (e interface): iniziano con maiuscola
-*  Metodi, campi, variabili: iniziano con minuscola
-*  Se nome strutturato usare "camelCasing"
-*  Campi costanti: tutte maiuscole con eventuale separatore "\textunderscore"
-  
+*  **Classi (e interface)**: iniziano con *maiuscola*
+    *  Se nome strutturato usare `CamelCasing`
+*  **Metodi, campi, variabili**: iniziano con *minuscola*
+    *  Se nome strutturato usare `camelCasing`
+*  **Package**: interamente in *minuscolo* (anche se parole consecutive), solo lettere
+*  **Campi costanti**: tutte *maiuscole* con eventuale separatore `_`
 
+```java
+// NON OK
+package IT.UNIBO.some_package;
+class some_class {
+    static final int someConstant = 100;
 
+    void Some_Method() { /* ... */ }
+}
+
+// OK
+package it.unibo.somepackage;
+
+class SomeClass {
+    static final int SOME_CONSTANT = 100;
+    
+    void someMethod() { /* ... */ }
+}
+```
 
 
 ---
