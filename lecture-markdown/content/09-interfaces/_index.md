@@ -239,7 +239,43 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/interfaces/TwoLampsDeviceA.java" %}}
+public class TwoLampsDevice{
+    /* Composizione di due Lamp! */
+    private Lamp l1; // Potrei realizzare lo stato con un array
+    private Lamp l2; // I clienti non ne sarebbero influenzati!
+    
+    /* Composizione inizializzata al momento della costruzione */
+    public TwoLampsDevice(){
+        this.l1 = new Lamp();
+        this.l2 = new Lamp();
+    }
+    
+    /* Metodi getter */
+    public Lamp getFirst(){
+        return this.l1;
+    }
+    
+    public Lamp getSecond(){
+        return this.l2;
+    } 
+
+    /* Altri metodi che lavorano sulla "composizione" */
+    public void switchOnBoth(){
+        this.l1.switchOn();  // Nota la concatenazione di "."
+        this.l2.switchOn();  // .. è tipico della composizione
+    }
+    
+    public void switchOffBoth(){
+        this.l1.switchOff();
+        this.l2.switchOff();
+    }
+    
+    public void ecoMode(){
+        this.l1.switchOff();
+        this.l2.switchOn();
+        this.l2.setIntensity(0.5);
+    }
+} 
 ```
 
 <!--
@@ -502,7 +538,35 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Realizzazione senza riuso: schema
 
 ```java
-{{% import-raw from=1 path="pss-code/src/main/java/it/unibo/interfaces/DomusControllerTry.java" %}}
+public class DomusController{
+    private Lamp[] lamps;
+    private TV[] tvs;
+    private AirConditioner[] airs;
+    private Radio[] radios;
+    
+    ...
+    public void switchAll(boolean on){
+        for (Lamp lamp: this.lamps){
+            if (lamp != null){
+                if (on){
+                    lamp.switchOn();
+                } else {
+                    lamp.switchOff();
+                }
+            }
+        }
+        for (TV tv: this.tvs){
+            if (tv != null){ 
+                if (on){
+                    tv.switchOn();
+                } else {
+                    tv.switchOff();
+                }
+            }
+        }
+        ... // e così via per tutti i dispositivi
+    } 
+}
 ```
 
 ---
@@ -523,27 +587,21 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 
 
 
-*  Serve un meccanismo per separare esplicitamente, ossia in dichiarazioni diverse, l'interfaccia della classe e la sua realizzazione
-*  Questo consente di tenere separate fisicamente la parte di "contratto" (tipicamente fissa) con quella di "implementazione" (modificabile frequentemente)
-*  Consente di separare bene il progetto dall'implementazione
-  
-
+* Serve un meccanismo per *separare esplicitamente*, ossia in dichiarazioni diverse, *l'interfaccia* della classe e la sua *realizzazione*
+* Questo consente di tenere separate fisicamente la parte di *"contratto"* (tipicamente fissa) con quella di *"implementazione"* (modificabile frequentemente)
+* Consente *astrarre* da molteplici possibili implementazioni 
 
   
 ### Polimorfismo
 
 
 
-*  Serve un meccanismo per poter fornire diverse possibili realizzazioni di un contratto
-*  Tutte devono poter essere utilizzabili in modo omogeneo
-*  Nel caso di `DomusController`:{
-
-	*  Avere un unico contratto per i "dispositivi", e..
-	*  ..diverse classi che lo rispettano
-	*  `DomusController` gestirà un unico array di "dispositivi"
-	
-    
-}
+*  Serve un meccanismo per poter fornire *diverse possibili realizzazioni di un contratto*
+*  Tutte devono poter essere *utilizzabili in modo omogeneo*
+*  Nel caso di `DomusController`:
+	  *  Avere un unico contratto per i "dispositivi", e..
+	  *  ..diverse classi che lo rispettano
+	  *  `DomusController` gestirà un unico array di "dispositivi"
   
 
 
@@ -552,7 +610,7 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ---
 
 
-## Java `interfaces`
+## **Interfacce** in Java
 
 
   
@@ -571,17 +629,15 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 
 
 
-*  Attraverso una classe `C` che lo dichiara esplicitamente (`{..\}`)
+*  Attraverso una classe `C` che lo dichiara esplicitamente (`class C implements I { ... }`)
 *  `C` dovrà definire (il corpo di) tutti i metodi dichiarati in `I`
 *  Un oggetto istanza di `C`, avrà come tipo `C` al solito, ma anche `I`!!
   
-
-
   
-### Esempio: dispositivi DomusController
+### Esempio: dispositivi in `DomusController`
 
 
-    `Lamp`, `TV`, `Radio`, `AirConditioner` hanno una caratteristica comune, sono dispositivi e come tali possono come minimo essere accesi o spenti. È possibile definire una interfaccia `Device` che tutti e 4 implementano. 
+`Lamp`, `TV`, `Radio`, `AirConditioner` hanno una caratteristica comune, sono dispositivi e come tali possono come minimo essere accesi o spenti. È possibile definire una interfaccia `Device` che tutti e 4 implementano. 
   
 
 
@@ -592,8 +648,9 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Interface `Device`
 
 
-  %\sizedcode{\normalsize}{code/Device.java}
-  \srcode{\small}{3}{30}{\ecl/domo/Device.java}
+```java
+{{% import-raw from=1 path="pss-code/src/main/java/it/unibo/interfaces/domo/Device.java" %}}
+```
 
 
 ---
@@ -602,8 +659,31 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Implementazioni di `Device`
 
 
-  \sizedcode{\scriptsize}{code/DeviceB.java}
+```java
+public class Lamp implements Device {
+    ...  // Nessun cambiamento necessario rispetto a prima!
+    private boolean switchedOn;
+    
+    public void switchOn(){
+    	this.switchedOn = true;
+    }
+    public void switchOff(){
+    	this.switchedOn = false;
+    }
+    public boolean isSwitchedOn(){
+    	return this.switchedOn;
+    }
+    ...
+}
 
+public class TV implements Device{
+    ... // Nessun cambiamento necessario rispetto a prima!
+}
+
+public class Radio implements Device{
+    ... // Nessun cambiamento necessario rispetto a prima!
+}
+```
 
 ---
 
@@ -621,8 +701,25 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
   
 
 
-  ![](img/uml-int.pdf)
+```mermaid
+classDiagram
+class Device {
+    <<interface>>
+    switchOn()
+    switchOff()
+    isSwitchedOn() boolean
+}
 
+class Lamp { }
+class TV {}
+class Radio {}
+class AirConditioner {}
+
+Device <|-- Lamp
+Device <|-- TV
+Device <|-- Radio
+Device <|-- AirConditioner
+```
 
 ---
 
@@ -644,14 +741,14 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ### Quali operazioni sono consentite?
 
 
-    esattamente (e solo) le chiamate dei metodi definiti dall'interfaccia
+esattamente (e solo) le chiamate dei metodi definiti dall'interfaccia
   
 
   
-### Quali sono i valori (/oggetti) di quel tipo?
+### Quali sono i valori (oggetti) di quel tipo?
 
 
-    gli oggetti delle classi che dichiarano implementare quell'interfaccia
+gli oggetti delle classi che dichiarano implementare quell'interfaccia
   
 
 
@@ -662,8 +759,25 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Interfacce e assegnamenti
 
 
-  \sizedcode{\footnotesize}{code/DueTipi.java}
+```java
+/* Su Lamp effettuo le usuali operazioni */
+Lamp lamp = new Lamp();    
+lamp.switchOn();		
+boolean b = lamp.isSwitchedOn(); 
 
+/* Una variabile di tipo Device può contenere 
+   un Lamp, e su essa posso eseguire le 
+   operazioni definite da Device */
+Device dev;	  // creo la variabile
+dev = new Lamp(); // assegnamento ok	
+dev.switchOn();	  // operazione di Device
+boolean b2 = dev.isSwitchedOn();  // operazioni di Device 
+
+Device dev2 = new Lamp();  // Altro assegnamento
+
+/* Attenzione, le interfacce non sono istanziabili */
+// Device dev3 = new Device(); NO!!!! 
+```
 
 ---
 
@@ -671,8 +785,31 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Ridurre la molteplicità / aumentare riuso -- prima
 
 
-  \sizedcode{\scriptsize}{code/IntMethod.java}
-
+```java
+class DeviceUtilities{
+    
+    /* Senza interfacce, non resta altro che... */
+    
+    public static void switchOnIfCurrentlyOff(Lamp lamp){
+    	if (!lamp.isSwitchedOn()){
+    	    lamp.switchOn();
+    	}
+    }
+    
+    public static void switchOnIfCurrentlyOff(TV tv){
+    	if (!tv.isSwitchedOn()){
+    	    tv.switchOn();
+    	}
+    }
+    
+    public static void switchOnIfCurrentlyOff(Radio radio){
+    	if (!radio.isSwitchedOn()){
+    	    radio.switchOn();
+    	}
+    }
+    ..
+}
+```
 
 ---
 
@@ -680,8 +817,27 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Ridurre la molteplicità / aumentare riuso -- dopo
 
 
-  \sizedcode{\scriptsize}{code/IntMethod2.java}
+```java
+class DeviceUtilities {
+    
+    /* Grazie alle interfacce, fattorizzo in un solo metodo */
+    
+    public static void switchOnIfCurrentlyOff(Device device) {
+    	if (!device.isSwitchedOn()){
+    	    device.switchOn();
+    	}
+    }
+}
 
+/* Codice cliente */
+Lamp lamp = new Lamp();
+TV tv = new TV();
+Radio radio = new Radio();
+
+switchOnIfCurrentlyOff(lamp); // OK, un Lamp è un Device 
+switchOnIfCurrentlyOff(tv); // OK, una TV è un Device
+switchOnIfCurrentlyOff(radio); // OK, una Radio è un Device
+```
 
 ---
 
@@ -700,7 +856,7 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 
 *  caso particolare: Quando si vuole comporre ("has-a") un qualunque oggetto che implementi il contratto
 
-* $\Rightarrow$ l'esperienza mostra che classi riusabili di norma hanno sempre una loro `interface`
+$\Rightarrow$ l'esperienza mostra che classi riusabili di norma hanno sempre una loro `interface`
   
 
 
@@ -722,26 +878,66 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Scenario `DomusController` rivisitato
 
 
-  ![](img/uml-int-domus.pdf)
+
+```mermaid
+classDiagram
+class Device {
+    <<interface>>
+    switchOn()
+    switchOff()
+    isSwitchedOn() boolean
+}
+
+class DomusController {
+    DomusController(size: int)
+    installDevice(position: int, dev: Device)
+    removeDevice(position: int)
+    getDevice(position: int) Device
+    switchAll(on: boolean)
+    isCompletelySwitchedOn() boolean
+}
+
+class Lamp { }
+class TV { }
+class Radio { }
+class AirConditioner { }
+
+Device <|-- Lamp
+Device <|-- TV
+Device <|-- Radio
+Device <|-- AirConditioner
+```
 
 
 ---
 
 
-## Codice `DomusController` pt 1
+## Codice `DomusController`
 
 
-  \srcode{\scriptsize}{3}{25}{\ecl/domo/DomusController.java}
+<div class="container">
+<div class="col">
 
+{{% smaller %}}
 
----
+```java
+{{% import-raw from=1 to=25 path="pss-code/src/main/java/it/unibo/interfaces/domo/DomusController.java" %}}
+```
 
+{{% /smaller %}}
 
-## Codice `DomusController` pt 2
+</div><div class="col">
 
+{{% smaller %}}
 
-  \srcode{\scriptsize}{26}{100}{\ecl/domo/DomusController.java}
+```java
+{{% import-raw from=26 path="pss-code/src/main/java/it/unibo/interfaces/domo/DomusController.java" %}}
+```
 
+{{% /smaller %}}
+
+</div>
+</div>
 
 ---
 
@@ -749,8 +945,9 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Codice `TV`
 
 
-  \srcode{\ssmall}{3}{100}{\ecl/domo/TV.java}
-
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/interfaces/domo/TV.java" %}}
+```
 
 ---
 
@@ -758,15 +955,14 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 
 ## Uso di `DomusController`
 
-
-  %\sizedcode{\scriptsize}{code/classes2/UseDomusController.java}
-  \srcode{\scriptsize}{3}{100}{\ecl/domo/UseDomusController.java}
-
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/interfaces/domo/UseDomusController.java" %}}
+```
 
 ---
 
 
-\section[Sottotipi, sostituibilità, polimorfismo]{Tipi, sottotipi, sostituibilità, polimorfismo}
+# Tipi, sottotipi, sostituibilità, polimorfismo
 
 
 ## `implements` come relazione di "sottotipo"
@@ -778,11 +974,11 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 
     
 
-  *  $T_{`boolean`} = \{`true`, `false`\}$
-  *  $T_{`int`} = \{-2147483648,\ldots,-1,0,1,2,\ldots,2147483647\}$
-  *  $T_{`Lamp`} = \{X|\textrm{$X$ is an object of class `Lamp`}\}$
-  *  $T_{`Device`} = \{X|\textrm{$X$ is an object of a class implementing `Device`}\}$
-  *  $T_{`String`} = \{X|\textrm{$X$ is an object of class `String`}\}$
+  *  $T_{boolean} = \lbrace true, false \rbrace$
+  *  $T_{int} = \lbrace -2147483648,\ldots,-1,0,1,2,\ldots,2147483647 \rbrace$
+  *  $T_{Lamp} = \lbrace X|\textrm{$X$ is an object of class Lamp} \rbrace$
+  *  $T_{Device} = \lbrace X|\textrm{$X$ is an object of a class implementing Device} \rbrace$
+  *  $T_{String} = \lbrace X|\textrm{$X$ is an object of class String} \rbrace$
   
 
   
@@ -793,13 +989,13 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 
 
 *  Un oggetto della classe `Lamp` è anche del tipo `Device`
-*  Quindi, da $X\in T_{`Lamp`}$ segue  $X\in T_{`Device`}$
-*  Ossia, $T_{`Lamp`} \subseteq  T_{`Device`}$, scritto anche: `Lamp <:\!\!\! Device`
+*  Quindi, da $X \in T_{Lamp}$ segue  $X \in T_{Device}$
+*  Ossia, $T_{Lamp} \subseteq  T_{Device}$, scritto anche: `Lamp <: Device`
   
 
 
   
-\Large Ogni classe è sottotipo delle interfacce che implementa!
+**Ogni classe è sottotipo delle interfacce che implementa!**
 
 
 
@@ -813,25 +1009,25 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ### Principio di sostituibilità di Liskov (1993)
 
 
-    Se `A` è un sottotipo di `B` allora ogni oggetto (o valore) di `A` può(/deve) essere utilizzato dove un programma si attende un oggetto (o valore) di `B`
+Se `A` è un sottotipo di `B` allora ogni oggetto (o valore) di `A` può(/deve) essere utilizzato dove un programma si attende un oggetto (o valore) di `B`
   
 
   
 ### Nel caso delle interfacce
 
 
-    Se la classe `C` implementa l'interfaccia `I`, allora ogni istanza di `C` può essere passata dove il programma si attende un elemento del tipo `I`.
+Se la classe `C` implementa l'interfaccia `I`, allora ogni istanza di `C` può essere passata dove il programma si attende un elemento del tipo `I`.
   
 
   
 ### Si rischiano errori?
 
 
-    No. Il programma può manipolare gli elementi del tipo `I` solo mandando loro i messaggi dichiarati in `I`, che sono sicuramente "accettati" dagli oggetti di `C`. Il viceversa non è vero.
+No. Il programma può manipolare gli elementi del tipo `I` solo mandando loro i messaggi dichiarati in `I`, che sono sicuramente "accettati" dagli oggetti di `C`. Il viceversa non è vero.
    
 
    
-\Large Nota: `I` è più generale di `C`, ma fornisce meno funzionalità!
+**Nota: `I` è più generale di `C`, ma fornisce meno funzionalità!**
 
 
 
@@ -856,8 +1052,8 @@ Ve ne sono di diversi tipi nei linguaggi OO
 
 È precisamente l'applicazione del principio di sostituibilità
 
-*  Se il tipo `A` è una specializzazione di `B` (lo implementa)..
-*  ..si può usare un oggetto `A` dove se ne  attende uno di `B`
+*  Se il tipo `B` è una specializzazione di `A` (lo implementa)..
+*  ..si può usare un oggetto `B` dove se ne  attende uno di `A`
   
 
 
@@ -874,15 +1070,33 @@ Ve ne sono di diversi tipi nei linguaggi OO
 
 
 
-*  `C` deve usare uno o più oggetti di un tipo non predeterminato
+*  `C` deve "usare" uno o più oggetti di un tipo non predeterminato
 *  l'interfaccia `I` cattura il contratto comune di tali oggetti
-*  varie classi `C1`,`C2`,`C3` (e altre in futuro) implementano `I`
-*  `C` non ha dipendenze rispetto `C1`,`C2`,`C3`
+*  varie classi `C1`, `C2`, `C3` (e altre in futuro) implementano `I`
+*  `C` non ha dipendenze rispetto `C1`, `C2`, `C3`
 *  (l'uso potrebbe essere una composizione, come nel caso precedente)
   
 
 
-  ![](img/uml-int-general.pdf)
+```mermaid
+classDiagram
+
+class I { 
+  <<interface>>
+  contract 
+}
+
+class C
+class C1 
+class C2
+class C3
+
+I <-- C
+
+I <|-- C1
+I <|-- C2
+I <|-- C3
+```
 
 
 ---
@@ -892,9 +1106,19 @@ Ve ne sono di diversi tipi nei linguaggi OO
 ## Late binding (o dynamic binding)
 
 
-  \sizedcode{\scriptsize}{code/IntMethod3.java}
+```java
+public static void switchOnIfCurrentlyOff(Device device){
+    // Collegamento dinamico con i metodi da invocare..
+    if (!device.isSwitchedOn()){
+        device.switchOn();
+    }
+}
+/* Codice cliente */
+Lamp lamp = new Lamp();
+switchOnIfCurrentlyOff(lamp); // OK, un Lamp è un Device 
+```
   
-### Collegamento ritardato
+### Collegamento dinamico/ritardato
 
 Accade con le chiamate a metodi non-statici
 
@@ -910,8 +1134,28 @@ Accade con le chiamate a metodi non-statici
 
 ## Early (static) vs late (dynamic) binding
 
+* "statico" vuol dire "a tempo di compilazione" (compile-time)
+* "dinamico" vuol dire "a tempo di esecuzione" (run-time)
 
-  \sizedcode{\ssmall}{code/EarlyLate.java}
+```java
+interface I {
+    void m();
+}
+class C1 implememts I {
+    void m(){ System.out.println("I'm istance of C1");}
+}
+class C2 implememts I {
+    void m(){ System.out.println("I'm istance of C2");}
+    static void m2(){ System.out.println("I'm a static method of C2");} 
+}
+
+// Codice cliente
+
+I i = Math.random() > 0.5 ? new C1() : new C2();
+i.m(); // collegamento al body da eseguire è late, ossia dinamico
+
+C2.m2(); // collegamento al body da eseguire è early, ossia statico
+```
   
 ### Differenze
 
@@ -926,8 +1170,9 @@ Accade con le chiamate a metodi non-statici
 
 ---
 
-\section[Altro su interfacce]{Altri Meccanismi delle Interfacce}
+# Altri Meccanismi delle Interfacce
 
+---
 
 ## Altri aspetti sulle interfacce
 
@@ -935,26 +1180,30 @@ Accade con le chiamate a metodi non-statici
   
 ### Cosa non può contenere una `interface`?
 
-
-
 *  Non può contenere campi istanza
 *  Non può contenere il corpo di un metodo istanza
 *  Non può contenere un costruttore
   
-
-
   
 ### Cosa potrebbe contenere una `interface`?
 
 
 
 *  Java consentirebbe anche di includere dei campi statici e metodi statici (con tanto di corpo), ma è sconsigliato utilizzare questa funzionalità per il momento
-*  In Java 8 i metodi possono avere una implementazione di default, che vedremo
+*  Da Java 8, i metodi possono avere una implementazione di default, che vedremo
   
-
+```java
+public interface I4 extends I1, I2, I3 {
+    void doSomething(String s);
+    // da Java 8
+    double E = 2.718282; // implicitamente public, static, final
+    default doSomethingTwice(String s) { doSomething(s); doSomething(s); }
+    static double PI() { return Math.PI; }
+}
+```
 
   
-\Large Le `interface` includano solo intestazioni di metodi!
+**Le `interface` includano solo intestazioni di metodi!**
 
 
 
@@ -967,15 +1216,12 @@ Accade con le chiamate a metodi non-statici
   
 ### Implementazione multipla
 
-Dichiarazione possibile: `{..\}`
+Dichiarazione possibile: `class C implements I1,I2,I3 { ... }`
   
 
 *  Una classe `C` implementa sia `I1` che `I2` che `I3`
-*  La classe `C` deve fornire un corpo per tutti i metodi di `I1`, tutti quelli di `I2`, tutti quelli di `I3`{
-
-  *  se `I1`,`I2`,`I3` avessero metodi in comune non ci sarebbe problema, ognuno andrebbe implementato una volta sola
-    
-}
+*  La classe `C` deve fornire un corpo per tutti i metodi di `I1`, tutti quelli di `I2`, tutti quelli di `I3`
+    *  se `I1`, `I2`, `I3` avessero metodi in comune non ci sarebbe problema, ognuno andrebbe implementato una volta sola
 *  Le istanze di `C` hanno tipo `C`, ma anche i tipi `I1`, `I2` e `I3`
   
 
@@ -988,8 +1234,29 @@ Dichiarazione possibile: `{..\}`
 ## Esempio `Device` e `Luminous`
 
 
-  \sizedcode{\scriptsize}{code/Multi.java}
+```java
+/* Interfaccia per dispositivi */
+public interface Device{        // Contratto:
+    void switchOn();            // - si può accendere
+    void switchOff();           // - si può spegnere
+    boolean isSwitchedOn();     // - si può verificare se acceso/spento
+}
 
+/* Interfaccia per entità luminose */
+public interface Luminous{      // Contratto:
+    void dim();                 // - si può ridurre la luminosità
+    void bright();              // - si può aumentare la luminosità
+}
+
+public class Lamp implements Device, Luminous{
+    ...  
+    public void switchOn(){ ... }
+    public void switchOff(){ ... }
+    public boolean isSwitchedOn(){ ... }
+    public void dim(){ ... }
+    public void bright(){ ... }
+}
+```
 
 ---
 
@@ -1000,7 +1267,7 @@ Dichiarazione possibile: `{..\}`
   
 ### Estensione
 
-Dichiarazione possibile: `{..\}`
+Dichiarazione possibile: `interface I extends I1,I2,I3 { ... }`
   
 
 *  Una interfaccia  `I` definisce certi metodi, oltre a quelli di `I1`, `I2`, `I3`
@@ -1017,8 +1284,31 @@ Dichiarazione possibile: `{..\}`
 ## Esempio `LuminousDevice`
 
 
-  \sizedcode{\scriptsize}{code/Multi2.java}
+```java
+public interface Device{ 
+    void switchOn(); 
+    void switchOff();
+    boolean isSwitchedOn();
+}
+public interface Luminous{     
+    void dim();
+    void bright();
+}
 
+/* Interfaccia per dispositivi luminosi */
+public interface LuminousDevice extends Device, Luminous{
+    // non si aggiungono ulteriori metodi 
+}
+
+public class Lamp implements LuminousDevice{
+    ...  
+    public void switchOn(){ ... }
+    public void switchOff(){ ... }
+    public boolean isSwitchedOn(){ ... }
+    public void dim(){ ... }
+    public void bright(){ ... }
+}
+```
 
 ---
 
@@ -1043,7 +1333,7 @@ Dichiarazione possibile: `{..\}`
 
 
 
-*  `{...\}`
+*  `class ImageIcon implements Icon, Serializable, Accessible { ... }`
   
 
 
@@ -1052,7 +1342,7 @@ Dichiarazione possibile: `{..\}`
 
 
 
-*  `{...\}`
+*  `interface ObjectInput extends DataInput { ... }`
   
 
 
