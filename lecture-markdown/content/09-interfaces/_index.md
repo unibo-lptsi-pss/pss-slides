@@ -711,9 +711,9 @@ class Device {
 }
 
 class Lamp { }
-class TV {}
-class Radio {}
-class AirConditioner {}
+class TV { }
+class Radio { }
+class AirConditioner { }
 
 Device <|-- Lamp
 Device <|-- TV
