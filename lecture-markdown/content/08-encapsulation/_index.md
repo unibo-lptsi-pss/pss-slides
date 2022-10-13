@@ -371,6 +371,7 @@ class SomeClass {
 
 ## Esempio di buona formattazione: `Point3D`
 
+{{% smaller %}}
 
 
 <div class="container">
@@ -398,6 +399,9 @@ class SomeClass {
 
 
 </div></div>
+
+{{% /smaller %}}
+
 
 ---
 
@@ -856,23 +860,23 @@ Ovvero, del nome della classe e delle signature di operazioni pubbliche (metodi 
 ```java
 /* Classe d'esempio che modella il concetto di Lampadina
    in un sistema Domotico */
-public class Lamp{
+public class Lamp {
     
     /* Inizializzazione */ 
-    public Lamp(){ .. }
+    public Lamp() { .. }
     
     /* Accendo/Spengo */
-    public void switchOn(){ .. }
-    public void switchOff(){ .. }
+    public void switchOn() { .. }
+    public void switchOff() { .. }
     
     /* Meno intenso/Più intenso/Quanto intenso */  
-    public void dim(){ .. }
-    public void brighten(){ .. }
-    public void setIntensity(double value){ .. }
+    public void dim() { .. }
+    public void brighten() { .. }
+    public void setIntensity(double value) { .. }
     
     /* Selezione */
-    public double getIntensity(){ .. }
-    public boolean isSwitchedOn(){ .. }
+    public double getIntensity() { .. }
+    public boolean isSwitchedOn() { .. }
 } 
 ```
 
