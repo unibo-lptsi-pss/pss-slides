@@ -77,19 +77,19 @@ aliases = ["/interfaces-consolidation/"]
   
 ### I Pattern di progettazione
 
-
-
-*  Idea: trasmettere esperienze (positive) e ore di lavoro (di identificazione, rifattorizzazione) ad altri per essere usate *tout court*
-*  Sono elementi riusabili (semplici ed eleganti) di progettazione OO
-*  Sono stati ottenuti in passato (e tuttora) dall'analisi di soluzioni ricorrenti in progetti diversi
-*  Alcuni sono particolarmente famosi, come quelli della "Gang of Four" (detti anche Pattern della GoF, o Pattern di Gamma)
-*  Testo famosissimo (in C++): "Design Patterns: Elements of Reusable Object-Oriented Software" di E. Gamma, R. Helm, R. Johnson, J. Vlissides
-*  23 in tutto. Esempi: Decorator, Singleton, Template Method, Observer
-*  (Cit. "SW di grosse dimensioni li usano praticamente tutti")
-*  Il loro uso migliora molto il codice
-*  Ne favorisce la comprensione se li si indicano nella documentazione
-*  Rende il codice più flessibile (nascono per questo)
-*  Portano più direttamente ad una buona organizzazione
+*  Un **pattern** è una *soluzione notevole a problemi ricorrenti di design object-oriented*  
+    <!-- elementi riusabili (semplici ed eleganti) di progettazione OO -->
+    *  Idea: trasmettere esperienze (positive) e ore di lavoro (di identificazione, rifattorizzazione) ad altri per essere usate *tout court*
+    *  Sono stati ottenuti in passato (e tuttora) dall'analisi di soluzioni ricorrenti in progetti diversi
+*  Alcuni sono particolarmente famosi, come quelli della *"Gang of Four"* (detti anche *Pattern GoF*)
+    *  Testo famosissimo (in C++): *Design Patterns: Elements of Reusable Object-Oriented Software* di *E. Gamma, R. Helm, R. Johnson, J. Vlissides*
+    *  23 in tutto. Esempi: Decorator, Singleton, Template Method, Observer
+    *  (Cit. "SW di grosse dimensioni li usano praticamente tutti")
+* Benefici
+    *  Il loro uso migliora molto il codice
+    *  Ne favorisce la comprensione se li si indicano nella documentazione
+    *  Rende il codice più flessibile (nascono per questo)
+    *  Portano più direttamente ad una buona organizzazione
 
 
 
