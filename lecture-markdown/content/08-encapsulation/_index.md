@@ -466,6 +466,9 @@ class SomeClass {
 
 **modularità = alta coesione intra-modulo + basso accoppiamento inter-moduli**
 
+
+<!--
+
 ---
   
 ### Esempi di decomposizione per la calcolatrice
@@ -476,8 +479,7 @@ class SomeClass {
 *  Caso 2: grafica separata da calcoli matematici
 * $\Rightarrow$ quale dei due casi porta a meno dipendenze (ossia è più modulare)?
   
-
-
+-->
 
 
 ---
