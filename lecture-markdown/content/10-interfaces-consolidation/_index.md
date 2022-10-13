@@ -36,34 +36,76 @@ aliases = ["/interfaces-consolidation/"]
 
 ## Riassunto delle puntate precedenti
 
+### Elementi di progettazione di sistemi software (OO)
+
 - Programma vs. sistema software
 - Fasi processo di sviluppo: analisi $\to$ design $\to$ implementazione $\to$ collaudo $\to$ deployment
 - Problem space (dominio/logica business) vs. solution space (scelte realizzative)
     - livello di astrazione
+- Riuso mediante
+    - utilizzo di altri oggetti (*composizione*) 
+    - estensione dei servizi offerti da altri oggetti (*ereditarietà*)
+- Concetti di modularità, dipendenza, accoppiamento, coesione
+- Metodologie
+    - *test-driven development*
+
+---
+
+### Strumenti
+
+- Java 17
+    - *write once, run everywhere*
+    - **JDK**: JRE (JVM [`java`] + JCL) + strumenti di sviluppo (`javac`, `jshell` ...)
+- *Terminali* per l'accesso al file system e ai programmi da linea di comando
+- Strumenti JDK: compilazione con `javac` ed esecuzione con `java`
+    - *Programma*: metodo pubblico statico `main` in classe pubblica
+- `gradle`: build system
+- `git`: version control system
+- `JUnit`: framework per lo unit testing
+- *Visual Studio Code*: ambiente di sviluppo integrato (IDE)
+
+---
+
+### Basi dell'OOP in Java
+
 - Astrazione object-oriented
     - *oggetto = stato + comportamento + identità* (cf. *incapsulamento*)
     - interazione attraverso "scambio di messaggi"
     - *classe* come "tipo" di oggetti e come "template" di costruzione di oggetti simili (*istanze*)
     - *interfaccia* vs. implementazione (cf. *information-hiding*)
-- Riuso mediante
-    - utilizzo di altri oggetti (*composizione*) 
-    - estensione dei servizi offerti da altri oggetti (*ereditarietà*)
+ - Elementi di base
+    - tipi primitivi vs. tipi oggetto (classi)
+    - variabili e riferimenti ad oggetti (allocati nello *heap*) (assegnamento per copia)
+    - oggetti allocati in memoria dinamica (heap) $\to$ lifetime di oggetti va oltre lo scope
+        - no deallocazione manuale (cf. *GC*)
+    - **classi**: *campi* & *metodi* (statici o d'istanza) -- accedibili mediante _dot notation_
+    - concetto di *receiver* di una *method call* e variabile speciale `this`
+- Altri costrutti
+    - codice *statico*: modificatore `static` per metodi/campi *di classe*
+    - *costruttori* e inizializzazione di oggetti
+    - *overloading* di metodi e costruttori
+    - *package* come namespace e contenitori di classi (cf. dichiarazione `package`) organizzati gerarchicamente
+        - *FQCN (Fully-Qualified Class Name)*
+        - `import` per importare i nomi delle classi in scope 
+    - *controllo di accesso*: `public`, package-private, `private`
+    - modificatore `final` per campi e variabili *costanti* (non modificabili)
 
 ---
 
-- Java 17
-    - *write once, run everywhere*
-    - JDK: JRE (JVM [`java`] + JCL) + strumenti di sviluppo (`javac`, ...)
-- Costrutti Java per la OOP
-    - tipi primitivi vs. tipi oggetto (classi)
-    - variabili e riferimenti ad oggetti (allocati nello *heap*) (assegnamento per copia)
-    - lifetime di oggetti va oltre lo scope; no deallocazione manuale (cf. *GC*)
-    - classi: *campi* & *metodi* (statici o d'istanza) -- accedibili mediante _dot notation_
-    - concetto di *receiver* di una *method call* e variabile speciale `this`
-    - *programmi*: metodo pubblico statico `main` in classe pubblica
-- Strumenti: compilazione con `javac` ed esecuzione con `java`
+### OOP efficace
 
-_Competenza attuale attesa: costruzione di semplici classi; loro esercizio mediante programmi; compilazione ed esecuzione di programmi_
+- *Linee guida stilistiche* di formattazione di sorgenti Java (spaziature, nomi, etc.)
+- **Incapsulamento**
+    1. impacchettamento *dati* e *funzioni* per la loro manipolazione
+    2. *information hiding*: interfaccia pubblica stabile (*contratto*) e dettagli implementativi privati 
+- Varie
+    - metodi getter e setter
+    - oggetti *immutabili*
+
+_Competenza attuale attesa: costruzione di semplici classi ben incapsulate; loro esercizio mediante programmi; compilazione ed esecuzione di programmi_
+
+
+
 
 ---
 
