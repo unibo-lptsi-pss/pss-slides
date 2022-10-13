@@ -167,7 +167,7 @@ void m() {
                         System.out.println(i);
                 }
         }
-        System.out.println("Questa è una stringa veramente lungha che potrebbe portare ad infrangere la regola")
+        System.out.println("Questa è una stringa veramente lunga che potrebbe portare ad infrangere la regola")
 }
 
 // OK
@@ -177,7 +177,7 @@ void m() {
             System.out.println(i);
         }
     }
-    System.out.println("Questa è una stringa veramente lungha " + 
+    System.out.println("Questa è una stringa veramente lunga " + 
         "che potrebbe portare ad infrangere la regola")
 }
 ```
@@ -265,6 +265,8 @@ if(a > b) {
 * Spaziature di diverse "sezioni" del codice
     * Metodi separati da una linea vuota (e non più di 1)
 
+{{% smaller %}}
+
 ```java
 // MIGLIORABILE
 void m()
@@ -287,6 +289,8 @@ void f() {
     // ...
 }
 ```
+
+{{% /smaller %}}
 
 ---
 
@@ -325,12 +329,12 @@ class SomeClass {
 ---
 
   
-### Ordine degli elementi della classe (`protected` descritto in seguito)
+### Ordine degli elementi della classe <!-- (`protected` descritto in seguito) -->
 
-1.  Campi statici (pubblici, poi protetti, poi privati)
-2.  Campi istanza (pubblici, poi protetti, poi privati)
-3.  Costruttori (pubblici, poi protetti, poi privati)
-4.  Metodi (*raggruppati per ruolo*)
+1.  Campi statici (pubblici, <!-- poi protetti, --> poi privati -- ovvero, dal più aperto al più chiuso)
+2.  Campi istanza (pubblici, <!-- poi protetti, --> poi privati)
+3.  Costruttori (pubblici, <!-- poi protetti, --> poi privati)
+4.  Metodi (*raggruppati per ruolo*, NON per visibilità, NON alfabeticamente)
   
 ```java
 // MIGLIORABILE
