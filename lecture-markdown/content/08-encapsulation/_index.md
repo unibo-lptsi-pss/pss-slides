@@ -23,9 +23,9 @@ aliases = ["/encapsulation/"]
 
 
 
-  *  Illustrare concetti generali di incapsulamento e information hiding
-  *  Mostrare tecniche di programmazione standard
-  *  Fornire primi esempi di classi ben progettate
+  *  Illustrare concetti generali di *incapsulamento* e *information hiding*
+  *  Mostrare *tecniche di programmazione* "standard"
+  *  Fornire primi *esempi di classi ben progettate*
   
 
 
@@ -34,13 +34,10 @@ aliases = ["/encapsulation/"]
 
 
 
-  *  Convenzioni su formattazione
-  *  Incapsulamento in Java
+  *  Convenzioni su *formattazione* di codice sorgente Java
+  *  *Incapsulamento* in Java
   *  Una metodologia di progettazione
   *  Ulteriori convenzioni
-  
-
-
 
 
 ---
@@ -148,7 +145,7 @@ Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello
 
 
 
-## Convenzioni sulla formattazione, pt 1
+## Convenzioni sulla formattazione
 
 
   
@@ -162,7 +159,7 @@ Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello
 {{% smaller %}}
 
 ```java
-// NON OK
+// MIGLIORABILE
 void m() {
         // indentazione di 8 caratteri, da evitare, in quanto i sorgenti crescono facilmente orizzontalmente
         for(int i : new int[] {1, 2, 3}) {
@@ -172,6 +169,7 @@ void m() {
         }
         System.out.println("Questa è una stringa veramente lungha che potrebbe portare ad infrangere la regola")
 }
+
 // OK
 void m() {
     for(int i : new int[] {1, 2, 3}) {
@@ -231,7 +229,7 @@ class Device {
 *  Una sola istruzione per riga 
   
 ```java
-// NON OK
+// MIGLIORABILE
 int a, b, c;
 b = c = 5;
 if(a > b) { System.out.println("a = " + a); } else { System.out.println("b = " + b); }
@@ -257,16 +255,18 @@ if(a > b) {
 ### Costrutti vari
 
 
-
-*  Apertura graffa: a fine linea della dichiarazione
-*  Chiusura graffa: in linea a sè, dove inizia la linea che la apre
-*  Metodi separati da una linea vuota
-*  Usare graffe anche con blocchi ad uno statement
-*  Non usare assegnamenti dentro a espressioni
-*  Disambiguare priorità operatori con parentesi
+* Blocchi e parentesi graffe
+    *  Apertura graffa: a fine linea della dichiarazione
+    *  Chiusura graffa: in linea a sè, dove inizia la linea che la apre
+    *  Usare graffe anche con blocchi ad uno statement
+* Espressioni
+    * Non usare assegnamenti dentro a espressioni
+    *  Disambiguare priorità operatori con parentesi
+* Spaziature di diverse "sezioni" del codice
+    * Metodi separati da una linea vuota (e non più di 1)
 
 ```java
-// NON OK
+// MIGLIORABILE
 void m()
 {
     if(this.disabled ? true : this.unavailable ? true : this.urgent) return; 
@@ -303,7 +303,7 @@ void f() {
 *  **Campi costanti**: tutte *maiuscole* con eventuale separatore `_`
 
 ```java
-// NON OK
+// MIGLIORABILE
 package IT.UNIBO.some_package;
 class some_class {
     static final int someConstant = 100;
@@ -324,39 +324,52 @@ class SomeClass {
 
 ---
 
-
-## Convenzioni sulla formattazione, pt 3
-
-
   
-### Ordine delle proprietà della classe (`protected` descritto in seguito)
+### Ordine degli elementi della classe (`protected` descritto in seguito)
 
-
-
-*  Campi statici (pubblici, poi protetti, poi privati)
-*  Campi istanza (pubblici, poi protetti, poi privati)
-*  Costruttori (pubblici, poi protetti, poi privati)
-*  Metodi (raggruppati per ruolo)
+1.  Campi statici (pubblici, poi protetti, poi privati)
+2.  Campi istanza (pubblici, poi protetti, poi privati)
+3.  Costruttori (pubblici, poi protetti, poi privati)
+4.  Metodi (*raggruppati per ruolo*)
   
+```java
+// MIGLIORABILE
+class SomeClass {
+    void someMethod() { /* ... */ }
 
+    private static final int SOME_CONSTANT1 = 100;
+    public static final int SOME_CONSTANT2 = 100;
 
+    private int someField;
+}
+
+// OK
+class SomeClass {
+    // Campi statici
+    public static final int SOME_CONSTANT1 = 100;
+    private static final int SOME_CONSTANT2 = 100;
+
+    // Campi d'istanza
+    private int someField;
+    
+    // Metodi d'istanza
+    void someMethod() { /* ... */ }
+}
+```
+
+---
   
 ### Nota finale
 
-
-
 *  L'uso delle corrette convenzioni rende il codice molto più leggibile, ma anche meno conciso
 *  Nelle slide è impossibile mostrarlo sempre in questo modo
-*  Quindi userò in futuro solo alcune convenzioni..
-  
-
-
+*  Quindi useremo in futuro solo alcune convenzioni..
 
 
 ---
 
 
-## Esempio: Point3D
+## Esempio di buona formattazione: `Point3D`
 
 
 
@@ -367,7 +380,7 @@ class SomeClass {
 
 
 ```java
-{{% import-raw from=3 to=32 path="pss-code/src/main/java/it/unibo/encapsulation/Point3D.java" %}}
+{{% import-raw from=3 to=32 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
 ```
 
 {{% /smaller %}}
@@ -378,7 +391,7 @@ class SomeClass {
 {{% smaller %}}
 
 ```java
-{{% import-raw from=34 path="pss-code/src/main/java/it/unibo/encapsulation/Point3D.java" %}}
+{{% import-raw from=34 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
 ```
 
 {{% /smaller %}}
@@ -393,11 +406,10 @@ class SomeClass {
 # Decomposizione, incapsulamento, information hiding
 
 
-## Il principo di decomposizione
+---
 
 
-
-<span style="font-size:200%"> divide et impera </span>
+## Il principo di decomposizione: **divide et impera**
 
 
 ### Dividi e conquista: approccio *__top-down__*
@@ -418,29 +430,35 @@ class SomeClass {
 *  Disegno Mandelbrot: Complex, Mandelbrot, MandelbrotApp
 
 
-
-
-
 ---
 
 
-## Decomposizione, modularità e dipendenze
+## Decomposizione, modularità, e dipendenze
 
 
   
-### Un punto cruciale della decomposizione è la "modularità"
+### Un punto cruciale della decomposizione è la **modularità**
 
-
-
-*  La suddivisione va fatta in modo tale che sia effettivamente conveniente
-*  Bisogna isolare i "sottoproblemi" più semplici
-*  Ciò è possibile se riduciamo al massimo le "dipendenze" fra i sottoproblemi, il che consente:
+* **Modularità**: il grado con cui un sistema è formato da "moduli" separati e combinabili
+    * La suddivisione (in moduli) va fatta in modo tale che sia effettivamente conveniente
+    * Bisogna isolare i "sottoproblemi" più semplici
+* **Dipendenza**: modulo $A$ è una *dipendenza* del modulo $B$ se $B$ ha bisogno di $A$ per alcune sue funzioni
+    * Una dipendenza crea un **accoppiamento (coupling)** 
+* Bisogna cercare di ridurre al massimo le *"dipendenze"* fra i sottoproblemi, il che consente:
     *  più autonomia decisionale
     *  meno interazione con altri
-    *  *__meno influenze negative nel caso di modifiche__*
-  
+    *  *__meno influenze negative nel caso di modifiche__* (se il modulo $A$ cambia, può essere necessario modificare come conseguenza il modulo "dipendente" $B$)
+* **Coesione**: il grado con cui una serie di componenti lavora bene insieme
+
+---
+
+![](imgs/modularity.png)
 
 
+
+**modularità = alta coesione intra-modulo + basso accoppiamento inter-moduli**
+
+---
   
 ### Esempi di decomposizione per la calcolatrice
 
@@ -465,9 +483,9 @@ class SomeClass {
 
 
 
-*  Suddivisione in package (dell'intero programma)
-*  Suddivisione in classi (di un package o programma)
-*  Suddivisione in metodi (di una classe)
+*  Suddivisione in *package* (dell'intero programma)
+*  Suddivisione in *classi* (di un package o programma)
+*  Suddivisione in *metodi* (di una classe)
   
 
 
@@ -477,7 +495,7 @@ class SomeClass {
 
 
 *  È necessario suddividire il codice in classi nel modo opportuno
-*  Creando il miglior link col "problem space"
+*  Creando il miglior link col *"problem space"*
 *  *__Diminuendo il più possibile le dipendenze fra classi__*
   
 
@@ -487,7 +505,7 @@ class SomeClass {
 
 
 
-*  Esistono consolidate pratiche di programmazione efficiente che risolvono il problema, e che cominceremo ad analizzare in questa lezione -- farlo bene richiede molto tempo ed esperienza!
+*  Esistono consolidate pratiche di programmazione efficace che risolvono il problema, e che cominceremo ad analizzare in questa lezione -- farlo bene richiede molto tempo ed esperienza!
   
 
 
@@ -503,18 +521,17 @@ class SomeClass {
 ### Dipendenza
 
 
-Si dice che una classe `A` dipende da una classe `B` se all'interno del codice di `A` si menziona la classe `B` (ad esempio come input di un metodo) o qualche sua proprietà. La dipendenza è tanto più profonda quanto più in `A` si usano anche costruttori e/o campi e/o metodi definiti in `B`.
+Si dice che una classe `A` *dipende da* una classe `B` se all'interno del codice di `A` si menziona la classe `B` (ad esempio come input di un metodo) o qualche sua proprietà. 
+
+* La dipendenza è tanto più profonda (*high coupling*) quanto più in `A` si usano anche costruttori e/o campi e/o metodi definiti in `B`.
+  
+Implicazione di avere una dipendenza
+
+* Ogni dipendenza vincola fortemente la possibilità di fare modifiche, perché ne comporta altre da fare in cascata. Se `A` dipende da `B` e modifico `B`, dovrò probabilmente modificare anche `A`.
   
 
   
-### Implicazione
-
-
-Ogni dipendenza vincola fortemente la possibilità di fare modifiche, perché ne comporta altre da fare in cascata. Se `A` dipende da `B` e modifico `B`, dovrò probabilmente modificare anche `A`.
-  
-
-  
-### La sindrome dell'"intoccabilità"---SW rigido
+### La sindrome dell'"intoccabilità"---*SW "rigido"*
 
 
 Costruendo software complesso con troppe dipendenze, si giunge al punto che ogni singola modifica ne richiederebbe molte altre, e rischierebbe quindi di essere troppo costosa -- risultato: non si cambia più il software!
@@ -527,21 +544,18 @@ Costruendo software complesso con troppe dipendenze, si giunge al punto che ogni
 
 ## Incapsulamento
 
+### Definizione
 
+**Incapsulamento**: il grado con cui un insieme di dati e funzioni sono parte di un oggetto
   
-### Due ingredienti cruciali della programmazione OO
+L'incapsulamento si fonda su due ingredienti cruciali della programmazione OO:
 
-
-
-*  Impacchettamento dati + funzioni per manipolarli
-*  Information hiding via controllo d'accesso
-  
+1. **Impacchettamento dati + funzioni per manipolarli**
+2. **Information hiding** (via *controllo d'accesso*)
 
 
   
 ### Filosofia
-
-
 
 *  Ogni classe dichiari `public` solo quei (pochi) metodi/costruttori necessari a interagire con (o creare) le sue istanze
 *  Il resto (che quindi include meri aspetti realizzativi) sia `private`
@@ -561,8 +575,36 @@ Così facendo il "cliente" è debolmente influenzato da possibili modifiche futu
 ---
 
 
-## Esempio base: Classe Counter
+## Esempio base: conteggio (NON incapsulato)
 
+* dati e funzioni sono tenuti separati
+
+```java
+{{% import-raw from=1 path="pss-code/src/main/java/it/unibo/encapsulation/bad/CounterValue.java" %}}
+```
+
+```java
+{{% import-raw from=1 path="pss-code/src/main/java/it/unibo/encapsulation/bad/CounterFunctions.java" %}}
+```
+
+---
+
+## Esempio base: classe `Counter` (POCO incapsulata)
+
+* dati e funzioni sono tenuti insieme (cosa piuttosto naturale nella OOP)
+* ma i dati sono ben visibili dall'esterno (no information hiding)
+
+```java
+{{% import-raw from=1 path="pss-code/src/main/java/it/unibo/encapsulation/bad/Counter.java" %}}
+```
+
+```java
+{{% import-raw from=1 path="pss-code/src/main/java/it/unibo/encapsulation/bad/UseCounter.java" %}}
+```
+
+---
+
+## Esempio base: classe `Counter` (ben incapsulata)
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/encapsulation/Counter.java" %}}
@@ -626,27 +668,29 @@ Così facendo il "cliente" è debolmente influenzato da possibili modifiche futu
 ---
 
 
-## Riflessione: incapsulazione e contratto
+## Riflessione: incapsulamento e contratto
 
 
   
 ### Contratto
 
-
-
-*  Il contratto di un oggetto corrisponde ai suoi scenari di utilizzo
-*  E quindi alle aspettative che un cliente ha quando usa l'oggetto
-*  Grazie all'incapsulamento, è possibile vincolare fortemente questi contratti, controllando meglio il comportamento degli oggetti
+* Nel diritto, un contratto è un accordo tra due o più parti, per regolare un rapporto
+* Nell'OOP, un **contratto** è una specifica del *rapporto tra un oggetto e i suoi utilizzatori*
+    * indica cosa l'oggetto si attende dai suoi utilizzatori ("obblighi")
+    * indica cosa gli utilizzatori si possono attendere dall'uso dell'oggetto ("benefici")
+* *Grazie all'incapsulamento, è possibile vincolare fortemente questi contratti, controllando meglio il comportamento degli oggetti!*
   
-
+<!--
+* Il contratto di un oggetto corrisponde ai suoi scenari di utilizzo
+* E quindi alle aspettative che un cliente ha quando usa l'oggetto
+-->
 
   
 ### Il caso del Contatore
 
-
-
-*  Il valore del conteggio all'atto della costruzione è `0`
-*  Il valore del conteggio in ogni altro istante è pari al numero di chiamate di `increment()`
+* L'utilizzatore può solo (1) creare un contatore; (2) ottenere il valore del contatore; e (3) incrementare il contatore
+* Il valore del conteggio all'atto della costruzione è `0`
+* Il valore del conteggio in ogni altro istante è pari al numero di chiamate di `increment()`
   
 
 
@@ -670,7 +714,7 @@ Così facendo il "cliente" è debolmente influenzato da possibili modifiche futu
 
 
 
-*  Oggetti per i quali è garantito che il valore iniziale dei campi non si modificherà mai
+*  **Oggetto immutabile**: oggetto per il quale è garantito che *il valore iniziale dei campi non cambierà mai*
 *  Portano un ulteriore livello di indipendenza (e eleganza) nel codice
 *  In alcuni casi potrebbero portare a soluzioni poco performanti
   
@@ -681,10 +725,10 @@ Così facendo il "cliente" è debolmente influenzato da possibili modifiche futu
 
 
 
-*  I campi della classe sono dichiarati `final` (oltre che `private`), e..
-*  ..contengono a loro volta valori primitivi o oggetti immutabili
-*  Quindi nessun metodo può modificarli (solo i costruttori possono, la prima volta)
-*  Invece che cambiare i campi si possono solo creare oggetti con nuovo stato
+* I campi della classe sono dichiarati `final` (oltre che `private`), e..
+    * ..contengono a loro volta valori primitivi o oggetti immutabili
+* Quindi nessun metodo può modificarli (*solo i costruttori possono, la prima volta*)
+* Pattern di utilizzo: *invece che cambiare i campi si possono solo creare nuovi oggetti con il nuovo stato desiderato*
   
 
 
@@ -758,11 +802,11 @@ Come procediamo alla costruzione della classe `Lamp`?
 
 
 
-*  Progettazione della parte pubblica della classe
-*  Costruzione dello stato
-*  Completamento implementazione
-*  Miglioramento codice finale
-*  Test del risultato
+* Progettazione della *parte pubblica* della classe
+* Costruzione dello *stato*
+* Completamento *implementazione*
+* Miglioramento codice finale (*refactoring*)
+* *Test* del risultato
   
 
 
@@ -782,9 +826,9 @@ Ovvero, del nome della classe e delle signature di operazioni pubbliche (metodi 
 
 
 
-*  Considerare tutti i vari casi d'uso di un oggetto della classe
-*  Inserire costruttori e metodi pubblici solo per le operazioni necessarie
-*  Evitare ove possibile di inserire un numero elevato di tali operazioni
+*  Considerare tutti i vari *casi d'uso* di un oggetto della classe
+*  Inserire *costruttori e metodi pubblici solo per le operazioni necessarie*
+    *  Evitare ove possibile di inserire un numero elevato di tali operazioni
   
 
 
@@ -1162,7 +1206,7 @@ Un possibile caso (non costituisce da solo un test esaustivo):
 
 
 *  Getter non booleano: `T getXYZ(){...}`
-*  Getter booleano: `boolean getXYZ(){...}`
+*  Getter booleano: `boolean getXYZ(){...}` o anche `boolean isXYZ() {...}`
 *  Setter: `void setXYZ() {...}`
   
 

@@ -22,10 +22,10 @@ aliases = ["/interfaces/"]
 
 
 
-  *  Illustrare concetti generali di composizione e riuso
-  *  Introdurre il concetto di interfaccia
-  *  Discutere il principio di sostituibilità
-  *  Evidenziare il polimorfismo derivante dalle interfacce
+  *  Illustrare concetti generali di *composizione* e *riuso*
+  *  Introdurre il concetto di *interfaccia*
+  *  Discutere il *principio di sostituibilità*
+  *  Evidenziare il *polimorfismo* derivante dalle interfacce
   
 
 
@@ -57,9 +57,9 @@ aliases = ["/interfaces/"]
 
   
 
-L'incapsulamento ci fornisce i meccanismi per ben progettare le classi, limitando il più possibile le dipendenze con chi le usa, e quindi in modo da ridurre l'impatto delle modifiche che si rendono via via necessarie.
+L'*incapsulamento* ci fornisce i meccanismi per ben progettare le classi, limitando il più possibile le dipendenze con chi le usa, e quindi in modo da ridurre l'impatto delle modifiche che si rendono via via necessarie.
 
-* $\Rightarrow$ ma le dipendenze fra classi non sono evitabili del tutto, anzi, sono un prerequisito per fare di un gruppo di classi un sistema! In più, le dipendenze sono anche manifestazione di un effettivo "riuso".
+$\Rightarrow$ ma le dipendenze fra classi non sono evitabili del tutto, anzi, sono un prerequisito per fare di un gruppo di classi un sistema! In più, le dipendenze sono anche manifestazione di un effettivo "riuso".
   
 
 
@@ -68,10 +68,9 @@ L'incapsulamento ci fornisce i meccanismi per ben progettare le classi, limitand
 
 
 
-*  Associazione | Un oggetto ne usa un altro: "uses"
-*  Composizione | Un oggetto ne aggrega altri: "has-a"
-*  Specializzazione | Una classe ne specializza un'altra: "is-a"
-  
+*  **Associazione**: un oggetto ne "usa" un altro (*"uses"*)
+*  **Composizione/aggregazione**: un oggetto è "composto da" o "aggrega" altri oggetti (*"has-a"*)
+*  **Specializzazione**: un oggetto "è una forma specializzata" di un altro tipo di oggetti (*"is-a"*)
 
 
   
@@ -95,11 +94,18 @@ Introdurremo la composizione (che è una versione più forte della associazione)
 
 
 *  un oggetto della classe `A` è ottenuto componendo un insieme di altri oggetti, delle classi `B1`, `B2`,..,`Bn` 
-*  si dice che un oggetto di `A` contiene, o si compone di, oggetti delle classi `B1`, `B2`,..,`Bn`
-*  ossia, lo stato dell'oggetto di `A` include le informazioni relative allo stato di un oggetto di `B1`, uno di  `B2`,..,uno di `Bn`
-*  si noti che si parla propriamente di composizione quando `B1`, `B2`,..`Bn` non sono tipi primitivi, ma classi
-*  (quando gli oggetti composti hanno vita propria senza l'esistenza di `A` si parla anche di *__aggregazione__* -- ma non ci occuperemo per ora in dettaglio di questa distinzione)
-  
+    *  si dice che un oggetto di `A` *contiene*, o *si compone di*, o *aggrega*, oggetti delle classi `B1`, `B2`,..,`Bn`
+*  ossia, lo stato dell'oggetto di `A` include le informazioni relative allo stato di un oggetto di `B1`, uno di  `B2`, ..., uno di `Bn`
+    *  si noti che si parla propriamente di composizione quando `B1`, `B2`,..`Bn` non sono tipi primitivi, ma classi
+
+### Composizione vs. aggregazione
+
+* Quando gli oggetti composti hanno vita propria senza l'esistenza di `A` si parla anche di *__aggregazione__* 
+    * Esempio di *aggregazione*: una `ClasseScolastica` aggrega un insieme di oggetti `Studente`; una `Automobile` ha un `Motore`, quattro oggetti `Ruota` etc. 
+    * Esempio di *composizione*: una `Casa` si compone di un insieme di oggetti `Stanza` (una stanza non ha vita indipendente dalla casa); un `Libro` si compone di più oggetti `Capitolo` (è vero, si potrebbe considerare un capitolo in isolamento, ma questo rimarrebbe comunque un capitolo di quel libro)
+* (ma non ci occuperemo per ora in dettaglio di questa distinzione)
+
+ 
 
 
 
@@ -184,12 +190,32 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 ## Ricordiamo la classe Lamp 
 
+<div class="container">
+<div class="col">
+
+{{% smaller %}}
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/interfaces/Lamp.java" %}}
+{{% import-raw from=3 to=31 path="pss-code/src/main/java/it/unibo/interfaces/Lamp.java" %}}
 ```
 
+{{% /smaller %}}
 
+</div>
+<div class="col">
+
+{{% smaller %}}
+
+
+```java
+{{% import-raw from=32 path="pss-code/src/main/java/it/unibo/interfaces/Lamp.java" %}}
+```
+
+{{% /smaller %}}
+
+
+</div>
+</div>
 
 ---
 
@@ -204,7 +230,7 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 *  una base su cui poggiano due lampadine
 *  possibilità di accendere/spegnere entrambe
-*  possibilità di modalità "eco"
+*  possibilità di modalità "eco" (ad es.: una sola accesa a media intensità)
   
 
 
@@ -215,7 +241,8 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 *  una classe con 4 campi, ossia le due intensità e i due flag
 *  sarebbe un buon design?
-*  riuserei codice? starei aderendo al principio DRY?<br>(Don't Repeat Yourself)
+    * riuserei codice? 
+    * starei aderendo al principio *DRY (Don't Repeat Yourself)*?
   
 
 
@@ -234,12 +261,16 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 
 
-## Esempio: `TwoLampsDevice` pt 1
+## Esempio: `TwoLampsDevice`
 
 
+<div class="container">
+<div class="col">
+
+{{% smaller %}}
 
 ```java
-public class TwoLampsDevice{
+public class TwoLampsDevice {
     /* Composizione di due Lamp! */
     private Lamp l1; // Potrei realizzare lo stato con un array
     private Lamp l2; // I clienti non ne sarebbero influenzati!
@@ -258,7 +289,17 @@ public class TwoLampsDevice{
     public Lamp getSecond(){
         return this.l2;
     } 
+```
 
+{{% /smaller %}}
+
+</div>
+<div class="col">
+
+{{% smaller %}}
+
+
+```java
     /* Altri metodi che lavorano sulla "composizione" */
     public void switchOnBoth(){
         this.l1.switchOn();  // Nota la concatenazione di "."
@@ -277,6 +318,13 @@ public class TwoLampsDevice{
     }
 } 
 ```
+
+{{% /smaller %}}
+
+
+</div>
+</div>
+
 
 <!--
 ---
@@ -301,12 +349,12 @@ public class TwoLampsDevice{
 
 
 
-*  È un linguaggio grafico e OO-based per modellare software
-*  Facilita lo scambio di documentazione, e il ragionamento su sistemi articolati e complessi
-*  È uno standard dell'OMG dal 1996
-*  È molto utile anche a fini didattici
+*  È un *linguaggio grafico* semi-formale e *OO-based* per *modellare e documentare il software*
+    *  Facilita lo scambio di documentazione, e il ragionamento su sistemi articolati e complessi
+    *  È uno standard dell'OMG dal 1996
+    *  È molto utile anche a fini didattici
 *  Noi ne useremo solo la parte chiamata *__Class Diagram__*
-*  Nel corso di Ingegneria del Software lo approfondirete
+    *  Tipicamente approfondito in corsi di "Ingegneria del Software"
   
 
 
@@ -323,7 +371,7 @@ public class TwoLampsDevice{
 
 
 
-*  Un box rettangolare per classe, diviso in tre aree:
+*  Un *box rettangolare* per classe, diviso in *tre aree*:
     1. nome della classe, 
     2. campi, 
     3. metodi (e costruttori)
@@ -332,10 +380,10 @@ public class TwoLampsDevice{
     *  si antepone il simbolo `-` se privati, `+` se pubblici
     *  si sottolineano se `static`
     *  dei metodi si riporta solo la signature, con sintassi: `nome(arg1: tipo1, arg2: tipo2, ..): tipo_ritorno`
-*  archi fra classi indicano relazioni speciali:{
-    *  con rombo (composizione), con freccia (semplice associazione)
-    *  con triangolo (generalizzazione)
-    *  l'arco può essere etichettato con la molteplicità (1, 2, 0..1, 0..n, 1..n)
+*  *archi* fra classi indicano *relazioni* speciali:
+    *  con *rombo* (composizione), con *freccia* (semplice associazione)
+    *  con *triangolo* (generalizzazione/specializzazione)
+    *  l'arco può essere etichettato con la *molteplicità* (1, 2, 0..1, 0..n, 1..n)
 
   
 A seconda dello scopo per cui si usa il diagramma, non è necessario riportare tutte le informazioni, ad esempio spesso si omettono le proprietà, le signature complete, ed alcune relazioni
@@ -350,15 +398,16 @@ A seconda dello scopo per cui si usa il diagramma, non è necessario riportare t
 * tipicamente usata in fase di implementazione
 
 
-<!--  ![](img/lamp1.pdf) -->
+![](imgs/lamp1.png) 
 
+<!--
 ```mermaid
 classDiagram
 class Lamp {
     -int LEVELS$  
-    -double DELTA
+    -double DELTA$
     -int intensity
-    -switchedOn: boolean
+    -boolean switchedOn
     +Lamp()
     +switchOn()
     +switchOff()
@@ -370,7 +419,7 @@ class Lamp {
     +getIntensity() double
 }
 ```
-
+-->
 
 ---
 
@@ -400,8 +449,9 @@ class Lamp {
 
 ## UML: `Lamp` e `TwoLampsDevice`
 
+![](imgs/lamp3.png) 
 
-
+<!--
 ```mermaid
 classDiagram
 
@@ -429,7 +479,7 @@ class TwoLampsDevice {
 
 Lamp --* TwoLampsDevice : Composition
 ```
-
+-->
 
 
 
@@ -439,20 +489,23 @@ Lamp --* TwoLampsDevice : Composition
 ## Altro caso di composizione: `LampsRow`
 
 
-
+{{% smaller %}}
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/interfaces/LampsRow.java" %}}
 ```
 
+{{% /smaller %}}
 
 ---
 
 
 ## UML: `Lamp` e `LampsRow`
 
+![](imgs/lamp4.png) 
 
 
+<!--
 ```mermaid
 classDiagram
 
@@ -480,6 +533,7 @@ class LampsRow {
 
 Lamp --* LampsRow
 ```
+-->
 
 
 ---
@@ -487,12 +541,15 @@ Lamp --* LampsRow
 
 ## Scenario `DomusController`
 
+* Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimandendo aperti all'introduzione di nuovi tipi di dispositivi?
 
 
+![](imgs/uml3.pdf.png) 
+
+
+<!--
 ```mermaid
 classDiagram
-
-direction LR
 
 class Lamp {
     switchOn()
@@ -527,9 +584,8 @@ TV "0..n" --* DomusController
 Radio "0..n" --* DomusController 
 AirConditioner "0..n" --* DomusController 
 ```
+-->
   
-Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimandendo aperti all'introduzione di nuovi tipi di dispositivi?
-
 
 
 ---
@@ -538,36 +594,32 @@ Come scrivereste il metodo `switchAll` in modo riusabile, e possibilmente rimand
 ## Realizzazione senza riuso: schema
 
 ```java
-public class DomusController{
+public class DomusController {
     private Lamp[] lamps;
     private TV[] tvs;
     private AirConditioner[] airs;
     private Radio[] radios;
     
-    ...
-    public void switchAll(boolean on){
-        for (Lamp lamp: this.lamps){
-            if (lamp != null){
-                if (on){
-                    lamp.switchOn();
-                } else {
-                    lamp.switchOff();
-                }
+    //...
+
+    public void switchAll(boolean on) {
+        for (Lamp lamp: this.lamps) {
+            if (lamp != null) {
+                if (on){ lamp.switchOn(); } else { lamp.switchOff(); } // mal formattato!
             }
         }
-        for (TV tv: this.tvs){
-            if (tv != null){ 
-                if (on){
-                    tv.switchOn();
-                } else {
-                    tv.switchOff();
-                }
+        for (TV tv: this.tvs) {
+            if (tv != null) { 
+                if (on) { tv.switchOn(); } else { tv.switchOff(); } // mal formattato!
             }
         }
         ... // e così via per tutti i dispositivi
     } 
 }
 ```
+
+* Si noti come la struttura dei due cicli `for` sia essenzialmente identica!
+    * Cambia solo il (tipo dei) receiver e il nome delle variabili coinvolte
 
 ---
 
@@ -588,8 +640,8 @@ public class DomusController{
 
 
 * Serve un meccanismo per *separare esplicitamente*, ossia in dichiarazioni diverse, *l'interfaccia* della classe e la sua *realizzazione*
-* Questo consente di tenere separate fisicamente la parte di *"contratto"* (tipicamente fissa) con quella di *"implementazione"* (modificabile frequentemente)
-* Consente *astrarre* da molteplici possibili implementazioni 
+    * Si vuole poter *separare fisicamente* la parte di *"contratto"* (tipicamente fissa) con quella di *"implementazione"* (modificabile frequentemente)
+    * Si vuole poter *astrarre* da molteplici possibili implementazioni 
 
   
 ### Polimorfismo
@@ -599,8 +651,8 @@ public class DomusController{
 *  Serve un meccanismo per poter fornire *diverse possibili realizzazioni di un contratto*
 *  Tutte devono poter essere *utilizzabili in modo omogeneo*
 *  Nel caso di `DomusController`:
-	  *  Avere un unico contratto per i "dispositivi", e..
-	  *  ..diverse classi che lo rispettano
+	  *  Avere un unico contratto per i "dispositivi", e ...
+	  *  ... diverse classi che lo rispettano
 	  *  `DomusController` gestirà un unico array di "dispositivi"
   
 
@@ -636,8 +688,9 @@ public class DomusController{
   
 ### Esempio: dispositivi in `DomusController`
 
-
-`Lamp`, `TV`, `Radio`, `AirConditioner` hanno una caratteristica comune, sono dispositivi e come tali possono come minimo essere accesi o spenti. È possibile definire una interfaccia `Device` che tutti e 4 implementano. 
+* `Lamp`, `TV`, `Radio`, `AirConditioner` hanno una caratteristica comune: sono dispositivi e come tali possono come minimo essere accesi o spenti. 
+* È possibile definire una interfaccia `Device` che tutti e 4 implementano.
+    * Definiamo così una nuova *astrazione* 
   
 
 
@@ -661,7 +714,12 @@ public class DomusController{
 
 ```java
 public class Lamp implements Device {
-    ...  // Nessun cambiamento necessario rispetto a prima!
+    // ...
+    /* NOTA: Nessun cambiamento necessario rispetto a prima!
+     * Di seguito si riporta la parte di `Lamp` che
+     * permette di rispettare il contratto di `Device`,
+     * ovvero di implementare l'interfaccia
+     */
     private boolean switchedOn;
     
     public void switchOn(){
@@ -673,15 +731,16 @@ public class Lamp implements Device {
     public boolean isSwitchedOn(){
     	return this.switchedOn;
     }
-    ...
+    
+    // ...
 }
 
-public class TV implements Device{
-    ... // Nessun cambiamento necessario rispetto a prima!
+public class TV implements Device {
+    // Nessun cambiamento necessario rispetto a prima!
 }
 
-public class Radio implements Device{
-    ... // Nessun cambiamento necessario rispetto a prima!
+public class Radio implements Device {
+    // Nessun cambiamento necessario rispetto a prima!
 }
 ```
 
@@ -696,11 +755,13 @@ public class Radio implements Device{
 
 
 *  interfaccia come box con titolo "`<< interface >> Nome`"
-*  arco tratteggiato (punta a triangolo) per la relaz. "`implements`"
-*  archi raggruppati per migliorare la resa grafica
+    * essenzialmente, stessa notazione di una classe con in più lo *"stereotipo"* `<<interface>>`
+*  *arco tratteggiato con punta a triangolo* per la relazione **"interface realization"** (che modella `implements`)
+    * eventualmente, archi raggruppati (che si diramano dallo stesso triangolo) per migliorare la resa grafica
   
+![](imgs/uml-int.png)
 
-
+<!--
 ```mermaid
 classDiagram
 class Device {
@@ -720,6 +781,7 @@ Device <|-- TV
 Device <|-- Radio
 Device <|-- AirConditioner
 ```
+-->
 
 ---
 
@@ -740,17 +802,12 @@ Device <|-- AirConditioner
   
 ### Quali operazioni sono consentite?
 
-
-esattamente (e solo) le chiamate dei metodi definiti dall'interfaccia
-  
+* esattamente (e solo) le *chiamate dei metodi definiti dall'interfaccia*
 
   
 ### Quali sono i valori (oggetti) di quel tipo?
 
-
-gli oggetti delle classi che dichiarano implementare quell'interfaccia
-  
-
+* gli oggetti delle classi che dichiarano implementare quell'interfaccia
 
 
 ---
@@ -762,21 +819,25 @@ gli oggetti delle classi che dichiarano implementare quell'interfaccia
 ```java
 /* Su Lamp effettuo le usuali operazioni */
 Lamp lamp = new Lamp();    
-lamp.switchOn();		
+lamp.switchOn();
 boolean b = lamp.isSwitchedOn(); 
+lamp.dim();
 
-/* Una variabile di tipo Device può contenere 
-   un Lamp, e su essa posso eseguire le 
-   operazioni definite da Device */
-Device dev;	  // creo la variabile
-dev = new Lamp(); // assegnamento ok	
-dev.switchOn();	  // operazione di Device
+/* Una variabile di tipo Device può contenere un Lamp, 
+   e su essa posso eseguire le  operazioni definite da Device */
+Device dev;	                      // creo la variabile
+dev = new Lamp();                 // assegnamento ok	
+dev.switchOn();	                  // operazione di Device
 boolean b2 = dev.isSwitchedOn();  // operazioni di Device 
 
-Device dev2 = new Lamp();  // Altro assegnamento
+/* Attenzione: non si può invocare un metodo specifico di Lamp
+   su una variabile di tipo Device! */
+dev.dim(); // NO!!!! 
+
+Device dev2 = new Lamp();         // Altro assegnamento
 
 /* Attenzione, le interfacce non sono istanziabili */
-// Device dev3 = new Device(); NO!!!! 
+Device dev3 = new Device(); // NO!!!! 
 ```
 
 ---
@@ -786,24 +847,24 @@ Device dev2 = new Lamp();  // Altro assegnamento
 
 
 ```java
-class DeviceUtilities{
+class DeviceUtilities {
     
     /* Senza interfacce, non resta altro che... */
     
-    public static void switchOnIfCurrentlyOff(Lamp lamp){
+    public static void switchOnIfCurrentlyOff(Lamp lamp) {
     	if (!lamp.isSwitchedOn()){
     	    lamp.switchOn();
     	}
     }
     
-    public static void switchOnIfCurrentlyOff(TV tv){
-    	if (!tv.isSwitchedOn()){
+    public static void switchOnIfCurrentlyOff(TV tv) {
+    	if (!tv.isSwitchedOn()) {
     	    tv.switchOn();
     	}
     }
     
-    public static void switchOnIfCurrentlyOff(Radio radio){
-    	if (!radio.isSwitchedOn()){
+    public static void switchOnIfCurrentlyOff(Radio radio) {
+    	if (!radio.isSwitchedOn()) {
     	    radio.switchOn();
     	}
     }
@@ -819,9 +880,9 @@ class DeviceUtilities{
 
 ```java
 class DeviceUtilities {
-    
+    // ...
+
     /* Grazie alle interfacce, fattorizzo in un solo metodo */
-    
     public static void switchOnIfCurrentlyOff(Device device) {
     	if (!device.isSwitchedOn()){
     	    device.switchOn();
@@ -834,8 +895,8 @@ Lamp lamp = new Lamp();
 TV tv = new TV();
 Radio radio = new Radio();
 
-switchOnIfCurrentlyOff(lamp); // OK, un Lamp è un Device 
-switchOnIfCurrentlyOff(tv); // OK, una TV è un Device
+switchOnIfCurrentlyOff(lamp);  // OK, un Lamp è un Device 
+switchOnIfCurrentlyOff(tv);    // OK, una TV è un Device
 switchOnIfCurrentlyOff(radio); // OK, una Radio è un Device
 ```
 
@@ -877,8 +938,9 @@ $\Rightarrow$ l'esperienza mostra che classi riusabili di norma hanno sempre una
 
 ## Scenario `DomusController` rivisitato
 
+![](imgs/uml-int-domus.pdf.png)
 
-
+<!--
 ```mermaid
 classDiagram
 class Device {
@@ -907,7 +969,7 @@ Device <|-- TV
 Device <|-- Radio
 Device <|-- AirConditioner
 ```
-
+-->
 
 ---
 
@@ -1042,18 +1104,18 @@ No. Il programma può manipolare gli elementi del tipo `I` solo mandando loro i 
 
 Ve ne sono di diversi tipi nei linguaggi OO
 
-*  Polimorfismo inclusivo: subtyping
-*  Polimorfismo parametrico: genericità
+*  Polimorfismo *inclusivo*: subtyping
+*  Polimorfismo *parametrico*: genericità
   
 
 
   
 ### Polimorfismo inclusivo
 
-È precisamente l'applicazione del principio di sostituibilità
+Il **polimorfismo inclusivo** precisamente l'applicazione del *principio di sostituibilità di Liskov*
 
-*  Se il tipo `B` è una specializzazione di `A` (lo implementa)..
-*  ..si può usare un oggetto `B` dove se ne  attende uno di `A`
+*  Se il tipo `B` è una specializzazione di `A` (lo implementa)...
+*  ... allora si può usare un oggetto `B` dove se ne attende uno di `A`
   
 
 
@@ -1071,13 +1133,15 @@ Ve ne sono di diversi tipi nei linguaggi OO
 
 
 *  `C` deve "usare" uno o più oggetti di un tipo non predeterminato
+    *  (l'uso potrebbe essere una composizione, come nel caso precedente)
 *  l'interfaccia `I` cattura il contratto comune di tali oggetti
 *  varie classi `C1`, `C2`, `C3` (e altre in futuro) implementano `I`
-*  `C` non ha dipendenze rispetto `C1`, `C2`, `C3`
-*  (l'uso potrebbe essere una composizione, come nel caso precedente)
-  
+*  `C` allora può focalizzarsi nel solo uso di oggetti di tipo `I` (astraendo da eventuali altri dettagli)
+    * dunque `C` non avrebbe dipendenze rispetto `C1`, `C2`, `C3`
 
+<img src="imgs/uml-int-general.pdf.png" style="margin-left:20%; width:50%" />
 
+<!--
 ```mermaid
 classDiagram
 
@@ -1097,6 +1161,7 @@ I <|-- C1
 I <|-- C2
 I <|-- C3
 ```
+-->
 
 
 ---
@@ -1141,10 +1206,10 @@ Accade con le chiamate a metodi non-statici
 interface I {
     void m();
 }
-class C1 implememts I {
+class C1 implements I {
     void m(){ System.out.println("I'm istance of C1");}
 }
-class C2 implememts I {
+class C2 implements I {
     void m(){ System.out.println("I'm istance of C2");}
     static void m2(){ System.out.println("I'm a static method of C2");} 
 }
@@ -1236,20 +1301,20 @@ Dichiarazione possibile: `class C implements I1,I2,I3 { ... }`
 
 ```java
 /* Interfaccia per dispositivi */
-public interface Device{        // Contratto:
+public interface Device {       // Contratto:
     void switchOn();            // - si può accendere
     void switchOff();           // - si può spegnere
     boolean isSwitchedOn();     // - si può verificare se acceso/spento
 }
 
 /* Interfaccia per entità luminose */
-public interface Luminous{      // Contratto:
+public interface Luminous {     // Contratto:
     void dim();                 // - si può ridurre la luminosità
     void bright();              // - si può aumentare la luminosità
 }
 
-public class Lamp implements Device, Luminous{
-    ...  
+public class Lamp implements Device, Luminous {
+    // ...  
     public void switchOn(){ ... }
     public void switchOff(){ ... }
     public boolean isSwitchedOn(){ ... }
@@ -1285,23 +1350,23 @@ Dichiarazione possibile: `interface I extends I1,I2,I3 { ... }`
 
 
 ```java
-public interface Device{ 
+public interface Device{  
     void switchOn(); 
     void switchOff();
     boolean isSwitchedOn();
 }
-public interface Luminous{     
+public interface Luminous {     
     void dim();
     void bright();
 }
 
 /* Interfaccia per dispositivi luminosi */
-public interface LuminousDevice extends Device, Luminous{
+public interface LuminousDevice extends Device, Luminous {
     // non si aggiungono ulteriori metodi 
 }
 
-public class Lamp implements LuminousDevice{
-    ...  
+public class Lamp implements LuminousDevice {
+    // ...  
     public void switchOn(){ ... }
     public void switchOff(){ ... }
     public boolean isSwitchedOn(){ ... }
@@ -1365,8 +1430,3 @@ Familiarizzare con:
 *  Relativa costruzione di test
 *  Costruzione di classi con relazione d'uso verso una interfaccia
   
-
-
-
-
----
