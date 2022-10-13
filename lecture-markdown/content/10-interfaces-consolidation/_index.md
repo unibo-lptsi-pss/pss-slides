@@ -33,7 +33,37 @@ aliases = ["/interfaces-consolidation/"]
 
 ---
 
-## Riassunto di quanto visto finora
+
+## Riassunto delle puntate precedenti
+
+- Programma vs. sistema software
+- Fasi processo di sviluppo: analisi $\to$ design $\to$ implementazione $\to$ collaudo $\to$ deployment
+- Problem space (dominio/logica business) vs. solution space (scelte realizzative)
+    - livello di astrazione
+- Astrazione object-oriented
+    - *oggetto = stato + comportamento + identità* (cf. *incapsulamento*)
+    - interazione attraverso "scambio di messaggi"
+    - *classe* come "tipo" di oggetti e come "template" di costruzione di oggetti simili (*istanze*)
+    - *interfaccia* vs. implementazione (cf. *information-hiding*)
+- Riuso mediante
+    - utilizzo di altri oggetti (*composizione*) 
+    - estensione dei servizi offerti da altri oggetti (*ereditarietà*)
+
+---
+
+- Java 17
+    - *write once, run everywhere*
+    - JDK: JRE (JVM [`java`] + JCL) + strumenti di sviluppo (`javac`, ...)
+- Costrutti Java per la OOP
+    - tipi primitivi vs. tipi oggetto (classi)
+    - variabili e riferimenti ad oggetti (allocati nello *heap*) (assegnamento per copia)
+    - lifetime di oggetti va oltre lo scope; no deallocazione manuale (cf. *GC*)
+    - classi: *campi* & *metodi* (statici o d'istanza) -- accedibili mediante _dot notation_
+    - concetto di *receiver* di una *method call* e variabile speciale `this`
+    - *programmi*: metodo pubblico statico `main` in classe pubblica
+- Strumenti: compilazione con `javac` ed esecuzione con `java`
+
+_Competenza attuale attesa: costruzione di semplici classi; loro esercizio mediante programmi; compilazione ed esecuzione di programmi_
 
 ---
 

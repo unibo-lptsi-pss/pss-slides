@@ -12,7 +12,7 @@ aliases = ["/java-structured-programming/"]
 
 {{% import path="cover.md" %}}
 
-## Riassunto delle puntate precedenti (i)
+## Riassunto delle puntate precedenti
 
 - Programma vs. sistema software
 - Fasi processo di sviluppo: analisi $\to$ design $\to$ implementazione $\to$ collaudo $\to$ deployment
