@@ -848,10 +848,13 @@ classDef c fill:#fff;
 
 ## Classe `Mandelbrot`
 
+{{% smaller %}}
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/app/Mandelbrot.java" %}}
 ```
+
+{{% /smaller %}}
 
 ---
 

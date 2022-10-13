@@ -1411,9 +1411,6 @@ public class Lamp implements LuminousDevice {
   
 
 
-  
-  
-
 
 ---
 
