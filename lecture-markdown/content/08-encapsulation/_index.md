@@ -380,7 +380,7 @@ class SomeClass {
 
 
 ```java
-{{% import-raw from=3 to=32 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
+{{% import-raw from=3 to=35 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
 ```
 
 {{% /smaller %}}
@@ -391,7 +391,7 @@ class SomeClass {
 {{% smaller %}}
 
 ```java
-{{% import-raw from=34 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
+{{% import-raw from=36 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
 ```
 
 {{% /smaller %}}
