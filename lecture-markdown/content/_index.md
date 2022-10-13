@@ -21,7 +21,7 @@ outputs = ["Reveal"]
 * [Sistemi di controllo versione](git/)
 * [Incapsulamento](encapsulation/)
 * [Interfacce](interfaces/)
-
+* [Interfacce e incapsulamento: consolidamento e pattern](interfaces-consolidation/)
 
 ### Contenuti del laboratorio
 * [Strumenti di compilazione avanzati](lab/02-advanced-tooling-gradle/)
