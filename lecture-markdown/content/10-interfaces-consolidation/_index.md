@@ -21,13 +21,17 @@ aliases = ["/interfaces-consolidation/"]
 
 
 * Riassumere i concetti, principi, meccanismi visti in precedenza
-* Mostrare alcune applicazioni notevoli (pattern) di questi concetti, principi, e meccanismi
+* Introdurre le basi della *progettazione del software*
+* Introdurre le basi dell'*agile*
+* Mostrare alcune applicazioni notevoli (*pattern*) dei concetti, principi, e meccanismi OO visti in precedenza
   
 
 ### Argomenti
 
 
 * Introduzione ai *design pattern*
+* *Architettura* e *design di dettaglio*
+* *Agile software development*: cos'è, manifesto, principi
 * Pattern *Strategy*
   
 
@@ -116,12 +120,45 @@ aliases = ["/interfaces-consolidation/"]
 Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle, tracciati con controllo di versione (git), che realizzano ed esercitano (mediante programmi e test JUnit) semplici sistemi ad oggetti ben incapsulati
 
 
+---
 
+# Introduzione alla progettazione del software
+
+
+## Richiamo: qualità interna vs. esterna
+
+
+
+### Qualità *esterna* -- aspetti *funzionali*
+
+
+* Realizza correttamente il suo compito
+* In termini di quali funzionalità fornisce
+
+### Qualità *esterna* -- aspetti *non-funzionali*
+
+*  Performance adeguate (alle specifiche)
+*  Uso efficiente/adeguato delle risorse del sistema (memoria, CPU)
+*  Caratteristiche di sicurezza, affidabilità, usabilità, etc..
+
+
+### Qualità *interna* -- software ben costruito
+
+*  Facilmente manutenibile (leggibile, flessibile, riusabile)
+    * quindi: meno "costoso", a breve-/medio-/lungo-termine
 
 ---
 
+### Come promuovere la qualità interna del software?
 
-# Design Pattern e Progettazione di Dettaglio
+- Regole di stile e formattazione dei sorgenti
+- Principi e tecniche di programmazione/progettazione efficace
+- Uso di pratiche come il TDD
+
+### Il problema della progettazione
+
+* Come organizzare efficaciemente un sistema OO (classi, interfacce, e relazioni tra queste) per ottenere la funzionalità e la qualità esterna desiderate?
+
 
 ---
 
@@ -146,17 +183,26 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
     * non descrive ogni singola classe/interfaccia del sistema
 *  documentata da più diagrammi UML di 5-10 classi ognuno
 
+---
+
+
+# Design Pattern e Progettazione di Dettaglio
+
+
 
 ---
 
-### Come progettare una buona classe o gruppo di classi?
+## Come progettare una buona classe o gruppo di classi?
 
 
 
 * buona conoscenza della programmazione OO 
-    * incapsulamento
+    * incapsulamento, information hiding
+    * polimorfismo
+    * ereditarietà (che vedremo)
 * buona conoscenza di principi e pratiche di progettazione/programmazione efficace
-    * DRY (Don't Repeat Yourself), tecniche di riuso, ...
+    * DRY (Don't Repeat Yourself), ...
+    * astrazione attraverso interfacce, tecniche di riuso (composizione), ...
 * utilizzo di cataloghi noti di pattern di progettazione (design pattern)
 
 
@@ -174,18 +220,18 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
 
 *  Un **pattern** è una *soluzione notevole a problemi ricorrenti di design object-oriented*  
     <!-- elementi riusabili (semplici ed eleganti) di progettazione OO -->
-    *  Idea: trasmettere esperienze (positive) e ore di lavoro (di identificazione, rifattorizzazione) ad altri per essere usate *tout court*
-    *  Sono stati ottenuti in passato (e tuttora) dall'analisi di soluzioni ricorrenti in progetti diversi
+    * I problemi di "design" sono spesso ricorrenti
+    * Progettisti esperti hanno nel tempo affrontato tali problemi, provato diverse soluzioni, fino ad ottenere soluzioni efficaci con chiara analisi di costi/benefici 
+    * Tale "esperienza" è stata codificata in forma generica/riusabile in "pattern" che possono essere applicati in contesti simili
 *  Alcuni sono particolarmente famosi, come quelli della *"Gang of Four"* (detti anche *Pattern GoF*)
     *  Testo famosissimo (in C++): *Design Patterns: Elements of Reusable Object-Oriented Software* di *E. Gamma, R. Helm, R. Johnson, J. Vlissides*
-    *  23 in tutto. Esempi: Decorator, Singleton, Template Method, Observer
+    *  23 in tutto. Esempi: Strategy, Decorator, Singleton, Template Method, Observer
     *  (Cit. "SW di grosse dimensioni li usano praticamente tutti")
 * Benefici
     *  Il loro uso migliora molto il codice
-    *  Ne favorisce la comprensione se li si indicano nella documentazione
-    *  Rende il codice più flessibile (nascono per questo)
-    *  Portano più direttamente ad una buona organizzazione
-
+        *  Rende il codice più flessibile (nascono per questo)
+        *  Portano più direttamente ad una buona organizzazione (delle responsabilità, delle dipendenze, etc.)
+    *  Fanno parte di un "vocabolario" per la comunicazione fra programmatori/progettisti
 
 
 
@@ -199,20 +245,13 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
   
 ### Nel corso
 
-
-
-*  Vari Pattern già stati utilizzati (es.: nelle librerie)
-*  Vanno usati dove opportuno nel progetto d'esame (e nella relazione)
-*  Possono essere tema dell'esame in laboratorio
-*  Quelli visti a lezione sono da conoscere tassativamente
-  
-  
+*  E' importante imparare quelli che introdurremo
+*  E' opportuno applicarli nel progetto d'esame (e nella relazione)
+    
 ### Per il vostro futuro
-
 
 *  Noi porremo le basi per uno loro studio in autonomia
 *  Un ottimo progettista li conosce e usa (ove opportuno) *__tutti__*
-  
 
 
 
@@ -220,49 +259,92 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
 ---
 
 
-## Motivazioni
+## Motivazione: qualità interna, refactoring, agilità
 
-
+* E' importante conoscere e cercare di applicare i pattern in quanto:
+    * promuovono la *qualità interna* del software
+    * permettono di velocizzare l'attività di *refactoring*
     
-### Rifattorizzazione (refactoring)
+### Rifattorizzazione (**refactoring**)
+
+*  Operazione di modifica del codice che *non aggiunge funzionalità*
+*  Ha lo scopo di *migliorare la qualità interna del SW*
+    * la sua formattazione, la sua espressività semantica (cf. nomenclatura), la sua struttura
+* Ha lo scopo di attrezzare il codice a possibili cambiamenti futuri (cf. *agilità*)
+    * Può/deve quindi comportare una riprogettazione di alcune parti
+* Il refactoring è una pratica necessaria
+    *  Una buona progettazione non la si ottiene al primo "colpo", ma richiede vari refactoring
+    *  Brian Foote identifica tre fasi nello sviluppo di un sistem: "prototyping", "expansionary", "consolidating"; nel consolidamento si rifattorizza
+
+### Agilità
+
+*  Si vuole rendere il software *agile*, ovvero in grado di rispondere facilmente al cambiamento
+*  Nell'*agile programming*, ogni ciclo di sviluppo non parte se non si è rifattorizzato il codice del ciclo precedente (sia in cicli corti che lunghi)
 
 
-
-*  Operazione di modifica del codice che non aggiunge funzionalità
-*  Ha lo scopo di migliorare programmazione e struttura del SW
-*  Ha lo scopo di attrezzare il codice a possibili cambiamenti futuri
-*  Può/deve quindi comportare una riprogettazione di alcune parti
+I design pattern forniscono direttamente "ricette" di buona costruzione o rifattorizzazione del SW
     
+---
 
+## Agile software development (sviluppo agile del software)
 
-    
-### La necessità del refactoring
+### Manifesto
 
+[https://agilemanifesto.org/](https://agilemanifesto.org/)
 
+Stiamo scoprendo modi migliori di creare software,
+sviluppandolo e aiutando gli altri a fare lo stesso.
+Grazie a questa attività siamo arrivati a considerare importanti:
 
-*  Una buona progettazione non la si ottiene al primo "colpo", ma richiede vari refactoring
-*  Brian Foote identifica tre fasi nello sviluppo di un sistem: prototyping, expansionary, consolidating; nel consolidamento si rifattorizza
-*  Nell'agile programming, ogni ciclo di sviluppo non parte se non si è rifattorizzato il codice del ciclo precedente (sia in cicli corti che lunghi)
-    
+1. Gli **individui e le interazioni** più che i *processi e gli strumenti*
+2. Il **software funzionante** più che la *documentazione esaustiva*
+3. La **collaborazione col cliente** più che la *negoziazione dei contratti*
+4. **Rispondere al cambiamento** più che *seguire un piano*
 
+Ovvero, fermo restando il valore delle voci a destra,
+consideriamo più importanti le voci a sinistra.
 
-    
-### I pattern
+---
 
+### Agile: principi 1-12
 
-
-*  L'esperienza pregressa risulta fondamentale per velocizzare il processo di rifattorizzazione
-*  I Pattern di progettazione forniscono direttamente "ricette" di buona costruzione o rifattorizzazione del SW
-    
-
-
-
+1. La nostra massima priorità è soddisfare il cliente
+rilasciando software di valore, fin da subito
+e in maniera continua.
+2. *Accogliamo i cambiamenti nei requisiti,
+anche a stadi avanzati dello sviluppo.
+I processi agili sfruttano il cambiamento
+a favore del vantaggio competitivo del cliente.*
+3. Consegnamo frequentemente software funzionante,
+con cadenza variabile da un paio di settimane a un paio di mesi,
+preferendo i periodi brevi.
+4. Committenti e sviluppatori devono lavorare insieme
+quotidianamente per tutta la durata del progetto.
+5. Fondiamo i progetti su individui motivati.
+Diamo loro l'ambiente e il supporto di cui hanno bisogno
+e confidiamo nella loro capacità di portare il lavoro a termine.
+6. Una conversazione faccia a faccia
+è il modo più efficiente e più efficace per comunicare
+con il team ed all'interno del team.
+7. *Il software funzionante è il principale metro di misura di progresso.*
+8. I processi agili promuovono uno sviluppo sostenibile.
+Gli sponsor, gli sviluppatori e gli utenti dovrebbero essere in grado
+di mantenere indefinitamente un ritmo costante.
+9. *La continua attenzione all'eccellenza tecnica
+e alla buona progettazione esaltano l'agilità.*
+10. La semplicità - l'arte di massimizzare la quantità
+di lavoro non svolto - è essenziale.
+11. Le architetture, i requisiti e la progettazione
+migliori emergono da team che si auto-organizzano.
+12. A intervalli regolari il team riflette su come
+diventare più efficace, dopodiché regola e adatta
+il proprio comportamento di conseguenza.
 
 ---
 
 
 
-## Struttura
+## Struttura di un "pattern"
 
 
     
@@ -270,26 +352,30 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
 
 
 
-*  Un nome. (È un aspetto fondamentale!)
-*  Un problema che risolve. (La causa che porta al suo uso)
-*  La soluzione che propone. (Gli elementi del progetto)
-*  La conseguenza che porta. (Riuso, variabilità, performance,..)
+1.  Un **nome**. 
+    * È un aspetto fondamentale! Entra a far parte di un *vocabolario*
+2.  Un **problema** che risolve.
+    * La causa che porta al suo uso
+    * Include il *contesto* di applicazione del pattern
+3.  La **soluzione** che propone. 
+    * gli *elementi* del design e le loro *responsabilità*, *relazioni* con altri elementi, e *collaborazioni*
+4.  La **conseguenza** che porta. 
+    * *risultati* e *vincoli* (ad es. in termini di riuso, variabilità, performance, ...)
+    * il risultato è spesso un *trade-off*
+    * la scelta di applicare un pattern è questione di *costi-benefici*
     
 
-
+<!--
     
 ### Granularità
 
-
-
 *  Gruppo ristretto di (1-5) oggetti/classi generali dipendenti fra loro
 *  Sistemi più specifici o più complessi sono utili, ma non propriamente dei "Pattern"
-
-*  Non singole classi riusabili (liste, hash-table)
-*  Non "pattern architetturali" (come MVC)
-*  Non framework complessi (gerarchia Swing, Reflection)
+    *  Non singole classi riusabili (liste, hash-table)
+    *  Non "pattern architetturali" (come MVC)
+    *  Non framework complessi (gerarchia Swing, Reflection)
 	
-
+-->
     
 
 
@@ -323,8 +409,8 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
 
 
 
-*  Classi: Il Pattern riguarda primariamente le relazioni fra classi (e sottoclassi), e quindi tratta aspetti statici (compile-time)
-*  Oggetti: Il Pattern riguarda primariamente le relazioni fra oggetti (l'esistenza di riferimenti fra oggetti), e quindi tratta aspetti dinamici (run-time)
+*  *Classi*: Il Pattern riguarda primariamente le relazioni fra classi (e sottoclassi), e quindi tratta aspetti *statici* (compile-time)
+*  *Oggetti*: Il Pattern riguarda primariamente le relazioni fra oggetti (l'esistenza di riferimenti fra oggetti), e quindi tratta aspetti *dinamici* (run-time)
     
 
 
@@ -388,6 +474,7 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
     
 
 
+<!--
 
 ## I pattern nel corso
 
@@ -409,7 +496,7 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 *  Gli altri pattern sono facoltativi, e importanti per il vostro futuro
     
 
-
+-->
 
 
 ---
@@ -417,6 +504,9 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 
 # Alcuni pattern iniziali
 
+
+
+<!--
 
 ## Singleton: creazionale, su oggetti
 
@@ -611,8 +701,9 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 
 ---
 
+-->
 
-
+---
 
 ## Strategy: comportamentale, su oggetti
 
@@ -621,7 +712,7 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 ### Intento/motivazione
 
 
-	Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili in modo trasparente dai loro clienti
+Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili in modo trasparente dai loro clienti
     
 
     
@@ -655,7 +746,7 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 ## Strategy: UML
 
 
-    ![](img/strategy.jpg)
+![](imgs/strategy.jpg)
 
 
 ---
@@ -685,6 +776,8 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 
     \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/BankAccount.java}
 
+
+<!--
 
 ---
 
@@ -722,15 +815,4 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 *  Valutare di usare il Template Method insieme a Strategy, ossia per definire gerarchie di strategie 
   
 
-
-  
-
-
----
-
-
-
----
-
-## Pattern Strategy
-
+-->
