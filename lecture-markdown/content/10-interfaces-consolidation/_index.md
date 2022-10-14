@@ -41,7 +41,7 @@ aliases = ["/interfaces-consolidation/"]
 - Programma vs. sistema software
 - Fasi processo di sviluppo: analisi $\to$ design $\to$ implementazione $\to$ collaudo $\to$ deployment
 - Problem space (dominio/logica business) vs. solution space (scelte realizzative)
-    - livello di astrazione
+    - concetto di *astrazione* e di "livello di astrazione"
 - Riuso mediante
     - utilizzo di altri oggetti (*composizione*) 
     - estensione dei servizi offerti da altri oggetti (*ereditarietà*)
@@ -58,11 +58,25 @@ aliases = ["/interfaces-consolidation/"]
     - **JDK**: JRE (JVM [`java`] + JCL) + strumenti di sviluppo (`javac`, `jshell` ...)
 - *Terminali* per l'accesso al file system e ai programmi da linea di comando
 - Strumenti JDK: compilazione con `javac` ed esecuzione con `java`
-    - *Programma*: metodo pubblico statico `main` in classe pubblica
+    - concetto di *classpath*
 - `gradle`: build system
+    - plugin `java`, e blocco `dependencies`
 - `git`: version control system
 - `JUnit`: framework per lo unit testing
 - *Visual Studio Code*: ambiente di sviluppo integrato (IDE)
+
+---
+
+### Java: elementi di base
+
+ - Elementi di base
+    - programmazione strutturata/imperativa (C-like)
+    - *programma*: metodo pubblico statico `main` in classe pubblica
+    - *tipi primitivi vs. tipi oggetto* (classi/interfacce)
+    - variabili contengono i *riferimenti* ad oggetti (allocati nello *heap*)
+        - assegnamento per copia del riferimento
+    - oggetti allocati in memoria dinamica (heap) $\to$ lifetime di oggetti va oltre lo scope
+        - no deallocazione manuale (cf. *GC*)
 
 ---
 
@@ -70,18 +84,15 @@ aliases = ["/interfaces-consolidation/"]
 
 - Astrazione object-oriented
     - *oggetto = stato + comportamento + identità* (cf. *incapsulamento*)
-    - interazione attraverso "scambio di messaggi"
+        - interazione attraverso "scambio di messaggi" (in realtà: chiamate sincrone a metodi)
     - *classe* come "tipo" di oggetti e come "template" di costruzione di oggetti simili (*istanze*)
     - *interfaccia* vs. implementazione (cf. *information-hiding*)
- - Elementi di base
-    - tipi primitivi vs. tipi oggetto (classi)
-    - variabili e riferimenti ad oggetti (allocati nello *heap*) (assegnamento per copia)
-    - oggetti allocati in memoria dinamica (heap) $\to$ lifetime di oggetti va oltre lo scope
-        - no deallocazione manuale (cf. *GC*)
-    - **classi**: *campi* & *metodi* (statici o d'istanza) -- accedibili mediante _dot notation_
-    - concetto di *receiver* di una *method call* e variabile speciale `this`
-- Altri costrutti
-    - codice *statico*: modificatore `static` per metodi/campi *di classe*
+ - Costrutti
+    - dichiarazione `class`: contiene dichiarazione *campi*, *metodi* (statici o d'istanza), e costruttori
+    - uso di oggetti: accesso a proprietà (metodi/campi) mediante _dot notation_
+        - concetto di *receiver* di una *method call* e variabile speciale `this`
+    - dichiarazione `interface`
+    - modificatore `static` per codice *statico* (metodi/campi *di classe*)
     - *costruttori* e inizializzazione di oggetti
     - *overloading* di metodi e costruttori
     - *package* come namespace e contenitori di classi (cf. dichiarazione `package`) organizzati gerarchicamente
@@ -102,7 +113,7 @@ aliases = ["/interfaces-consolidation/"]
     - metodi getter e setter
     - oggetti *immutabili*
 
-_Competenza attuale attesa: costruzione di semplici classi ben incapsulate; loro esercizio mediante programmi; compilazione ed esecuzione di programmi_
+Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle, tracciati con controllo di versione (git), che realizzano ed esercitano (mediante programmi e test JUnit) semplici sistemi ad oggetti ben incapsulati
 
 
 
@@ -112,29 +123,41 @@ _Competenza attuale attesa: costruzione di semplici classi ben incapsulate; loro
 
 # Design Pattern e Progettazione di Dettaglio
 
+---
 
-## Progettazione di dettaglio
+## Progettazione del software
+
+### Architettura
+
+- **Architettura del software**: descrizione dei componenti principali e delle relazioni importanti tra questi
+- esempio:
+    - una applicazione `Calcolatrice` consiste in 3 componenti principali:
+        1. interfaccia grafica (GUI)
+        2. componente che realizza i calcoli matematici
+        3. controller: parte che richiede i calcoli a fronte delle azioni dell'utente e chiede alla GUI di visualizzare il risultato
+- approfondiremo questa parte più avanti
+
+### Progettazione di dettaglio
 
 
 
-### Elementi
+* La **progettazione di dettaglio** descrive relazioni fra un insieme coeso di (tipi di) oggetti
+    * le relazioni più significative di un particolare sottosistema
+    * non descrive ogni singola classe/interfaccia del sistema
+*  documentata da più diagrammi UML di 5-10 classi ognuno
 
 
-
-*  Non descrive ogni singola classe/interfaccia del sistema
-*  Descrive relazioni fra oggetti, quelle ritenute più importanti per capire come il sistema è organizzato
-*  Quelle che nascondono elementi non banali
-*  Documentata da più diagrammi UML sempre di 5-10 classi ognuno
-
-
-
+---
 
 ### Come progettare una buona classe o gruppo di classi?
 
 
 
-*  buona conoscenza della programmazione OO e delle linee guida di buona programmazione/progettazione note e discusse
-*  utilizzo di cataloghi noti di pattern di progettazione (design pattern)
+* buona conoscenza della programmazione OO 
+    * incapsulamento
+* buona conoscenza di principi e pratiche di progettazione/programmazione efficace
+    * DRY (Don't Repeat Yourself), tecniche di riuso, ...
+* utilizzo di cataloghi noti di pattern di progettazione (design pattern)
 
 
 
