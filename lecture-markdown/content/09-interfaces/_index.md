@@ -57,20 +57,65 @@ aliases = ["/interfaces/"]
 
   
 
-L'*incapsulamento* ci fornisce i meccanismi per ben progettare le classi, limitando il più possibile le dipendenze con chi le usa, e quindi in modo da ridurre l'impatto delle modifiche che si rendono via via necessarie.
+L'*incapsulamento* ci fornisce i meccanismi per ben progettare le classi
 
-$\Rightarrow$ ma le dipendenze fra classi non sono evitabili del tutto, anzi, sono un prerequisito per fare di un gruppo di classi un sistema! In più, le dipendenze sono anche manifestazione di un effettivo "riuso".
+* limitando il più possibile le dipendenze con chi le usa
+* e quindi riducendo l'impatto delle modifiche che si rendono via via necessarie.
+
+$\Rightarrow$ ma le dipendenze fra classi non sono evitabili del tutto
+
+* anzi, sono un prerequisito per fare di un gruppo di classi un *sistema*! 
+* in più, le dipendenze sono anche manifestazione di un effettivo *"riuso"*.
   
 
-
+---
   
 ### Forme di dipendenza e riuso fra classi nell'OO
 
 
 
 *  **Associazione**: un oggetto ne "usa" un altro (*"uses"*)
+
+```java
+class A {
+    private B b;
+}
+```
+
 *  **Composizione/aggregazione**: un oggetto è "composto da" o "aggrega" altri oggetti (*"has-a"*)
+
+<div class="container">
+<div class="col">
+
+```java
+// Composizione
+class A {
+    private B b;
+
+    public A() {
+        b = new B();
+    }
+}
+```
+
+</div><div class="col">
+
+```java
+// Aggregazione
+class A {
+    private B b;
+
+    public A(B b) {
+        b = this.b;
+    }
+}
+```
+
+</div>
+</div>
+
 *  **Specializzazione**: un oggetto "è una forma specializzata" di un altro tipo di oggetti (*"is-a"*)
+    * la vedremo in futuro
 
 
   
@@ -93,10 +138,10 @@ Introdurremo la composizione (che è una versione più forte della associazione)
 
 
 
-*  un oggetto della classe `A` è ottenuto componendo un insieme di altri oggetti, delle classi `B1`, `B2`,..,`Bn` 
-    *  si dice che un oggetto di `A` *contiene*, o *si compone di*, o *aggrega*, oggetti delle classi `B1`, `B2`,..,`Bn`
-*  ossia, lo stato dell'oggetto di `A` include le informazioni relative allo stato di un oggetto di `B1`, uno di  `B2`, ..., uno di `Bn`
-    *  si noti che si parla propriamente di composizione quando `B1`, `B2`,..`Bn` non sono tipi primitivi, ma classi
+*  un oggetto della classe `A` è ottenuto componendo un insieme di altri oggetti, delle classi `B1`, `B2`, ..., `Bn` 
+    *  si dice che un oggetto di `A` *contiene*, o *si compone di*, o *aggrega*, oggetti delle classi `B1`, `B2`, ..., `Bn`
+*  ossia, lo stato dell'oggetto di `A` include <!-- le informazioni relative allo stato di --> un oggetto di `B1`, uno di  `B2`, ..., uno di `Bn`
+    *  si noti che si parla propriamente di composizione quando `B1`, `B2`, ..., `Bn` non sono tipi primitivi, ma classi
 
 ### Composizione vs. aggregazione
 
