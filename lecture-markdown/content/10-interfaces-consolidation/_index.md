@@ -816,3 +816,69 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
   
 
 -->
+
+
+
+## Factory Method e Abstract Factory
+
+
+  ![](img/fac3.png)
+  ![](img/fac4.png)
+
+
+---
+
+
+
+## Factory Method: creazionale, su oggetti
+
+
+    
+### Intento/motivazione
+
+
+	Definisce una interfaccia per creare oggetti, lasciando alle sottoclassi il compito di decidere quale classe istanziare e come
+    
+
+    
+### Esempi
+
+
+
+	*  Un framework deve creare oggetti, ma sue specializzazioni devono crearne versioni specializzate
+    
+
+
+    
+### Soluzione
+
+
+
+	*  Una interfaccia creatrice fornisce il metodo factory col compito di creare e ritornare l'oggetto
+	*  Tale interfaccia viene poi specializzata, e incapsula la logica di creazione dell'oggetto
+	* $\Rightarrow$ ..spesso frainteso con static o simple factory
+    
+
+
+
+
+---
+
+
+## Factory Method: UML
+
+
+![](imgs/factorymethod.png)
+
+
+---
+
+
+## Factory Method: Esempio `Persona` e `FactoryPersona`
+
+
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/factory/person/Person.java}
+    \sizedrangedcode{\ssmall}{3}{100}{\ecl/factory/person/PersonFactory.java}
+
+
+---
