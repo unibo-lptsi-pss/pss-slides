@@ -448,6 +448,7 @@ A seconda dello scopo per cui si usa il diagramma, non è necessario riportare t
 <!--
 ```mermaid
 classDiagram
+
 class Lamp {
     -int LEVELS$  
     -double DELTA$

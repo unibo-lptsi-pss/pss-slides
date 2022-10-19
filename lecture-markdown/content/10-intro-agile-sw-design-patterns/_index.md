@@ -780,12 +780,19 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 <!-- ![](imgs/strategy.jpg) -->
 
 ```mermaid
+classDiagram
+
 class Context { }
+
 class Strategy {
     <<interface>>
     doAlgorithm(SubContext)
 }
+
+Context *-- Strategy
+
 class StrategyImpl1 { }
+
 class StrategyImpl2 { }
 
 Strategy <|-- StrategyImpl1
@@ -939,12 +946,22 @@ Definisce una interfaccia per creare oggetti, lasciando alle sottoclassi il comp
 -->
 
 ```mermaid
+classDiagram
+
 class Product {
     <<interface>>
 }
+
+class ConcreteProduct1 { }
+
+class ConcreteProduct2 { }
+
+Product <|-- ConcreteProduct1
+Product <|-- ConcreteProduct2
+
 class Factory {
     <<interface>>
-    factoryMethod(): Product
+    factoryMethod() Product
 }
 
 class Context { }
@@ -952,13 +969,16 @@ class Context { }
 Context *-- Factory
 Context --> Product
 
-class ConcreteProduct { }
 
-Product <|-- ConcreteProduct
+class FactoryImpl1 { }
 
-class FactoryImpl { }
+class FactoryImpl2 { }
 
-Factory <|-- FactoryImpl
+FactoryImpl1 --> ConcreteProduct1
+FactoryImpl2 --> ConcreteProduct2
+
+Factory <|-- FactoryImpl1
+Factory <|-- FactoryImpl2
 ```
 
 ---
