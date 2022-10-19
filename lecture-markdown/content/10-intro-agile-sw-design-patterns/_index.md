@@ -780,7 +780,7 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 <!-- ![](imgs/strategy.jpg) -->
 
 ```mermaid
-class Context
+class Context { }
 class Strategy {
     <<interface>>
     doAlgorithm(SubContext)
@@ -887,40 +887,13 @@ Strategy <|-- StrategyImpl2
 
 -->
 
-
+<!--
 
 ## Factory Method 
 
 
-<!-- ![](imgs/factorymethod.png) -->
+![](imgs/factorymethod.png) -->
 
-```mermaid
-class Product {
-    <<interface>>
-}
-class Factory {
-    <<interface>>
-    factoryMethod(): Product
-}
-
-class Context
-
-Context *-- Factory
-Context --> Product
-
-class ConcreteProduct
-
-Product <|-- ConcreteProduct
-
-class FactoryImpl 
-
-Factory <|-- FactoryImpl
-
-
-```
-
-
----
 
 
 
@@ -931,7 +904,7 @@ Factory <|-- FactoryImpl
 ### Intento/motivazione
 
 
-	Definisce una interfaccia per creare oggetti, lasciando alle sottoclassi il compito di decidere quale classe istanziare e come
+Definisce una interfaccia per creare oggetti, lasciando alle sottoclassi il compito di decidere quale classe istanziare e come
     
 
     
@@ -939,7 +912,7 @@ Factory <|-- FactoryImpl
 
 
 
-	*  Un framework deve creare oggetti, ma sue specializzazioni devono crearne versioni specializzate
+*  Un framework deve creare oggetti, ma sue specializzazioni devono crearne versioni specializzate
     
 
 
@@ -948,9 +921,9 @@ Factory <|-- FactoryImpl
 
 
 
-	*  Una interfaccia creatrice fornisce il metodo factory col compito di creare e ritornare l'oggetto
-	*  Tale interfaccia viene poi specializzata, e incapsula la logica di creazione dell'oggetto
-	* $\Rightarrow$ ..spesso frainteso con static o simple factory
+*  Una interfaccia creatrice fornisce il metodo factory col compito di creare e ritornare l'oggetto
+*  Tale interfaccia viene poi specializzata, e incapsula la logica di creazione dell'oggetto
+* ..spesso frainteso con static o simple factory
     
 
 
@@ -961,18 +934,65 @@ Factory <|-- FactoryImpl
 
 ## Factory Method: UML
 
-
+<!--
 ![](imgs/factorymethod.png)
+-->
 
+```mermaid
+class Product {
+    <<interface>>
+}
+class Factory {
+    <<interface>>
+    factoryMethod(): Product
+}
+
+class Context { }
+
+Context *-- Factory
+Context --> Product
+
+class ConcreteProduct { }
+
+Product <|-- ConcreteProduct
+
+class FactoryImpl { }
+
+Factory <|-- FactoryImpl
+```
 
 ---
 
 
-## Factory Method: Esempio `Persona` e `FactoryPersona`
+## Factory Method: Esempio `Person` e `PersonFactory`
 
 
-    \sizedrangedcode{\ssmall}{3}{100}{\ecl/factory/person/Person.java}
-    \sizedrangedcode{\ssmall}{3}{100}{\ecl/factory/person/PersonFactory.java}
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/persona/Person.java" %}}
+```
 
+{{% smaller %}}
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/persona/PersonImpl.java" %}}
+```
+
+{{% /smaller %}}
+
+---
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/persona/PersonFactory.java" %}}
+```
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/persona/PersonFactoryImpl.java" %}}
+```
+
+---
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/persona/UsePerson.java" %}}
+```
 
 ---
