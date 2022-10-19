@@ -736,174 +736,8 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 
 ---
 
-## Strategy: comportamentale, su oggetti
 
-
-    
-### Intento/motivazione
-
-
-Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili in modo trasparente dai loro clienti
-    
-
-    
-### Esempi
-
-
-*  Strategie di confronto fra due elementi per sorting (`Comparable`)
-*  Strategia di disposizione di componenti in una GUI (`LayoutManager`)
-*  Strategie di `map`, `filter`, etc.. negli `Stream`
-    
-
-
-    
-### Soluzione
-
-
-
-*  Gli algoritmi sono realizzati tramite specializzazioni di una classe/interfaccia base
-*  Ai clienti passo un oggetto (di una specializzazione) dell'interfaccia base
-<!-- *  Se la strategia è funzionale si usano facilmente le lambda (e viceversa) -->
-
-*__È probabilmente uno dei pattern più importanti (assieme al Factory Methods)__*
-    
-
-
-
-
----
-
-
-## Strategy: UML
-
-
-<!-- ![](imgs/strategy.jpg) -->
-
-```mermaid
-classDiagram
-
-class Context { }
-
-class Strategy {
-    doAlgorithm(SubContext)
-}
-
-<<interface>> Strategy
-
-Context *-- Strategy
-
-class StrategyImpl1 { }
-
-class StrategyImpl2 { }
-
-Strategy <|-- StrategyImpl1
-Strategy <|-- StrategyImpl2
-```
-
-
----
-
-
-## Strategy: Sorting con comparatori
-
-
-<!--    \sizedrangedcode{\ssmall}{5}{100}{\ecl/strategy/UseComparator.java} -->
-
-```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonCompareStrategy.java" %}}
-```
-
----
-
-```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonComparatorByAge.java" %}}
-```
-
-
-```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonComparatorByFullName.java" %}}
-```
-
----
-
-{{% smaller %}}
-
-```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/UsePersons.java" %}}
-```
-
-{{% /smaller %}}
-
----
-
-<!--
-
-## Strategy: Caso del BankAccount
-
-
-    \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/BankOperationFees.java}
-    \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/StandardBankOperationFees.java}
-
----
-
-
-
-## Strategy: Caso del BankAccount
-
-
-    \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/BankAccount.java}
-
--->
-
-<!--
-
----
-
-
-## Strategy vs Template Method
-
-
-  
-### In comune
-
-
-
-*  Entrambi li si ottengono dall'esigenza di scorporare da una classe la gestione di una strategia o specializzazione
-*  Entrambi richiedono un behaviour aggiuntivo da realizzare
-  
-
-
-  
-### Differenze
-
-
-
-*  Strategy è più flessibile, perché gli oggetti che rappresentano la specializzazione sono liberi dal dover estendere una certa classe, e quindi sono più facilmente riusabili (p.e. un `Comparator` è usabile con collection diverse)
-*  Template Method si integra con il subtyping, e quindi va usato quando a strategie specializzate devono corrispondere classi specializzate
-  
-
-
-  
-### Altre note
-
-
-
-*  Negli `InputStream` le limitazioni del Template Method sono mitigate dal Decorator
-*  Con le lambda, l'approccio a Strategy diventa più naturale
-*  Valutare di usare il Template Method insieme a Strategy, ossia per definire gerarchie di strategie 
-  
-
--->
-
-<!--
-
-## Factory Method 
-
-
-![](imgs/factorymethod.png) -->
-
-
-
+# Factory Method
 
 ## Factory Method: creazionale, su oggetti
 
@@ -1015,4 +849,106 @@ Factory <|-- FactoryImpl2
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/persona/UsePerson.java" %}}
 ```
+
+---
+
+# Strategy
+
+## Strategy: comportamentale, su oggetti
+
+
+    
+### Intento/motivazione
+
+
+Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili in modo trasparente dai loro clienti
+    
+
+    
+### Esempi
+
+
+*  Strategie di confronto fra due elementi per sorting (`Comparable`)
+*  Strategia di disposizione di componenti in una GUI (`LayoutManager`)
+*  Strategie di `map`, `filter`, etc.. negli `Stream`
+    
+
+
+    
+### Soluzione
+
+
+
+*  Gli algoritmi sono realizzati tramite specializzazioni di una classe/interfaccia base
+*  Ai clienti passo un oggetto (di una specializzazione) dell'interfaccia base
+<!-- *  Se la strategia è funzionale si usano facilmente le lambda (e viceversa) -->
+
+*__È probabilmente uno dei pattern più importanti (assieme al Factory Methods)__*
+    
+
+
+
+
+---
+
+
+## Strategy: UML
+
+
+<!-- ![](imgs/strategy.jpg) -->
+
+```mermaid
+classDiagram
+
+class Context { }
+
+class Strategy {
+    doAlgorithm(SubContext)
+}
+
+<<interface>> Strategy
+
+Context *-- Strategy
+
+class StrategyImpl1 { }
+
+class StrategyImpl2 { }
+
+Strategy <|-- StrategyImpl1
+Strategy <|-- StrategyImpl2
+```
+
+
+---
+
+
+## Strategy: Sorting con comparatori
+
+
+<!--    \sizedrangedcode{\ssmall}{5}{100}{\ecl/strategy/UseComparator.java} -->
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonCompareStrategy.java" %}}
+```
+
+---
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonComparatorByAge.java" %}}
+```
+
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonComparatorByFullName.java" %}}
+```
+
+---
+
+{{% smaller %}}
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/UsePersons.java" %}}
+```
+
+{{% /smaller %}}
 
