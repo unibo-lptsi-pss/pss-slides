@@ -785,9 +785,10 @@ classDiagram
 class Context { }
 
 class Strategy {
-    <<interface>>
     doAlgorithm(SubContext)
 }
+
+<<interface>> Strategy
 
 Context *-- Strategy
 
@@ -1015,4 +1016,3 @@ Factory <|-- FactoryImpl2
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/persona/UsePerson.java" %}}
 ```
 
----
