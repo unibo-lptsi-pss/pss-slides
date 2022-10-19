@@ -21,7 +21,7 @@ outputs = ["Reveal"]
 * [Sistemi di controllo versione](git/)
 * [Incapsulamento](encapsulation/)
 * [Interfacce](interfaces/)
-* [Interfacce e incapsulamento: consolidamento e pattern (WIP)](interfaces-consolidation/)
+* [Introduzione alla progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 
 ### Contenuti del laboratorio
 * [Strumenti di compilazione avanzati](lab/02-advanced-tooling-gradle/)

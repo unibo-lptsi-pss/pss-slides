@@ -1105,6 +1105,16 @@ Device <|-- AirConditioner
 **Ogni classe è sottotipo delle interfacce che implementa!**
 
 
+---
+
+### Visione insiemistica
+
+![](imgs/types-as-sets.png)
+
+- Gli *insiemi* (ovali) denotano *tipi*
+    - Un insieme contenuto in un altro insieme è un *sottotipo*
+- Gli *elementi* (punti neri) denotano *oggetti*
+
 
 ---
 
@@ -1116,8 +1126,7 @@ Device <|-- AirConditioner
 ### Principio di sostituibilità di Liskov (1993)
 
 
-Se `A` è un sottotipo di `B` allora ogni oggetto (o valore) di `A` può(/deve) essere utilizzato dove un programma si attende un oggetto (o valore) di `B`
-  
+Se `B` è un sottotipo di `A` allora ogni oggetto (o valore) di `B` può(/deve) essere utilizzato dove un programma si attende un oggetto (o valore) di `A`
 
   
 ### Nel caso delle interfacce
@@ -1125,7 +1134,15 @@ Se `A` è un sottotipo di `B` allora ogni oggetto (o valore) di `A` può(/deve) 
 
 Se la classe `C` implementa l'interfaccia `I`, allora ogni istanza di `C` può essere passata dove il programma si attende un elemento del tipo `I`.
   
+```java
+class Lamp implements Device { ... }
 
+public void workOnDevice(Device d) { if(d.isSwitchedOn()) { ... } }
+
+Lamp l = new Lamp();
+Device d = l; // ok, ci si attende un Device
+workOnDevice(l); // ok, il parametro dev'essere un Device
+```
   
 ### Si rischiano errori?
 
@@ -1232,8 +1249,8 @@ switchOnIfCurrentlyOff(lamp); // OK, un Lamp è un Device
 
 Accade con le chiamate a metodi non-statici
 
-*  Dentro a `switchOnIfCurrentlyOff()` mandiamo a `device` due messaggi (`isSwitchedOn` e `switchOn`), ma il codice da eseguire viene scelto dinamicamente (ossia "late"), dipende dalla classe dell'oggetto `device` (`Lamp`,`TV`,..)
-*  Terminologia: `device` ha tipo `Device` (tipo statico), ma a tempo di esecuzione è un `Lamp` (tipo run-time)
+*  Dentro a `switchOnIfCurrentlyOff()` mandiamo a `device` due messaggi (`isSwitchedOn` e `switchOn`), ma il codice da eseguire viene scelto dinamicamente (ossia "late"), dipende dalla classe dell'oggetto `device` (`Lamp`, `TV`, ...)
+*  Terminologia: `device` ha tipo `Device` (*tipo statico*), ma a tempo di esecuzione è un `Lamp` (*tipo run-time*)
   
 
 
@@ -1271,7 +1288,7 @@ C2.m2(); // collegamento al body da eseguire è early, ossia statico
 
 
 
-*  Early: con metodi statici o finali
+*  Early: con metodi statici (o finali--come vedremo nel caso dell'ereditarietà)
 *  Late: negli altri casi
   
 
@@ -1320,11 +1337,11 @@ public interface I4 extends I1, I2, I3 {
 ---
 
 
-## Implementazione multipla
+## Implementazione multipla di interfacce
 
 
   
-### Implementazione multipla
+### Implementazione multipla di interfacce
 
 Dichiarazione possibile: `class C implements I1,I2,I3 { ... }`
   
@@ -1371,6 +1388,14 @@ public class Lamp implements Device, Luminous {
 ---
 
 
+### Visione insiemistica
+
+![](imgs/types-as-sets-multiple.png)
+
+
+---
+
+
 ## Estensione interfacce
 
 
@@ -1395,14 +1420,14 @@ Dichiarazione possibile: `interface I extends I1,I2,I3 { ... }`
 
 
 ```java
-public interface Device{  
+public interface Device {  
     void switchOn(); 
     void switchOff();
     boolean isSwitchedOn();
 }
 public interface Luminous {     
     void dim();
-    void bright();
+    void brighten();
 }
 
 /* Interfaccia per dispositivi luminosi */
@@ -1416,25 +1441,27 @@ public class Lamp implements LuminousDevice {
     public void switchOff(){ ... }
     public boolean isSwitchedOn(){ ... }
     public void dim(){ ... }
-    public void bright(){ ... }
+    public void brighten(){ ... }
 }
 ```
+
 
 ---
 
 
 ## Qualche esempio dalle librerie Java
 
-
+[https://docs.oracle.com/en/java/javase/17/docs/api/java.base/module-summary.html](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/module-summary.html)
   
 ### Interfacce base
 
-
-
-*  `java.lang.Appendable`
-*  `java.io.DataInput`
-*  `java.io.Serializable`: interfaccia "tag"
-*  `javax.swing.Icon`
+*  `java.lang.CharSequence`: contratto per oggetti rappresentanti "sequenze di caratteri" leggibili
+    * implementata da, ad esempio: `String` e `StringBuffer` (stringhe mutabili)
+*  `java.lang.Appendable`: contratto per oggetti su cui "appendere" (ovvero, aggiungere in coda) sequenze di caratteri (`CharSequence`)
+    * implementata da, ad esempio: `StringBuffer`
+*  `java.io.DataInput`: lettura di oggetti di tipi primitivi a partire da un flusso di dati binario
+*  `java.io.Serializable`: interfaccia *"tag"* (vuota, senza metodi) per oggetti "serializzabili"
+*  `javax.swing.Icon`: interfaccia per icone in interfacce grafiche
   
 
 
@@ -1442,8 +1469,8 @@ public class Lamp implements LuminousDevice {
 ### Implementazioni multiple
 
 
-
-*  `class ImageIcon implements Icon, Serializable, Accessible { ... }`
+*  `final class String implements CharSequence, Serializable, ... { ... } `
+*  `class ImageIcon implements Icon, Serializable, ... { ... }`
   
 
 

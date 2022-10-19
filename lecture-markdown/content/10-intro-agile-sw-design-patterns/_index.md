@@ -4,11 +4,11 @@
 title = "Progettazione e Sviluppo del Software"
 description = "Progettazione e Sviluppo del Software, Tecnologie dei Sistemi Informatici"
 outputs = ["Reveal"]
-aliases = ["/interfaces-consolidation/"]
+aliases = ["/intro-agile-sw-design-patterns/"]
 
 +++
 
-# Consolidamento su incapsulamento e interfacce
+# Introduzione alla progettazione efficace ed agile del software
 
 {{% import path="front-page.md" %}}
 
@@ -113,6 +113,7 @@ aliases = ["/interfaces-consolidation/"]
 - **Incapsulamento**
     1. impacchettamento *dati* e *funzioni* per la loro manipolazione
     2. *information hiding*: interfaccia pubblica stabile (*contratto*) e dettagli implementativi privati 
+- Uso **interfacce** per catturare astrazioni e contratti
 - Varie
     - metodi getter e setter
     - oggetti *immutabili*
@@ -124,6 +125,7 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
 
 # Introduzione alla progettazione del software
 
+---
 
 ## Richiamo: qualità interna vs. esterna
 
@@ -155,9 +157,9 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
 - Principi e tecniche di programmazione/progettazione efficace
 - Uso di pratiche come il TDD
 
-### Il problema della progettazione
+### Il problema della **progettazione**
 
-* Come organizzare efficaciemente un sistema OO (classi, interfacce, e relazioni tra queste) per ottenere la funzionalità e la qualità esterna desiderate?
+* Come organizzare in modo efficace un sistema OO (classi, interfacce, e relazioni tra queste) per ottenere la funzionalità e la qualità esterna desiderate?
 
 
 ---
@@ -186,113 +188,30 @@ Competenza attuale attesa: costruzione di piccoli progetti software Java/Gradle,
 ---
 
 
-# Design Pattern e Progettazione di Dettaglio
 
+# Agile software development
 
+## Introduzione
 
----
+Il software è il risultato di un *processo di sviluppo*
 
-## Come progettare una buona classe o gruppo di classi?
+* Processi, pratiche, e strumenti incidono sulla qualità del software
 
+Qui introduciamo una famiglia di processi e pratiche nota con il termine **agile**
 
-
-* buona conoscenza della programmazione OO 
-    * incapsulamento, information hiding
-    * polimorfismo
-    * ereditarietà (che vedremo)
-* buona conoscenza di principi e pratiche di progettazione/programmazione efficace
-    * DRY (Don't Repeat Yourself), ...
-    * astrazione attraverso interfacce, tecniche di riuso (composizione), ...
-* utilizzo di cataloghi noti di pattern di progettazione (design pattern)
-
-
-
-
-
----
-
-
-## Design Pattern
-
-
-  
-### I Pattern di progettazione
-
-*  Un **pattern** è una *soluzione notevole a problemi ricorrenti di design object-oriented*  
-    <!-- elementi riusabili (semplici ed eleganti) di progettazione OO -->
-    * I problemi di "design" sono spesso ricorrenti
-    * Progettisti esperti hanno nel tempo affrontato tali problemi, provato diverse soluzioni, fino ad ottenere soluzioni efficaci con chiara analisi di costi/benefici 
-    * Tale "esperienza" è stata codificata in forma generica/riusabile in "pattern" che possono essere applicati in contesti simili
-*  Alcuni sono particolarmente famosi, come quelli della *"Gang of Four"* (detti anche *Pattern GoF*)
-    *  Testo famosissimo (in C++): *Design Patterns: Elements of Reusable Object-Oriented Software* di *E. Gamma, R. Helm, R. Johnson, J. Vlissides*
-    *  23 in tutto. Esempi: Strategy, Decorator, Singleton, Template Method, Observer
-    *  (Cit. "SW di grosse dimensioni li usano praticamente tutti")
-* Benefici
-    *  Il loro uso migliora molto il codice
-        *  Rende il codice più flessibile (nascono per questo)
-        *  Portano più direttamente ad una buona organizzazione (delle responsabilità, delle dipendenze, etc.)
-    *  Fanno parte di un "vocabolario" per la comunicazione fra programmatori/progettisti
-
-
-
-
----
-
-
-## Design Pattern in questa sede
-  
-
-  
-### Nel corso
-
-*  E' importante imparare quelli che introdurremo
-*  E' opportuno applicarli nel progetto d'esame (e nella relazione)
-    
-### Per il vostro futuro
-
-*  Noi porremo le basi per uno loro studio in autonomia
-*  Un ottimo progettista li conosce e usa (ove opportuno) *__tutti__*
-
-
-
-
----
-
-
-## Motivazione: qualità interna, refactoring, agilità
-
-* E' importante conoscere e cercare di applicare i pattern in quanto:
-    * promuovono la *qualità interna* del software
-    * permettono di velocizzare l'attività di *refactoring*
-    
-### Rifattorizzazione (**refactoring**)
-
-*  Operazione di modifica del codice che *non aggiunge funzionalità*
-*  Ha lo scopo di *migliorare la qualità interna del SW*
-    * la sua formattazione, la sua espressività semantica (cf. nomenclatura), la sua struttura
-* Ha lo scopo di attrezzare il codice a possibili cambiamenti futuri (cf. *agilità*)
-    * Può/deve quindi comportare una riprogettazione di alcune parti
-* Il refactoring è una pratica necessaria
-    *  Una buona progettazione non la si ottiene al primo "colpo", ma richiede vari refactoring
-    *  Brian Foote identifica tre fasi nello sviluppo di un sistem: "prototyping", "expansionary", "consolidating"; nel consolidamento si rifattorizza
-
-### Agilità
-
-*  Si vuole rendere il software *agile*, ovvero in grado di rispondere facilmente al cambiamento
-*  Nell'*agile programming*, ogni ciclo di sviluppo non parte se non si è rifattorizzato il codice del ciclo precedente (sia in cicli corti che lunghi)
-
-
-I design pattern forniscono direttamente "ricette" di buona costruzione o rifattorizzazione del SW
-    
 ---
 
 ## Agile software development (sviluppo agile del software)
+
+- Lo **sviluppo agile del software** è un insieme di principi, pratiche, e metodi volti a *rispondere al cambiamento* 
+    * cambiamento della comprensione del problema, dei requisiti, delle risorse...
+- Si basa su approcci *iterativi/incrementali* a *cicli brevi* per *feedback frequente*, con focus su *qualità* attraverso pratiche/strumenti quali refactoring, pattern, ...
 
 ### Manifesto
 
 [https://agilemanifesto.org/](https://agilemanifesto.org/)
 
-Stiamo scoprendo modi migliori di creare software,
+"Stiamo scoprendo modi migliori di creare software,
 sviluppandolo e aiutando gli altri a fare lo stesso.
 Grazie a questa attività siamo arrivati a considerare importanti:
 
@@ -302,7 +221,7 @@ Grazie a questa attività siamo arrivati a considerare importanti:
 4. **Rispondere al cambiamento** più che *seguire un piano*
 
 Ovvero, fermo restando il valore delle voci a destra,
-consideriamo più importanti le voci a sinistra.
+consideriamo più importanti le voci a sinistra."
 
 ---
 
@@ -339,6 +258,118 @@ migliori emergono da team che si auto-organizzano.
 12. A intervalli regolari il team riflette su come
 diventare più efficace, dopodiché regola e adatta
 il proprio comportamento di conseguenza.
+
+---
+
+
+
+# Design Pattern e Progettazione di Dettaglio
+
+
+
+---
+
+## Come progettare una buona classe o gruppo di classi?
+
+
+
+* buona conoscenza della *programmazione OO* 
+    * incapsulamento, information hiding
+    * polimorfismo
+    * ereditarietà (che vedremo)
+* buona conoscenza di *principi e pratiche di progettazione/programmazione efficace*
+    * DRY (Don't Repeat Yourself), ...
+    * astrazione attraverso interfacce, tecniche di riuso (composizione), ...
+* utilizzo di cataloghi noti di pattern di progettazione (*design pattern*)
+
+
+
+
+
+---
+
+
+
+
+
+## Design Pattern
+
+
+  
+### I Pattern di progettazione
+
+*  Un **pattern** è una *soluzione notevole a problemi ricorrenti di design object-oriented*  
+    <!-- elementi riusabili (semplici ed eleganti) di progettazione OO -->
+    * I problemi di "design" sono spesso ricorrenti
+    * Progettisti esperti hanno nel tempo affrontato tali problemi, provato diverse soluzioni, fino ad ottenere soluzioni efficaci con chiara analisi di costi/benefici 
+    * Tale "esperienza" è stata codificata in forma generica/riusabile in "pattern" che possono essere applicati in contesti simili
+*  Alcuni sono particolarmente famosi, come quelli della *"Gang of Four"* (detti anche *Pattern GoF*)
+    *  Testo famosissimo (in C++): *Design Patterns: Elements of Reusable Object-Oriented Software* di *E. Gamma, R. Helm, R. Johnson, J. Vlissides*
+    *  23 in tutto. Esempi: Strategy, Decorator, Singleton, Template Method, Observer
+    *  (Cit. "SW di grosse dimensioni li usano praticamente tutti")
+* Benefici
+    *  Il loro uso migliora molto il codice
+        *  Rende il codice più flessibile (nascono per questo)
+        *  Portano più direttamente ad una buona organizzazione (delle responsabilità, delle dipendenze, etc.)
+    *  Fanno parte di un "vocabolario" per la comunicazione fra programmatori/progettisti
+
+---
+
+
+## Design Pattern in questa sede
+  
+
+  
+### Nel corso
+
+*  E' importante imparare quelli che introdurremo
+*  E' opportuno applicarli nel progetto d'esame (e documentarli nella relazione)
+    
+### Per il vostro futuro
+
+*  Noi porremo le basi per uno loro studio in autonomia
+*  Un ottimo progettista li conosce e usa (ove opportuno) *__tutti__*
+
+
+
+
+---
+
+
+## Motivazione: qualità interna, refactoring, agilità
+
+* E' importante conoscere e cercare di applicare i pattern in quanto:
+    * promuovono la *qualità interna* del software
+    * promuovono l'*agilità* attraverso software di qualità 
+    * permettono di velocizzare l'attività di *refactoring*
+    
+---
+
+### Rifattorizzazione (**refactoring**)
+
+*  Operazione di modifica del codice che *non aggiunge funzionalità*
+*  Ha lo scopo di *migliorare la qualità interna del SW*
+    * la sua formattazione, la sua espressività semantica (cf. nomenclatura), la sua struttura
+* Ha lo scopo di attrezzare il codice a possibili cambiamenti futuri (cf. *agilità*)
+    * Può/deve quindi comportare una riprogettazione di alcune parti
+* Il refactoring è una pratica necessaria
+    *  Una buona progettazione non la si ottiene al primo "colpo", ma richiede vari refactoring
+    *  Brian Foote identifica tre fasi nello sviluppo di un sistema: "prototyping", "expansionary", "consolidating"; nel consolidamento si rifattorizza
+
+### Il refactoring è supportato da test e pattern
+
+* I *test automatici* permettono di verificare se un refactoring ha introdotto regressioni
+* I *design pattern* forniscono direttamente "ricette" di buona costruzione o rifattorizzazione del SW
+
+
+<!--
+
+### Agilità
+
+* Si vuole rendere il software *agile*, ovvero in grado di rispondere facilmente al cambiamento (nuovi requisiti, ...)
+*  Nell'*agile programming*, ogni ciclo di sviluppo non parte se non si è rifattorizzato il codice del ciclo precedente (sia in cicli corti che lunghi) 
+
+-->
 
 ---
 
@@ -398,9 +429,9 @@ il proprio comportamento di conseguenza.
 
 
 
-*  *Creazionali*: Riguardano la creazione degli oggetti
-*  *Strutturali*: Riguardano la composizione di classi/oggetti
-*  *Comportamentali*: Riguardano la interazione e distribuzione di responsabilità fra classi/oggetti
+*  **Creazionali**: Riguardano la creazione degli oggetti
+*  **Strutturali**: Riguardano la composizione di classi/oggetti
+*  **Comportamentali**: Riguardano la interazione e distribuzione di responsabilità fra classi/oggetti
     
 
 
@@ -409,8 +440,8 @@ il proprio comportamento di conseguenza.
 
 
 
-*  *Classi*: Il Pattern riguarda primariamente le relazioni fra classi (e sottoclassi), e quindi tratta aspetti *statici* (compile-time)
-*  *Oggetti*: Il Pattern riguarda primariamente le relazioni fra oggetti (l'esistenza di riferimenti fra oggetti), e quindi tratta aspetti *dinamici* (run-time)
+*  **Classi**: Il Pattern riguarda primariamente le relazioni fra classi (e sottoclassi), e quindi tratta aspetti *statici* (compile-time)
+*  **Oggetti**: Il Pattern riguarda primariamente le relazioni fra oggetti (l'esistenza di riferimenti fra oggetti), e quindi tratta aspetti *dinamici* (run-time)
     
 
 
@@ -719,9 +750,8 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 ### Esempi
 
 
-
-*  Strategia di disposizione di componenti in una GUI (`LayoutManager`)
 *  Strategie di confronto fra due elementi per sorting (`Comparable`)
+*  Strategia di disposizione di componenti in una GUI (`LayoutManager`)
 *  Strategie di `map`, `filter`, etc.. negli `Stream`
     
 
@@ -732,9 +762,10 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 
 
 *  Gli algoritmi sono realizzati tramite specializzazioni di una classe/interfaccia base
-*  Ai clienti passo un oggetto (di una specializzazione) della classe base
-*  Se la strategia è funzionale si usano facilmente le lambda (e viceversa)
-* $\Rightarrow$ *__È probabilmente uno dei pattern più importanti (assieme al Factory Methods)__*
+*  Ai clienti passo un oggetto (di una specializzazione) dell'interfaccia base
+<!-- *  Se la strategia è funzionale si usano facilmente le lambda (e viceversa) -->
+
+*__È probabilmente uno dei pattern più importanti (assieme al Factory Methods)__*
     
 
 
@@ -746,7 +777,20 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 ## Strategy: UML
 
 
-![](imgs/strategy.jpg)
+<!-- ![](imgs/strategy.jpg) -->
+
+```mermaid
+class Context
+class Strategy {
+    <<interface>>
+    doAlgorithm(SubContext)
+}
+class StrategyImpl1 { }
+class StrategyImpl2 { }
+
+Strategy <|-- StrategyImpl1
+Strategy <|-- StrategyImpl2
+```
 
 
 ---
@@ -755,11 +799,36 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 ## Strategy: Sorting con comparatori
 
 
-    \sizedrangedcode{\ssmall}{5}{100}{\ecl/strategy/UseComparator.java}
+<!--    \sizedrangedcode{\ssmall}{5}{100}{\ecl/strategy/UseComparator.java} -->
 
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonCompareStrategy.java" %}}
+```
 
 ---
 
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonComparatorByAge.java" %}}
+```
+
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonComparatorByFullName.java" %}}
+```
+
+---
+
+{{% smaller %}}
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/UsePersons.java" %}}
+```
+
+{{% /smaller %}}
+
+---
+
+<!--
 
 ## Strategy: Caso del BankAccount
 
@@ -767,8 +836,8 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
     \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/BankOperationFees.java}
     \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/StandardBankOperationFees.java}
 
-
 ---
+
 
 
 ## Strategy: Caso del BankAccount
@@ -776,6 +845,7 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 
     \sizedrangedcode{\ssmall}{3}{100}{\ecl/strategy/BankAccount.java}
 
+-->
 
 <!--
 
@@ -819,11 +889,35 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 
 
 
-## Factory Method e Abstract Factory
+## Factory Method 
 
 
-  ![](img/fac3.png)
-  ![](img/fac4.png)
+<!-- ![](imgs/factorymethod.png) -->
+
+```mermaid
+class Product {
+    <<interface>>
+}
+class Factory {
+    <<interface>>
+    factoryMethod(): Product
+}
+
+class Context
+
+Context *-- Factory
+Context --> Product
+
+class ConcreteProduct
+
+Product <|-- ConcreteProduct
+
+class FactoryImpl 
+
+Factory <|-- FactoryImpl
+
+
+```
 
 
 ---
