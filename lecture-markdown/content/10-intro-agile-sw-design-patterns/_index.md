@@ -538,7 +538,6 @@ Aderiremo al seguente schema, che è una semplificazione di quello proposto alla
 
 ---
 
-# Strategy
 
 ## Strategy: comportamentale, su oggetti
 
@@ -657,3 +656,179 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 
 </div>
 </div>
+
+---
+
+## I pattern "factory"
+
+- I pattern **"factory"** caratterizzano delle organizzazioni di codice OO al fine di gestire il modo con cui viene stabilito *quali classi istanziare*
+    - 2 pattern semplici: **Static Factory** e **Simple Factory**
+    - 2 pattern GOF: **Abstract Factory**, **Factory Method**
+    - Varie varianti sono possibili...
+    - ...Noi ne illustreremo una che è a metà tra Abstract Factory e Factory Method
+    - ...Che può essere anche vista come un'applicazione dello **Strategy** dove strategie concrete stabiliscono quali classi istanziare
+
+---
+
+### Esempio motivante: `SimpleLamp`, `AdvancedLamp`, `TwoLampsDevice`
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/Lamp.java" %}}
+```
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/AdvancedLamp.java" %}}
+```
+
+```java
+public class TwoLampsDevice {
+    Lamp lamp1, lamp2;
+    public TwoLampsDevice() {
+        lamp1 = /* ??? */;
+        lamp2 = /* ??? */;
+    }
+}
+```
+
+---
+
+{{% smaller %}}
+
+<div class="container">
+<div class="col">
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/SimpleLampImpl.java" %}}
+```
+
+</div>
+<div class="col">
+
+```java
+{{% import-raw from=3 to=42 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/AdvancedLampImpl.java" %}}
+```
+
+</div>
+</div>
+
+{{% /smaller %}}
+
+---
+
+<div class="container">
+<div class="col">
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/TwoLampsDeviceNaive.java" %}}
+```
+
+</div>
+<div class="col">
+
+* In questo esempio, `TwoLampsDeviceNaive` prende subito una decisione sulle `Lamp` concrete da comporre 
+* Idealmente però, la nostra `TwoLampsDevice` dovrebbe astrarre dall'implementazione concreta delle `Lamp`
+    * potrebbe consistere di due `SimpleLamp`, di due `AdvancedLamp`, o di un mix delle due..
+* Obiettivo: rifattorizzare per 
+    1. rendere `TwoLampsDevice` più **generale** (*supportare varie composizioni*)
+    2. *eliminare la **dipendenza** dalle classi concrete*
+    3. *rimuovere (spostare altrove) la **responsabilità** di scegliere le implementazioni concrete* 
+
+</div>
+</div>
+
+---
+
+
+### Static Factory
+
+
+{{% smaller %}}
+
+<div class="container">
+<div class="col">
+
+```java
+{{% import-raw from=3 to=20 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/TwoLampsDeviceWithStaticFactory.java" %}}
+```
+
+</div>
+<div class="col">
+
+```java
+{{% import-raw from=3 to=42 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/LampFactoryModule.java" %}}
+```
+
+```java
+{{% import-raw from=3 to=42 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/UseTwoLampsDeviceWithStaticFactory.java" %}}
+```
+
+</div>
+</div>
+
+{{% /smaller %}}
+
+
+Benefici dei *metodi factory statici* (rispetto ad uso diretto dei costruttori)
+
+* possono restituire oggetti di qualunque sottotipo del tipo di ritorno
+* la classe da istanziare può variare a seconda dei parametri
+* possono avere nomi espressivi a piacere
+* permettono di superare la limitazione di poter avere un solo costruttore per una data signature
+
+---
+
+### Simple Factory
+
+* Come Static Factory, ma il metodo è non statico e in una classe separata (anche chiamata *classe factory*)
+
+
+### Altra soluzione
+
+- Elementi della soluzione
+    - Si introduce un'*interfaccia* per le possibili *factory*
+    - Si inietta la factory concreta in un *contesto* ove occorre
+    - Il contesto diventa riusabile rispetto a diverse factory (e quindi diversi prodotti istanziabili)
+
+---
+
+
+
+```java
+{{% import-raw from=3 to=20 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/LampFactory.java" %}}
+```
+
+```java
+{{% import-raw from=3 to=42 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/SimpleLampFactory.java" %}}
+```
+
+```java
+{{% import-raw from=3 to=42 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/AdvancedLampFactory.java" %}}
+```
+
+
+---
+
+
+<div class="container">
+<div class="col">
+
+```java
+{{% import-raw from=3 to=20 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/TwoLampsDevice.java" %}}
+```
+
+</div>
+<div class="col">
+
+```java
+{{% import-raw from=3 to=42 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/UseTwoLampsDevice.java" %}}
+```
+
+</div>
+</div>
+
+
+---
+
+- Un pattern tra Abstract Factory e Factory Method
+    - Propriamente, Abstract Factory dovrebbe supportare una *famiglia di prodotti*
+    - Propriamente, Factory Method richiederebbe che le classi che specializzano il metodo factory riusino il contesto
