@@ -595,18 +595,18 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 <!--    \sizedrangedcode{\ssmall}{5}{100}{\ecl/strategy/UseComparator.java} -->
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonCompareStrategy.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/person/PersonCompareStrategy.java" %}}
 ```
 
 ---
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonComparatorByAge.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/person/PersonComparatorByAge.java" %}}
 ```
 
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/PersonComparatorByFullName.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/person/PersonComparatorByFullName.java" %}}
 ```
 
 ---
@@ -614,7 +614,7 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 {{% smaller %}}
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/UsePersons.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/strategy/person/UsePersons.java" %}}
 ```
 
 {{% /smaller %}}

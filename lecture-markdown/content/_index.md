@@ -22,6 +22,8 @@ outputs = ["Reveal"]
 * [Incapsulamento](encapsulation/)
 * [Interfacce](interfaces/)
 * [Introduzione alla progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
+* [Ereditarietà](inheritance/)
+
 
 ### Contenuti del laboratorio
 * [Strumenti di compilazione avanzati](lab/02-advanced-tooling-gradle/)
