@@ -1325,7 +1325,7 @@ public interface I4 extends I1, I2, I3 {
     void doSomething(String s);
     // da Java 8
     double E = 2.718282; // implicitamente public, static, final
-    default doSomethingTwice(String s) { doSomething(s); doSomething(s); }
+    default void doSomethingTwice(String s) { doSomething(s); doSomething(s); }
     static double PI() { return Math.PI; }
 }
 ```
