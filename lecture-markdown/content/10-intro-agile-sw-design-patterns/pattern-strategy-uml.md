@@ -4,10 +4,9 @@ classDiagram
 class Context { }
 
 class Strategy {
+    <<interface>>
     applyStrategy(SubContext)
 }
-
-<<interface>> Strategy
 
 Context *-- Strategy
 
