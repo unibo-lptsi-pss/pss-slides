@@ -637,3 +637,23 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 </div>
 
 
+---
+
+### Analisi
+
+<div class="container">
+<div class="col">
+
+![](imgs/pattern-strategy-example.png)
+
+</div>
+<div class="col">
+
+* `UsePersons` è il *contesto* della strategia
+* `UsePersons` vuole ordinare un array di `Person`, ma *astrae* dalla strategia impiegata per il confronto
+* `UsePersons` si occupa di fornire il *sotto-contesto* alla strategia, che in questo caso è dato da una coppia di `Person` da confrontare
+* Le diverse implementazioni della strategia usano il sotto-contesto diversamente: `PersonComparatorByFullName` si basa su nome/cognome, mentre `PersonComparatorByAge` si basa sull'anno di nascita
+* Il design è *aperto* all'introduzione di altre strategie (ad esempio: in base a tratti fisici come l'altezza), ma *il contesto rimarrà invariato*!
+
+</div>
+</div>
