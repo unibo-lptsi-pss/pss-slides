@@ -748,7 +748,7 @@ public class TwoLampsDevice {
 <div class="col">
 
 ```java
-{{% import-raw from=3 to=20 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/TwoLampsDeviceWithStaticFactory.java" %}}
+{{% import-raw from=3 to=26 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/TwoLampsDeviceWithStaticFactory.java" %}}
 ```
 
 </div>
@@ -813,7 +813,7 @@ Benefici dei *metodi factory statici* (rispetto ad uso diretto dei costruttori)
 <div class="col">
 
 ```java
-{{% import-raw from=3 to=20 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/TwoLampsDevice.java" %}}
+{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/patterns/factory/domo/TwoLampsDevice.java" %}}
 ```
 
 </div>
