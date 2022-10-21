@@ -829,6 +829,16 @@ Benefici dei *metodi factory statici* (rispetto ad uso diretto dei costruttori)
 
 ---
 
+- Benefici
+    - `TwoLampsDevice` può comporsi con diverse coppie di lampadine e lavorare con esse in modo uniforme senza dover variare il proprio codice (cf. polimorfismo)
+    - `TwoLampsDevice` non dipende più da classi concrete, ma da oggetti di contratto `LampFactory`
 - Un pattern tra Abstract Factory e Factory Method
     - Propriamente, Abstract Factory dovrebbe supportare una *famiglia di prodotti*
     - Propriamente, Factory Method richiederebbe che le classi che specializzano il metodo factory riusino il contesto
+
+---
+
+## Preview del prossimo laboratorio
+
+- Consolidare l'uso di interfacce e composizione
+- Sperimentare con pattern Strategy e Factory

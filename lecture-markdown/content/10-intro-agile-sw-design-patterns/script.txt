@@ -1,0 +1,3 @@
+Strategy
+
+1. Far vedere live l'esempio con `filter` e `map` di persone
