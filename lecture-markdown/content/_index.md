@@ -44,6 +44,8 @@ outputs = ["Reveal"]
 
 </div></div>
 
+Contenuti laboratorio alla pagina successiva
+
 {{% smaller %}}
 
 ---

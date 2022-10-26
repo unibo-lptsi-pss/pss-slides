@@ -45,61 +45,102 @@ aliases = ["/inheritance/"]
 
 ---
 
-
 # Riuso via ereditarietà
+
+
+<!--
+
 
 ---
 
+## Recap: interfacce e riuso via delega
+
+### Interfacce
+
+Con le interfacce, abbiamo visto che è possibile:
+    
+1) definire contratti
+
+```java
+interface Device {
+    void switchOn();
+    void switchOff();
+    boolean isOn();
+}
+```
+   
+2) implementare contratti
+
+```java
+class Lamp implements Device { /* ... */ }
+class Tv implements Device { /* ... */ }
+class Radio implements Device { /* ... */ }
+```
+    
+3) estendere contratti esistenti
+
+```java
+interface LuminousDevice extends Device, Luminous { }
+```
+
+---
+
+### Riuso via delega
+
+---
+-->
 
 
 ## Ereditarietà
 
+È un meccanismo che consente di definire una nuova classe *__specializzandone__* una esistente, ossia *"ereditando"* i suoi campi e metodi (quelli privati non sono visibili), possibilmente/eventualmente *modificando/aggiungendo* campi/metodi, e quindi *riusando* codice già scritto e testato.
+  
+<!--
+È un meccanismo che consente di definire una nuova classe *__specializzandone__* una esistente, ossia
+
+* *"ereditando" i suoi campi e metodi*, quindi riusando codice già scritto e testato
+  * è ortogonale al discorso di "visibilità": membri privati, seppur non visibili, sono comunque ereditati 
+* estendendo attraverso (A) *modifica* e/o (B) *aggiunta* di campi/metodi 
+  
+-->
+
+
+### Scenari di riuso ed estensione
+
 
   
 
-È un meccanismo che consente di definire una nuova classe *__specializzandone__* una esistente, ossia "ereditando" i suoi campi e metodi (quelli privati non sono visibili), possibilmente/eventualmente modificando/aggiungendo campi/metodi, e quindi riusando codice già scritto e testato.
+
+*  Data una classe, realizzarne *un'altra* con *caratteristiche solo in parte diverse (o nuove)*
+    * ad esempio, data una lampadina (`Lamp`), realizzare un televisore (`Tv`)
+    * SOTTOCASO: stessa cosa, ma senza disporre dei sorgenti della classe originaria (p.e., la classe di partenza è di libreria)
+        * Non c'è alcuna differenza rispetto al primo caso: quello che conta in generale è il bytecode, non il sorgente
+*  Data una classe, crearne una *più specializzata*
+    * ad esempio, a partire da una lampadina (`SimpleLamp`), realizzare un televisore lampadina con controllo livello di intensità luminosa (`AdvancedLamp`)
+    * ad esempio, una classe più robusta e sicura, anche se più lenta
+*  Creare *gerarchie di classi* ossia di comportamenti
+    * Ad esempio, una famiglia di `Device` diversi e specializzati
   
 
+
+---
   
 ### L'ereditarietà è un concetto chiave dell'OO
 
 
 
 *  È connesso al meccanismo delle interfacce 
-*  È uno degli elementi chiave insieme a incapsulamento e interfacce
-*  Non riguarda solo il riuso di codice, ma influenza anche il polimorfismo conseguente
+*  È uno degli elementi chiave insieme a *incapsulamento* e *interfacce*
+*  Non riguarda solo il riuso di codice, ma influenza anche il *polimorfismo* conseguente
   
 
 
   
 ### Solito approccio
 
-
-
 *  Illustreremo i meccanismi base attraverso semplici classi
 *  Successivamente recupereremo l'importanza nei casi reali
 *  Utilizzeremo l'idea di *__contatore__*
-  
-
-
-
-
----
-
-
-## Scenari di riuso ed estensione
-
-
-  
-
-
-*  Data una classe, realizzarne un'altra con caratteristiche solo in parte diverse (o nuove)
-*  Come sopra, ma senza disporre dei sorgenti della classe originaria (p.e., la classe di partenza è di libreria)
-*  Data una classe, crearne una più specializzata (ad esempio, più robusta e sicura, anche se più lenta)
-*  Creare gerarchie di classi ossia di comportamenti
-  
-
-
 
 
 ---
@@ -128,6 +169,7 @@ aliases = ["/inheritance/"]
 
 ## Una nuova classe: `MultiCounter`
 
+* rispetto a `Counter`, offre un metodo `multiIncrement(int)`
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/inheritance/pre/MultiCounter.java" %}}
@@ -165,8 +207,8 @@ aliases = ["/inheritance/"]
 
 
 *  È tipico nei progetti software, accorgersi di dover creare anche versioni modificate delle classi esistenti
-*  Appoggiarsi al "copia e incolla" di codice come in questo caso è sempre sconsigliabile (principio DRY), perché tende a spargere errori in tutto il codice, e complica la manutenzione
-*  Ottenere riuso via composizione (ossia delegazione) è in generale una *__ottima soluzione__*.. ma è possibile in alcuni casi fare meglio..
+*  Appoggiarsi al "copia e incolla" per ottenere *ripetizione di codice* è sempre sconsigliabile (principio *DRY*), perché tende a spargere errori in tutto il codice, e complica la manutenzione
+*  Ottenere riuso via *composizione* (ossia *delegazione*) è in generale una *__ottima soluzione__*.. ma è possibile in alcuni casi fare meglio..
   
 
 
@@ -176,9 +218,9 @@ aliases = ["/inheritance/"]
 
 
 *  Definizione: `class C extends D { ... }`
-*  La nuova classe `C` eredita campi/metodi/costruttori non privati di `D`
-    *  Eredita anche campi/metodi privati, ma non sono accessibili da `C`
-    *  I costruttori di `D` non sono direttamente richiamabili con la `new`, bisogna sempre definirne di nuovi
+*  La nuova classe `C` *eredita campi/metodi* di `D`
+    * Nota: eredita anche campi/metodi *privati*, ma non sono accessibili da `C` (la "visibilità" di un campo è ortogonale alla sua "presenza" in una classe)
+    * Nota: i *costruttori* non vengono ereditati, ma riusati implicitamente o esplicitamente <!-- costruttori di `D` non sono direttamente richiamabili con la `new`, bisogna sempre definirne di nuovi -->
 *  Terminologia: `D` *superclasse*, o *classe base*, o *classe padre*
 *  Terminologia: `C` *sottoclasse*, o *classe figlia*, o *specializzazione*
 *  Nota: non serve disporre dei sorgenti di `D`, basta il codice binario
@@ -212,8 +254,8 @@ aliases = ["/inheritance/"]
 *  Definiamo il nuovo metodo `multiIncrement()`
 *  Definiamo il costruttore necessario
     *  Il costruttore di una sottoclasse può cominciare con l'istruzione `super`, che chiama un costruttore (non privato) della classe padre
-    *  Se non lo fa, si chiama il costruttore di default del padre
-    *  Senza costruttori, si ha al solito solo quello di default
+    *  Se non lo fa, si chiama il costruttore senza argomenti del padre (se c'è, altrimenti ERRORE)
+    *  Senza costruttori, si ha al solito solo quello di default (che chiama il costruttore senza argomenti del padre)
 *  `UseMultiCounter` continua a funzionare!
   
 
@@ -298,7 +340,7 @@ Counter <|-- MultiCounter
 
 *  È un livello intermedio fra `public` e `private`
 *  Indica che la proprietà (campo, metodo, costruttore) è accessibile dalla classe corrente, da una sottoclasse, e dalle sottoclassi delle sottoclassi (ricorsivamente) -- cavillo: anche da tutto il package
-  
+    * ovvero, é package-private con visibilità estesa alle classi discendenti  
 
 
   
@@ -369,10 +411,10 @@ Counter <|-- MultiCounter
 
 
 
-*  Quando si crea una nuova classe per estensione, molto spesso non è sufficiente aggiungere nuove funzionalità
-*  A volte serve anche modificare alcune di quelle disponibili, eventualmente anche stravolgendone il funzionamento originario
-*  Questo è realizzabile riscrivendo nella sottoclasse uno (o più) dei metodi della superclasse (ossia, facendone l'*__overriding__*)
-*  Se necessario, il metodo riscritto può invocare la versione del padre usando il receiver speciale `super`
+*  Quando si crea una nuova classe per estensione, molto *spesso non è sufficiente aggiungere nuove funzionalità*
+*  A volte serve anche *modificare* alcune di quelle disponibili, eventualmente anche stravolgendone il funzionamento originario
+*  Questo è realizzabile *riscrivendo* nella sottoclasse uno (o più) dei metodi della superclasse (ossia, facendone l'*__overriding__*)
+    *  Se necessario, il metodo riscritto può invocare la versione del padre usando il receiver speciale `super`
   
 
 
@@ -382,6 +424,7 @@ Counter <|-- MultiCounter
 
 
 *  Creare un contatore che, giunto ad un certo limite, non prosegue più
+    * non basta aggiungere qualcosa
 *  È necessario fare overriding del metodo `increment()`
 *  Un ulteriore metodo getter ispeziona il raggiungimento del limite
     
@@ -578,13 +621,70 @@ ExtendibleCounter <|-- LimitCounter
 
 ## Ereditarietà e costruttori
 
+### Costruttori di default e chiamate implicite
 
-  
-### Scenario standard
+```java
+class A { }
+class B extends A { } // OK
+```
+
+* `B` ha un costruttore di default, che invoca il costruttore senza argomenti (quello di default in questo caso) di `A`
+
+```java
+class A { A() { out.print("A"); } }
+class B extends A { } // OK
+```
+
+* `B` ha un costruttore di default, che invoca il costruttore senza argomenti di `A`
+
+```java
+class A { A(int x) { out.print("A" + x); } }
+class B extends A { } // ERROR
+```
+
+* `B` ha un costruttore di default, che vorrebbe invocare il costruttore di `A` senza argomenti, ma non lo trova! Il compilatore restituisce un errore.
 
 
 
-*  Assumiamo si stia costruendo una catena di sottoclassi
+---
+
+
+```java
+class A { }
+class B extends A { B() { out.print("B"); } } // OK
+// Stessa cosa di:
+class B extends A { B() { super(); out.print("B"); } }
+```
+
+* `B` ha un costruttore definito, che invoca implicitamente il costruttore senza argomenti (quello di default in questo caso) di `A`
+
+
+```java
+class A { A() { out.print("A"); } }
+class B extends A { B() { out.print("B"); } } // OK
+// Stessa cosa di:
+class B extends A { B() { super(); out.print("B"); } }
+```
+
+* `B` ha un costruttore definito, che invoca implicitamente/esplicitamente il costruttore senza argomenti di `A`
+
+```java
+class A {  A(int x) { out.print("A" + x); }  }
+class B extends A { B() { out.print("B"); } } // ERROR
+// Qua occorre fare:
+class B extends A { B() { super(7); out.print("B"); } }
+```
+
+* `B` ha un costruttore definito, che vorrebbe implicitamente invocare il costruttore di `A` senza argomenti, ma non lo trova! Il compilatore restituisce un errore.
+
+
+---
+
+
+### Costruzione di oggetti in gerarchie di classi
+
+
+*  Assumiamo si stia costruendo una *catena di sottoclassi*
 *  Ogni classe introduce alcuni campi, che si aggiungono a quelli della superclasse a formare la struttura di un oggetto in memoria
   
 
@@ -885,5 +985,25 @@ class Person {
 }
 ```
 
+---
+
+
+## **Factory Method** pattern 
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/domo/TwoLampsDevice.java" %}}
+```
 
 ---
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/domo/TwoAdvancedLampsDevice.java" %}}
+```
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/domo/TwoMixedLampsDevice.java" %}}
+```
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/domo/UseTwoLampsDevice.java" %}}
+```
