@@ -23,6 +23,7 @@ outputs = ["Reveal"]
 * [Interfacce](interfaces/)
 * [Introduzione alla progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 * [Ereditarietà](inheritance/)
+* [Polimorfismo](polymorphism/)
 
 
 ### Contenuti del laboratorio
