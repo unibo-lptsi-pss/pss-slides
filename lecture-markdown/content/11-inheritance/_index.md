@@ -116,7 +116,7 @@ interface LuminousDevice extends Device, Luminous { }
     * SOTTOCASO: stessa cosa, ma senza disporre dei sorgenti della classe originaria (p.e., la classe di partenza è di libreria)
         * Non c'è alcuna differenza rispetto al primo caso: quello che conta in generale è il bytecode, non il sorgente
 *  Data una classe, crearne una *più specializzata*
-    * ad esempio, a partire da una lampadina (`SimpleLamp`), realizzare un televisore lampadina con controllo livello di intensità luminosa (`AdvancedLamp`)
+    * ad esempio, a partire da una lampadina (`SimpleLamp`), realizzare una lampadina con controllo livello di intensità luminosa (`AdvancedLamp`)
     * ad esempio, una classe più robusta e sicura, anche se più lenta
 *  Creare *gerarchie di classi* ossia di comportamenti
     * Ad esempio, una famiglia di `Device` diversi e specializzati

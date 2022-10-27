@@ -1,0 +1,34 @@
+4/5) discorso molto generale, giusto rimarcare che le interfacce sono meravigliose 
+ma in effetti c'è un problema di riuso di una classe esistente, 
+anche solo per modificarla senza distruggere la versione precedente, etc...
+
+6/10) `Counter` e `MultiCounter`: progressione da no riuso, a riuso con composizione, a riuso con ereditarietà
+
+questo codice sarebbe bello farglielo in faccia, con tutti i ragionamenti: 
+ma occhio che potrebbe portar via mezz'ora
+
+11/12/13) anche qui glielo costruirei in faccia, 
+ma dipende dal tempo, se sei lungo fagli solo la slide... 
+occhio alla questione dei costruttori da ereditare. 
+Nota che quando gli faccio le cose in faccia dopo non devo spiegare le scritte delle slide, 
+che tipicamente includono cosa che gli ho già detto mentre programmavo
+
+slide 15) Fatta questa...
+
+PRIMA PAUSA (10-15 minuti): diciamo circa alle 15:10
+
+slide 16-26) Queste secondo me gliele puoi fare senza programmare troppo in faccia, 
+insomma vedi tu, sono tecnicismi importanti ma "2nd level"
+
+SECONDA PAUSA (10 minut): diciamo circa alle 16
+
+slide 27-34) L'esempione, da fare in max 20 minuti, doev devi "solo" mettere in luce:
+- un uso più large scale di UML
+- questo è il primo design degno di nota: spiegaglielo
+- velocemente il codice, concentrandosi ad esempio su LimitCounter, LimitedLamp.switchOn() ( EcoDomusController non aggiunge molto rispetto agli esempi in lezioni precedenti)
+
+slide 36-40) questi sono 3 esercizi che organizzo così: metto su il codice, chiedo alla classe di pensare a quale sarebbe la soluzioni per 1 minuto, poi sento cosa ne pensano, e alla fine svelo il risultato spiegandolo che succede -- nel terzo caso la classe si divide in due, perché non sanno come vengono trattati i metodi "virtuali", ossia che si chiama la versione più specifica anche se "ti trovi" in una sopraclasse
+
+slide 41-45) è un esempio che mostra il perché ha senso che siusino i metodi virtuali così (slide 42) e poi mostra come si fa a gestire questa roba "sotto" (slide 45) -- non è cruciale, era per dare un dettaglio in più.
+
+slide 46-*) Nessun problema, roba veloce solo da accennare, se non la fai la farò io. 
