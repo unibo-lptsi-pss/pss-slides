@@ -1,8 +1,8 @@
-4/5) discorso molto generale, giusto rimarcare che le interfacce sono meravigliose 
+4--5) discorso molto generale, giusto rimarcare che le interfacce sono meravigliose 
 ma in effetti c'è un problema di riuso di una classe esistente, 
 anche solo per modificarla senza distruggere la versione precedente, etc...
 
-6/10) `Counter` e `MultiCounter`: progressione da no riuso, a riuso con composizione, a riuso con ereditarietà
+6--10) `Counter` e `MultiCounter`: progressione da no riuso, a riuso con composizione, a riuso con ereditarietà
 
 questo codice sarebbe bello farglielo in faccia, con tutti i ragionamenti: 
 ma occhio che potrebbe portar via mezz'ora

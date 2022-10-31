@@ -50,6 +50,11 @@ replacements = {
     /\\fg\s*(?<options>\{([^}{]+|\g<options>)*\})?\s*(?<path>\{([^}{]+|\g<path>)*\})?/ => -> {
         "![](#{$~[:path][1...-1]})"
     },
+    /\\sizedrangedcodet?{[^}]*}{(?<from>\d+)}{(?<to>\d+)}{(?<path>[^}]*)}/ => -> {
+        "\n```java\n"\
+        "{{% import-raw from=#{$~[:from]} to=#{$~[:to]} path=\"#{$~[:path]}\" %}}\n"\
+        "```\n"
+    },
 }
 files = ARGV
 for file_name in files do

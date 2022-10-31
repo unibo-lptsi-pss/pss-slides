@@ -36,11 +36,11 @@ aliases = ["/polymorphism/"]
 
 
 
-*  Polimorfismo inclusivo con le classi
+*  *Polimorfismo inclusivo* con le classi
 *  Layout oggetti in memoria
-*  Autoboxing dei tipi primitivi
+*  *Autoboxing* dei tipi primitivi
 *  Tipi a run-time (cast, `instanceof`)
-*  Classi astratte
+*  *Classi astratte*
   
 
 
@@ -62,16 +62,26 @@ aliases = ["/polymorphism/"]
 ### Ricordando il principio di sostituibilità
 
 
-Se `B` è un sottotipo di `A` allora ogni oggetto di `B` può essere utilizzato (e "deve poter" essere utilizzabile) dove ci si attende un oggetto di `A`
+SE `B` è un *sottotipo* di `A` 
+
+ALLORA ogni oggetto di `B` può/"deve poter" essere utilizzabile dove ci si attende un oggetto di `A`
   
+```java
+void m(A a) { /* ... */ }
+B b = /* ... */;
+
+A a = b; // OK
+m(b);    // OK
+```
 
   
 ### Con l'ereditarietà
 
 
 *  Con la definizione: `class B extends A { ... }`
-*  Gli oggetti della classe `B` rispondono a tutti i messaggi previsti dalla classe `A` (ed eventualmente a qualcuno in più)
-*  Quindi un oggetto della classe `B` potrebbe essere passato dove se ne aspetta uno della classe `A`, senza comportare problemi (di "typing")
+    * `B` eredita tutti i membri (campi, metodi) di `A`, e non può restringerne la visibilità
+*  Gli oggetti della classe `B` *rispondono a tutti i messaggi previsti dalla classe* `A` (ed eventualmente a qualcuno in più)
+* $\to$ un oggetto di `B` può essere passato dove se ne aspetta uno di `A`, senza dare problemi (di "typing")
   
 
 
@@ -79,7 +89,7 @@ Se `B` è un sottotipo di `A` allora ogni oggetto di `B` può essere utilizzato 
 ### Conseguenza:
 
 
-Visto che è possibile, corretto, ed utile, allora in Java si considera `B` come un sottotipo di `A` a tutti gli effetti!
+Poiché è possibile, corretto, ed utile, allora in Java si considera `B` come un *sottotipo* di `A` a tutti gli effetti!
   
 
 
@@ -135,11 +145,11 @@ new D(new C1()); // OK
   
 ### Le sottoclassi di `C`
 
-A tutti gli effetti, gli oggetti delle sottoclassi di `C` sono compatibili con gli oggetti della classe `C`
+A tutti gli effetti, gli oggetti delle sottoclassi di `C` sono *compatibili* con gli oggetti della classe `C`
 
 *  supportano lo *stesso contratto* (in generale, qualche operazione in più)
 *  hanno lo *stesso stato*, ovveto gli stessi campi definiti in `C` (in generale, qualcuno in più)
-*  hanno auspicabilmente un comportamento compatibile
+*  hanno *auspicabilmente un comportamento compatibile* (cf. "Principle of Least Surprise")
   
 
 
@@ -176,7 +186,7 @@ Diamo alcune informazioni generali e astratte. Ogni JVM potrebbe realizzare gli 
 *  Inizia con una intestazione ereditata da `Object` (16 byte circa), che include 
     *  Indicazione di quale sia la *classe dell'oggetto* (runtime type information)
     *  *Tabella dei puntatori ai metodi*, per supportare il late-binding
-    *  I campi (privati) della classe `Object`
+    *  I campi <!-- (privati) --> della classe `Object`
 
 *  Via via tutti i campi della classe, a partire da quelli delle superclassi
   
@@ -186,7 +196,7 @@ Diamo alcune informazioni generali e astratte. Ogni JVM potrebbe realizzare gli 
 ### Conseguenze: se la classe `C` è sottoclasse di `A`...
 
 
-Allora un oggetto di `C` è simile ad un oggetto di `A`, ha solo *informazioni aggiuntive* in fondo, e questo semplifica la sostituibilità!
+Allora un oggetto di `C` è simile ad un oggetto di `A`, ha solo *informazioni aggiuntive in fondo*, e questo semplifica la sostituibilità!
   
 
 
@@ -272,8 +282,10 @@ Allora un oggetto di `C` è simile ad un oggetto di `A`, ha solo *informazioni a
 
 
 
-*  La classe `D` usa una interfaccia `I`, non un'altra classe `C`
-*  Si può assumere vi sia un certo contratto, ma non che vi sia uno specifico comportamento (quello di `C`) che sia stato eventualmente specializzato
+*  La classe `D` realizza una interfaccia `I`, ma non eredita da un'altra classe `C`
+*  Si può assumere vi sia un certo *contratto*, ma non che vi sia uno specifico comportamento <!-- (quello di `C`) che sia stato eventualmente specializzato -->
+    * Ad esempio, una classe che realizza l'interfaccia `Counter` può assumere vi sia un metodo `increment()`; mentre una classe che eredita da `LimitCounter` può assumere che `increment()` sia soggetto a un limite di incrementi unitari
+* E' possibile realizzare più interfacce (cioè, supportare più contratti) ma non è possibile (in Java) estendere più classi
   
 
 
@@ -283,10 +295,10 @@ Allora un oggetto di `C` è simile ad un oggetto di `A`, ha solo *informazioni a
 
 
 *  *NON* è possibile in Java dichiarare: `class C extends D1, D2, ... { ... }`
-    *  si creerebbero problemi se `D1` e `D2` avessero proprietà comuni
-    *  diventerebbe complicato gestire la struttura in memoria dell'oggetto
+    *  si creerebbero problemi se `D1` e `D2` avessero proprietà comuni (cf. *Triangle Problem* e *Diamond Problem*)
+    *  diventerebbe complicato gestire la struttura in memoria dell'oggetto (cf. virtual table)
 *  Con le interfacce non ci sono questi problemi, risultato:
-    *  è molto più semplice prendere una classe esistente e renderla compatibile con una interfaccia `I`, piuttosto che con una classe `C`
+    *  è molto più semplice prendere una classe esistente e renderla compatibile con una interfaccia `I`, piuttosto che renderla una specializzazione di una classe `C`
   
 
 
