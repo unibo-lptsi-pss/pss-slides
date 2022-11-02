@@ -37,7 +37,8 @@ aliases = ["/polymorphism/"]
 
 
 *  *Polimorfismo inclusivo* con le classi
-*  Layout oggetti in memoria
+*  *Layout in memoria* degli oggetti
+*  Il concetto (e il problema) dell'*ereditarietà multipla*
 *  *Autoboxing* dei tipi primitivi
 *  Tipi a run-time (cast, `instanceof`)
 *  *Classi astratte*
@@ -124,9 +125,11 @@ Poiché è possibile, corretto, ed utile, allora in Java si considera `B` come u
 <div class="col">
 
 ```java
-class D {
+class C { public void foo() { /*...*/ } }
+
+class D { // rappresenta un generico "contesto"
     C c;
-    public D(C c) { this.c = c; }
+    public void m(C c) { c.foo(); }
 }
 ```
 
@@ -134,10 +137,12 @@ class D {
 <div class="col">
 
 ```java
-class C { }
 class C1 extends C { }
+class C2 extends C { }
 
-new D(new C1()); // OK
+D d = new D();
+d.c = new C1(); // OK
+d.m(new C2());  // OK
 ```
 
 </div></div>
@@ -196,7 +201,7 @@ Diamo alcune informazioni generali e astratte. Ogni JVM potrebbe realizzare gli 
 ### Conseguenze: se la classe `C` è sottoclasse di `A`...
 
 
-Allora un oggetto di `C` è simile ad un oggetto di `A`, ha solo *informazioni aggiuntive in fondo*, e questo semplifica la sostituibilità!
+Allora un oggetto di `C` è simile ad un oggetto di `A`: ha solo *informazioni aggiuntive in fondo*, e questo semplifica la sostituibilità!
   
 
 
@@ -296,7 +301,8 @@ Allora un oggetto di `C` è simile ad un oggetto di `A`, ha solo *informazioni a
 
 *  *NON* è possibile in Java dichiarare: `class C extends D1, D2, ... { ... }`
     *  si creerebbero problemi se `D1` e `D2` avessero proprietà comuni (cf. *Triangle Problem* e *Diamond Problem*)
-    *  diventerebbe complicato gestire la struttura in memoria dell'oggetto (cf. virtual table)
+        - ad es., quale sarebbe l'implementazione ereditata?
+    *  diventerebbe complicato gestire la struttura in memoria dell'oggetto (cf. vtable)
 *  Con le interfacce non ci sono questi problemi, risultato:
     *  è molto più semplice prendere una classe esistente e renderla compatibile con una interfaccia `I`, piuttosto che renderla una specializzazione di una classe `C`
   
@@ -416,8 +422,8 @@ class BiAndMultiCounterImpl extends BiCounterImpl implements BiAndMultiCounter {
 
 
 
-*  Consente di fattorizzare lì comportamento comune
-*  Consente la costruzione di funzionalità che lavorano su qualunque oggetto
+*  Consente di fattorizzare lì il *comportamento comune ad ogni oggetto*
+*  Consente la costruzione di *funzionalità che lavorano su qualunque oggetto*
   
 
 
@@ -617,8 +623,8 @@ Integer i3 = (Integer) o; // ClassCastException
 
 
 
-*  Sono usate per descrivere classi dal comportamento parziale, ossia in cui alcuni metodi sono dicharati ma non implementati
-*  Tali classi non sono istanziabili (l'operatore `new` non può essere usato)
+*  Le **classi astratte** sono usate per descrivere classi dal *comportamento parziale* (ossia, in cui alcuni metodi sono dicharati ma non implementati)
+*  Tali classi *non sono istanziabili* (l'operatore `new` non può essere usato)
 *  Possono essere estese e ivi completate, da cui la generazione di oggetti
   
 
@@ -627,7 +633,7 @@ Integer i3 = (Integer) o; // ClassCastException
 ### Tipica applicazione: pattern *Template Method*
 
 
-Serve a dichiare uno schema di strategia con un metodo che definisce un comportamente comune (spesso `final`), ma che usa metodi da concretizzare in sottoclassi
+Serve a dichiare uno *schema di strategia* con un **metodo "template"** (spesso `final`) che definisce un comportamento comune, *basato su metodi astratti* da concretizzare in sottoclassi
   
 
 
@@ -659,10 +665,10 @@ Serve a dichiare uno schema di strategia con un metodo che definisce un comporta
 
 
 *  può definire campi, costruttori, metodi, concreti e non
-*  ...deve definire con cura il loro livello d'accesso
+    *  ...deve definire con cura il loro livello d'accesso
 *  può estendere da una classe astratta o non astratta
 *  può implementare interfacce, senza essere tenuta ad ottemperarne il contratto
-    * se non implementati, i metodi dell'interfaccia implementata sono astratti
+    * i metodi dell'interfaccia implementata, se non implementati, sono astratti
 *  *chi estende una classe astratta può essere non-astratto solo se concretizza/implementa tutti i metodi astratti*
   
 
@@ -694,9 +700,9 @@ Serve a dichiare uno schema di strategia con un metodo che definisce un comporta
 
 *  Un uso accurato di `abstract`, `final`, e `protected`
 *  Daremo tre possibili specializzazioni per una `LimitedLamp`
-    *  che non si esaurisce mai
-    *  che si esaurisce all'n-esima accensione
-    *  che si esaurisce dopo un certo tempo dalla prima accensione
+    1.  che non si esaurisce mai
+    2.  che si esaurisce all'n-esima accensione
+    3.  che si esaurisce dopo un certo tempo dalla prima accensione
 
 
 
@@ -784,19 +790,19 @@ Serve a dichiare uno schema di strategia con un metodo che definisce un comporta
 
 
 *  Due versioni quasi equivalenti
-*  Unica differenza, ereditarietà multipla per le interfacce
+*  Unica differenza: ereditarietà singola per classi, ereditarietà multipla per le interfacce
   
 
 
 ```java
 /* Versione interfaccia */
-public interface Counter{
+public interface Counter {
     void increment();
     int getValue();
 } 
 
 /* Versione classe astratta */
-public abstract class Counter{
+public abstract class Counter {
     public abstract void increment();
     public abstract int getValue();
 } 
@@ -870,8 +876,7 @@ Integer i = new Integer(10);
 Double  d = new Double(10.5);
 ```
 
-..ossia, ogni valore primitivo può essere "boxed" in un oggetto
-  
+..ossia, ogni valore primitivo può essere "impacchettato" ("boxed") in un oggetto  
 
 
   
@@ -918,9 +923,11 @@ Double  d = new Double(10.5);
 ### A volte è utile che i metodi abbiano un numero variabile di argomenti
 
 
+```java
+int i = sum(10, 20, 30, 40, 50, 60, 70);
+printAll(10, 20, 3.5, new Object());
+```
 
-*  `int i=sum(10,20,30,40,50,60,70);`
-*  `printAll(10,20,3.5,new Object());`
 *  prima di Java 5 si simulava passando un unico array
   
 
@@ -931,7 +938,9 @@ Double  d = new Double(10.5);
 
 
 *  L'ultimo (o unico) argomento di un metodo può essere del tipo "`Type... argname`"
-    *  p.e. `void m(int a, float b, Object... args) { ... }`
+```java
+void m(int a, float b, Object... argname) { ... }
+```
 *  Nel body del metodo, `argname` è trattato come un `Type[]`
 *  Chi chiama il metodo, invece che passare un array, passa una lista di argomenti di tipo `Type`
 *  Funziona automaticamente con polimorfismo, autoboxing, `instanceof`, ...
@@ -955,6 +964,272 @@ Double  d = new Double(10.5);
 
 
 
+# Alcuni pattern basati sulle classe astratte
+
+
+---
+
+
+
+## Pattern **Template Method**: comportamentale, su classi
+
+### Intento/motivazione
+
+Definisce lo scheletro (template) di un algoritmo (o comportamento), lasciando l'indicazione di alcuni suoi aspetti alle sottoclassi.
+
+### Esempi
+
+* Definizione della logica di accensione (`switchOn`) di una lampadina (`Lamp`)
+* Un comparatore può fornire metodi template per capire se un oggetto è minore/maggiore/uguale di un altro, sulla base di un metodo astratto `int compareTo(T a, T b)`
+* In un input stream (`InputStream`), i vari metodi di lettura sono dei Template Method: dipendono dall'implementazione del solo concetto di lettura di un `int`
+
+<!--
+* Implementazione del pattern **Factory Method**: il metodo template usa un factory method per definire un comportamento astraendo dall'implementazione specifica di uno o più oggetti coinvolti
+* In un input stream (`InputStream`), i vari metodi di lettura sono dei Template Method: dipendono dall'implementazione del solo concetto di lettura di un `int`
+	%*  Similmente, i metodi di `AbstractSet` tranne `size()` e `iterator()`
+	*  Le interfacce funzionali con metodi di default che chiamano l'astratto
+    }}
+-->
+
+### Soluzione
+
+* L'algoritmo è realizzato attraverso un **metodo template** che *realizza un algoritmo chiamando metodi astratti/da specializzare* quando servono gli aspetti non noti a priori
+* Una sottoclasse fornisce l'implementazione dei metodi astratti
+
+<!--
+* L'algoritmo è realizzato attraverso un metodo non astratto (il template method) di una classe astratta
+* Questo realizza l'algoritmo, chiamando metodi astratti quando servono gli aspetti non noti a priori
+* Una sottoclasse fornisce l'implementazione dei metodi astratti
+-->
+
+---
+
+<!-- ![](imgs/template_method.jpg) -->
+
+<div class="container">
+<div class="col">
+
+```mermaid
+classDiagram
+
+    class AbstractClass {
+        TemplateMethod()
+        PrimitiveOp1()
+        PrimitiveOp2()
+    }
+
+    class ConcreteClass {
+        PrimitiveOp1()
+        PrimitiveOp2()
+    }
+
+AbstractClass <|-- ConcreteClass
+```
+
+</div>
+<div class="col">
+
+```java
+abstract class AbstractClass {
+    public void TemplateMethod() {
+        // ...
+        PrimitiveOp1();
+        // ...
+        PrimitiveOp2();
+        // ...
+    }
+    public abstract void PrimitiveOp1();
+    public abstract void PrimitiveOp2();
+}
+
+class ConcreteClass extends AbstractClass {
+    public void PrimitiveOp1() { /* ... */ }
+    public void PrimitiveOp2() { /* ... */ }
+}
+```
+
+</div></div>
+
+---
+
+<!--
+
+## Template Method: Una estensione di `InputStream`
+
+
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/templatemethod/UseRandomInputStream.java" %}}
+```
+
+
+---
+
+-->
+
+
+## Template Method: esempio `BankAccount`
+
+
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/templatemethod/bank/BankAccount.java" %}}
+```
+
+
+
+---
+
+## Pattern **Decorator**: strutturale, su oggetti
+
+
+    
+### Intento/motivazione
+
+
+Aggiunge ad un oggetto ulteriori responsabilità, dinamicamente, e in modo più flessibile (e componibile) rispetto all'ereditarietà.
+    
+
+    
+### Esempi
+
+
+
+*  Aggiungere una barra di scorrimento ad un pannello
+*  Ottenere uno stream ordered da uno unordered
+
+<!--
+*  Aggiungere (in modo componibile) la gestione "buffered" ad uno stream
+-->    
+
+
+    
+### Soluzione
+
+
+
+*  La classe base viene estesa con una nuova classe che è anche wrapper di un oggetto della classe base
+*  Uno o più metodi potrebbero delegare semplicemente all'oggetto wrappato, altri modificare opportunamente, altri essere aggiuntivi
+* $\Rightarrow$ può essere visto come variante dello strategy (in cui la strategia è la realizzazione base del comportamento), e potrebbe includere dei template method
+    
+
+---
+
+
+## Decorator: UML
+
+
+![](imgs/decorator.jpg)
+
+
+---
+
+
+## Esempio di problema
+
+
+    
+### Data la seguente interfaccia `Pizza`..
+
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/decorator/problem/Pizza.java" %}}
+```
+    
+
+    
+### Realizzare le seguenti astrazioni
+
+
+
+*  Margherita (6.50 euro, ingredienti: pomodoro + mozzarella)
+*  Aggiunta Salsiccia (1.50 euro), anche doppia o tripla eccetera
+*  Aggiunta Funghi (1 euro), anche doppia o tripla eccetera
+*  Pizza senza glutine (+10% costo) 
+    
+
+
+    
+### Forniamo la soluzione col decoratore (tipica del concetto di "ingrediente")
+
+
+
+*  Classe concreta `Margherita`
+*  Decoratore astratto `IngredientDecorator`
+*  Specializzazioni `Salsiccia`, `Funghi` e `GlutenFree`
+    
+
+
+
+
+---
+
+
+## Funzionalità di testing
+
+```java
+{{% import-raw from=30 path="pss-code/src/test/java/it/unibo/patterns/decorator/TestPizzas.java" %}}
+```
+
+
+---
+
+
+## Classe `Margherita`
+
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/decorator/Margherita.java" %}}
+```
+
+---
+
+
+## Classe `IngredientDecorator`
+
+
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/decorator/IngredientDecorator.java" %}}
+```
+
+---
+
+## Classe `BasicIngredient`
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/decorator/BasicIngredient.java" %}}
+```
+
+---
+
+
+## Classi per gli ingredienti..
+
+<div class="container">
+<div class="col">
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/decorator/Sausage.java" %}}
+```
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/decorator/Mushrooms.java" %}}
+```
+
+</div>
+<div class="col">
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/decorator/GlutFree.java" %}}
+```
+
+</div></div>
+
+
+---
+
+
 ## Preview del prossimo laboratorio
 
 
@@ -963,6 +1238,6 @@ Double  d = new Double(10.5);
 
 Familiarizzare con:
 
-*  Estensione delle classi e corrsipondente polimorfismo
+*  Estensione delle classi e corrispondente polimorfismo
 *  Classi astratte
 *  Tipi a run-time e boxing
