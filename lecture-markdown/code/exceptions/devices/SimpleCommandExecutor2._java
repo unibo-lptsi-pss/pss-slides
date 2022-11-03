@@ -1,0 +1,16 @@
+	public void exec(String s) throws ExitCommandException,                                  
+	     CommandNotRecognisedException, DeviceIsOverException {
+		if (!processExit(s) && !processOffAll(s) &&
+			!processOnAll(s) &&	!processOn(s) &&
+			!processOff(s)){
+				String err = ERROR_UNRECOGNISED+" '"+s+"'";
+				throw new CommandNotRecognisedException(err);
+		}
+	}
+	private boolean processExit(String s) 
+	                   throws ExitCommandException {
+		if (s.equals(EXIT)){
+			throw new ExitCommandException();
+		}
+		return false;
+	}

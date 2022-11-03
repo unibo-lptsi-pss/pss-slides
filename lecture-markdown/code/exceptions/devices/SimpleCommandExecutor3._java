@@ -1,0 +1,21 @@
+	private boolean processOffAll(String s){
+		if (s.equals(OFFALL)){
+			this.row.allOff();
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean processOff(String s) 
+	            throws CommandNotRecognisedException {
+		if (s.startsWith(OFF)){
+			int index =Integer.parseInt(s.substring(OFF.length()));
+			if (index < 0 || index >= this.row.getSize()){
+				throw new CommandNotRecognisedException(
+				                            ERROR_OUTOFRANGE);
+			}
+			this.row.getDevice(index).off();
+			return true;
+		}
+		return false;
+	}	

@@ -1,0 +1,22 @@
+public class Control{
+
+	final private static String START = "Sistema inizializzato";
+	final private static String EXIT = "Comando di uscita... bye bye";
+	final private static String CMD_ERROR = "Comando errato.. reinserire";
+	final private static String DEVICE_OVER = "Device esaurito!";
+	final private static String CMD_OK = "Comando eseguito";
+	final private static String ASK =
+                     "Inserisci il comando (exit, +N, -N, +all, -all): ";
+
+	private DeviceRow row;
+	private View view;
+	private CommandExecutor executor;
+
+	public Control(int size, Console console) {
+		super();
+		this.row = new DeviceRow(size);
+		this.view = new ConsoleView();
+		this.executor = new SimpleCommandExecutor();
+		this.executor.setDeviceRow(this.row);
+	}
+	...

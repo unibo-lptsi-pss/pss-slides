@@ -1,0 +1,18 @@
+	...
+	public void setRowStatus(DeviceRow row) {
+		this.rowString = row.toString();
+		redraw();
+	}
+
+	public void setLogString(String s) {
+		this.logString = s;
+		redraw();
+	}
+
+	public String ask(String question){
+		console.writer().print(question); // Asking message
+		console.writer().flush();	 // Make sure it is written
+		return this.console.readLine();
+	}
+
+}
