@@ -1,5 +1,5 @@
-public class UseIterators{
-    public static void main(String[] s){
+public class UseIterators {
+	public static void main(String[] s){
     	List<String> list = new List<>("a", 
     	    		    new List<>("b", 
     	    		    new List<>("c",null))));
@@ -25,4 +25,3 @@ public class UseIterators{
     	}
     }
 }
-

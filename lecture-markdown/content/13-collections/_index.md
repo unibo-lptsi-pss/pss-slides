@@ -45,17 +45,21 @@ aliases = ["/collections/"]
   *  Iteratori e foreach
   *  Collezioni, Liste e Set
   *  `HashSet` e `TreeSet`
-  %*  `ArrayList` e `LinkedList`
-  %*  Funzioni di utilità in `Arrays` e `Collections`
-  
+  *  `ArrayList` e `LinkedList`
+  *  Funzioni di utilità in `Arrays` e `Collections`
+  *  Il problema della type-erasure
+  *  Polimorfismo vincolato
+  *  Approfondimento sulle Wildcards
+  *  Implementazioni di `List` e `Map`
 
 
 
 
 ---
 
-\section[JCF]{Java Collections Framework}
+# Java Collections Framework (JCF)
 
+---
 
 ## Java Collections Framework
 
@@ -100,7 +104,7 @@ aliases = ["/collections/"]
 ## JCF -- struttura complessiva
 
 
-  ![](img/tax1.png)
+  ![](imgs/tax1.png)
 
 
 ---
@@ -109,7 +113,7 @@ aliases = ["/collections/"]
 ## JCF -- struttura riorganizzata
 
 
-  ![](img/tax.png)
+  ![](imgs/tax.png)
 
 
 ---
@@ -134,11 +138,11 @@ aliases = ["/collections/"]
 
 
 
-*  `Collection` -- contenitore di elementi atomici{
-
-      *  3 sottotipi: `List` (sequenze), `Set` (no duplicazioni), `Queue`
-    
-}
+*  `Collection` -- contenitore di elementi atomici
+      *  3 sottotipi
+  1. `List` (sequenze)
+  2. `Set` (no duplicazioni)
+  3. `Queue`
 *  `Map` -- contenitore di coppie chiave-valore
   
 
@@ -166,7 +170,7 @@ aliases = ["/collections/"]
 ### Eccezioni: un argomento che tratteremo in dettaglio
 
 
-    Un meccanismo usato per gestire eventi ritenuti fuori dalla normale esecuzione (errori), ossia per dichiararli, lanciarli, intercettarli
+Un meccanismo usato per gestire eventi ritenuti fuori dalla normale esecuzione (errori), ossia per dichiararli, lanciarli, intercettarli
   
 
   
@@ -174,7 +178,9 @@ aliases = ["/collections/"]
 
 
 
-*  Ogni collection ha sue regole di funzionamento, e non ammette certe operazioni che richiedono controlli a tempo di esecuzione (ad esempio, certe collezioni sono immutabili, e non si può tentare di scriverci)
+*  Ogni collection ha sue regole di funzionamento, e non ammette certe operazioni che richiedono controlli a tempo di esecuzione 
+    * ad esempio, certe collezioni sono immutabili, e non si può tentare di scriverci
+    * oppure, non si può ottenere un elemento da una collezione vuota
 *  Molti metodi dichiarano che possono lanciare eccezioni -- ma possiamo non preoccuparcene per ora
   
 
@@ -198,12 +204,11 @@ aliases = ["/collections/"]
 
 
 
-*  Abbiamo visto che può essere usato per iterare su un array in modo più astratto (compatto, leggibile){
-
-      *  `{...\}`
-    
-}
-*  Java fornisce anche un meccanismo per usare il foreach su qualunque collection, in particolare, su qualunque oggetto che implementa l'interfaccia `java.lang.Iterable<X>`
+*  Abbiamo visto che può essere usato per iterare su un array in modo più astratto (compatto, leggibile)
+```java
+for(int i: array) { ... }
+```
+*  Java fornisce anche un meccanismo per *usare il foreach su qualunque collection, in particolare, su qualunque oggetto che implementa l'interfaccia* `java.lang.Iterable<X>`
   
 
 
@@ -214,11 +219,10 @@ aliases = ["/collections/"]
 
 *  L'interfaccia `Iterable` ha un metodo per generare e restituire un (nuovo) `Iterator`
 *  Un iteratore è un oggetto con metodi `next()`, `hasNext()` (e `remove()`)
-*  Dato l'oggetto `coll` che implementa `Iterable<T>` allora il foreach diventa:{
-
-      *  `{...\}`
-    
-}
+*  Dato l'oggetto `coll` che implementa `Iterable<T>` allora il foreach diventa:
+```java
+for(T element: coll) { ... }
+```
   
 
 
@@ -230,10 +234,17 @@ aliases = ["/collections/"]
 ## Interfacce per l'iterazione
 
 
-  \sizedcode{\scriptsize}{code/short/Iterable.java}
-  \sizedcode{\scriptsize}{code/short/Iterator.java}
-  \sizedcode{\scriptsize}{code/short/Collection-Short.java}
+```java
+{{% import-raw path="code/collections/short/Iterable.java" %}}
+```
 
+```java
+{{% import-raw path="code/collections/short/Iterator.java" %}}
+```
+
+```java
+{{% import-raw path="code/collections/short/Collection-Short.java" %}}
+```
 
 ---
 
@@ -241,7 +252,7 @@ aliases = ["/collections/"]
 ## Interfacce per l'iterazione -- UML
 
 
-  ![](img/uml-iter.pdf)
+  ![](imgs/uml-iter.png)
 
 
 ---
@@ -321,23 +332,17 @@ aliases = ["/collections/"]
 
 
 *  Definisce operazioni base valide per tutte le collezioni
-*  Assume implicitamente che ogni collezione abbia due costruttori{
+*  Assume implicitamente che ogni collezione abbia due costruttori
 
       *  Senza argomenti, che genera una collezione vuota
       *  Che accetta un `Collection`, dal quale prende tutti gli elementi
-    
-}
-*  Le operazioni di modifica sono tutte "opzionali"{
-
+  
+*  Le operazioni di modifica sono tutte "opzionali"
       *  potrebbero lanciare un `UnsupportedOperationException`
     
-}
-*  Tutte le operazioni di ricerca lavorano sulla base del metodo `Object.equals()` da chiamare sugli elementi{
-
+*  Tutte le operazioni di ricerca lavorano sulla base del metodo `Object.equals()` da chiamare sugli elementi
       *  questo metodo accetta un `Object`, influendo su alcuni metodi di `Collection`
     
-}
-  
 
 
 
@@ -349,8 +354,9 @@ aliases = ["/collections/"]
 ## `Collection`
 
 
-  \sizedcode{\ssmall}{code/short/Collection.java}
-
+```java
+{{% import-raw path="code/collections/short/Collection.java" %}}
+```
 
 ---
 
@@ -389,12 +395,10 @@ aliases = ["/collections/"]
 
 
 
-*  Rappresenta collezioni senza duplicati{
-
+*  Rappresenta collezioni senza duplicati
       *  nessuna coppia di elementi porta `Object.equals()` a dare `true`
       *  non vi sono due elementi `null`
     
-}
 *  Non aggiunge metodi rispetto a `Collection`
 *  I metodi di modifica devono rispettare la non duplicazione
   
@@ -422,9 +426,13 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 ## `Set` e `List`
 
+```java
+{{% import-raw path="code/collections/short/Set.java" %}}
+```
 
-  \sizedcode{\scriptsize}{code/short/List.java}
-  \sizedcode{\scriptsize}{code/short/Set.java}
+```java
+{{% import-raw path="code/collections/short/List.java" %}}
+```
 
 
 ---
@@ -433,8 +441,9 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ## `ListIterator`
 
 
-  \sizedcode{\scriptsize}{code/short/ListIterator.java}
-
+```java
+{{% import-raw path="code/collections/short/ListIterator.java" %}}
+```
 
 ---
 
@@ -455,7 +464,7 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ## Implementazione collezioni -- UML
 
 
-    ![](img/uml-abs.pdf)
+![](imgs/uml-abs.png)
 
 
 ---
@@ -469,9 +478,9 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 
 
-	*  Interfacce: riportano le funzionalità definitorie del concetto
-	*  Classi astratte: fattorizzano codice comune alle varie implementazioni
-	*  Classi concrete: realizzano le varie implementazioni
+*  *Interfacce*: riportano le funzionalità definitorie del concetto
+*  *Classi astratte*: fattorizzano codice comune alle varie implementazioni
+*  *Classi concrete*: realizzano le varie implementazioni
     
 
 
@@ -480,9 +489,9 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 
 
-	*  In variabili, argomenti, tipi di ritorno, si usano le interfacce
-	*  Le classi concrete solo nella `new`, a parte casi molto particolari
-	*  Le classi astratte non si menzionano praticamente mai, solo eventualmente per chi volesse costruire una nuova implementazione
+*  *In variabili, argomenti, tipi di ritorno, si usano le interfacce*
+*  *Le classi concrete solo in fase di istanziazione*, nella `new`, a parte casi molto particolari
+*  *Le classi astratte solo per costruire nuove implementazioni* <!-- non si menzionano praticamente mai, solo eventualmente per chi volesse costruire una nuova implementazione -->
     
 
 
@@ -558,10 +567,10 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ---
 
 
-# Implementazioni di `Set
+# Implementazioni di `Set`
 
 ---
-`
+
 
 
 ## Implementazioni di `Set`
@@ -605,19 +614,19 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 
 *  Si crea un array di elementi più grande del necessario (p.e. almeno il 25% in più), di dimensione `size`
-*  Aggiunta di un elemento `e`{
+*  Aggiunta di un elemento `e`
 
       *  lo si inserisce in posizione `e.hashCode() % size`
       *  se la posizione è già occupata, lo si inserisce nella prima disponibile
       *  se l'array si riempie va espanso e si deve fare il rehashing
     
-}
-*  Ricerca di un elemento `f`{
+
+*  Ricerca di un elemento `f`
  
       *  si guarda a partire da `f.hashCode() % size`, usando `Object.equals()`
       *  La funzione di hashing deve evitare il più possibile le collisioni
     
-}
+
 *  Risultato: scritture/letture sono $O(1)$ ammortizzato
   
 
@@ -639,8 +648,9 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ## Costruttori di `HashSet`
 
 
-  \sizedcode{\scriptsize}{code/short/HashSet.java}
-
+```java
+{{% import-raw path="code/collections/short/HashSet.java" %}}
+```
 
 ---
 
@@ -666,8 +676,8 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 *  oggetti `equals` devono avere lo stesso `hashCode`
 *  non è detto il viceversa, ma è opportuno per avere buone performance di `HashSet`
-*  si veda ad esempio: {\tt\small http://en.wikipedia.org/wiki/Java_hashCode()}
-*  Eclipse fornisce la generazione di un `hashCode` ragionevole (ce ne sono di migliori: `djb2`, `murmur3`)
+*  si veda ad esempio: [https://en.bitcoinwiki.org/wiki/Java_hashCode()](https://en.bitcoinwiki.org/wiki/Java_hashCode())
+*  Alcuni IDE forniscono la generazione di un `hashCode` ragionevole (ma tipicamente ce ne sono di migliori: `djb2`, `murmur3`)
   
 
 
@@ -679,11 +689,13 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ## Esempio: `Persona` pt.1
 
 
-  
+{{% smaller %}}
+
 ```java
 {{% import-raw from=3 to=34 path="pss-code/src/main/java/it/unibo/collections/set/Persona.java" %}}
 ```
 
+{{% /smaller %}}
 
 
 ---
@@ -735,11 +747,10 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 
 
-*  O con elementi che implementano direttamente `Comparable`{
+*  O con elementi che implementano direttamente `Comparable`
 
       *  Nota che, p.e., `Integer` implementa `Comparable<Integer>`
     
-}
 *  O attraverso un `Comparator` esterno fornito alla `new`
   
 
@@ -762,9 +773,17 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ## Comparazione "interna" agli elementi
 
 
-  \sizedcode{\scriptsize}{code/short/Comparable.java}
-  \sizedcode{\scriptsize}{code/Wrappers.java}
-  \sizedcode{\scriptsize}{code/SortedPersona.java}
+```java
+{{% import-raw path="code/collections/short/Comparable.java" %}}
+```
+
+```java
+{{% import-raw path="code/collections/Wrappers.java" %}}
+```
+```java
+{{% import-raw path="code/collections/SortedPersona.java" %}}
+```
+
 
 
 ---
@@ -786,9 +805,13 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ## Interfacce `SortedSet` e `NavigableSet`
 
 
-  \sizedcode{\scriptsize}{code/short/SortedSet.java}
-  \sizedcode{\scriptsize}{code/short/NavigableSet.java}
+```java
+{{% import-raw path="code/collections/short/SortedSet.java" %}}
+```
 
+```java
+{{% import-raw path="code/collections/short/NavigableSet.java" %}}
+```
 
 ---
 
@@ -810,9 +833,13 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ## Costruttori di `TreeSet`, e comparatore "esterno"
 
 
-  \sizedcode{\scriptsize}{code/short/TreeSet.java}
-  \sizedcode{\scriptsize}{code/short/Comparator.java}
+```java
+{{% import-raw path="code/collections/short/TreeSet.java" %}}
+```
 
+```java
+{{% import-raw path="code/collections/short/Comparator.java" %}}
+```
 
 ---
 
@@ -847,7 +874,7 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 
   
-Data una classe `SortedSet<E>` il suo comparatore ha tipo \mbox{`Comparator<? super E>`}, perché non semplicemente `Comparator<E>`?
+Data una classe `SortedSet<E>` il suo comparatore ha tipo `Comparator<? super E>`, perché non semplicemente `Comparator<E>`?
 
   
 ### È corretto
@@ -913,36 +940,6 @@ Implementare questa interfaccia che modella un archivio persone
 
 
 
----
-
-
-
-
-
-## Outline
-
-
-  
-### Goal della lezione
-
-
-
-  *  Approfondire alcuni concetti sui generici
-  *  Presentare altre classi per le collezioni
-  
-
-
-  
-### Argomenti
-
-
-
-  *  Il problema della type-erasure
-  *  Polimorfismo vincolato
-  *  Approfondimento sulle Wildcards
-  *  Implementazioni di `List` e `Map`
-  
-
 
 
 
@@ -950,6 +947,7 @@ Implementare questa interfaccia che modella un archivio persone
 
 # Il problema della **type-erasure**
 
+---
 
 ## La classe generica `List`
 
@@ -1016,7 +1014,7 @@ Implementare questa interfaccia che modella un archivio persone
 
 
 
-*  `new X()`, `{..\}`, `new X[10]`, `instanceof X`
+*  `new X()`, `new X[] {...}`, `new X[10]`, `instanceof X`
 *  Il compilatore segnala un errore
 *  errore anche l'`instanceof` su un tipo generico: `o instanceof C<String>`
   
@@ -1131,6 +1129,7 @@ Per via della type erasure, il suo campo non può essere di tipo `X[]`, bensì `
 
 # Polimorfismo vincolato
 
+---
 
 ## Polimorfismo vincolato
 
@@ -1285,9 +1284,9 @@ cosa succede se nel metodo qui sotto passiamo un `Vector<Integer>`?<br>
 ### *__Safety__* di un linguaggio OO
 
 
-Se nessuna combinazione di istruzioni porta a poter invocare un metodo su un oggetto la cui classe non lo definisce{
+Un linguaggio OO è **safe** nessuna combinazione di istruzioni porta a poter invocare un metodo su un oggetto la cui classe non lo definisce
 
-    *  È necessario che il subtyping segua il principio di sostituibilità
+*  È necessario che il subtyping segua il principio di sostituibilità
 
 Più in generale, se non possono accadere errori a tempo di esecuzione..
   
@@ -1306,8 +1305,7 @@ Più in generale, se non possono accadere errori a tempo di esecuzione..
 ### Generici e safety
 
 
-In generale, istanziazioni diverse di una classe generica sono scollegate
-    
+*In generale, istanziazioni diverse di una classe generica sono scollegate*    
 
 *  non c'è *__covarianza__*: non è vero che `C<T> <: C<S>` con `T <: S`
 *  non c'è *__controvarianza__*: non è vero che `C<S> <: C<T>` con `T <: S`
@@ -1431,11 +1429,12 @@ In generale, istanziazioni diverse di una classe generica sono scollegate
 
 # Implementazioni di `List`
 
+---
 
 ## Implementazione collezioni -- UML
 
 
-    ![](../10-collections/img/uml-abs.pdf)
+![](imgs/uml-abs.png)
 
 
 ---
@@ -1611,6 +1610,8 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 # Altre classi di utilità: `Arrays` e `Collections`
 
 
+---
+
 ## Classi di utilità (moduli): `Arrays` e `Collections`
 
 
@@ -1689,7 +1690,7 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 
 # Il caso delle `java.util.Map`
 
-
+---
 
 ## JCF -- struttura semplificata
 
