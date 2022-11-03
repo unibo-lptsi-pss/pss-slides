@@ -150,10 +150,10 @@ d.m(new C2());  // OK
   
 ### Le sottoclassi di `C`
 
-A tutti gli effetti, gli oggetti delle sottoclassi di `C` sono *compatibili* con gli oggetti della classe `C`
+A tutti gli effetti, gli oggetti di `C1`, `C2` ... (sottoclassi di `C`) sono *compatibili* con gli oggetti della classe `C`
 
 *  supportano lo *stesso contratto* (in generale, qualche operazione in più)
-*  hanno lo *stesso stato*, ovveto gli stessi campi definiti in `C` (in generale, qualcuno in più)
+*  hanno lo *stesso stato*, ovvero gli stessi campi definiti in `C` (in generale, qualcuno in più)
 *  hanno *auspicabilmente un comportamento compatibile* (cf. "Principle of Least Surprise")
   
 
