@@ -26,9 +26,9 @@ aliases = ["/generics/"]
 
 
 
-  *  Illustrare il problema delle collezioni polimorfiche
-  *  Discutere il concetto di polimorfismo parametrico
-  *  Illustrare i Generici di Java e alcuni loro vari dettagli
+*  Illustrare il *problema delle collezioni polimorfiche*
+*  Discutere il concetto di *polimorfismo parametrico*
+*  Illustrare i *Generici* di Java e alcuni loro vari dettagli
   
 
 
@@ -37,10 +37,10 @@ aliases = ["/generics/"]
 
 
 
-  *  Collezioni con polimorfismo inclusivo
-  *  Classi generiche
-  *  Interfacce generiche
-  *  Metodi generici
+*  Collezioni con polimorfismo inclusivo
+*  Classi generiche
+*  Interfacce generiche
+*  Metodi generici
   
 
 
@@ -48,38 +48,38 @@ aliases = ["/generics/"]
 
 ---
 
-\section[Collezioni e polimorfismo]{Collections con polimorfismo inclusivo}
+# Collezioni con polimorfismo inclusivo
 
 
-## Forme di riuso nella programmazione OO
+## Forme di **riuso** nella programmazione OO
 
 
   
 ### Composizione (e come caso particolare, delegazione)
 
 
-    Un oggetto è ottenuto per composizione di oggetti di altre classi
+Un oggetto è ottenuto per composizione di oggetti di altre classi
   
 
   
 ### Estensione
 
 
-    Una nuova classe è ottenuta riusando il codice di una classe pre-esistente
+Una nuova classe è ottenuta riusando il codice di una classe pre-esistente
   
 
   
 ### Polimorfismo inclusivo (subtyping)
 
 
-    Una funzionalità realizzata per lavorare su valori/oggetti del tipo `A`, può lavorare con qualunque valore/oggetto del sottotipo `B` (p.e., se `B` estende la classe `A`, o se `B` implementa l'interfaccia `A`)
+Una funzionalità realizzata per lavorare su valori/oggetti del tipo `A`, può lavorare con qualunque valore/oggetto del sottotipo `B` (p.e., se `B` estende la classe `A`, o se `B` implementa l'interfaccia `A`)
   
 
   
 ### Polimorfismo parametrico (Java/C\# generics, C++ templates,..)
 
 
-    Una funzionalità (classe o metodo) generica è costruita in modo tale da lavorare uniformemente su valori/oggetti indipendentemente dal loro tipo: tale tipo diventa quindi una sorta di parametro addizionale
+Una funzionalità (classe o metodo) generica è costruita in modo tale da lavorare uniformemente su valori/oggetti indipendentemente dal loro tipo: tale tipo diventa quindi una sorta di parametro addizionale
   
 
 
@@ -95,8 +95,8 @@ aliases = ["/generics/"]
 
 
 
-    *  Durante lo sviluppo di vari sistemi si incontrano problemi ricorrenti che possono trovare una soluzione comune
-    *  In alcuni casi queste soluzioni sono fattorizzabili (per astrazione) in una singola classe altamente riusabile
+  *  Durante lo sviluppo di vari sistemi si incontrano problemi ricorrenti che possono trovare una soluzione comune
+  *  In alcuni casi queste soluzioni sono fattorizzabili (per astrazione) in una singola classe altamente riusabile
   
 
 
@@ -105,9 +105,9 @@ aliases = ["/generics/"]
 
 
 
-    *  Una collection è un oggetto il cui compito è quello di immagazzinare il riferimento ad un numero (tipicamente non precisato) di altri oggetti 
-    *  Fra i suoi compiti c'è quello di consentire modifiche ed accessi veloci all'insieme di elementi di tale collezioni
-    *  Varie strategie possono essere utilizzate, seguendo la teoria/pratica degli algoritmi e delle strutture dati
+  *  Una collection è un oggetto il cui compito è quello di immagazzinare il riferimento ad un numero (tipicamente non precisato) di altri oggetti 
+  *  Fra i suoi compiti c'è quello di consentire modifiche ed accessi veloci all'insieme di elementi di tale collezioni
+  *  Varie strategie possono essere utilizzate, seguendo la teoria/pratica degli algoritmi e delle strutture dati
   
 
 
@@ -124,12 +124,12 @@ aliases = ["/generics/"]
 
 
 
-    *  Contiene serie numeriche (vettori) di dimensione non nota a priori
-    *  Ossia, a lunghezza variabile..
+  *  Contiene serie numeriche (vettori) di dimensione non nota a priori
+  *  Ossia, a lunghezza variabile..
   
 
 
-  ![](img/uml-int-vector-abstracted.pdf)
+  ![](imgs/uml-int-vector-abstracted.png)
 
 
 ---
@@ -156,12 +156,12 @@ aliases = ["/generics/"]
 
 
 
-    *  Contiene serie numeriche (vettori) di dimensione non nota a priori
-    *  Realizzata componendo un array che viene espanso all'occorrenza
+  *  Contiene serie numeriche (vettori) di dimensione non nota a priori
+  *  Realizzata componendo un array che viene espanso all'occorrenza
   
 
 
-  ![](img/uml-int-vector.pdf)
+  ![](imgs/uml-int-vector.png)
 
 
 ---
@@ -202,9 +202,9 @@ aliases = ["/generics/"]
 
 
 
-    *  L'esperienza porterebbe subito alla necessità di progettare vettori di `float`, `double`, `boolean`,.. ossia di ogni tipo primitivo
-    *  E poi, anche vettori di `String`, `Date`, eccetera
-    *  L'implementazione sarebbe analoga, ma senza possibilità di riuso..
+  *  L'esperienza porterebbe subito alla necessità di progettare vettori di `float`, `double`, `boolean`,.. ossia di ogni tipo primitivo
+  *  E poi, anche vettori di `String`, `Date`, eccetera
+  *  L'implementazione sarebbe analoga, ma senza possibilità di riuso..
   
 
 
@@ -213,10 +213,10 @@ aliases = ["/generics/"]
 
 
 
-    *  Una prima soluzione del problema la si ottiene sfruttando il polimorfismo inclusivo e la filosofia "everything is an object" (incluso l'uso dell'autoboxing dei tipi primitivi)
-    *  Si realizza unicamente un `ObjectVector`, semplicemente sostituendo `int` con `Object`
-    *  Si inserisce qualunque elemento (via upcast implicito)
-    *  Quando si riottiene un valore serve un downcast esplicito
+  *  Una prima soluzione del problema la si ottiene sfruttando il polimorfismo inclusivo e la filosofia "everything is an object" (incluso l'uso dell'autoboxing dei tipi primitivi)
+  *  Si realizza unicamente un `ObjectVector`, semplicemente sostituendo `int` con `Object`
+  *  Si inserisce qualunque elemento (via upcast implicito)
+  *  Quando si riottiene un valore serve un downcast esplicito
   
 
 
@@ -228,7 +228,7 @@ aliases = ["/generics/"]
 ## Da `IntVector` a `ObjectVector`
 
 
-  ![](img/uml-obj-vector.pdf)
+  ![](imgs/uml-obj-vector.png)
 
 
 ---
@@ -282,8 +282,8 @@ aliases = ["/generics/"]
 
 
 
-    *  Questo era l'approccio standard alla costruzione di collection
-    *  Java Collection Framework --- una libreria fondamentale
+  *  Questo era l'approccio standard alla costruzione di collection
+  *  Java Collection Framework --- una libreria fondamentale
   
 
 
@@ -292,13 +292,10 @@ aliases = ["/generics/"]
 
 
 
-    *  Con questo approccio, nel codice Java risultavano molti usi di oggetti simili a `ObjectVector` o `ObjectList`
-    *  Si perdeva molto facilmente traccia di quale fosse il contenuto..{
-
-      *  contenevano oggetti vari? solo degli `Integer`? solo delle `String`?
-    
-}
-    *  Il codice conteneva spesso dei downcast sbagliati, e quindi molte applicazioni Java fallivano generando dei `ClassCastException`
+*  Con questo approccio, nel codice Java risultavano molti usi di oggetti simili a `ObjectVector` o `ObjectList`
+*  Si perdeva molto facilmente traccia di quale fosse il contenuto..
+    *  contenevano oggetti vari? solo degli `Integer`? solo delle `String`?
+*  Il codice conteneva spesso dei downcast sbagliati, e quindi molte applicazioni Java fallivano generando dei `ClassCastException`
   
 
 
@@ -306,7 +303,7 @@ aliases = ["/generics/"]
 ### Più in generale
 
 
-    Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo non è noto a priori, ma potrebbe essere soggetto a polimorfismo inclusivo
+Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo non è noto a priori, ma potrebbe essere soggetto a polimorfismo inclusivo
   
 
 
@@ -322,30 +319,23 @@ aliases = ["/generics/"]
 ## Polimorfismo parametrico
 
 
-  
 ### Idea di base
 
 
-
-    *  Dato un frammento di codice `F` che lavora su un certo tipo, diciamo `String`, se potrebbe anche lavorare in modo uniforme con altri..
-    *  ..lo si rende parametrico, sostituendo a `String` una sorta di variabile `X` (chiamata *__type-variable__*, ossia una variabile che contiene un tipo)
-    *  A questo punto, quando serve il frammento di codice istanziato sulle stringhe, si usa `F<String>`, ossia si richiede che `X` diventi `String`
-    *  Quando serve il frammento di codice istanziato sugli integer, si usa `F<Integer>`
+  *  Dato un frammento di codice `F` che lavora su un certo tipo, diciamo `String`, se potrebbe anche lavorare in modo uniforme con altri..
+  *  ..lo si rende parametrico, sostituendo a `String` una sorta di variabile `X` (chiamata *__type-variable__*, ossia una variabile che contiene un tipo)
+  *  A questo punto, quando serve il frammento di codice istanziato sulle stringhe, si usa `F<String>`, ossia si richiede che `X` diventi `String`
+  *  Quando serve il frammento di codice istanziato sugli integer, si usa `F<Integer>`
   
-
-
   
 ### Java Generics
 
 
 
-    *  Classi/interfacce/metodi generici
-    *  Nessun impatto a run-time, per via dell'implementazione a "erasure"{
+*  Classi/interfacce/metodi generici
+*  Nessun impatto a run-time, per via dell'implementazione a "erasure"
+    *  `javac` "compila via i generici", quindi la JVM non li vede
 
-      *  `javac` "compila via i generici", quindi la JVM non li vede
-    
-}
-  
 
 
 
@@ -362,8 +352,9 @@ aliases = ["/generics/"]
 ## La classe generica `List`
 
 
-  \sizedcode{\scriptsize}{code/List.java}
-
+```java
+{{% import-raw path="code/generics/List.java" %}}
+```
 
 ---
 
@@ -389,8 +380,8 @@ aliases = ["/generics/"]
 
 
 
-    *  `X` e `Y` sono dette le sue *__type-variable__*
-    *  `X` e `Y` possono essere usati come un qualunque tipo dentro la classe (con alcune limitazioni che vedremo)
+  *  `X` e `Y` sono dette le sue *__type-variable__*
+  *  `X` e `Y` possono essere usati come un qualunque tipo dentro la classe (con alcune limitazioni che vedremo)
   
 
 
@@ -399,22 +390,15 @@ aliases = ["/generics/"]
 
 
 
-    *  Devono usare *__tipi generici__*: versioni "istanziate" delle classi generiche
-
-      *  `C<String,Integer>`, `C<C<Object,Object>,Object>`
-      *  Non `C` senza parametri, altrimenti vengono segnalati dei warning
-    
-
-    *  Ogni type-variable va sostituita con un tipo effettivo, ossia con un *__parametro__*, che può essere{
-
-      *  una classe (non-generica), p.e. `Object`, `String`,..
-      *  una type-variable definita, p.e. `X,Y` (usate dentro la classe `C<X,Y>`)
-      *  un tipo generico completamente istanziato, p.e. `C<Object,Object>`
-      *  ..o  parzialmente istanziato, p.e. `C<Object,X>` (in `C<X,Y>`)
-      *  NON con un tipo primitivo
-    
-}
-  
+*  Devono usare *__tipi generici__*: versioni "istanziate" delle classi generiche
+    *  `C<String,Integer>`, `C<C<Object,Object>,Object>`
+    *  Non `C` senza parametri, altrimenti vengono segnalati dei warning
+*  Ogni type-variable va sostituita con un tipo effettivo, ossia con un *__parametro__*, che può essere
+    *  una classe (non-generica), p.e. `Object`, `String`,..
+    *  una type-variable definita, p.e. `X,Y` (usate dentro la classe `C<X,Y>`)
+    *  un tipo generico completamente istanziato, p.e. `C<Object,Object>`
+    *  ..o  parzialmente istanziato, p.e. `C<Object,X>` (in `C<X,Y>`)
+    *  NON con un tipo primitivo
 
 
 
@@ -426,8 +410,9 @@ aliases = ["/generics/"]
 ## La classe generica `Vector`
 
 
-  \sizedcode{\footnotesize}{code/Vector.java}
-
+```java
+{{% import-raw path="code/generics/Vector.java" %}}
+```
 
 ---
 
@@ -448,8 +433,9 @@ aliases = ["/generics/"]
 ## Implementazione di `Vector` pt 1
 
 
-  \sizedcode{\scriptsize}{code/VectorA.java}
-
+```java
+{{% import-raw path="code/generics/VectorA.java" %}}
+```
 
 ---
 
@@ -457,8 +443,9 @@ aliases = ["/generics/"]
 ## Implementazione di `Vector` pt 2
 
 
-  \sizedcode{\scriptsize}{code/VectorB.java}
-
+```java
+{{% import-raw path="code/generics/VectorB.java" %}}
+```
 
 ---
 
@@ -468,7 +455,9 @@ aliases = ["/generics/"]
 ## La classe generica `Pair<X,Y>`
 
 
-  \srcode{\scriptsize}{3}{100}{pss-code/src/main/java/it/unibo/generics/generics/Pair.java}
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/Pair.java" %}}
+```
 
 
 ---
@@ -477,7 +466,9 @@ aliases = ["/generics/"]
 ## Uso di `Pair<X,Y>`
 
 
-  \srcode{\ssmall}{3}{100}{pss-code/src/main/java/it/unibo/generics/generics/UsePair.java}
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/UsePair.java" %}}
+```
 
 
 ---
@@ -491,29 +482,27 @@ aliases = ["/generics/"]
 
 
 
-    *  Tendono a rendere il codice più pesante ("verbose")
-    *  Obbligano a scrivere i parametri anche dove ovvi, con ripetizioni
+  *  Tendono a rendere il codice più pesante ("verbose")
+  *  Obbligano a scrivere i parametri anche dove ovvi, con ripetizioni
   
 
 
   
-### L'algoritmo di type-inference nel compilatore
+### L'algoritmo di *type-inference* nel compilatore
 
 
 
-    *  Nella `new` si possono tentare di omettere i parametri (istanziazione delle type-variable), indicando il "diamond symbol" `<>`
-    *  Il compilatore cerca di capire quali siano questi parametri guardando gli argomenti della `new` e l'eventuale contesto dentro il quale la `new` è posizionata, per esempio, se assegnata ad una variabile
-    *  Nel raro caso in cui non ci riuscisse, segnalerebbe un errore a tempo di compilazione.. quindi tanto vale provare!
-    *  Ricordarsi `<>`, altrimenti viene confuso con un *__raw type__*, un meccanismo usato per gestire il legacy con le versioni precedenti di Java
+  *  Nella `new` si possono tentare di omettere i parametri (istanziazione delle type-variable), indicando il *"diamond symbol"* `<>`
+  *  Il compilatore cerca di capire quali siano questi parametri guardando gli argomenti della `new` e l'eventuale contesto dentro il quale la `new` è posizionata, per esempio, se assegnata ad una variabile
+  *  Nel raro caso in cui non ci riuscisse, segnalerebbe un errore a tempo di compilazione.. quindi tanto vale provare!
+  *  Ricordarsi `<>`, altrimenti viene confuso con un *__raw type__*, un meccanismo usato per gestire il legacy con le versioni precedenti di Java
     
 
 
   
-### La local variable type inference
+### La local variable type inference (`var`)
 
-
-
-    *  in genere è alternativa al simbolo `<>`
+  *  in genere è alternativa al simbolo `<>`
   
 
 
@@ -526,8 +515,9 @@ aliases = ["/generics/"]
 ## Esempi di inferenza
 
 
-  \srcode{\ssmall}{3}{100}{pss-code/src/main/java/it/unibo/generics/generics/UsePair2.java}
-
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/UsePair2.java" %}}
+```
 
 ---
 
@@ -543,10 +533,10 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  Il linguaggio risulta più sofisticato, e quindi complesso
-    *  Se non ben usati, possono minare la comprensibilità del software
-    *  Non vanno abusati!!
-    *  Gli aspetti più avanzati dei generici, che vedremo, sono considerati troppo complessi
+  *  Il linguaggio risulta più sofisticato, e quindi complesso
+  *  Se non ben usati, possono minare la comprensibilità del software
+      *  Non vanno abusati!!
+  *  Gli aspetti più avanzati dei generici (covarianza etc.), che NON vedremo, sono considerati troppo complessi
   
 
 
@@ -555,9 +545,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  Codice più comprensibile
-    *  Maggiori possibilità di riuso di funzionalità (quasi d'obbligo oramai)
-    *  Codice più sicuro (safe) -- il compilatore segnala errori difficili da trovare altrimenti
+  *  Codice più comprensibile
+  *  *Maggiore riusabilità* (quasi d'obbligo oramai)
+  *  Codice più sicuro (safe) -- il compilatore segnala errori difficili da trovare altrimenti
   
 
 
@@ -580,26 +570,22 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  È una interfaccia che dichiara type-variables: `{..\}`
-    *  Le type-variable compaiono nei metodi definiti dall'interfaccia
-    *  Quando una classe la implementa deve istanziare le type variabile (o assegnarle ad altre type-variable se essa stessa è generica)
-  
-
+  *  È una interfaccia che dichiara type-variables: `interface I<X,Y> { ... }`
+  *  Le type-variable compaiono nei metodi definiti dall'interfaccia
+  *  Quando una classe la implementa deve istanziare le type variabile (o assegnarle ad altre type-variable se essa stessa è generica)
 
   
 ### Utilizzi
 
 
-    Per creare contratti uniformi che non devono dipendere dai tipi utilizzati
+Per creare *contratti uniformi che non devono dipendere dai tipi utilizzati*
   
 
   
-### Un esempio notevole, gli *__Iteratori__*
+### Un esempio notevole, gli **iteratori**
 
-
-
-    *  Un iteratore è un oggetto usato per accedere ad una sequenza di elementi
-    *  Ne vedremo ora una versione semplificata -- diversa da quella delle librerie Java
+  *  Un *iteratore* è un oggetto usato per accedere ad una sequenza di elementi
+  *  Ne vedremo ora una versione semplificata -- diversa da quella delle librerie Java
   
 
 
@@ -611,8 +597,10 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## L'interfaccia `Iterator`
 
 
-    \srcode{\normalsize}{3}{100}{pss-code/src/main/java/it/unibo/generics/iterators/Iterator.java}
 
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/Iterator.java" %}}
+```
 
 ---
 
@@ -620,8 +608,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## Implementazione 1: `IntRangeIterator`
 
 
-  \srcode{\scriptsize}{3}{100}{pss-code/src/main/java/it/unibo/generics/iterators/IntRangeIterator.java}
-
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/IntRangeIterator.java" %}}
+```
 
 ---
 
@@ -629,8 +618,10 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## Implementazione 2: `ListIterator`
 
 
-  \srcode{\scriptsize}{3}{100}{pss-code/src/main/java/it/unibo/generics/iterators/ListIterator.java}
 
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/ListIterator.java" %}}
+```
 
 ---
 
@@ -638,8 +629,10 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## Implementazione 3: `VectorIterator`
 
 
-  \srcode{\scriptsize}{3}{100}{pss-code/src/main/java/it/unibo/generics/iterators/VectorIterator.java}
 
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/VectorIterator.java" %}}
+```
 
 ---
 
@@ -647,8 +640,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## `UseIterators`: nota l'accesso uniforme!
 
 
-  \srcode{\ssmall}{3}{100}{pss-code/src/main/java/it/unibo/generics/iterators/UseIterators.java}
-
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/UseIterators.java" %}}
+```
 
 ---
 
@@ -666,7 +660,7 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ### Metodo generico
 
 
-    Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independente dal suo tipo effettivo. Tale tipo viene quindi astratto in una type-variable del metodo.
+Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independente dal suo tipo effettivo. Tale tipo viene quindi astratto in una type-variable del metodo.
   
 
   
@@ -674,9 +668,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  def: `{...\}`
-    *  call: `{...\}`
-    *  call con inferenza, stessa sintassi delle call standard, ossia senza `<>`
+  *  def: `<X1,..,Xn> ret-type nome-metodo(formal-args) { ... }`
+  *  call: `receiver.<X1,..,Xn>nome-metodo(actual-args) { ... }`
+  *  call con inferenza, stessa sintassi delle call standard, ossia senza `<>`
   
 
 
@@ -685,9 +679,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  Metodo generico (statico o non-statico) in una classe non generica
-    *  Metodo generico (non-statico) in una classe generica
-    * $\Rightarrow$ Il primo dei due molto più comune..
+  *  Metodo generico (statico o non-statico) in una classe non generica
+  *  Metodo generico (non-statico) in una classe generica
+  * $\Rightarrow$ Il primo dei due molto più comune..
   
 
 
@@ -699,8 +693,10 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## Definizione di un metodo generico
 
 
-  \sizedcode{\scriptsize}{code/UseIterators2A.java}
 
+```java
+{{% import-raw path="code/generics/UseIterators2A.java" %}}
+```
 
 ---
 
@@ -708,8 +704,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## Chiamata a metodo generico
 
 
-  \sizedcode{\scriptsize}{code/UseIterators2B.java}
-
+```java
+{{% import-raw path="code/generics/UseIterators2B.java" %}}
+```
 
 ---
 
@@ -717,8 +714,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## Esempio di metodo generico in classe generica
 
 
-  \sizedcode{\ssmall}{code/UseGenMeth.java}
-
+```java
+{{% import-raw path="code/generics/UseGenMeth.java" %}}
+```
 
 ---
 
@@ -726,7 +724,7 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## Notazione UML: non del tutto standard
 
 
-  ![](img/uml-generics.pdf)
+![](imgs/uml-generics.png)
 
 
 ---
@@ -746,9 +744,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  Esistono situazioni in cui un metodo debba accettare come argomento non solo oggetti di un tipo `C<T>`, ma di ogni `C<S>` dove `S <: T`
-    *  Esempio: un metodo statico `printAll()` che prende in ingresso un iteratore e ne stampa gli elementi
-    *  È realizzabile con un metodo generico, ma ci sono casi in cui si vorrebbe esprimere un tipo che raccolga istanziazioni diverse di una classe generica
+  *  Esistono situazioni in cui un metodo debba accettare come argomento non solo oggetti di un tipo `C<T>`, ma di ogni `C<S>` dove `S <: T`
+  *  Esempio: un metodo statico `printAll()` che prende in ingresso un iteratore e ne stampa gli elementi
+  *  È realizzabile con un metodo generico, ma ci sono casi in cui si vorrebbe esprimere *un tipo che raccolga istanziazioni diverse di una classe generica*
   
 
 
@@ -757,14 +755,12 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  Un meccanismo avanzato, quello inventato più di recente (2004-2006){
+ <!--  *  Un meccanismo avanzato, quello inventato più di recente (2004-2006)
+     *  (Igarashi \& Viroli) + (Bracha \& Gafter) + (Torgersen \& Hansen \& von der Ahé) -->
 
-      *  {\scriptsize (Igarashi \& Viroli) + (Bracha \& Gafter) + (Torgersen \& Hansen \& von der Ahé)}
-    
-}
-    *  Fornisce dei nuovi tipi, chiamati Wildcards 
-    *  Simili a interfacce (non generano oggetti, descrivono solo contratti)
-    *  Generalmente usati come tipo dell'argomento di metodi
+  *  Un meccanismo che fornisce dei nuovi tipi, chiamati Wildcards 
+  *  Simili a interfacce (non generano oggetti, descrivono solo contratti)
+  *  Generalmente usati come tipo dell'argomento di metodi
   
 
 
@@ -777,9 +773,13 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ## Java Wildcards
 
 
-  \sizedcode{\footnotesize}{code/Numbers.java}
-  \sizedcode{\footnotesize}{code/Wildcards.java}
+```java
+{{% import-raw path="code/generics/Numbers.java" %}}
+```
 
+```java
+{{% import-raw path="code/generics/Wildcards.java" %}}
+```
 
 ---
 
@@ -792,21 +792,17 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  Bounded (covariante): `C<? extends T>`{
+*  Bounded (covariante): `C<? extends T>`
 
-      *  accetta un qualunque `C<S>` con `S <: T`
-    
-}
-    *  Bounded (controvariante): `C<? super T>`{
+    *  accetta un qualunque `C<S>` con `S <: T`
 
-      *  accetta un qualunque `C<S>` con `S >: T`
-    
-}
-    *  Unbounded: `C<?>`{
+*  Bounded (controvariante): `C<? super T>`
 
-      *  accetta un qualunque `C<S>`
+    *  accetta un qualunque `C<S>` con `S >: T`
     
-}    
+*  Unbounded: `C<?>`
+
+    *  accetta un qualunque `C<S>`
   
 
 
@@ -815,7 +811,7 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  Piuttosto semplice, basta passare un argomento compatibile o si ha un errore a tempo di compilazione
+  *  Piuttosto semplice, basta passare un argomento compatibile o si ha un errore a tempo di compilazione
   
 
 
@@ -824,7 +820,7 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-    *  Molto avanzato: le wildcard pongono limiti alle operazioni che uno può eseguire, derivanti dal principio di sostituibilità
+  *  Molto avanzato: le wildcard pongono limiti alle operazioni che uno può eseguire, derivanti dal principio di sostituibilità
   
 
 
@@ -840,9 +836,4 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard.java" %}}
 ```
-
-
-
----
-
 
