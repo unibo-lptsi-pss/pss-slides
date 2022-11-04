@@ -898,8 +898,10 @@ abstract class CA extends D implements I, J, K, L { ... }
 
 
 ```java
-Integer i = new Integer(10);
-Double  d = new Double(10.5);
+Integer i = new Integer(10); // Deprecated in Java 17 (for removal)
+i = Integer.valueOf(10);  // recommended
+Double  d = new Double(10.5); // Deprecated in Java 17 (for removal)
+d = Double.valueOf(10.5); // recommended
 ```
 
 ..ossia, ogni valore primitivo può essere "impacchettato" ("boxed") in un oggetto  
