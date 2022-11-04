@@ -1098,13 +1098,13 @@ class ConcreteClass extends AbstractClass {
 
 ## Template Method: esempio `BankAccount`
 
-
+{{% smaller %}}
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/templatemethod/bank/BankAccount.java" %}}
 ```
 
-
+{{% /smaller %}}
 
 ---
 
@@ -1115,16 +1115,16 @@ class ConcreteClass extends AbstractClass {
 ### Intento/motivazione
 
 
-Aggiunge ad un oggetto ulteriori responsabilità, dinamicamente, e in modo più flessibile (e componibile) rispetto all'ereditarietà.
+*Aggiunge ad un oggetto ulteriori responsabilità, dinamicamente*: cioè, lo "decora". E lo fa in modo più flessibile (e componibile) rispetto all'ereditarietà.
     
 
     
 ### Esempi
 
-
-
-*  Aggiungere una barra di scorrimento ad un pannello
-*  Ottenere uno stream ordered da uno unordered
+*  Aggiunta del "tempo di vita" ad una lampadina
+*  Aggiunta di "logging" (stampe in output/su file) alle operazioni di un oggetto
+*  Aggiunta di una una barra di scorrimento ad un pannello in una GUI (temi che vedremo)
+*  Ottenere uno stream ordered da uno unordered (temi che vedremo)
 
 <!--
 *  Aggiungere (in modo componibile) la gestione "buffered" ad uno stream
@@ -1134,11 +1134,13 @@ Aggiunge ad un oggetto ulteriori responsabilità, dinamicamente, e in modo più 
     
 ### Soluzione
 
+<!--
+*  La classe base (*componente*) viene estesa con una nuova classe (*decoratore*) che è anche wrapper di un oggetto della classe base
+    *  Uno o più metodi potrebbero delegare semplicemente all'oggetto wrappato, altri modificare opportunamente, altri essere aggiuntivi
+-->
 
-
-*  La classe base viene estesa con una nuova classe che è anche wrapper di un oggetto della classe base
-*  Uno o più metodi potrebbero delegare semplicemente all'oggetto wrappato, altri modificare opportunamente, altri essere aggiuntivi
-* $\Rightarrow$ può essere visto come variante dello strategy (in cui la strategia è la realizzazione base del comportamento), e potrebbe includere dei template method
+* Il *decoratore* ha un riferimento al *componente* e definisce un'interfaccia che è conforme a quella del *componente*: il *decoratore* fa "forwarding" delle richieste al *componente*, e può svolgere altre operazioni prima e/o dopo 
+* $\Rightarrow$ può essere visto come variante dello strategy (in cui la strategia è "il comportamento di base" del componente), e potrebbe includere dei template method
     
 
 ---
