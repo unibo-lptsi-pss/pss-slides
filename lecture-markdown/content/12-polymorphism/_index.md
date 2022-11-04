@@ -810,6 +810,32 @@ public abstract class Counter {
 
 ---
 
+## Approfondimento: classi astratte vs. interfacce con metodi di default
+
+Interfacce con metodi di default ...
+
+```java
+public interface I4 extends I1, I2, I3 {
+    void doSomething(String s);
+    // da Java 8
+    double E = 2.718282; // implicitamente public, static, final
+    default void doSomethingTwice(String s) { doSomething(s); doSomething(s); }
+    static double PI() { return Math.PI; }
+}
+```
+
+... sembrano piuttosto simili alle classi astratte, in quanto possono fornire, in aggiunta a un contratto, alcune implementazioni di default
+
+Tuttavia, ci sono differenze cruciali:
+
+- le classi astratte possono definire variabili d'istanza (stato)
+- le classi astratte possono definire costruttori
+- le classi astratte possono definire membri con visibilità diverse
+- le classi astratte possono fare overriding di metodi da `Object`
+- i default method non possono essere `final`
+
+---
+
 
 ## Wrap-up su ereditarietà
 
