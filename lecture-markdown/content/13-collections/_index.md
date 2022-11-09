@@ -41,15 +41,12 @@ aliases = ["/collections/"]
 
 
 
-  *  Presentazione Java Collections Framework
+  *  Presentazione *Java Collections Framework*
   *  Iteratori e foreach
-  *  Collezioni, Liste e Set
+  *  Collezioni, Set, e Liste
   *  `HashSet` e `TreeSet`
   *  `ArrayList` e `LinkedList`
   *  Funzioni di utilità in `Arrays` e `Collections`
-  *  Il problema della type-erasure
-  *  Polimorfismo vincolato
-  *  Approfondimento sulle Wildcards
   *  Implementazioni di `List` e `Map`
 
 
@@ -138,11 +135,10 @@ aliases = ["/collections/"]
 
 
 
-*  `Collection` -- contenitore di elementi atomici
-      *  3 sottotipi
-  1. `List` (sequenze)
-  2. `Set` (no duplicazioni)
-  3. `Queue`
+*  `Collection` -- contenitore di elementi atomici; 3 sottotipi di collezioni
+    1. `List` (sequenze)
+    2. `Set` (no duplicazioni)
+    3. `Queue` (per tenere elenti da processare, in vario ordine, e.g., FIFO, LIFO, a priorità etc.)
 *  `Map` -- contenitore di coppie chiave-valore
   
 
@@ -152,8 +148,9 @@ aliases = ["/collections/"]
 
 
 
-*  Interfacce: `Collection`, `List`, `Set`, `Iterator`, `Comparable`
-*  Classi collection: `ArrayList`, `LinkedList`, `HashSet`, `HashMap`
+*  Interfacce: `Collection`, `List`, `Set`, `Map`, `Queue`, `Iterator`, `Comparable`
+*  Classi astratte: `AbstractList`, `AbstractSet`, `AbstractMap`
+*  Classi collection: `ArrayList`, `LinkedList`, `HashSet`, `HashMap`, `PriorityQueue`
 *  Classi con funzionalità: `Collections`, `Arrays`
   
 
@@ -217,8 +214,8 @@ for(int i: array) { ... }
 
 
 
-*  L'interfaccia `Iterable` ha un metodo per generare e restituire un (nuovo) `Iterator`
-*  Un iteratore è un oggetto con metodi `next()`, `hasNext()` (e `remove()`)
+*  L'interfaccia `Iterable` (contratto degli oggetti *iterabili*) ha un metodo per generare e restituire un (nuovo) `Iterator`
+*  Un *iteratore* è un oggetto con metodi `next()`, `hasNext()` (e `remove()`)
 *  Dato l'oggetto `coll` che implementa `Iterable<T>` allora il foreach diventa:
 ```java
 for(T element: coll) { ... }
@@ -331,16 +328,16 @@ for(T element: coll) { ... }
 
 
 
-*  Definisce operazioni base valide per tutte le collezioni
-*  Assume implicitamente che ogni collezione abbia due costruttori
+*  Definisce *operazioni base* valide per tutte le collezioni
+*  Assume implicitamente che ogni collezione abbia *due costruttori*
 
-      *  Senza argomenti, che genera una collezione vuota
-      *  Che accetta un `Collection`, dal quale prende tutti gli elementi
+      *  *Senza argomenti*, che genera una collezione vuota
+      *  *Che accetta una `Collection`*, dal quale prende tutti gli elementi
   
-*  Le operazioni di modifica sono tutte "opzionali"
+*  Le operazioni di *modifica* sono tutte *"opzionali"*
       *  potrebbero lanciare un `UnsupportedOperationException`
     
-*  Tutte le operazioni di ricerca lavorano sulla base del metodo `Object.equals()` da chiamare sugli elementi
+*  Tutte le operazioni di *ricerca* lavorano sulla base del metodo `Object.equals()` da chiamare sugli elementi
       *  questo metodo accetta un `Object`, influendo su alcuni metodi di `Collection`
     
 
@@ -363,7 +360,8 @@ for(T element: coll) { ... }
 
 ## Usare le collezioni
 
-
+* Nota: invocazione metodi dell'interfaccia `Collection`
+* Interazione con array via ad es. `Arrays.asList()` e `Collection.toArray()`
   
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/collection/UseCollection.java" %}}
@@ -376,7 +374,7 @@ for(T element: coll) { ... }
 
 ## Creare collezioni (immutabili) -- Java 9+
 
-
+- Metodi statici factory `.of(...)` e `.copyOf(c)` su `List`, `Set`, ...
   
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/collection/UseFactories.java" %}}
@@ -395,7 +393,7 @@ for(T element: coll) { ... }
 
 
 
-*  Rappresenta collezioni senza duplicati
+*  Rappresenta collezioni *senza duplicati*
       *  nessuna coppia di elementi porta `Object.equals()` a dare `true`
       *  non vi sono due elementi `null`
     
@@ -409,9 +407,9 @@ for(T element: coll) { ... }
 
 
 
-*  Rappresenta sequenze di elementi
-*  Ha metodi per accedere ad un elemento per posizione (0-based)
-*  Andrebbe scandito via iteratore/foreach, non con indici incrementali
+*  Rappresenta *sequenze di elementi*
+*  Ha metodi per accedere ad un elemento per *posizione* (0-based)
+*  *Andrebbe scandito via iteratore/foreach*, non con indici incrementali
 *  Fornisce un list-iterator che consente varie operazioni aggiuntive
   
 
@@ -597,7 +595,7 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ### Approccio 2: `TreeSet`
 
 
-   Specializzazione di `SortedSet` e di `NavigableSet`. Gli elementi sono ordinati, e quindi organizzabili in un albero (red-black tree) per avere accesso in tempo logaritmico
+   Specializzazione di `SortedSet` e di `NavigableSet`. Gli elementi sono ordinati, e quindi organizzabili in un albero (*red-black tree*, un albero binario auto-bilanciante) per avere accesso in tempo logaritmico
   
 
 
