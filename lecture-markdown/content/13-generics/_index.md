@@ -62,7 +62,7 @@ Un oggetto è ottenuto per composizione di oggetti di altre classi
   
 
   
-### Estensione
+### Estensione (ereditarietà)
 
 
 Una nuova classe è ottenuta riusando il codice di una classe pre-esistente
@@ -93,21 +93,19 @@ Una funzionalità (classe o metodo) generica è costruita in modo tale da lavora
   
 ### Astrazioni uniformi per problemi ricorrenti
 
-
-
-  *  Durante lo sviluppo di vari sistemi si incontrano problemi ricorrenti che possono trovare una soluzione comune
-  *  In alcuni casi queste soluzioni sono fattorizzabili (per astrazione) in una singola classe altamente riusabile
+* Si consideri il *problema specifico* del controllo dell'accensione di varie tipologie di dispositivi
+    * Tale funzionalità si può fattorizzare ad esempio in una classe astratta `Device`
+* Durante lo sviluppo di vari sistemi si incontrano *problemi generali/ricorrenti* che possono trovare una soluzione comune
+* Spesso tali soluzioni sono *fattorizzabili in una o più interfacce/classi altamente riusabili* (per astrazione)
+    * **Fattorizzare = mettere a fattor comune**, si pensi alla matematica $AB + AC = A(B + C)$
   
-
-
   
 ### Un caso fondamentale: le *__collection__*
 
 
-
-  *  Una collection è un oggetto il cui compito è quello di immagazzinare il riferimento ad un numero (tipicamente non precisato) di altri oggetti 
-  *  Fra i suoi compiti c'è quello di consentire modifiche ed accessi veloci all'insieme di elementi di tale collezioni
-  *  Varie strategie possono essere utilizzate, seguendo la teoria/pratica degli algoritmi e delle strutture dati
+*  Una *collection* è un *oggetto* il cui compito è quello di immagazzinare i *riferimenti* ad un numero (tipicamente non precisato) di altri oggetti 
+    *  Fra i suoi compiti c'è quello di consentire *modifiche ed accessi veloci* all'insieme di elementi di tale collezioni
+    *  Varie strategie possono essere utilizzate, seguendo la *teoria/pratica degli algoritmi e delle strutture dati*
   
 
 
@@ -124,8 +122,7 @@ Una funzionalità (classe o metodo) generica è costruita in modo tale da lavora
 
 
 
-  *  Contiene serie numeriche (vettori) di dimensione non nota a priori
-  *  Ossia, a lunghezza variabile..
+  *  Contiene *serie numeriche (**vettori**)* di dimensione non nota a priori, ossia, a *lunghezza variabile*..
   
 
 
@@ -157,7 +154,7 @@ Una funzionalità (classe o metodo) generica è costruita in modo tale da lavora
 
 
   *  Contiene serie numeriche (vettori) di dimensione non nota a priori
-  *  Realizzata componendo un array che viene espanso all'occorrenza
+  *  Realizzata *componendo un array che viene espanso all'occorrenza*
   
 
 
@@ -202,7 +199,7 @@ Una funzionalità (classe o metodo) generica è costruita in modo tale da lavora
 
 
 
-  *  L'esperienza porterebbe subito alla necessità di progettare vettori di `float`, `double`, `boolean`,.. ossia di ogni tipo primitivo
+  *  L'esperienza porterebbe subito alla necessità di progettare vettori di `float`, `double`, `boolean`, ... ossia di ogni tipo primitivo
   *  E poi, anche vettori di `String`, `Date`, eccetera
   *  L'implementazione sarebbe analoga, ma senza possibilità di riuso..
   
@@ -216,8 +213,8 @@ Una funzionalità (classe o metodo) generica è costruita in modo tale da lavora
   *  Una prima soluzione del problema la si ottiene sfruttando il polimorfismo inclusivo e la filosofia "everything is an object" (incluso l'uso dell'autoboxing dei tipi primitivi)
   *  Si realizza unicamente un `ObjectVector`, semplicemente sostituendo `int` con `Object`
   *  Si inserisce qualunque elemento (via upcast implicito)
+      * `ObjectVector` è *monomorfica* in quanto "vede" un solo tipo, `Object` (sebbene i riferimenti agli `Object` siano *polimorfici*)
   *  Quando si riottiene un valore serve un downcast esplicito
-  
 
 
 
@@ -236,24 +233,33 @@ Una funzionalità (classe o metodo) generica è costruita in modo tale da lavora
 
 ## `UseObjectVector`
 
-
+* NOTA: **necessità di downcast espliciti**
   
+
+{{% smaller %}}
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/abstractions/UseObjectVector.java" %}}
 ```
 
-
+{{% /smaller %}}
 
 ---
 
 
 ## Un altro caso di collection, la list linkata `ObjectList`
 
-
+* Una *lista* è una struttura dati ricorsivamente definita: 
+    * caso base: lista vuota
+    * caso ricorsivo: ha una *testa* (elemento), e una *coda* (che è una *lista* a sua volta)
   
+{{% smaller %}}
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/abstractions/ObjectList.java" %}}
 ```
+
+{{% /smaller %}}
 
 
 
@@ -322,17 +328,17 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 ### Idea di base
 
 
-  *  Dato un frammento di codice `F` che lavora su un certo tipo, diciamo `String`, se potrebbe anche lavorare in modo uniforme con altri..
-  *  ..lo si rende parametrico, sostituendo a `String` una sorta di variabile `X` (chiamata *__type-variable__*, ossia una variabile che contiene un tipo)
+  *  Dato un frammento di codice `F` che lavora su un certo tipo, diciamo `String`, se può lavorare in modo uniforme con altri tipi...
+  *  ... allora lo si rende parametrico, sostituendo a `String` una sorta di variabile `X` (chiamata *__type-variable__*, ossia una variabile che denota un tipo)
   *  A questo punto, quando serve il frammento di codice istanziato sulle stringhe, si usa `F<String>`, ossia si richiede che `X` diventi `String`
-  *  Quando serve il frammento di codice istanziato sugli integer, si usa `F<Integer>`
+  *  Quando serve il frammento di codice istanziato sugli Integer, si usa `F<Integer>`
   
   
 ### Java Generics
 
 
-
-*  Classi/interfacce/metodi generici
+*  I **generici** sono un meccanismo *compile-time* basato su *parametri di tipo* per implementare *polimorfismo parametrico*
+*  *Classi/interfacce/metodi generici*: classi/interfacce/metodi parametrizzate su tipi, cioè che accettano tipi come parametri
 *  Nessun impatto a run-time, per via dell'implementazione a "erasure"
     *  `javac` "compila via i generici", quindi la JVM non li vede
 
@@ -351,6 +357,7 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 ## La classe generica `List`
 
+* `List` si dice che è un **tipo parametrico** (in quanto accetta il "parametro di tipo" `X`)
 
 ```java
 {{% import-raw path="code/generics/List.java" %}}
@@ -361,7 +368,7 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 ## Uso di una classe generica
 
-
+* Si istanzia il **parametro di tipo** generico `X` in un tipo specifico (**argomento di tipo**), ad es. `Integer`
   
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/UseList.java" %}}
@@ -378,9 +385,8 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
   
 ### Data una classe generica `C<X,Y>`..
 
-
-
-  *  `X` e `Y` sono dette le sue *__type-variable__*
+  *  `C` è detta **tipo parametrico**
+  *  `X` e `Y` sono dette le sue *__type-variable__* o **parametri di tipo**
   *  `X` e `Y` possono essere usati come un qualunque tipo dentro la classe (con alcune limitazioni che vedremo)
   
 
@@ -390,15 +396,15 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 
 
-*  Devono usare *__tipi generici__*: versioni "istanziate" delle classi generiche
+*  Devono usare *tipi specifici* ottenuti dai *__tipi generici__*, ovvero versioni "istanziate" delle classi generiche
     *  `C<String,Integer>`, `C<C<Object,Object>,Object>`
     *  Non `C` senza parametri, altrimenti vengono segnalati dei warning
-*  Ogni type-variable va sostituita con un tipo effettivo, ossia con un *__parametro__*, che può essere
+*  Ogni type-variable va sostituita con un tipo effettivo, ossia con un *__argomento di tipo__*, che può essere
     *  una classe (non-generica), p.e. `Object`, `String`,..
     *  una type-variable definita, p.e. `X,Y` (usate dentro la classe `C<X,Y>`)
     *  un tipo generico completamente istanziato, p.e. `C<Object,Object>`
     *  ..o  parzialmente istanziato, p.e. `C<Object,X>` (in `C<X,Y>`)
-    *  NON con un tipo primitivo
+    *  *NON con un tipo primitivo*
 
 
 
@@ -432,6 +438,7 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 ## Implementazione di `Vector` pt 1
 
+* Nota: in Java NON si può istanziare un array di tipo generico: `new X[10]` (errore statico)
 
 ```java
 {{% import-raw path="code/generics/VectorA.java" %}}
@@ -465,11 +472,13 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 ## Uso di `Pair<X,Y>`
 
+{{% smaller %}}
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/UsePair.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/generics/generics/UsePair.java" %}}
 ```
 
+{{% /smaller %}}
 
 ---
 
@@ -514,10 +523,13 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 ## Esempi di inferenza
 
+{{% smaller %}}
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/UsePair2.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/generics/generics/UsePair2.java" %}}
 ```
+
+{{% /smaller %}}
 
 ---
 
@@ -570,9 +582,9 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 
 
-  *  È una interfaccia che dichiara type-variables: `interface I<X,Y> { ... }`
-  *  Le type-variable compaiono nei metodi definiti dall'interfaccia
-  *  Quando una classe la implementa deve istanziare le type variabile (o assegnarle ad altre type-variable se essa stessa è generica)
+  *  È una interfaccia che dichiara parametri di tipo: `interface I<X,Y> { ... }`
+  *  I parametri di tipo compaiono nei metodi definiti dall'interfaccia
+  *  Quando una classe la implementa deve istanziare i parametri di tipo <!-- (o assegnarle ad altre type-variable se essa stessa è generica) -->
 
   
 ### Utilizzi
@@ -721,7 +733,7 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
 ---
 
 
-## Notazione UML: non del tutto standard
+## Notazione UML (non del tutto standard)
 
 
 ![](imgs/uml-generics.png)
@@ -807,7 +819,7 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
 
 
   
-### Uso delle librerie che dichiarano tipi wildcard
+### *Uso* delle librerie che dichiarano tipi wildcard
 
 
 
@@ -816,7 +828,7 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
 
 
   
-### Progettazione di librerie che usano tipi wildcard
+### *Progettazione* di librerie che usano tipi wildcard
 
 
 
@@ -829,11 +841,21 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
 ---
 
 
-## Esempio Wildcard
+## Esempio Wildcard 1 (unbounded)
 
 
   
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard.java" %}}
+```
+
+---
+
+## Esempio Wildcard 2 (bounded)
+
+
+  
+```java
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard2.java" %}}
 ```
 

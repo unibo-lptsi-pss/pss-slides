@@ -1,13 +1,13 @@
 public class Vector<X>{ 
-// X è la type-variable, ossia il tipo degli elementi
-    ...
-    public Vector(){...}
+    // X è la type-variable, ossia il tipo degli elementi
     
-    public void addElement(X e){...} 	// Input di tipo X
+    public Vector() { /* ... */ }
     
-    public X getElementAt(int pos){...} // Output di tipo X
+    public void addElement(X e) { /* ... */ } 	// Input di tipo X
+    
+    public X getElementAt(int pos) { /* ... */ } // Output di tipo X
 
-    public int getLength(){...}
+    public int getLength() { /* ... */ }
    
-    public String toString(){...}
+    public String toString() { /* ... */ }
 }

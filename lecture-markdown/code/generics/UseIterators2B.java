@@ -1,14 +1,15 @@
 import java.util.Date;
-public class UseIterators2{
-    public static <E> void printAll(Iterator<E> iterator){..}
+
+public class UseIterators2 {
+    public static <E> void printAll(Iterator<E> iterator){ /* ... */ }
     
-    public static void main(String[] s){
-        Iterator<Integer> iterator = new IntRangeIterator(5,10);
+    public static void main(String[] s) {
+        Iterator<Integer> iterator = new IntRangeIterator(5, 10);
    
-        List<String> list = ..
+        List<String> list = // ...
         Iterator<String> iterator2 = new ListIterator(list);
     
-        Vector<Date> vector= ..
+        Vector<Date> vector= // ...
         Iterator<Date> iterator3 = new VectorIterator(vector);
     
         // Attenzione, il nome della classe è obbligatorio
@@ -22,4 +23,3 @@ public class UseIterators2{
         printAll(iterator3);
     }
 }
-
