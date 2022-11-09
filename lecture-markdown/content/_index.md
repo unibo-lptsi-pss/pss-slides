@@ -36,6 +36,7 @@ outputs = ["Reveal"]
 13. [Generici](generics/)
 1. [Eccezioni](exceptions/)
 1. [Collezioni](collections/)
+<!-- 1. [Collezioni generiche, erasure, e wildcard](generic-collections-advanced/) -->
 1. [Meccanismi avanzati: classi innestate, enum](advanced-mechanisms-nested-enums/)
 1. [Input/Output](io/)
 1. [Lambda e funzioni first-class](lambdas/)
