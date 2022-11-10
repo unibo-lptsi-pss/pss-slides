@@ -328,11 +328,11 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 ### Idea di base
 
 
-  *  Dato un frammento di codice `F` che lavora su un certo tipo, diciamo `String`, se può lavorare in modo uniforme con altri tipi...
-  *  ... allora lo si rende parametrico, sostituendo a `String` una sorta di variabile `X` (chiamata *__type-variable__*, ossia una variabile che denota un tipo)
-  *  A questo punto, quando serve il frammento di codice istanziato sulle stringhe, si usa `F<String>`, ossia si richiede che `X` diventi `String`
-  *  Quando serve il frammento di codice istanziato sugli Integer, si usa `F<Integer>`
-  
+  *  Dato un frammento di codice `F` che lavora su un certo tipo, diciamo `String`, se può lavorare *in modo uniforme* su altri tipi...
+  *  ... allora lo si rende parametrico, sostituendo a `String` una sorta di variabile o parametro `X` (chiamata *__type variable__* o *__type parameter__*, ossia una variabile/parametro che denota un tipo)
+      *  A questo punto, quando serve il frammento di codice istanziato sulle stringhe, si usa `F<String>`, ossia si richiede che `X` diventi `String`
+      *  Quando serve il frammento di codice istanziato sugli Integer, si usa `F<Integer>`
+      * Il codice che usa tale **polimorfismo parametrico** è *uniforme* (cioè non cambia) indipendentemente dalle istanziazioni dei tipi 
   
 ### Java Generics
 
@@ -590,14 +590,14 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 ### Utilizzi
 
 
-Per creare *contratti uniformi che non devono dipendere dai tipi utilizzati*
+Per creare *contratti uniformi rispetto ai tipi utilizzati*
   
 
   
 ### Un esempio notevole, gli **iteratori**
 
   *  Un *iteratore* è un oggetto usato per accedere ad una sequenza di elementi
-  *  Ne vedremo ora una versione semplificata -- diversa da quella delle librerie Java
+      *  Ne vedremo ora una versione semplificata -- diversa da quella delle librerie Java
   
 
 
