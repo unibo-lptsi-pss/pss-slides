@@ -733,12 +733,10 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 
 
-*  Assume che esista un ordine fra gli elementi
-*  Quindi ogni elemento ha una sua posizione nell'elenco
+*  Assume che esista un *ordine totale* fra gli elementi
+*  Quindi ogni elemento ha una sua *posizione* nell'elenco
 *  Questo consente l'approccio dicotomico alla ricerca
 *  Consente funzioni addizionali, come le iterazioni in un intervallo
-  
-
 
   
 ### Realizzazione ordinamento: due approcci (interno o esterno)
@@ -802,6 +800,11 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 ## Interfacce `SortedSet` e `NavigableSet`
 
+{{% smaller %}}
+
+- `SortedSet`: un set con ordinamento totale degli elementi, e quindi può rispondere a messaggi come `first()`, `last()`, `subset(from,to)`, `headSet(e)`/`tailSet(e)` che restituiscono una vista del set con gli elementi più piccoli/grandi di `e`
+- `NavigableSet`: un `SortedSet` con metodi di "navigazione" (che riportano l'elemento più vicino, dal basso o dall'alto, a uno dato; ad es: `ceiling(e)`, `floor(e)`, `higher(e)`, `lower(e)`), ed `descendingSet()` che inverte l'ordine
+
 
 ```java
 {{% import-raw path="code/collections/short/SortedSet.java" %}}
@@ -810,6 +813,8 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ```java
 {{% import-raw path="code/collections/short/NavigableSet.java" %}}
 ```
+
+{{% smaller %}}
 
 ---
 
@@ -850,6 +855,11 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/collections/sortedset/PersonaComparator.java" %}}
 ```
 
+```java
+// Attenzione sull'uso della sottrazione per la compareTo fra interi
+Integer.MAX_VALUE - Integer.MIN_VALUE // -1
+Integer.valueOf(Integer.MAX_VALUE).compareTo(Integer.MIN_VALUE) // 1
+```
 
 
 ---
@@ -863,40 +873,28 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/collections/sortedset/UseTreeSetPersona2.java" %}}
 ```
 
-
-
 ---
 
 
-## Perché il tipo `Comparator<? super E>`
+## Perché il tipo `Comparator<? super E>` (Approfondimento)
 
-
-  
 Data una classe `SortedSet<E>` il suo comparatore ha tipo `Comparator<? super E>`, perché non semplicemente `Comparator<E>`?
 
   
 ### È corretto
 
-
-
 *  `Comparator` ha metodi che hanno `E` solo come argomento
 *  quindi l'uso di `Comparator<? super E>` è una generalizzazione di `Comparator<E>`
-  
-
 
   
 ### È utile
 
-
-
 *  Supponiamo di aver costruito un comparatore per `SimpleLamp`, e che questo sia usabile anche per tutte le specializzazioni successivamente costruite (è la situazione tipica)
 *  Anche un `SortedSet<UnlimitedLamp>` deve poter usare il `Comparator<SimpleLamp>`, ma questo è possibile solo grazie al suo tipo atteso `Comparator<? super E>`
-  
-
-
 
 
 ---
+
 
 
 ## Un esempio di design con le collezioni
@@ -936,6 +934,7 @@ Implementare questa interfaccia che modella un archivio persone
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/collections/set/UseArchive.java" %}}
 ```
 
+---
 
 
 # Implementazioni di `List`
