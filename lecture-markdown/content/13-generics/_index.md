@@ -856,6 +856,17 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
 
   
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard2.java" %}}
+{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard2.java" %}}
 ```
 
+---
+
+## Esempio Wildcard 3 (bounded, limitazioni)
+
+  
+```java
+{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard3.java" %}}
+```
+
+* `Vector<? extends Number>` si può leggere come "`Vector` che può fornire ma non accettare `Number`" (cf. in C# dove la keyword `out` è usata per specificare parametri di tipo covarianti)
+* `Vector<? super Number>` si può leggere come "`Vector` che può accettare ma non fornire `Number`" (cf. in C# dove la keyword `in` è usata per specificare parametri di tipo controvarianti)
