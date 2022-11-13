@@ -10,7 +10,7 @@ aliases = ["/git/"]
 
 # Sistemi di controllo versione
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 <!-- write-here "shared-slides/git/dvcs-concepts.md" -->
 

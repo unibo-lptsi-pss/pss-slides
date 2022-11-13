@@ -10,7 +10,7 @@ aliases = ["/build-systems/"]
 
 # Costruzione del software e librerie
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 # Build systems
 
