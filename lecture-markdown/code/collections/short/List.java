@@ -12,7 +12,7 @@ public interface List<E> extends Collection<E> {
     int indexOf(Object o);          // first equals to o
     int lastIndexOf(Object o);      // last equals to o
 
-    // List Iterators
+    // List Iterators (enable traversal in both directions, modifications etc.)
     ListIterator<E> listIterator();           // iterator from 0
     ListIterator<E> listIterator(int index);  // ..from index
 

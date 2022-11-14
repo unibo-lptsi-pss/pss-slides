@@ -309,7 +309,7 @@ for(T element: coll) { ... }
 
 
 
-## Interfaccia `Collection`
+## Interfaccia `Collection<E>` (implementa `Iterable<E>`)
 
 
   
@@ -337,7 +337,7 @@ for(T element: coll) { ... }
 *  Le operazioni di *modifica* sono tutte *"opzionali"*
       *  potrebbero lanciare un `UnsupportedOperationException`
     
-*  Tutte le operazioni di *ricerca* lavorano sulla base del metodo `Object.equals()` da chiamare sugli elementi
+*  Tutte le operazioni di *ricerca* (e.g. `c.contains(o)`) lavorano sulla base del metodo `Object.equals()` da chiamare sugli elementi
       *  questo metodo accetta un `Object`, influendo su alcuni metodi di `Collection`
     
 
@@ -348,7 +348,7 @@ for(T element: coll) { ... }
 
 
 
-## `Collection`
+## `Collection`: estratto dell'interfaccia
 
 
 ```java
@@ -372,10 +372,11 @@ for(T element: coll) { ... }
 ---
 
 
-## Creare collezioni (immutabili) -- Java 9+
+## Creare collezioni (*immutabili*) -- Java 9+
 
 - Metodi statici factory `.of(...)` e `.copyOf(c)` su `List`, `Set`, ...
-  
+    - Nota: `Arrays.ofList` visto precedentemente, invece, crea una lista mutabile (e consente valori `null`)
+
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/collection/UseFactories.java" %}}
 ```
@@ -385,7 +386,7 @@ for(T element: coll) { ... }
 ---
 
 
-## `Set` e `List`
+## `Set` e `List`: introduzione
 
 
   
@@ -396,9 +397,8 @@ for(T element: coll) { ... }
 *  Rappresenta collezioni *senza duplicati*
       *  nessuna coppia di elementi porta `Object.equals()` a dare `true`
       *  non vi sono due elementi `null`
-    
+      *  I metodi di modifica devono rispettare la non duplicazione
 *  Non aggiunge metodi rispetto a `Collection`
-*  I metodi di modifica devono rispettare la non duplicazione
   
 
 
@@ -407,10 +407,11 @@ for(T element: coll) { ... }
 
 
 
-*  Rappresenta *sequenze di elementi*
-*  Ha metodi per accedere ad un elemento per *posizione* (0-based)
-*  *Andrebbe scandito via iteratore/foreach*, non con indici incrementali
-*  Fornisce un list-iterator che consente varie operazioni aggiuntive
+* Rappresenta *sequenze di elementi* 
+* Rispetto alle collezioni generiche:
+    *  Ha metodi per accedere ad un elemento per *posizione* (0-based)
+        * Comunque, una lista *andrebbe scandita via iteratore/foreach*, non con indici incrementali
+    *  Fornisce un **list-iterator** che consente operazioni aggiuntive (modifiche; traversamento nelle due direzioni; ...)
   
 
 
@@ -422,7 +423,7 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ---
 
 
-## `Set` e `List`
+## `Set` e `List`: interfacce
 
 ```java
 {{% import-raw path="code/collections/short/Set.java" %}}
@@ -436,27 +437,6 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 ---
 
 
-## `ListIterator`
-
-
-```java
-{{% import-raw path="code/collections/short/ListIterator.java" %}}
-```
-
----
-
-
-## `UseListIterator`
-
-
-  
-```java
-{{% import-raw from=4 to=100 path="pss-code/src/main/java/it/unibo/collections/collection/UseListIterator.java" %}}
-```
-
-
-
----
 
 
 ## Implementazione collezioni -- UML
@@ -488,9 +468,18 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 
 *  *In variabili, argomenti, tipi di ritorno, si usano le interfacce*
+```java
+void m(List<Integer> lst) {
+    Set<String> names = // ...
+```
 *  *Le classi concrete solo in fase di istanziazione*, nella `new`, a parte casi molto particolari
+```java
+Set<String> names = new HashSet<>();
+```
 *  *Le classi astratte solo per costruire nuove implementazioni* <!-- non si menzionano praticamente mai, solo eventualmente per chi volesse costruire una nuova implementazione -->
-    
+```java
+public class HashSet<E> extends AbstractSet<E> { ... }
+```
 
 
 
@@ -621,7 +610,7 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 *  Ricerca di un elemento `f`
  
-      *  si guarda a partire da `f.hashCode() % size`, usando `Object.equals()`
+      *  si guarda a partire da `f.hashCode() % size`, usando `Object.equals()` 
       *  La funzione di hashing deve evitare il più possibile le collisioni
     
 
@@ -768,10 +757,11 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 ## Comparazione "interna" agli elementi
 
-
 ```java
 {{% import-raw path="code/collections/short/Comparable.java" %}}
 ```
+
+- Consente di definire una nozione di *ordine naturale* sugli oggetti di una classe
 
 ```java
 {{% import-raw path="code/collections/Wrappers.java" %}}
@@ -787,34 +777,16 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 ## Esempi di comparazione interna
 
-
   
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/collections/sortedset/UseComparison.java" %}}
 ```
 
+* Se a una collezione ordinata non è fornito un `Comparator` esterno specifico, allora sfrutterà l'ordinamento naturale del tipo degli elementi (quindi se il tipo `T` degli elementi non implementa `Comparable<? super T>`, un'eccezione verrà sollevata)
 
 
----
 
 
-## Interfacce `SortedSet` e `NavigableSet`
-
-{{% smaller %}}
-
-- `SortedSet`: un set con ordinamento totale degli elementi, e quindi può rispondere a messaggi come `first()`, `last()`, `subset(from,to)`, `headSet(e)`/`tailSet(e)` che restituiscono una vista del set con gli elementi più piccoli/grandi di `e`
-- `NavigableSet`: un `SortedSet` con metodi di "navigazione" (che riportano l'elemento più vicino, dal basso o dall'alto, a uno dato; ad es: `ceiling(e)`, `floor(e)`, `higher(e)`, `lower(e)`), ed `descendingSet()` che inverte l'ordine
-
-
-```java
-{{% import-raw path="code/collections/short/SortedSet.java" %}}
-```
-
-```java
-{{% import-raw path="code/collections/short/NavigableSet.java" %}}
-```
-
-{{% smaller %}}
 
 ---
 
@@ -1198,7 +1170,7 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 
 ---
 
-# Il caso delle `java.util.Map`
+# `java.util.Map`: a.k.a. mappe associative o dizionari
 
 ---
 
@@ -1213,23 +1185,11 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 
 ## `Map`
 
+- Una **mappa** (anche detta **mappa associativa** o **dizionario**) è una corrispondenza tra **chiavi** e **valori**, dove le chiavi (e quindi le coppie) formano un set (non ci sono chiavi duplicate)
 
 ```java
 {{% import-raw path="code/collections/generic/short/Map_.java" %}}
 ```
-
----
-
-
-## Usare le mappe
-
-
-  
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/generic/map/UseMap.java" %}}
-```
-
-
 
 ---
 
@@ -1270,50 +1230,16 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 *  Accesso in tempo logaritmico
 *  Le chiavi devono essere ordinate, come per i `TreeSet`
   
-
-
-
-
 ---
 
-# Un esercizio sulle collezioni
 
-
-## Interfaccia da implementare
+## Usare le mappe
 
 
   
 ```java
-{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/collections/generic/exercise/Graph.java" %}}
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/generic/map/UseMap.java" %}}
 ```
 
 
-
----
-
-
-## Codice di prova
-
-
-  
-```java
-{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/collections/generic/exercise/UseGraph.java" %}}
-```
-
-
-
----
-
-
-## Strategia risolutiva
-
- 
-### Passi:
-
-
-
-*  Capire bene cosa la classe deve realizzare
-*  Pensare a quale tipo di collezioni può risolvere il problema in modo semplice e prestante
-*  Realizzare i vari metodi
-*  Controllare i casi particolari
 

@@ -27,21 +27,21 @@ outputs = ["Reveal"]
 1. [Incapsulamento](encapsulation/)
 1. [Interfacce](interfaces/)
 1. [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
-1. [Ereditarietà](inheritance/)
-1. [Polimorfismo](polymorphism/)
+
 
 </div>
 <div class="col">
 
-13. [Generici](generics/)
-1. [Eccezioni](exceptions/)
+11. [Ereditarietà](inheritance/)
+1. [Polimorfismo](polymorphism/)
+1. [Generici](generics/)
 1. [Collezioni](collections/)
-1. [Meccanismi avanzati: classi innestate, enum](advanced-mechanisms-nested-enums/)
+1. [Eccezioni](exceptions/)
 1. [Input/Output](io/)
+1. [Meccanismi avanzati: classi innestate, enum](advanced-mechanisms-nested-enums/)
 1. [Lambda e funzioni first-class](lambdas/)
 1. [Stream e manipolazione di flussi di dati](stream/)
-1. [GUI in JavaFX](guis-javafx/)
-1. ...
+1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
 
 <!-- 1. [Collezioni generiche, erasure, e wildcard](generic-collections-advanced/) -->
 

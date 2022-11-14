@@ -1,0 +1,88 @@
+
+
+## `ListIterator`
+
+- `ListIterator<E>` è un `Iterator<E>` specializzato che permette di iterare su liste in entrambe le direzioni, di modificare la lista durante l'iterazione, e di ottenere la posizione corrente del cursore (che è sempre tra l'elemento che restituirebbe `previous()` e quello che restituirebbe `next()`)
+
+```java
+{{% import-raw path="code/collections/short/ListIterator.java" %}}
+```
+
+---
+
+
+## `UseListIterator`
+
+
+  
+```java
+{{% import-raw from=4 to=100 path="pss-code/src/main/java/it/unibo/collections/collection/UseListIterator.java" %}}
+```
+
+
+---
+
+
+## Interfacce `SortedSet` e `NavigableSet`
+
+{{% smaller %}}
+
+- `SortedSet`: un set con ordinamento totale degli elementi, e quindi può rispondere a messaggi come `first()`, `last()`, `subset(from,to)`, `headSet(e)`/`tailSet(e)` che restituiscono una vista del set con gli elementi più piccoli/grandi di `e`
+- `NavigableSet`: un `SortedSet` con metodi di "navigazione" (che riportano l'elemento più vicino, dal basso o dall'alto, a uno dato; ad es: `ceiling(e)`, `floor(e)`, `higher(e)`, `lower(e)`), ed `descendingSet()` che inverte l'ordine
+
+
+```java
+{{% import-raw path="code/collections/short/SortedSet.java" %}}
+```
+
+```java
+{{% import-raw path="code/collections/short/NavigableSet.java" %}}
+```
+
+{{% smaller %}}
+
+
+---
+
+
+# Un esercizio sulle collezioni
+
+
+## Interfaccia da implementare
+
+
+  
+```java
+{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/collections/generic/exercise/Graph.java" %}}
+```
+
+
+
+---
+
+
+## Codice di prova
+
+
+  
+```java
+{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/collections/generic/exercise/UseGraph.java" %}}
+```
+
+
+
+---
+
+
+## Strategia risolutiva
+
+ 
+### Passi:
+
+
+
+*  Capire bene cosa la classe deve realizzare
+*  Pensare a quale tipo di collezioni può risolvere il problema in modo semplice e prestante
+*  Realizzare i vari metodi
+*  Controllare i casi particolari
+
