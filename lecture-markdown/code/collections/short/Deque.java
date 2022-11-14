@@ -1,3 +1,4 @@
+// a "deque" (pronounced "deck") is a "double-ended queue"
 public interface Deque<E> extends Queue<E> {
     void addFirst(E e);
     void addLast(E e);

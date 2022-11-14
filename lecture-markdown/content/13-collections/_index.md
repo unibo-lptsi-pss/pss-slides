@@ -531,11 +531,13 @@ public class HashSet<E> extends AbstractSet<E> { ... }
 ## Esempio di creazione di un nuovo set: `RangeSet`
 
 
+{{% smaller %}}
   
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/collections/collection/RangeSet.java" %}}
 ```
 
+{{% /smaller %}}
 
 
 ---
@@ -1023,7 +1025,7 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 
 ## `LinkedList`
 
-
+- lista doppiamente linkata (che può essere traversata dall'inizio o dalla fine)
   
 ### Caratteristiche di performance
 
@@ -1041,7 +1043,7 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 
 
 
-*  Implementa anche l'interfaccia `Deque`, usata per rappresentare una coda bidirezionale, potenzialmente con dimensione limitata
+*  Implementa anche l'interfaccia `Deque`, usata per rappresentare una coda bidirezionale (*double-ended queue*), potenzialmente con dimensione limitata
   
 
 
@@ -1104,7 +1106,7 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 
 *  Contiene varie funzionalità d'ausilio alla gestione degli array
 *  In genere ha varie versione dei metodi per ogni array di tipo primitivo
-*  Ricerca binaria (dicotomica), Ordinamento (quicksort), copia
+*  *Ricerca* (`binarySearch()`), *ordinamento* (quicksort, `sort()`), *copia* (`copyOf()`), riempimento (`fill()`)
 *  Operazioni base (`toString`, `equals`, `hashCode`), anche ricorsive
   
 
@@ -1115,7 +1117,7 @@ Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'uten
 
 
 *  Raccoglie metodi statici che sarebbero potuti appartenere alle varie classi/interfacce viste
-*  Ricerca binaria (dicotomica), Ordinamento (quicksort), copia, min, max, sublist, replace, reverse, rotate, shuffle
+*  *Ricerca* (binaria/dicotomica), *ordinamento* (quicksort), *copia*, fill, frequency, min, max, sublist, replace, reverse, rotate, shuffle
 *  Con esempi notevoli d'uso delle wilcard
   
 
