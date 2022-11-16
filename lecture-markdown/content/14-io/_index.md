@@ -10,95 +10,41 @@ aliases = ["/io/"]
 
 # Input/Output
 
-<!-- {{% import path="front-page.md" %}} -->
-
 {{% import path="cover.md" %}}
 
 ---
 
-
-
 ## Outline
 
-
-  
 ### Goal della lezione
+* Illustrare le API fornite da Java per l'I/O
+* Descrivere alcune scelte progettuali e pattern
+* Mostrare esempi di applicazione
 
-
-
-  *  Illustrare le API fornite da Java per l'I/O
-  *  Descrivere alcune scelte progettuali e pattern
-  *  Mostrare esempi di applicazione
-  
-
-
-  
 ### Argomenti
-
-
-
-  *  Classi per gestire file
-  *  Classi per gestire Stream (di input/output)
-  *  Serializzazione di oggetti
-  *  Classi per gestire file di testo
-  *  Pattern Decorator
-  
-
-
-
+* Classi per gestire file
+* Classi per gestire Stream (di input/output)
+* Classi per gestire file di testo
+* Pattern Decorator
 
 ---
-
 
 ## Il problema dell'Input/Output
 
-
-  
 ### Uno dei problemi fondamentali per un sistema operativo
+*  Gestire le comunicazioni fra CPU e dispositivi affacciati sul BUS
+  * Console, tastiera, mouse, dischi, rete, sensori, schermo
+* Vi sono varie modalità di interazione possibili
+  * sequenziale, random-access, buffered, per carattere/linea/byte/oggetto
+* I sistemi operativi offrono vari meccanismi
+  * file, I/O control interface, socket per il networking, video driver
 
-
-
-    *  Gestire le comunicazioni fra CPU e dispositivi affacciati sul BUS{
-
-    *  Console, tastiera, mouse, dischi, rete, sensori, schermo
-    
-}
-    *  Vi sono varie modalità di interazione possibili{
-
-    *  sequenziale, random-access, buffered, per carattere/linea/byte/oggetto
-    
-}
-    *  I sistemi operativi offrono vari meccanismi{
-
-    *  file, I/O control interface, socket per il networking, video driver
-    
-}
-  
-
-
-  
 ### La libreria `java.io.*`
-
-
-
-    *  Fornisce i concetti di File e Stream di dati
-    *  Consente una gestione flessibile dei vari aspetti
-    *  È estesa con la libreria `java.nio`, che vedremo poi
-    *  È la base di librerie avanzate (networking,..), anche non-JDK (JSON,..)
-    *  I/O con l'utente in ambiente a finestre è realizzato con le GUI
-  
-
-
-
-
----
-
-
-## La libreria `java.io`
-
-
-    ![](img/io.png)
-
+*  Fornisce i concetti di File e Stream di dati
+*  Consente una gestione flessibile dei vari aspetti
+*  È estesa con la libreria `java.nio`
+*  È la base di librerie avanzate (networking,..), anche di terze parti (Jackson, Gson, ...)
+*  I/O con l'utente in ambiente a finestre è realizzato con le GUI
 
 ---
 
@@ -106,7 +52,7 @@ aliases = ["/io/"]
 ## I macro-elementi della libreria
 
 
-    
+
 ### Outline della lezione
 
 
@@ -116,7 +62,7 @@ aliases = ["/io/"]
 	*  File ad accesso "random"
 	*  Stream di oggetti e serializzazione
 	*  Reader e Writer di testi
-    
+
 
 
 
@@ -129,7 +75,7 @@ aliases = ["/io/"]
 ## I File
 
 
-    
+
 ### File system
 
 
@@ -138,10 +84,10 @@ aliases = ["/io/"]
 	*  Maschera le diversità di dispositivi fisici (HD, CD, DVD, BR, SSD,..)
 	*  Maschera le diversità di contenuti informativi (testi, filmati, archivi,..)
 	*  Fornisce meccanismi per fornire prestazioni, concorrenza, robustezza
-    
 
 
-    
+
+
 ### File
 
 
@@ -152,11 +98,11 @@ aliases = ["/io/"]
 	    *  interpretabili in vario modo (testi, programmi, strutture dati)
 	    *  potrebbe essere un file virtuale, che mappa un dispositivo
 	    *  un caso particolare è la directory (ossia una tabella di ID di file)
-	
+
 }
 	*  Si ha una organizzazione gerarchica in cartelle (un file ha un path)
 	*  Un file ha un ID, nome, percorso, diritti di accesso, dimensione, \ldots{}
-    
+
 
 
 
@@ -167,7 +113,7 @@ aliases = ["/io/"]
 ## La classe `java.io.File`
 
 
-    
+
 ### Usi
 
 
@@ -179,52 +125,52 @@ aliases = ["/io/"]
         *  Permette di ottenere informazioni generali sul file systems
         *  Permette di creare cartelle
         * $\Rightarrow$ non include operazioni per accedere al suo contenuto, ma vi si potrà agganciare uno stream
-    
 
 
 
 
----       
+
+---
 
 
 
 ## Classe `java.io.File`: pt1
 
 
-    
+
 ```java
 {{% import-raw from=1 to=28 path="code/io/File.java" %}}
 ```
 
 
 
----	
+---
 
 
 ## Classe `java.io.File`: pt2
 
 
-    
+
 ```java
 {{% import-raw from=30 to=100 path="code/io/File.java" %}}
 ```
 
 
 
----	
+---
 
 
 ## `java.io.File` in azione (modella un path su File System)
 
 
-    
+
 ```java
 {{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseFile.java" %}}
 ```
 
 
 
----	
+---
 
 
 
@@ -257,7 +203,7 @@ getClass class java.io.File
 ## Accedere al contenuto di un file
 
 
-    
+
 ### Come fare?
 
 
@@ -266,10 +212,10 @@ getClass class java.io.File
 	*  Lo si potrebbe leggere (in vari modi)
 	*  Lo si potrebbe scrivere (in vari modi)
 	*  Il suo contenuto potrebbe essere interpretabile in vari modi
-    
 
 
-    
+
+
 ### Alcuni di tali concetti sono condivisi con altri meccanismi
 
 
@@ -278,13 +224,13 @@ getClass class java.io.File
 	*  Networking e file di rete
 	*  Archivi su database
 	*  Depositi di informazione in memoria
-    
 
 
-    
+
+
 
 	Il concetto di *__input/output-stream__* è usato come astrazione unificante
-    
+
 
 
 
@@ -300,25 +246,25 @@ getClass class java.io.File
 ## Overview sugli `InputStream` e `OutputStream` in Java
 
 
-    
+
 ### `InputStream` e `OutputStream`
 
 
 
 	*  Stream = flusso (di dati)
-	*  Di base, gestiscono flussi binari (di `byte`) leggibili vs. scrivibili 
+	*  Di base, gestiscono flussi binari (di `byte`) leggibili vs. scrivibili
 	*  Sono classi astratte (e non interfacce..)
 	*  Possono essere specializzate da "sottoclassi" e "decorazioni", tra cui{
 
         *  Per diverse sorgenti e destinazioni di informazione, ad esempio su file (`FileInputStream`) o su memoria (`ByteArrayInputStream`)
         *  Per diversi formati di informazione, ad esempio valori primitivi (`DataInputStream`) o interi oggetti Java (`ObjectInputStream`)
 	    \item[$\Rightarrow$]..e corrispondenti versioni `Output`
-	
+
 }
-    
 
 
-    
+
+
 ### Tipicamente usati per alimentare altre classi
 
 
@@ -326,7 +272,7 @@ getClass class java.io.File
 	*  File di testo (`Reader`, `Writer`, e specializzazioni)
 
     *  Librerie avanzate comunemente usate per l'accesso al file system tipicamente hanno metodi che accettano (`In`/`Out`)`putStream`
-    
+
 
 
 
@@ -340,7 +286,7 @@ getClass class java.io.File
     \sizedcode{\scriptsize}{code/io/InputStream.java}
 
 
----	
+---
 
 
 ## `FileInputStream` e `ByteArrayInputStream`
@@ -355,17 +301,17 @@ getClass class java.io.File
 ## Uso di `ByteArrayInputStream`
 
 
-    
+
 ### `ByteArrayInputStream`
 
 
 
       *  crea un `InputStream` a partire da un `byte[]`
       *  è un wrapper
-    
 
 
-    
+
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseByteArrayStream.java" %}}
 ```
@@ -378,66 +324,66 @@ getClass class java.io.File
 ## Il costrutto `try-with-resources`
 
 
-    
+
 ### Costrutto `try-with-resources`
 
 
 
       *  vuole la creazione di un `java.lang.AutoCloseable` come primo argomento
-      *  ne assicura la chiusura 
+      *  ne assicura la chiusura
       *  si possono opzionalmente aggiungere delle `catch` di eccezioni
       *  andrebbe sempre usato..
-    
 
 
-    
+
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseTryWithResources.java" %}}
 ```
 
 
 
----	
+---
 
 
 
 ## Esempio `StreamDumper`
 
 
-    
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/StreamDumper.java" %}}
 ```
 
 
 
----	
+---
 
 
 ## `UseStreamDumper` -- uso uniforme di vari `InputStream`
 
 
-    
+
 ```java
 {{% import-raw from=6 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseStreamDumper.java" %}}
 ```
 
 
 
----	
+---
 
 
 ## La classe `java.io.OutputStream`
 
 
     \sizedcode{\scriptsize}{code/io/OutputStream.java}
-    
+
 ### Stream di uscita -- Duale all'`InputStream`
 
 
 
 	*  Esistono anche le analoghe specializzazioni `ByteArrayOutputStream` e `FileOutputStream`
-    
+
 
 
 
@@ -448,7 +394,7 @@ getClass class java.io.File
 ## `UseOutputStream`
 
 
-    
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseOutputStream.java" %}}
 ```
@@ -461,7 +407,7 @@ getClass class java.io.File
 ## `UseOutputStream2` -- qualche variante
 
 
-    
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseOutputStream2.java" %}}
 ```
@@ -475,7 +421,7 @@ getClass class java.io.File
 ## Salvataggio di strutture dati: `List<Byte>`
 
 
-    
+
 ```java
 {{% import-raw from=6 to=100 path="pss-code/src/main/java/it/unibo/io/files/ListOnFile.java" %}}
 ```
@@ -488,7 +434,7 @@ getClass class java.io.File
 ## Solo `byte`?
 
 
-    
+
 ### Problema...
 
 
@@ -496,10 +442,10 @@ getClass class java.io.File
 	*  Poter leggere e scrivere da uno `Stream` anche `int`, `long`, eccetera
 
 	%*  Nel caso nuove esigenze simili si debbano creare, non devono esserci interferenze o esplosione di classi
-    
 
 
-    
+
+
 ### Il concetto di decoratore
 
 
@@ -507,12 +453,12 @@ getClass class java.io.File
 	*  Si definisce `DataInputStream` che estende `InputStream`{
 
 	    *  e similmente `DataOutputStream` che estende `OutputStream`
-	
+
 }
 	*  Tale nuova classe comunque fa da wrapper per un `InputStream`, al quale delega le varie operazioni
 	*  Un oggetto di tale nuova classe è un decoratore per quello interno.. visto che ne modifica il funzionamento
 	*  Con questa tecnica è possibile decorare sia un `FileInputStream` che un `ByteArrayInputStream` -- o altri
-    
+
 
 
 
@@ -541,7 +487,7 @@ getClass class java.io.File
 ## `DataInputStream`
 
 
-    
+
 ```java
 {{% import-raw from=1 to=100 path="code/io/DataInputStream.java" %}}
 ```
@@ -554,7 +500,7 @@ getClass class java.io.File
 ## `DataOutputStream`
 
 
-    
+
 ```java
 {{% import-raw from=1 to=100 path="code/io/DataOutputStream.java" %}}
 ```
@@ -567,7 +513,7 @@ getClass class java.io.File
 ## `UseDataStream`
 
 
-    
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseDataStream.java" %}}
 ```
@@ -580,7 +526,7 @@ getClass class java.io.File
 ## Altra decorazione: `BufferedInputStream`, `BufferedOutputStream`
 
 
-    
+
 ### Esigenza
 
 
@@ -589,10 +535,10 @@ getClass class java.io.File
 	*  non legge un byte alla volta, ma riempie un buffer
 	*  questo aumenta le performance nell'accesso a file e rete
 	*  come fornire la funzionalità in modo ortogonale al resto della gestione degli stream?
-    
 
 
-    
+
+
 ### `BufferedInputStream`, `BufferedOutputStream`
 
 
@@ -600,7 +546,7 @@ getClass class java.io.File
 	*  sono ulteriori decoratori, della stessa forma dei precedenti
 	*  non aggiungono altri metodi
 	*  per come sono fatti i decoratori, possono essere usati in "cascata" a `DataInputStream` e `DataOutputStream`
-    
+
 
 
 
@@ -611,7 +557,7 @@ getClass class java.io.File
 ## `UseBufferedDataStream`
 
 
-    
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseBufferedDataStream.java" %}}
 ```
@@ -624,7 +570,7 @@ getClass class java.io.File
 ## `UseBufferedDataStream2` -- chaining dei costruttori
 
 
-    
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseBufferedDataStream2.java" %}}
 ```
@@ -647,7 +593,7 @@ getClass class java.io.File
 ## Altri decoratori di `InputStream` (..e `OutputStream`)
 
 
-    
+
 ### Sono molteplici, tutti usabili in combinazione
 
 
@@ -657,7 +603,7 @@ getClass class java.io.File
       *  `DeflateInputStream`: legge dati e li comprime in formato "deflate"
       *  `InflaterInputStream`: legge dati e li scompatta dal formato "deflate"
       *  `ProgressMonitorInputStream`: legge dati con possibilità di "unread"
-    
+
 
 
 
@@ -669,7 +615,7 @@ getClass class java.io.File
 ## Ancora sui decoratori
 
 
-    
+
 ### Pro e contro
 
 
@@ -678,10 +624,10 @@ getClass class java.io.File
 	*  Consentono di comporre funzionalità in modo piuttosto flessibile
 	*  Danno luogo a più flessibilità rispetto all'ereditarietà
 	*  Più complicati da usare e comprendere
-    
 
 
-    
+
+
 ### Con gli stream, è possibile comporre:
 
 
@@ -689,7 +635,7 @@ getClass class java.io.File
 	*  Uno stream di sorgente dati: `FileInputStream`, `ByteArrayInputStream`, ..
 	*  Uno (o più) stream di gestione interna: `BufferInputStream`, ..
 	*  Uno stream di presentazione dati: `DataInputStream`, `ObjectInputStream`, ..
-    
+
 
 
 
@@ -702,34 +648,34 @@ getClass class java.io.File
 ## File ed encoding
 
 
-    
+
 ### Il contenuto dei file
 
 
       Supponiamo utilizziate un `DataOutputStream` per scrivere in sequenza i numeri da 0 a 20 (escluso)
-        
+
 
             *  Che cosa avete realmente scritto?
             *  avete scritto i byte da zero a 19
             *  In esadecimale, `0x000102030405060708090A0B0C0D0E0F10111213`
             *  **Non** avete scritto il testo `012345678910111213141516171819`
-        
 
-    
 
-    
+
+
+
 
         *  I file sono sequenze di byte
         *  Per fare input/output occorre stabilire:
-        
+
 
           *  Una conversione dalla struttura dati che stiamo manipolando a sequenza di byte (encoding)
           *  Una conversione da sequenza di byte a struttura dati (decoding)
-        
+
 
         *  I `Data-Stream` offrono encoding e decoding per tipi primitivi
         *  Come trattare strutture dati più articolate?
-    
+
 
 
 
@@ -739,7 +685,7 @@ getClass class java.io.File
 ## Serializzazione di oggetti
 
 
-    
+
 ### Motivazioni
 
 
@@ -750,13 +696,13 @@ getClass class java.io.File
 
 	    *  serializza con relativa semplicità strutture di oggetti anche complicate
 	    *  a volte è fondamentale apportarvi correzioni ad-hoc
-	
+
 }
-	
-    
 
 
-    
+
+
+
 ### Ingredienti Serialization
 
 
@@ -766,7 +712,7 @@ getClass class java.io.File
 	    *  Keyword `transient` per campi che non devono essere serializzati
 	    *  Metodi `readObject` e `writeObject` (e altri) per modificare la serializzazione di default per un oggetto, o per motivi di sicurezza
 	    *  Meccanismo `UID` per gestire versioni diverse delle classi
-    
+
 
 
 
@@ -786,19 +732,19 @@ getClass class java.io.File
 ## Classe `Person` e l'interfaccia "tag" `Serializable`
 
 
-    
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/Persona.java" %}}
 ```
 
-    
+
 ### `Serializable` -- implementata già da molte classi, non `Object`
 
 
 
 	*  da implementare per avere oggetti "automaticamente" serializzabili
 	*  ciò non comporta alcun contratto da ottemperare
-    
+
 
 
 
@@ -809,7 +755,7 @@ getClass class java.io.File
 ## Classe `UseObjectStream`
 
 
-    
+
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseObjectStream.java" %}}
 ```
@@ -822,7 +768,7 @@ getClass class java.io.File
 ## Classe `UseObjectStream`: note
 
 
-    
+
 ### Note
 
 
@@ -831,12 +777,12 @@ getClass class java.io.File
 
 	  *  se la classe dell'oggetto non implementa `Serializable`
 	  *  la la classe dell'oggetto ha un campo che sia un oggetto non serializzabile
-	
+
 }
 	*  la `readObject()` fallisce se la classe dell'oggetto non è disponibile
 	*  la `readObject()` fallisce se la classe dell'oggetto è una versione diversa
-	
-    
+
+
 
 
 
@@ -847,7 +793,7 @@ getClass class java.io.File
 ## Come funzionano `writeObject()`/`readObject()`
 
 
-    
+
 ### `ObjectOutputStream.writeObject()`
 
 
@@ -856,10 +802,10 @@ getClass class java.io.File
 	*  Scrive sullo stream i campi dell'oggetto uno a uno <br> (di tipi primitivi o serializzabili a loro volta)
 	*  Si evitano i campi con modificatore `transient`
 	*  In questo processo, si evita di scrivere due volte uno stesso oggetto
-    
 
 
-    
+
+
 ### `ObjectInputStream.readObject()`
 
 
@@ -868,7 +814,7 @@ getClass class java.io.File
 	*  Chiama il costruttore senza argomenti della prima sopra-classe non serializzabile, e da lì in giù non chiama altri costruttori
 	*  Ripristina il valore dei campi leggendoli dallo stream
 	*  Lascia inalterati i campi `transient`
-    
+
 
 
 
@@ -879,26 +825,26 @@ getClass class java.io.File
 ## Il problema delle versioni di una classe: `serialVersionUID`
 
 
-    
+
 ### Problema
 
 
 
 	*  Si serializza un oggetto, la classe viene modificata e ricompilata, e quindi si ritira su l'oggetto..  i dati sarebbero facilmente "corrupted"
-    
 
 
-    
+
+
 ### Soluzione: ogni classe che implementa `Serializable`...
 
 
 
 	*  .. deve fornire una costante "`long serialVersionUID`" che contiene un numero univoco per quella versione della classe
 	*  Se non corrisponde a quello dell'oggetto caricato si ha eccezione
-    
 
 
-    
+
+
 ### Fatti
 
 
@@ -906,7 +852,7 @@ getClass class java.io.File
 	*  Se mancante Eclipse segnala warning. Può generarne uno a richiesta.
 	*  Se mancante la JVM ne calcola uno suo ma è sconsigliato.
 	*  Molti lasciano il campo al valore $1$, non preoccupandosene.
-    
+
 
 
 
@@ -917,7 +863,7 @@ getClass class java.io.File
 ## I campi `transient`
 
 
-    
+
 ### I campi `transient` non vengono serializzati. In quali casi servono?
 
 
@@ -926,7 +872,7 @@ getClass class java.io.File
 	*  Campi che contengono info specifiche sul run corrente della JVM (p.e., logs), e che quindi non avrebbero più senso quando l'oggetto viene recuperato dallo stream
 	*  Campi che contengono oggetti comunque non serializzabili (p.e., `Object`), e che quindi porterebbero ad una eccezione
 	*  Campi per i quali si vuole prevedere un meccanismo di serializzazione diverso
-    
+
 
 
 
@@ -937,7 +883,7 @@ getClass class java.io.File
 ## `CPersona` con caching `toString`, pt1
 
 
-    
+
 ```java
 {{% import-raw from=3 to=29 path="pss-code/src/main/java/it/unibo/io/trans/CPersona.java" %}}
 ```
@@ -950,7 +896,7 @@ getClass class java.io.File
 ## `CPersona` con caching `toString`, pt2
 
 
-    
+
 ```java
 {{% import-raw from=31 to=100 path="pss-code/src/main/java/it/unibo/io/trans/CPersona.java" %}}
 ```
@@ -963,7 +909,7 @@ getClass class java.io.File
 ## `UseTransient`
 
 
-    
+
 ```java
 {{% import-raw from=6 to=100 path="pss-code/src/main/java/it/unibo/io/trans/UseTransient.java" %}}
 ```
@@ -976,7 +922,7 @@ getClass class java.io.File
 ## Progettazione di una serializzazione ad-hoc
 
 
-    
+
 ### Serializzazione ad-hoc
 
 
@@ -985,17 +931,17 @@ getClass class java.io.File
 	*  A volte serve serializzare in modo diverso certi campi
 	*  È possibile definire per la classe serializzabile i metodi "`void readObject(ObjectInputStream in)`" e "`void writeObject(ObjectOutputStream out)`"
 	*  Se definiti, `ObjectInputStream` e `ObjectOutputStream` chiamano quelli
-    
 
 
-    
+
+
 ### Dettagli
 
 
 
 	*  Tali metodi possono cominciare con la chiamata a `defaultReadObject()`/`defaultWriteObject()`, per leggere i campi non-statici e non-transienti
 	*  Si può quindi proseguire scrivendo/leggendo negli stream in input quello che si vuole
-    
+
 
 
 
@@ -1006,7 +952,7 @@ getClass class java.io.File
 ## `APersona`: serializzazione ad-hoc per una data
 
 
-    
+
 ```java
 {{% import-raw from=6 to=35 path="pss-code/src/main/java/it/unibo/io/trans/APersona.java" %}}
 ```
@@ -1020,7 +966,7 @@ getClass class java.io.File
 ## `UseAdHocSerialization`
 
 
-    
+
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/io/trans/UseAdHocSerialization.java" %}}
 ```
@@ -1033,7 +979,7 @@ getClass class java.io.File
 ## Serializzazione ad-hoc per `java.util.ArrayList`, pt1
 
 
-    
+
 ```java
 {{% import-raw from=1 to=23 path="code/io/ArrayList.java" %}}
 ```
@@ -1046,7 +992,7 @@ getClass class java.io.File
 ## Serializzazione ad-hoc per `java.util.ArrayList`, pt2
 
 
-    
+
 ```java
 {{% import-raw from=25 to=100 path="code/io/ArrayList.java" %}}
 ```
@@ -1059,35 +1005,35 @@ getClass class java.io.File
 ## Note sulla serializzazione Java
 
 
-    
+
 ### Raramente utilizzata in applicazioni "vere"
 
 
         Applicazioni vere tendono a non utilizzare `Object`(`In`/`Out`)`putStream`:
-        
+
 
             *  Nessuna standardizzazione
             *  Poco efficiente in termini di spazio
             *  Dispendiosa in termini di performance
             *  Scarsa portabilità (solo da/a software Java)
             *  `readObject` / `writeObject` in qualche modo violano il linguaggio
-        
 
-    
 
-    
+
+
+
 ### Importanza di `Serializable`
 
 
         Approcci diversi alla serializzazione spesso:
-        
+
 
             *  Serializzano oggetti `Serializable` con campi `Serializable` e non `transient` (deve valere ricorsivamente)
             *  Prevedono sistemi custom per la serializzazione di oggetti diversi
             *  Non fanno uso di `readObject` / `writeObject`
-        
 
-    
+
+
 
 
 
@@ -1104,17 +1050,17 @@ getClass class java.io.File
 ## Classe `RandomAccessFile`
 
 
-    
+
 ### Motivazioni
 
 
 
 	*  Alcuni file sono di grosse dimensioni, e non vengo letti/scritti per intero come nei casi visti finora
 	*  Bensì si modifica qualche elemento "a metà", o se ne aggiungono in fondo, o si legge un elemento in una data posizione
-    
 
 
-    
+
+
 ### Classe `RandomAccessFile`
 
 
@@ -1127,9 +1073,9 @@ getClass class java.io.File
 	    *  `seek`: imposta la nuova posizione nel file
 	    *  `length`: torna la lunghezza del file
 	    *  `setLength`: imposta la lunghezza del file
-	
+
 }
-    
+
 
 
 
@@ -1149,7 +1095,7 @@ getClass class java.io.File
 ## `UseRandomAccessFile`
 
 
-    
+
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseRandomAccessFile.java" %}}
 ```
@@ -1171,33 +1117,33 @@ getClass class java.io.File
 
 
   Finora abbiamo visto stream binari, ed in particolare di oggetti Java
-  
+
 
     *  Non esiste uno standard documentato
-    
+
 
       *  Gli standard descrivono in modo inequivoco un protocollo (in questo caso di de/serializzazione)
       *  Difficile scrivere librerie per leggere e scrivere in quel formato
       *  Bassa **standardizzazione**
-    
+
 
     *  Non comprensibili da applicazioni non-Java
-    
+
 
       *  Oggetti serializzati non apribili da applicazioni in Javascript, Python, eccetera
       *  Non adatti e.g., per applicazioni web
       *  Bassa **portabilità**
-    
+
 
     *  Non comprensibili se aperti in formato testuale
-    
+
 
       *  Non modificabili da umani
       *  Non adatti e.g., per file di configurazione
       *  Bassa **leggibilità** e quindi **intelligibilità**
-    
 
-  
+
+
 
 
 
@@ -1207,37 +1153,37 @@ getClass class java.io.File
 ## Limitazione degli stream binari visti
 
 
-  
+
 ### Standardizzazione e portabilità
 
 
-    
+
 
       *  Non direttamente ascrivibili al formato binario
       *  (che comunque non aiuta...)
       *  Esistono standard portabili binari, come ProtocolBuffers
-    
 
-  
 
-  
+
+
+
 ### Leggibilità e intelligibilità
 
 
-    
+
 
       *  Problema comune a tutti i meccanismi finora visti
       *  Esistono standard per scrivere oggetti in formato testuale
       *  Problema da risolvere in due fasi:
-      
+
 
         *  Conversione da oggetto a stringa di testo e viceversa
         *  Conversione da stringa di testo a file e viceversa
-      
 
-    
 
-  
+
+
+
 
 
 
@@ -1247,43 +1193,43 @@ getClass class java.io.File
 ## Conversione da oggetto a stringa di testo e viceversa
 
 
-  
+
 
     *  Banale nel caso in cui l'oggetto sia una stringa
     *  Molto più complicato per strutture dati arbitrarie
     *  Passo necessario verso l'interoperabilità fra linguaggi
-  
 
-  
+
+
 ### (Alcuni) Formati standard per la conversione di oggetti in testo
 
 
-    
+
 
       *  JavaScript Object Notation -- JSON (RFC 7159)
-      
+
 
         *  Nato in seno a JavaScript (che non c'entra nulla con Java)
         *  Molto usato nel web
-      
+
 
       *  Tom's Obvious, Minimal Language -- TOML
-      
+
 
         *  Particolarmente indicato per file di configurazione
-      
+
 
       *  YAML Ain't Markup Language -- YAML
-      
+
 
         *  Superset di JSON dalla versione 1.2
         *  Supporto per funzioni avanzate (e.g. anchoring)
         *  Molto usato per file di configurazione complessi
-      
 
-    
 
-  
+
+
+
 
 
 
@@ -1295,46 +1241,46 @@ getClass class java.io.File
 
   Problema risolto con tabelle di conversione (text encoding)
 
-  Nota: importante anche per la rappr. **in memoria** dei caratteri 
-  
+  Nota: importante anche per la rappr. **in memoria** dei caratteri
+
 ### Text Encoding
 
 
-    
+
 
         *  ASCII (RFC 20)
-        
+
 
           *  l'encoding che usa il linguaggio C per i `char`
           *  1 byte per carattere (massimo 256 caratteri)
-        
+
 
         *  UTF-8 (RFC 3629)
-        
+
 
           *  Standard di fatto sul web, encoding di default in Linux
           *  encoding da usare per i sorgenti di codice
           *  da 1 a 4 byte per carattere
           *  Codifica 1.112.064 simboli
-        
+
 
         *  UTF-16 (RFC 2781)
-        
+
 
           *  Encoding in memoria delle `String` in Java
           *  2 o 4 byte per carattere
           *  Codifica 1.112.064 simboli
-        
+
 
         *  ISO Latin (ISO/IEC 8859-1:1998)
-        
+
 
           *  Encoding di default del testo in Windows
-        
 
-    
 
-  
+
+
+
 
 
 
@@ -1371,7 +1317,7 @@ getClass class java.io.File
 ## File di testo
 
 
-    
+
 ### File binari vs file di testo
 
 
@@ -1380,15 +1326,15 @@ getClass class java.io.File
 	*  Gli "stream di testo" hanno problematiche diverse:{
 
 	    *  sono sequenze di caratteri
-	    *  la codifica (UTF-8, UTF-16, ASCII) potrebbe variare 
+	    *  la codifica (UTF-8, UTF-16, ASCII) potrebbe variare
 	    *  la codifica potrebbe dettare anche i codici speciali di "a capo" etc.
-	
+
 }
 	*  Questa gestione richiede classi specifiche
-    
 
 
-    
+
+
 ### `Reader` (e `Writer)`
 
 
@@ -1398,7 +1344,7 @@ getClass class java.io.File
 	*  `BufferedReader`: decoratore per ottimizzare gli accessi
 	*  `InputStreamReader`: decoratore che incapsula un `InputStream`
 	*  `FileReader`: sua estensione per leggere da file via `FileInputStream`
-    
+
 
 
 
@@ -1418,7 +1364,7 @@ getClass class java.io.File
 ## Esempio: `UseReadersWriters`
 
 
-    
+
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseReadersWriters.java" %}}
 ```
@@ -1431,7 +1377,7 @@ getClass class java.io.File
 ## Esempio: `UseStreamReadersWriters`
 
 
-    
+
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseStreamReadersWriters.java" %}}
 ```
@@ -1444,7 +1390,7 @@ getClass class java.io.File
 ## Il caso di: `System.in` e `System.out`
 
 
-    
+
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/io/files/SystemInOut.java" %}}
 ```
@@ -1457,44 +1403,44 @@ getClass class java.io.File
 ## Riassunto classi
 
 
-  
+
 ### Identificazione di un file (o directory)
 
 
 
     *  `File`
-  
 
 
-  
+
+
 ### Accesso random
 
 
 
     *  `RandomAccessFile`
-  
 
 
-  
+
+
 ### Lettura di file dati (scrittura duale)
 
 
 
     *  `FileInputStream` + `BufferedInputStream` + `DataInputStream`
     *  `FileInputStream` + `BufferedInputStream` + `ObjectInputStream`
-  
 
 
-  
+
+
 ### Lettura di file di testo (scrittura duale)
 
 
 
     *  `FileReader` + `BufferedReader`
     *  `FileInputStream` + `InputStreamReader` + `BufferedReader`
-  
 
-  
+
+
 
 
 ---
