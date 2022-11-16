@@ -1,1 +1,1 @@
-public interface Set<E> extends Collection<E>{}
+public interface Set<E> extends Collection<E> { }
