@@ -48,314 +48,189 @@ aliases = ["/io/"]
 
 ---
 
-
-## I macro-elementi della libreria
-
-
-
-### Outline della lezione
-
-
-
-	*  File
-	*  Stream di ingresso e uscita
-	*  File ad accesso "random"
-	*  Stream di oggetti e serializzazione
-	*  Reader e Writer di testi
-
-
-
-
+# File e loro proprietà
 
 ---
-
-\section[File e proprietà]{File e loro proprietà}
-
 
 ## I File
 
-
-
 ### File system
-
-
-
-	*  Il file system è un modulo del S.O. che gestisce la memoria secondaria
-	*  Maschera le diversità di dispositivi fisici (HD, CD, DVD, BR, SSD,..)
-	*  Maschera le diversità di contenuti informativi (testi, filmati, archivi,..)
-	*  Fornisce meccanismi per fornire prestazioni, concorrenza, robustezza
-
-
-
+* Il file system è un modulo del S.O. che gestisce la memoria secondaria
+* Maschera le diversità di dispositivi fisici (HD, CD, DVD, BR, SSD,..)
+* Maschera le diversità di contenuti informativi (testi, filmati, archivi,..)
+* Fornisce meccanismi per fornire prestazioni, concorrenza, robustezza
 
 ### File
-
-
-
-	*  Un file system contiene un insieme di *__file__*
-	*  Un file ha un contenuto informativo, ossia un insieme di byte{
-
-	    *  interpretabili in vario modo (testi, programmi, strutture dati)
-	    *  potrebbe essere un file virtuale, che mappa un dispositivo
-	    *  un caso particolare è la directory (ossia una tabella di ID di file)
-
-}
-	*  Si ha una organizzazione gerarchica in cartelle (un file ha un path)
-	*  Un file ha un ID, nome, percorso, diritti di accesso, dimensione, \ldots{}
-
-
-
-
+* Un file system contiene un insieme di *__file__*
+* Un file ha un contenuto informativo che si esprime come sequenza di byte
+  * interpretabili in vario modo (testi, programmi, strutture dati)
+  * potrebbe essere un file virtuale, che mappa un dispositivo
+  * un caso particolare è la **directory** (ossia una tabella di ID di file)
+  * può avere specifici diritti di accesso (sola lettura, lettura/scrittura, eseguibilità...)
+* Le **directory** consentono un'organizzazione gerarchica (ogni file ha un percorso o *path*)
 
 ---
-
 
 ## La classe `java.io.File`
 
-
-
 ### Usi
-
-
-
-        *  Serve a identificare un preciso file su file systems
-        *  Permette di ottenere informazioni varie sul file
-        *  Permette di effettuare alcune operazioni complessive (cancellazione, renaming)
-        *  Permette di impostare alcune proprietà (se eseguibile, se scrivibile)
-        *  Permette di ottenere informazioni generali sul file systems
-        *  Permette di creare cartelle
-        * $\Rightarrow$ non include operazioni per accedere al suo contenuto, ma vi si potrà agganciare uno stream
-
-
-
-
+* Serve a *identificare* un preciso file su file systems
+* Permette di ottenere *informazioni* varie sul file
+* Permette di effettuare alcune operazioni sull'intero file
+  * cancellazione
+  * spostamento (rinominazione)
+* Permette di impostare alcune proprietà (se eseguibile, se scrivibile)
+* Permette di ottenere informazioni generali sul file system
+* Permette di creare cartelle
+* $\Rightarrow$ *non include operazioni per accedere al suo contenuto*, ma vi si potrà agganciare uno *stream*
 
 ---
 
-
-
 ## Classe `java.io.File`: pt1
-
-
 
 ```java
 {{% import-raw from=1 to=28 path="code/io/File.java" %}}
 ```
-
-
-
 ---
 
-
 ## Classe `java.io.File`: pt2
-
-
 
 ```java
 {{% import-raw from=30 to=100 path="code/io/File.java" %}}
 ```
 
-
-
 ---
-
-
-## `java.io.File` in azione (modella un path su File System)
-
-
-
-```java
-{{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseFile.java" %}}
-```
-
-
-
----
-
-
-
-frametitle{Esempio di output}
-\begin{lstlisting}[basicstyle=\ssmall\ttfamily]
-getName prova.bin
-getParent /home/mirko/aula/15
-isAbsolute true
-getCanonicalPath /home/mirko/aula/15/prova.bin
-getPath /home/mirko/aula/15/prova.bin
-getParentFile /home/mirko/aula/15
-getAbsolutePath /home/mirko/aula/15/prova.bin
-getAbsoluteFile /home/mirko/aula/15/prova.bin
-getCanonicalFile /home/mirko/aula/15/prova.bin
-canRead true
-canWrite true
-isDirectory false
-isFile true
-isHidden false
-canExecute false
-getTotalSpace 53616242688
-getFreeSpace 14087458816
-getUsableSpace 11357081600
-getClass class java.io.File
-\end{lstlisting}
-
----
-
 
 ## Accedere al contenuto di un file
 
-
-
 ### Come fare?
-
-
-
-	*  Un file ha un contenuto informativo (potenzialmente di grosse dimensioni)
-	*  Lo si potrebbe leggere (in vari modi)
-	*  Lo si potrebbe scrivere (in vari modi)
-	*  Il suo contenuto potrebbe essere interpretabile in vari modi
-
-
-
+* Un file ha un contenuto informativo (potenzialmente di grosse dimensioni)
+* Lo si potrebbe leggere (in vari modi)
+* Lo si potrebbe scrivere (in vari modi)
+* Il suo contenuto potrebbe essere interpretabile in vari modi
 
 ### Alcuni di tali concetti sono condivisi con altri meccanismi
+* Risorse interne al classpath Java
+* Networking e file di rete
+* Archivi su database
+* Depositi di informazione in memoria
 
 
-
-	*  Risorse interne al classpath Java
-	*  Networking e file di rete
-	*  Archivi su database
-	*  Depositi di informazione in memoria
-
-
-
-
-
-	Il concetto di *__input/output-stream__* è usato come astrazione unificante
-
-
-
+#### Il concetto di *__input/output-stream__* è usato come astrazione unificante
 
 ---
-
 
 # Input/OutputStream
 
 ---
 
-
-
 ## Overview sugli `InputStream` e `OutputStream` in Java
 
-
-
 ### `InputStream` e `OutputStream`
-
-
-
-	*  Stream = flusso (di dati)
-	*  Di base, gestiscono flussi binari (di `byte`) leggibili vs. scrivibili
-	*  Sono classi astratte (e non interfacce..)
-	*  Possono essere specializzate da "sottoclassi" e "decorazioni", tra cui{
-
-        *  Per diverse sorgenti e destinazioni di informazione, ad esempio su file (`FileInputStream`) o su memoria (`ByteArrayInputStream`)
-        *  Per diversi formati di informazione, ad esempio valori primitivi (`DataInputStream`) o interi oggetti Java (`ObjectInputStream`)
-	    \item[$\Rightarrow$]..e corrispondenti versioni `Output`
-
-}
-
-
-
+* Stream = flusso (di dati)
+* Di base, gestiscono flussi binari (di `byte`) leggibili vs. scrivibili
+* Sono classi astratte (e non interfacce..)
+* Possono essere specializzate da "sottoclassi" e "decorazioni", tra cui
+  * Per diverse sorgenti e destinazioni di informazione
+    * su file (`File`(`In`|`Out`)`putStream`)
+    * su memoria (`ByteArray`(`In`|`Out`)`putStream`)
+  * Per tipo di informazione:
+    * valori primitivi (`Data`(`In`|`Out`)`putStream`)
+    * interi oggetti Java (`Object`(`In`|`Out`)`putStream`)
+    * archivi compressi (`Zip`(`In`|`Out`)`putStream`)
 
 ### Tipicamente usati per alimentare altre classi
 
-
-
-	*  File di testo (`Reader`, `Writer`, e specializzazioni)
-
-    *  Librerie avanzate comunemente usate per l'accesso al file system tipicamente hanno metodi che accettano (`In`/`Out`)`putStream`
-
-
-
-
+*  File di testo (`Reader`, `Writer`, e specializzazioni)
+  *  Librerie avanzate comunemente usate per l'accesso al file system tipicamente hanno metodi che accettano (`In`|`Out`)`putStream`
 
 ---
 
-
 ## La classe `java.io.InputStream`
 
+```java
+public abstract class InputStream implements Closeable {
+    // Reads the next byte (0 to 255, -1 is end-of-stream)
+    public abstract int read() throws IOException;
 
-    \sizedcode{\scriptsize}{code/io/InputStream.java}
+    public int read(byte b[]) throws IOException {...}
 
+    public int read(byte b[], int off, int len) throws IOException {...}
+
+    public long skip(long n) throws IOException {...}
+
+    public int available() throws IOException {...}
+
+    public void close() throws IOException {...}
+
+    public synchronized void mark(int readlimit) {...}
+
+    public synchronized void reset() throws IOException {...}
+
+    public boolean markSupported() {...}
+}
+```
 
 ---
 
 
 ## `FileInputStream` e `ByteArrayInputStream`
 
-
-    ![](img/bytefile.png)
-
+```mermaid
+classDiagram
+class InputStream {
+  read() int
+  read(byte b[]) int
+  read(byte b[], int off, int len) int
+  skip(long n) long
+  available() int
+  close() void
+}
+class FileInputStream {
+  getChannel() FileChannel
+  getFD() FileDescriptor
+}
+class ByteArrayInputStream {
+  readAllBytes() byte[]
+  readNBytes(byte[] b, int off, int len) int
+}
+InputStream <|-- FileInputStream
+InputStream <|-- ByteArrayInputStream
+```
 
 ---
 
-
 ## Uso di `ByteArrayInputStream`
-
-
-
 ### `ByteArrayInputStream`
-
-
-
-      *  crea un `InputStream` a partire da un `byte[]`
-      *  è un wrapper
-
-
-
+* crea un `InputStream` a partire da un `byte[]`
 
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseByteArrayStream.java" %}}
 ```
 
-
+Notare che il `main` *può lanciare* `IOException`!
 
 ---
 
-
 ## Il costrutto `try-with-resources`
-
-
-
-### Costrutto `try-with-resources`
-
-
-
-      *  vuole la creazione di un `java.lang.AutoCloseable` come primo argomento
-      *  ne assicura la chiusura
-      *  si possono opzionalmente aggiungere delle `catch` di eccezioni
-      *  andrebbe sempre usato..
-
-
-
+* vuole la creazione di un `java.lang.AutoCloseable` come primo argomento
+* ne assicura la chiusura
+* si possono opzionalmente aggiungere delle `catch` di eccezioni
+* è il modo preferibile di utilizzare risorse in Java!
 
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseTryWithResources.java" %}}
 ```
 
-
+Notare che il `main` *non lancia più* `IOException`!
 
 ---
 
-
-
 ## Esempio `StreamDumper`
-
-
 
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/StreamDumper.java" %}}
 ```
-
-
 
 ---
 
@@ -365,7 +240,7 @@ getClass class java.io.File
 
 
 ```java
-{{% import-raw from=6 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseStreamDumper.java" %}}
+{{% import-raw from=12 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseStreamDumper.java" %}}
 ```
 
 
