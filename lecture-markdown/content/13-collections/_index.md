@@ -349,10 +349,11 @@ final Set<String> names = new HashSet<>();
 
 ### Quale funzione di hashing?
 
-*  oggetti `equals` devono avere lo stesso `hashCode`
-*  non è detto il viceversa, ma è opportuno per avere buone performance di `HashSet`
-*  si veda ad esempio: [https://en.bitcoinwiki.org/wiki/Java_hashCode()](https://en.bitcoinwiki.org/wiki/Java_hashCode())
-*  Alcuni IDE forniscono la generazione di un `hashCode` ragionevole
+* oggetti `equals` devono avere lo stesso `hashCode`
+* non è detto il viceversa, ma è opportuno per avere buone performance di `HashSet`
+* è possibile implementare un buon `hashCode()` sfruttando il metodo di libreria
+   [`Objects.hash(Object...)`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Objects.html#hash(java.lang.Object...))
+    * andranno passati come argomenti tutti i campi che vengono controllati nella `equals`
     * ne esistono di migliori, per applicazioni che hanno bisogno di alte performance: (`djb2`, `murmur3`)
 
 ---
