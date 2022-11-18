@@ -101,6 +101,14 @@ aliases = ["/io/"]
 
 ---
 
+## Esempio di utilizzo di File: cercare file con una certa enstensione dentro una directory
+
+```java
+{{% import-raw path="pss-code/src/main/java/it/unibo/io/files/FileUtil.java" %}}
+```
+
+---
+
 ## Accedere al contenuto di un file
 
 ### Come fare?
@@ -205,10 +213,8 @@ InputStream <|-- ByteArrayInputStream
 * crea un `InputStream` a partire da un `byte[]`
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseByteArrayStream.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/io/files/UseByteArrayStream.java" %}}
 ```
-
-Notare che il `main` *può lanciare* `IOException`!
 
 ---
 
@@ -219,56 +225,62 @@ Notare che il `main` *può lanciare* `IOException`!
 * è il modo preferibile di utilizzare risorse in Java!
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseTryWithResources.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/io/files/UseTryWithResources.java" %}}
 ```
-
-Notare che il `main` *non lancia più* `IOException`!
 
 ---
 
 ## Esempio `StreamDumper`
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/StreamDumper.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/io/files/StreamDumper.java" %}}
 ```
 
 ---
-
 
 ## `UseStreamDumper` -- uso uniforme di vari `InputStream`
 
-
-
 ```java
+{{% import-raw from=1 to=2 path="pss-code/src/main/java/it/unibo/io/files/UseStreamDumper.java" %}}
+import ...
+
 {{% import-raw from=12 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseStreamDumper.java" %}}
 ```
 
-
-
 ---
-
 
 ## La classe `java.io.OutputStream`
 
+```java
+public abstract class OutputStream implements Closeable, Flushable{
+    /**
+     * ..The byte to be written is the eight
+     * low-order bits of the argument <code>b</code>. The 24
+     * high-order bits of <code>b</code> are ignored.
+     */
+    public abstract void write(int b) throws IOException;
 
-    \sizedcode{\scriptsize}{code/io/OutputStream.java}
+    public void write(byte b[]) throws IOException {...}
+
+    public void write(byte b[], int off, int len) throws IOException {...}
+
+    public void flush() throws IOException {...}
+
+    public void close() throws IOException {...}
+}
+```
 
 ### Stream di uscita -- Duale all'`InputStream`
 
-
-
-	*  Esistono anche le analoghe specializzazioni `ByteArrayOutputStream` e `FileOutputStream`
-
-
-
-
+*  Esistono anche le analoghe specializzazioni `ByteArrayOutputStream` e `FileOutputStream`
 
 ---
 
 
+
+
+
 ## `UseOutputStream`
-
-
 
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/io/files/UseOutputStream.java" %}}
