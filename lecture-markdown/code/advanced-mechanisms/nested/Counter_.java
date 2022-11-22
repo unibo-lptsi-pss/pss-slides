@@ -1,5 +1,4 @@
 public class Counter {
-	
 	private int value; // o protected..
 
 	public Counter(int initialValue) {
@@ -13,12 +12,12 @@ public class Counter {
 	public int getValue() {
 		return this.value;
 	}
-	
-	public static class Multi extends Counter{
+
+	public static class Multi extends Counter {
 	    ... // solito codice
 	}
-	
-	public static class Bidirectional extends Counter{
+
+	public static class Bidirectional extends Counter {
 	    ... // solito codice
 	}
 }

@@ -55,24 +55,25 @@ aliases = ["/advanced-mechanisms-nested-enums/"]
 
 
 
+## Classi innestate statiche -- idea e terminologia
 
-frametitle{Classi innestate statiche -- idea e terminologia}
   
 ### Principali elementi
 
 
 
-    *  Dentro una classe `A`, chiamata *__outer__* è possibile innestare la definizione di un'altra classe `B`, chiamata *__innestata (statica)__* -- in inglese, *__static nested__*
-    *  `B` viene quindi vista come se fosse una proprietà `statica` di `A` (richiamabile via `A`, come: tipo, per le `new` e le chiamate statiche)
-  
+*  Dentro una classe `A`, chiamata *__outer__* è possibile innestare la definizione di un'altra classe `B`, chiamata *__innestata (statica)__* -- in inglese, *__static nested__*
+*  `B` viene quindi vista come se fosse una proprietà `statica` di `A` (richiamabile via `A`, come: tipo, per le `new` e le chiamate statiche)
+
 
 
 ```java
 // situazione di partenza
 class A {...}
 class B {...}
-\end{lstlisting}
-\begin{lstlisting}
+```
+
+```java
 // modifica, usando le inner class
 class A {
     ...
@@ -89,18 +90,18 @@ class A {
 
 
 
-    *  Anche una interfaccia può fungere da `Outer`
-    *  Si possono innestare anche interfacce
-    *  Il nesting può essere multiplo e/o multilivello
-    *  L'accesso alle classi/interfacce innestate statiche avviene con sintassi `Outer.A`, `Outer.B`, `Outer.I`, `Outer.A.C`
+*  Anche una interfaccia può fungere da `Outer`
+*  Si possono innestare anche interfacce
+*  Il nesting può essere multiplo e/o *multilivello*
+*  L'accesso alle classi/interfacce innestate statiche avviene con sintassi `Outer.A`, `Outer.B`, `Outer.I`, `Outer.A.C`
   
 
 ```java
 class Outer {
     ...
-    static class A { .. static class C{..} ..}
-    static class B {..}
-    interface I {..} // static è implicito
+    static class A { ... static class C { ... } ... }
+    static class B { ... }
+    interface I { ... } // static è implicito
 }
 ```
 
@@ -113,10 +114,10 @@ class Outer {
 
 ### Uso
 
-*  L'accesso alle classi/interfacce innestate statiche avviene con sintassi `Outer.StaticNested`
+*  L'accesso alle classi/interfacce innestate statiche avviene con sintassi `Outer.StaticNested` (ovvero, come se fosse un membro della classe)
 *  Da dentro `Outer` si può accedere anche direttamente con `StaticNested`
 *  L'accesso da fuori `Outer` di `StaticNested` segue le regole del suo modificatore d'accesso
-*  Esterna e interna si vedono a vicenda anche le proprietà `private`
+*  *Esterna e interna si vedono a vicenda anche le proprietà `private`*
   
 
 ```java
@@ -147,10 +148,11 @@ Vi sono situazioni in cui per risolvere un singolo problema è opportuno generar
 
 
 
-*  Evitare il proliferare di classi in un package, specialmente quando solo una di queste debba essere pubblica
-*  Migliorare l'incapsulamento, con un meccanismo per consentire un accesso locale anche a proprietà `private`
-*  Migliorare la leggibilità, inserendo classi là dove serve (con nomi qualificati, quindi più espressivi)
-*  ..meglio comunque non abusare di questo meccanismo
+1.  *Evitare il proliferare di classi* in un package, specialmente quando solo una di queste debba essere pubblica
+2.  Migliorare l'*incapsulamento*, con un meccanismo per consentire un accesso locale anche a proprietà `private`
+3.  Migliorare la *leggibilità*, inserendo classi là dove serve (con *nomi qualificati*, quindi più espressivi)
+
+*  ... meglio comunque non abusare di questo meccanismo
   
 
 
@@ -233,7 +235,7 @@ Un sintomo della possibilità di usare le classi nested per questo caso è quand
 
 
     
-### Necessità di una classe separata ai fini di ereditaerità
+### Necessità di una classe separata ai fini di ereditarietà
 
 
 In una classe potrebbero servire sotto-comportamenti che debbano:
@@ -419,8 +421,8 @@ In tal caso spesso tale classe separata non deve essere visibile dall'esterno, q
 
 
 
-    *  Una mappa può essere vista come una collezione di coppie chiave-valore, ognuna incapsulata in un `Map.Entry`
-    *  Quindi, una mappa è composta da un set di `Map.Entry`
+*  Una mappa può essere vista come una collezione di coppie chiave-valore, ognuna incapsulata in un `Map.Entry`
+*  Quindi, una mappa è composta da un set di `Map.Entry`
 
 
 
@@ -592,7 +594,7 @@ class Outer {
 
   
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/advancedmechanisms/nested/Range2.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/advancedmechanisms/nested/Range2.java" %}}
 ```
 
 
@@ -613,7 +615,7 @@ class Outer {
 
 
 
-*  Dentro un metodo di una classe `Outer`, è possibile innestare la definizione di un'altra classe `LocalClass`, senza indicazione `static`!
+*  *Dentro un metodo* di una classe `Outer`, è possibile innestare la definizione di un'altra classe `LocalClass` <!-- , senza indicazione `static`! -->
 *  La `LocalClass` è a tutti gli effetti una inner class (e quindi ha enclosing instance)
 *  In più, la `LocalClass` "vede" anche le variabili nello scope del metodo in cui è definita, *__usabili solo se final__*, o se "di fatto finali"
   
@@ -623,11 +625,11 @@ class Outer {
 class Outer {
     // ...
     void m(final int x){
-        final String s=..;
+        final String s = /* ... */;
         class LocalClass { // Nota.. non è static!
-        // ... // può usare Outer.this, s e x
+            // ... può usare Outer.this, s e x
         }
-        LocalClass c=new LocalClass(...);
+        LocalClass c = new LocalClass(...);
     }
 }
 ```
@@ -656,7 +658,7 @@ class Outer {
 
 
 
-*  Tale classe è necessaria solo dentro ad un metodo, e lì la si vuole confinare
+*  Tale classe è *necessaria solo dentro ad un metodo, e lì la si vuole confinare*
 *  È eventualmente utile accedere anche alle variabili del metodo
     
 
@@ -666,7 +668,7 @@ class Outer {
 
 
 
-*  Mai viste usarle.. si usano invece le classi anonime..
+*  Mai viste usarle.. si usano invece le *classi anonime*...
     
 
 
@@ -687,19 +689,19 @@ class Outer {
 
 
 
-    *  Con una variante dell'istruzione `new`, è possibile innestare la definizione di un'altra classe senza indicarne il nome
+*  Con una variante dell'istruzione `new`, è possibile innestare la definizione di un'altra classe senza indicarne il nome
     *  In tale definizione non possono comparire costruttori
-    *  Viene creata al volo una classe locale, e da lì se ne crea un oggetto
+*  Viene creata al volo una classe locale, e da lì se ne crea un oggetto
     *  Tale oggetto, come per le classi locali, ha enclosing instance e "vede" anche le variabili *__final__* (o di fatto finali) nello scope del metodo in cui è definita
-  
+
 
 
 ```java
 class C {
     // ...
-    Object m(final int x){
-        return new Object(){
-             public String toString(){ return "Valgo "+x; }
+    Object m(final int x) {
+        return new Object() {
+             public String toString() { return "Valgo " + x; }
         }
     }
 }
@@ -777,11 +779,11 @@ Utili quando si vuole isolare un sotto-comportamento in una classe a sé, senza 
 
 
 
-*  Si sceglie uno dei quattro casi a seconda della visibilità che la inner class deve avere/dare{
-    *  static nested class: solo parte statica
-    *  inner class: anche enclosing class, accessibile ovunque dall'outer
-    *  local class: anche argomenti/variabili, accessibile da un solo metodo
-    *  anonymous class: per creare un oggetto, senza un nuovo costruttore
+*  Si sceglie uno dei quattro casi a seconda della visibilità che la inner class deve avere/dare
+    1.  *static nested class*: solo parte statica
+    2.  *inner class*: anche enclosing class, accessibile ovunque dall'outer
+    3.  *local class*: anche argomenti/variabili, accessibile da un solo metodo
+    4.  *anonymous class*: per creare un oggetto, senza un nuovo costruttore
 
 
 ---
@@ -904,7 +906,7 @@ Utili quando si vuole isolare un sotto-comportamento in una classe a sé, senza 
 
 
 ```java
-{{% import-raw from=3 to=100 path="code/advanced-mechanisms/enums/PersonaBis_2.java" %}}
+{{% import-raw from=1 to=100 path="code/advanced-mechanisms/enums/PersonaBis_2.java" %}}
 ```
 
 ---
@@ -949,7 +951,7 @@ Utili quando si vuole isolare un sotto-comportamento in una classe a sé, senza 
 
 
     
-### altri approcci: uso di classi diverse per ogni valore
+### Altri approcci: uso di classi diverse per ogni valore
 
 
 
@@ -1013,9 +1015,8 @@ Utili quando si vuole isolare un sotto-comportamento in una classe a sé, senza 
 
 
 
-*  Andrebbero usate per insiemi di valori che difficilmente cambieranno in futuro
-*  Difficile modificare il codice successivamente
-    
+*  Andrebbero usate *per insiemi di valori che difficilmente cambieranno in futuro*
+    *  Difficile modificare il codice successivamente (!)  
 
 
 

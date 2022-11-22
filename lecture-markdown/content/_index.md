@@ -38,12 +38,14 @@ outputs = ["Reveal"]
 1. [Collezioni](collections/)
 1. [Eccezioni](exceptions/)
 1. [Input/Output](io/)
-1. [Meccanismi avanzati: classi innestate, enum](advanced-mechanisms-nested-enums/)
 1. [Lambda e funzioni first-class](lambdas/)
-1. [Stream e manipolazione di flussi di dati](stream/)
 1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
 
-<!-- 1. [Collezioni generiche, erasure, e wildcard](generic-collections-advanced/) -->
+<!-- 
+1. [Meccanismi avanzati: classi innestate, enum](advanced-mechanisms-nested-enums/) 
+1. [Stream e manipolazione di flussi di dati](stream/)
+1. [Collezioni generiche, erasure, e wildcard](generic-collections-advanced/) 
+-->
 
 </div></div>
 
