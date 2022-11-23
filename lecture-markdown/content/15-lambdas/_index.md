@@ -87,58 +87,69 @@ aliases = ["/lambdas/"]
 ---
 
 
-## Preview 1: strategie funzionali
+## Da classi/metodi alle lambda: il caso dei comparatori
 
+---
 
+### Comparatori definiti attraverso classi
+
+{{% smaller %}}
     
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/FirstComparable.java" %}}
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableBasic.java" %}}
 ```
 
-
+{{% /smaller %}}
 
 ---
 
+### Comparatori definiti attraverso classi innestate
 
-## Handler eventi senza lambda
+- Una **classe innestata statica** `B` (*static nested*) è definita all'interno di un'altra classe `A`
+    - Dunque ci si può riferire ad essa via `A.B` (secondo regole di visibilità), o direttamente via `B` da dentro la classe `A`
 
-
-  
-```java
-{{% import-raw from=8 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/UseButtonEvents.java" %}}
-```
+{{% smaller %}}
     
+```java
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableNested.java" %}}
+```
 
+{{% /smaller %}}
 
 ---
 
 
-## Preview 2: handler eventi con le lambda
+### Comparatori definiti attraverso classi anonime
 
+- Una **classe anonima** è una classe definita "al volo" (senza fornirne dunque un nome) e immediatamente istanziata
+    *  Si vuole evitare la proliferazione di classi
+    *  Tipicamente: per implementare "al volo" una interfaccia
 
-  
-```java
-{{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/UseButtonEventsWithLambda.java" %}}
-```
+{{% smaller %}}
     
-
-
----
-
-
-
-## Preview 3: iterazioni "dichiarative" con gli *__stream__*
-
-
-  
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/FirstStream.java" %}}
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableWithAnonymousClasses.java" %}}
 ```
-      
 
+{{% /smaller %}}
 
 ---
 
+
+### Comparatori attraverso lambda
+
+- Una **lambda** è una *funzione anonima*, creata "al volo"
+    - internamente implementata come *istanza* di un'**interfaccia funzionale** (un'interfaccia che definisce un solo metodo astratto)
+
+{{% smaller %}}
+    
+```java
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableWithLambdas.java" %}}
+```
+
+{{% /smaller %}}
+
+---
 
 # Lambda expressions
 
@@ -154,11 +165,11 @@ aliases = ["/lambdas/"]
 
 
 
-*  è una funzione (anonima) con accesso ad uno scope locale
+*  è una *funzione (anonima)* con *accesso ad uno scope locale* (cf. *closure*)
 *  è applicabile a certi input, e dà un risultato (oppure `void`)
-*  per calcolare il risultato potrebbe usare qualche variabile nello scope in cui è definita
-*  la lambda è usabile come "valore" (quindi, come dato), ossia è passabile a metodi, altre funzioni, o memorizzata in variabili/campi
-*  ossia si può "passare" del "codice"
+    *  per calcolare il risultato potrebbe usare qualche variabile nello scope in cui è definita
+*  la lambda è *usabile come "valore"* (quindi, come dato), ossia è passabile a metodi, altre funzioni, o memorizzata in variabili/campi
+    *  ossia, consente di "passare" del "codice"
   
 
 
@@ -218,7 +229,7 @@ aliases = ["/lambdas/"]
 
   
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/AllLambdas.java" %}}
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FilteringWithLambdas.java" %}}
 ```
       
 
@@ -292,9 +303,8 @@ aliases = ["/lambdas/"]
 
 
 
-*  Una lambda può essere passata dove ci si attende un oggetto che implementi una interfaccia funzionale
-*  C'è compatibilità se i tipi in input/output della lambda (inferiti o non) sono compatibili con quelli dell'unico metodo dell'interfaccia
-
+*  Una lambda può essere passata *dove ci si attende un oggetto che implementi una interfaccia funzionale*
+    *  C'è compatibilità se i tipi in input/output della lambda (inferiti o non) sono compatibili con quelli dell'unico metodo dell'interfaccia
 
 
   
@@ -302,8 +312,8 @@ aliases = ["/lambdas/"]
 
 
 
-*  Di fatto, il compilatore traduce la lambda nella creazione di un oggetto di una classe anonima che implementa l'interfaccia funzionale
-*  Uno specifico opcode a livello di bytecode evita di costruirsi effettivamente un `.class` per ogni lambda
+*  Di fatto, *il compilatore traduce la lambda nella creazione di un oggetto di una classe anonima che implementa l'interfaccia funzionale*
+    *  Uno specifico opcode a livello di bytecode evita di costruirsi effettivamente un `.class` per ogni lambda
 
 
   
@@ -343,19 +353,6 @@ aliases = ["/lambdas/"]
 ---
 
 
-## Lambda che accedono al loro scope
-
-
-    
-```java
-{{% import-raw from=8 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/ChangeButton.java" %}}
-```
-
-
-
----
-
-
 
 ## Metodi `default` nelle interfacce
 
@@ -367,7 +364,8 @@ aliases = ["/lambdas/"]
 
 *  sintassi: `interface I { ... default int m(){ ... } }`
 *  significato: non è necessario implementarli nelle sottoclassi
-*  .. è possibile avere anche metodi statici
+
+<!-- *  .. è possibile avere anche metodi statici -->
 
 
 
@@ -378,8 +376,8 @@ aliases = ["/lambdas/"]
 
 *  consente di aggiungere metodi a interfacce senza rompere la compatibilità con classi esistenti che le implementano
 *  fornire "behaviour" ereditabile in modalità multipla
-*  costruire più facilmente interfacce funzionali: *__queste devono in effetti avere un unico metodo senza default__*
-*  consente di realizzare il patter template method solo con interfacce
+*  *costruire più facilmente interfacce funzionali*: *__queste devono in effetti avere un unico metodo senza default__*
+*  consente di realizzare il pattern template method solo con interfacce
 
 
 
@@ -390,66 +388,21 @@ aliases = ["/lambdas/"]
 
 *  `Iterable`, `Iterator`, `Collection`, `Comparator`
 
-
-
-
-
 ---
 
+##  Annotazione `@FunctionalInterface`
 
-
-## Esempio `SimpleIterator`
-
-
-    
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/interfaces/SimpleIterator.java" %}}
-```
-
-    
-```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/lambdas/interfaces/UseSimpleIterator.java" %}}
-```
-
-
-
----
-
-
-## Annotazione `@FunctionalInterface`
-
-
-  
-### Uso
-
-
-
-*  da usare opzionalmente per interfacce funzionali
-*  il compilatore la usa per assicurarsi che l'interfaccia sia funzionale, ossia che vi sia un solo metodo "astratto"
+*  da usare opzionalmente per interfacce funzionali, affinché il compilatore controlli che l'interfaccia sia funzionale (ossia che vi sia un solo metodo "astratto")
 *  nella Java API viene usata spesso
 
 
-
+<!--
   
 ### Nota
 
-
-
 *  le annotazioni sono usate per vari scopi, ad esempio per indicare al compilatore di fare ulteriori controlli   
 
-
-
-
----
-
-
-## Esempio `SimpleIterator`
-
-
-    
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/interfaces/SimpleIterator2.java" %}}
-```
+-->
 
 
 
@@ -482,7 +435,7 @@ aliases = ["/lambdas/"]
 
 *  Sono tutte funzionali
 *  Hanno metodi aggiuntivi default di cui non ci occupiamo
-*  Hanno un metodo "astratto" chiamato, a seconda: <br> `apply`, `accept`, `test` o `get`
+*  Hanno un metodo "astratto" chiamato, a seconda: `apply`, `accept`, `test` o `get`
 
 
 
@@ -558,12 +511,12 @@ aliases = ["/lambdas/"]
 
 
   
-### Elementi di programmazione funzionale in Java
+### Elementi di **programmazione funzionale** in Java
 
 
 
-*  Le lambda consentono di aggiungere certe funzionalità della programmazione funzionale in Java, creando quindi una contaminazione OO + funzionale
-*  Il principale uso è quello che concerne la creazione di funzionalità (metodi) ad alto riuso -- ad esempio `filterAll`
+*  Le lambda consentono di aggiungere certe funzionalità della programmazione funzionale in Java, creando quindi una contaminazione OOP + FP
+*  Il principale uso è quello che concerne la *creazione di funzionalità (metodi) ad alto riuso* -- ad esempio `filterAll`
 *  Tali metodi possono prendere in ingresso funzioni, passate con sintassi semplificata rispetto a quella delle classi anonime, rendendo più "naturale" e agevole l'uso di questo meccanismo
 
 
@@ -572,13 +525,11 @@ aliases = ["/lambdas/"]
 ### Miglioramento alle API di Java
 
 
-
-*  Concetto di Stream e sue manipolazioni, per lavorare su dati sequenziali (collezioni, file,..)
-*  Facilitare la costruzioni di software "parallelo" (multicore)
+*  Concetto di `Stream<T>` e sue manipolazioni, per lavorare su dati sequenziali (collezioni, file, ...)
 *  Supporto più diretto ad alcuni pattern: Command, Strategy, Observer
 *  Alcune migliorie "varie" nelle API
 
-
+<!-- *  Facilitare la costruzioni di software "parallelo" (multicore) 
 
   
 
@@ -592,38 +543,7 @@ aliases = ["/lambdas/"]
   
 **Realizzare "più algoritmi possibili su sequenze" in una sola istruzione**
 
-
-
----
-
-
-
-## "Nuove" interfacce `Iterator` e `Iterable`
-
-
-    
-```java
-{{% import-raw from=1 to=100 path="code/streams/Iterable.java" %}}
-```
-
-    
-```java
-{{% import-raw from=1 to=100 path="code/streams/Iterator.java" %}}
-```
-
-
-
----
-
-
-## Uso delle "nuove" interfacce `Iterator` e `Iterable`
-
-
-    
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/UseIterators.java" %}}
-```
-
+-->
 
 
 ---
@@ -642,7 +562,7 @@ aliases = ["/lambdas/"]
 ---
 
 
-## Uso delle "nuova" interfacce `Map`
+## Esempi su `Map`
 
 
     
@@ -651,151 +571,3 @@ aliases = ["/lambdas/"]
 ```
 
 
-
----
-
-
-
-## La classe `Optional`
-
-
-    
-### Il problema del `NullPointerException`
-
-
-
-*  è una eccezione particolarmente annosa (è ora la più frequente)
-*  a volte è inevitable inizializzare a `null` campi/variabili, o tornare valori null.. ma poi si rischia di ritrovarsi l'eccezione in punti non aspettati
-*  gestire l'assenza di una informazione con `null` è inappropriato!
-
-
-
-    
-### Idea
-
-
-
-*  la classe `Optional<T>` và usata ove ci si attende opzionalmente un oggetto di tipo `T`
-*  un oggetto di `Optional<T>` è un wrapper di un `T`, ma potrebbe non contenere nulla, ossia è una collezione di 0 o 1 elemento di tipo `T` 
-*  accedendovi con metodi quali `ifPresent()` o `orElse()` si bypassa il problema del `null`
-*  c'è comunque un metodo `get()` che rilancia l'eccezione uncheked `NoSuchElementException`
-*  purtroppo `Optional<T>` NON è serializzabile!
-
-
-
-    
-
-
----
-
-
-## Classe `java.util.Optional`
-
-
-    
-```java
-{{% import-raw from=1 to=100 path="code/streams/Optional.java" %}}
-```
-
-
-
----
-
-
-## `UseOptional`
-
-
-    
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/optional/UseOptional.java" %}}
-```
-
-
-
----
-
-
-## `UseOptional2`
-
-
-    
-```java
-{{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/lambdas/optional/UseOptional2.java" %}}
-```
-
-
-
----
-
-
-## `UseOptional3`
-
-
-    
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/optional/UseOptional3.java" %}}
-```
-
-
-
----
-
-
-## `Optional` per campi opzionali, e manipolazioni con `map`
-
-
-    
-### Come evitare il `NullPointerException` in una applicazione?
-
-
-
-*  Non si menzioni mai il `null` nell'applicazione
-*  Non si lascino variabili o campi non inizializzati
-*  Si usi `Optional` per campi con contenuto opzionale, inizializzati a `Optional.empty`
-*  I valori di `Optional` vengano manipolati in modo "dichiarativo" con i suoi metodi, ad esempio, `map`
-* $\Rightarrow$ Il codice risultante sarà molto più espressivo
-
-
-
-     
-### Inconveniente:
-
-
-
-*  e se non si può controllare che il caller di una classe non passi dei `null`?
-*  si intercettino gli eventuali `null` in ingresso ad ogni metodo, ponendovi un rimedio che non sia il lancio di una eccezione unchecked
-*  si usi `Objects.requireNonNull()`
-
-
-
-
-
----
-
-
-
-
-## `Person`
-
-
-    
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/optional/Person.java" %}}
-```
-
-
-
----
-
-
-## `UsePerson`
-
-
-    
-```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/lambdas/optional/UsePerson.java" %}}
-```
-
-
-
----
