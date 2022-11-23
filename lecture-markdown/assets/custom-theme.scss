@@ -206,6 +206,10 @@ section.has-light-background {
 	margin-bottom: .8em;
 }
 
+.reveal div.pdf-page div.highlight pre code {
+	font-size: 100%;
+}
+
 
 .gist-it-gist .gist-file .gist-data pre, .gister-gist .gist-file .gist-data pre {
 	box-shadow: none !important;
