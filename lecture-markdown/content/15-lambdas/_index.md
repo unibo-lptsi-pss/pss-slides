@@ -501,7 +501,26 @@ aliases = ["/lambdas/"]
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/RunnableUtility.java" %}}
 ```
 
+---
 
+## Esempio: funzioni di ordine superiore
+
+- Le **funzioni di ordine superiore** sono funzioni che accettano in ingresso funzioni e/o che restituiscono in output funzioni
+
+```java
+import java.util.function.*;
+
+Function<Integer, Function<Integer, Integer>> multiplier = x -> (y -> x * y);
+Function<Integer, Integer> doubler = multiplier.apply(2);
+assertEquals(10, doubler.apply(5));
+
+BiFunction<Predicate<String>, Predicate<String>, Predicate<String>> and = 
+  (p1, p2) -> (s -> p1.test(s) && p2.test(s));
+Predicate<String> p = and.apply(s -> s.length() < 5, s -> s.toUpperCase().equals(s));
+assertFalse(p.test("abc"));
+assertFalse(p.test("ABCDEFG"));
+assertTrue(p.test("ABC"));
+```
 
 ---
 
