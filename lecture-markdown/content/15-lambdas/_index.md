@@ -290,13 +290,12 @@ aliases = ["/lambdas/"]
 
 
   
-### Definizione di interfaccia "funzionale" (def. non definitiva)
+### Definizione di **interfaccia "funzionale"**
 
 
 
-*  E' una `interface` con un singolo metodo
-
-
+*  E' una `interface` con un singolo metodo astratto
+    * Ma potrebbero esserci più metodi di default (cf. keyword `default`)
 
   
 ### Quale tipo è compatibile con una lambda?
@@ -570,4 +569,12 @@ aliases = ["/lambdas/"]
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/UseMap.java" %}}
 ```
 
+---
 
+## Esempi di `Stream`
+
+- Ogni `Collection<T>` ha un metodo `stream()` che restituisce uno `Stream<T>` (un flusso "lazy" di dati percorribile una sola volta e manipolabile per ottenere ad es. un'informazione aggregata)
+
+```java
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/streams/UseTransformations.java" %}}
+```
