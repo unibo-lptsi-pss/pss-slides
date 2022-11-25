@@ -24,7 +24,7 @@ aliases = ["/guis-javafx/"]
 * Libreria Java per la creazione di GUI per Rich Applications multi-piattaforma
 
     * Disponibile dal 2008 (v. 1.0 -- 2.2) come libreria stand-alone
-    * Presente ``*stabilmente*'' nel JDK da Java 8 (v. JavaFX 8)
+    * Presente "*stabilmente*" nel JDK da Java 8 (v. JavaFX 8)
     * ~~Introdotto ufficialmente in Java con l'idea di sostituire (gradualmente) Swing~~
     * Torna ad essere una *libreria stand-alone da Java 11*:
     è opensource e parte del progetto OpenJDK -- [https://openjfx.io](https://openjfx.io)
@@ -32,7 +32,7 @@ aliases = ["/guis-javafx/"]
 * Propone un look-and-feel personalizzabile
 
     * La descrizione dello stile/aspetto dei componenti della GUI è separato dalla relativa implementazione
-    * Segue il pattern MVC
+    * Fornisce costrutti che promuovono il pattern MVC
 
 * Consente la creazione di GUI moderne, di qualità e ben adattabili a qualunque piattaforma e supporto hardware
 
@@ -56,7 +56,7 @@ aliases = ["/guis-javafx/"]
 
 
 * **FXML** è un linguaggio dichiarativo per definire la GUI di un'applicazione JavaFX-based
-* Il suo impiego non è indispensabile, ma fortemente consigliato per una buona *separation of concerns*
+* Il suo impiego non è indispensabile, ma fortemente consigliato per una buona *separazione dei concern*
 
 
 
@@ -139,7 +139,7 @@ aliases = ["/guis-javafx/"]
 
 
 
-Esempio: GUI vuota
+#### Esempio: GUI vuota
 
 ```java
 public class App extends javafx.application.Application {
@@ -186,11 +186,11 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 
 1. Avvio del runtime JavaFX <!-- %(se necessario) -->
 2. Istanziazione di `App` (la classe specificata che estende `Application`) 
-3. Invocazione metodo `start(javafx.stage.Stage)`
+3. Invocazione metodo `start(javafx.stage.Stage)` dell'applicazione
 4. Attesa terminazione applicazione 
 	  - (a) mediante `Platform.exit()` 
 	  - (b) chiusura dell'ultima finestra (e `Platform.isImplicitExit()` è true)
-5. Invocazione metodo `stop()`
+5. Invocazione metodo `stop()` dell'applicazione
 
 ---
 
@@ -205,7 +205,9 @@ L'avvio mediante `Application.launch(App.class)` comporta:
     * La sottoclasse `Parent` rappresenta nodi che possono avere figli (recuperabili via `getChildren()`)
 * Un nodo ha un ID univoco, coordinate locali, può subire trasformazioni (ad es. rotazione), ha un bounding rectangle associato, e può essere stilizzato via CSS
 * Sottoclassi di `Node`: `SwingNode`, `Canvas`, `Parent`
-* Sottoclassi di `Parent`: `Group` (gestisce un insieme di figli; ogni trasformazione/effetto è applicata su ogni figlio), `Region` (classe base per tutti i controlli UI e i layout)
+* Sottoclassi di `Parent`: 
+  * `Group` (gestisce un insieme di figli; ogni trasformazione/effetto è applicata su ogni figlio)
+  * `Region` (classe base per tutti i controlli UI e i layout)
 * [https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Node.html](https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Node.html)
 
 
@@ -235,12 +237,23 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 [https://github.com/APICe-at-DISI/sample-javafx-project](https://github.com/APICe-at-DISI/sample-javafx-project)
 
 
-
+0. Build Gradle
+```kotlin
+val javaFXModules = listOf("base", "controls", "fxml", "swing", "graphics" )
+val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
+val javaFxVersion = 17
+dependencies {
+  for (platform in supportedPlatforms) {
+    for (module in javaFXModules) {
+      implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
+} } }
+```
 1. La classe principale di un'applicazione JavaFX deve estendere la classe `javafx.application.Application`
-2. Il metodo `main()` deve chiamare il metodo `launch()`
-    * Si tratta di un metodo statico della classe `Application`
+2. Una classe definisce il `main()` dell'applicazione Java, che deve chiamare `Application.launch()`
 3. Il metodo `void start(Stage primaryStage)` è, di fatto, l'entry point dell'applicazione JavaFX (lo stage primario è creato dalla piattaforma)
-4. La scena definita per lo stage (vedi metodo `setScene()`) costituisce il container principale per tutti i componenti della GUI
+4. Sullo stage is imposta la scena (`setScene()`)
+
+<!-- La scena definita per lo stage (vedi metodo `setScene()`) costituisce il container principale per tutti i componenti della GUI -->
 
 
 
@@ -249,14 +262,13 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 ### Nodi e Proprietà
 
 
-* Ogni scena può essere popolata con una gerarchia di nodi
-* Ciascun nodo (componente) espone diverse proprietà
+* Ogni scena ha un *root node* relativo a una *gerarchia di nodi* descrivente la GUI
+* Ciascun nodo (componente) espone diverse *proprietà osservabili* (classe `Property<T>`)
+    * relative all'aspetto (es. `size`, `posizion`, `color`, ...)
+    * relative al contenuto (es. `text`, `value`, ...)
+    * relative al comportamento (es. *event handler*, `controller`, ...)
 
-* relative all'aspetto (es. `size`, `posizion`, `color`, \dots)
-* relative al contenuto (es. `text`, `value`, \dots)
-* relative al comportamento (es. *event handler*, `controller`, \dots)
-
-* Ciascun nodo genera eventi in relazione ad azioni dell'utente
+* Ciascun nodo genera *eventi* in relazione ad azioni dell'utente
 
 
 
@@ -268,24 +280,22 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 public class Example1 extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
-		Label lbl = new Label();
+		final Label lbl = new Label();
 		lbl.setText("Label text here...");
 
-		Button btn = new Button();
+		final Button btn = new Button();
 		btn.setText("Click me");
 
-		HBox root = new HBox();
+		final HBox root = new HBox();
 		root.getChildren().add(btn);
 		root.getChildren().add(lbl);
 
 		stage.setTitle("JavaFX - Example 1");
-		stage.setScene(new Scene(root, 300,250));
+		stage.setScene(new Scene(root, 300, 250));
 		stage.show();
 	}
 }
 ```
-%	public static void main(String[] args) { launch(args); }
-
 
 ---
 
@@ -870,7 +880,7 @@ public final class JavaFXAppWithSwing extends Application {
 %
 %* Tutti le librerire *esterne* \underline{non} sono automaticamente accessibili da tutti i progetti aperti nell'IDE Eclipse
 %
-%* In realtà dipende dalla versione di Eclipse\dots
+%* In realtà dipende dalla versione di Eclipse...
 %
 %* Deve essere definita una regola d'accesso per JavaFX in relazione allo specifico progetto Java aperto in Eclipse
 %

@@ -93,13 +93,10 @@ aliases = ["/lambdas/"]
 
 ### Comparatori definiti attraverso classi
 
-{{% smaller %}}
     
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableBasic.java" %}}
 ```
-
-{{% /smaller %}}
 
 ---
 
@@ -107,14 +104,11 @@ aliases = ["/lambdas/"]
 
 - Una **classe innestata statica** `B` (*static nested*) è definita all'interno di un'altra classe `A`
     - Dunque ci si può riferire ad essa via `A.B` (secondo regole di visibilità), o direttamente via `B` da dentro la classe `A`
-
-{{% smaller %}}
     
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableNested.java" %}}
 ```
 
-{{% /smaller %}}
 
 ---
 
@@ -124,14 +118,10 @@ aliases = ["/lambdas/"]
 - Una **classe anonima** è una classe definita "al volo" (senza fornirne dunque un nome) e immediatamente istanziata
     *  Si vuole evitare la proliferazione di classi
     *  Tipicamente: per implementare "al volo" una interfaccia
-
-{{% smaller %}}
     
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableWithAnonymousClasses.java" %}}
 ```
-
-{{% /smaller %}}
 
 ---
 
@@ -140,14 +130,10 @@ aliases = ["/lambdas/"]
 
 - Una **lambda** è una *funzione anonima*, creata "al volo"
     - internamente implementata come *istanza* di un'**interfaccia funzionale** (un'interfaccia che definisce un solo metodo astratto)
-
-{{% smaller %}}
     
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableWithLambdas.java" %}}
 ```
-
-{{% /smaller %}}
 
 ---
 
@@ -522,8 +508,27 @@ assertFalse(p.test("ABCDEFG"));
 assertTrue(p.test("ABC"));
 ```
 
+<!--
+
 ---
 
+## Esempio: chiusure lessicali
+
+- Una *chiusura (lessicale)* o (in inglese) **closure** è una funzione che accede a simboli visibili nello scope
+    - Limitazione: le variabili nello scope referenziate in una lambda devono essere `final`
+
+```java
+import java.util.function.*;
+
+final int K = 10;
+Predicate<String> p = (s) -> s.length() > K;
+p.test("hello"); // false
+p.test("hello world"); // true
+```
+
+-->
+
+---
 
 ## Motivazioni e vantaggi nell'uso delle lambda in Java
 
