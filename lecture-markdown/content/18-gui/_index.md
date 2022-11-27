@@ -29,10 +29,13 @@ aliases = ["/guis-javafx/"]
     * Torna ad essere una *libreria stand-alone da Java 11*:
     è opensource e parte del progetto OpenJDK -- [https://openjfx.io](https://openjfx.io)
 
+<!-- 
 * Propone un look-and-feel personalizzabile
 
     * La descrizione dello stile/aspetto dei componenti della GUI è separato dalla relativa implementazione
     * Fornisce costrutti che promuovono il pattern MVC
+
+-->
 
 * Consente la creazione di GUI moderne, di qualità e ben adattabili a qualunque piattaforma e supporto hardware
 
@@ -45,27 +48,20 @@ aliases = ["/guis-javafx/"]
 
 ### Java APIs
 
-
-
 * Libreria che include classi e interfacce scritte in Java <!-- e compilato con retro compatibilità fino a Java 7 -->
 * Nel 2022, la versione più recente, *JavaFX 19*, richiede *JDK >= 11*
 
 
 ### FXML (e CSS per lo stile)
 
-
-
 * **FXML** è un linguaggio dichiarativo per definire la GUI di un'applicazione JavaFX-based
-* Il suo impiego non è indispensabile, ma fortemente consigliato per una buona *separazione dei concern*
+* **CSS** è un linguaggio flessibile per specificare lo stile di elementi della GUI
+* Il loro impiego non è indispensabile, ma fortemente consigliato per una buona *separazione dei concern*
 
 
+### MVC-friendly
 
-### Interoperabilità bidirezionale con la libreria Java built-in per GUI *Swing*
-
-
-
-* GUI Swing esistenti possono includere componenti JavaFX (cf. `JFXPanel`)
-* E' possibile inserire componenti Swing in interfacce JavaFX (cf. `SwingNode`)
+* Attraverso FXML/CSS, ma anche attraverso *proprietà osservabili* e *data binding*
 
 
 
@@ -91,6 +87,13 @@ aliases = ["/guis-javafx/"]
 
 
 
+### Interoperabilità bidirezionale con la libreria Java built-in per GUI *Swing*
+
+
+
+* GUI Swing esistenti possono includere componenti JavaFX (cf. `JFXPanel`)
+* E' possibile inserire componenti Swing in interfacce JavaFX (cf. `SwingNode`)
+
 
 
 ---
@@ -102,13 +105,9 @@ aliases = ["/guis-javafx/"]
 
 
 
-* Il contenitore (esterno) dove la GUI sarà visualizzata
-
-    * es. una finestra del S.O.
-    * Equivalente al `JFrame` di Swing
-    * Non è compito del programmatore creare una sua istanza.
-
-* [https://openjfx.io/javadoc/15/javafx.graphics/javafx/stage/Stage.html](https://openjfx.io/javadoc/15/javafx.graphics/javafx/stage/Stage.html)
+* Il contenitore (esterno) dove la GUI sarà visualizzata (ad es., una finestra del S.O.)
+    * Corrisponde al `JFrame` di Swing
+* [javafx.stage.Stage](https://openjfx.io/javadoc/15/javafx.graphics/javafx/stage/Stage.html), sottoclasse di `Window` 
 
 
 
@@ -116,12 +115,9 @@ aliases = ["/guis-javafx/"]
 
 
 
-* Una **scene** rappresenta un contenuto (una *pagina* della GUI) visualizzabile sullo Stage
-
-* ogni Stage può avere più istanze diverse di Scene
-
-* Di fatto, è un container di Node(s)
-* [https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Scene.html](https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Scene.html)
+* Una **scene** rappresenta un contenuto (una *pagina* della GUI) visualizzabile sullo `Stage`
+    * ogni `Stage` può mostrare una sola `Scene` alla volta: si imposta via `Stage#setScene(Scene)`
+* [javafx.scene.Scene](https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Scene.html) contiene il cosiddetto *scene graph*, impostabile attraverso `Scene#setRoot(Parent)`
 
 
 
@@ -133,9 +129,9 @@ aliases = ["/guis-javafx/"]
 
 
 
-* `Application`: entry point di un'applicazione JavaFX application
-* Consente di definire metodi hook sul ciclo di vita dell'applicazione (`init`, `start`, `stop`, ...)
-* [https://openjfx.io/javadoc/15/javafx.graphics/javafx/application/Application.html](https://openjfx.io/javadoc/15/javafx.graphics/javafx/application/Application.html)
+* Un'**applicazione JavaFX** si definisce estendendo [javafx.application.Application](https://openjfx.io/javadoc/15/javafx.graphics/javafx/application/Application.html)
+    * Consente di definire metodi hook sul ciclo di vita dell'applicazione (`init`, `start`, `stop`, ...)
+    * Tipicamente, si opera ridefinendo `start(Stage)` che riceve lo stage primario
 
 
 
@@ -185,7 +181,9 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 
 
 1. Avvio del runtime JavaFX <!-- %(se necessario) -->
+    - comporta la creazione di vari thread, tra cui il *JavaFX Application Thread*
 2. Istanziazione di `App` (la classe specificata che estende `Application`) 
+3. Invocazione metodo `init()`
 3. Invocazione metodo `start(javafx.stage.Stage)` dell'applicazione
 4. Attesa terminazione applicazione 
 	  - (a) mediante `Platform.exit()` 
@@ -199,17 +197,12 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 
 
 * Un **nodo** è un elemento/componente della scena
-* Ciascun nodo ha sia la parte di view (aspetto) sia la parte di controller (comportamento)
-* Hanno **proprietà** (con supporto al *binding*) e possono generare **eventi**
-* Possono essere organizzati gerarchicamente
-    * La sottoclasse `Parent` rappresenta nodi che possono avere figli (recuperabili via `getChildren()`)
-* Un nodo ha un ID univoco, coordinate locali, può subire trasformazioni (ad es. rotazione), ha un bounding rectangle associato, e può essere stilizzato via CSS
-* Sottoclassi di `Node`: `SwingNode`, `Canvas`, `Parent`
-* Sottoclassi di `Parent`: 
-  * `Group` (gestisce un insieme di figli; ogni trasformazione/effetto è applicata su ogni figlio)
-  * `Region` (classe base per tutti i controlli UI e i layout)
-* [https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Node.html](https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Node.html)
-
+    * Ciascun nodo ha sia la parte di view (aspetto) sia la parte di controller (comportamento)
+    * Hanno **proprietà** (con supporto al *binding*) e possono generare **eventi**
+    * Possono essere organizzati gerarchicamente
+        * La sottoclasse `Parent` rappresenta nodi che possono avere figli (recuperabili via `getChildren()`)
+    * Un nodo ha un ID univoco, coordinate locali, può subire trasformazioni (ad es. rotazione), ha un bounding rectangle associato, e può essere stilizzato via CSS
+* Sottoclassi di [`Node`](https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Node.html): `SwingNode`, `Canvas`, `Parent`
 
 
 
@@ -231,27 +224,49 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 
 ---
 
-### Linee guida
+### Build Gradle ed esempi
 
 - Si faccia riferimento al repository di esempio: 
 [https://github.com/APICe-at-DISI/sample-javafx-project](https://github.com/APICe-at-DISI/sample-javafx-project)
 
 
-0. Build Gradle
 ```kotlin
+plugins {
+    java
+    application
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+}
+
+repositories {
+    mavenCentral()
+}
+
 val javaFXModules = listOf("base", "controls", "fxml", "swing", "graphics" )
 val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
 val javaFxVersion = 17
+
 dependencies {
   for (platform in supportedPlatforms) {
     for (module in javaFXModules) {
       implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
-} } }
+    } 
+  } 
+}
+
+application {
+    mainClass.set("it.unibo.samplejavafx.App")
+}
 ```
-1. La classe principale di un'applicazione JavaFX deve estendere la classe `javafx.application.Application`
-2. Una classe definisce il `main()` dell'applicazione Java, che deve chiamare `Application.launch()`
-3. Il metodo `void start(Stage primaryStage)` è, di fatto, l'entry point dell'applicazione JavaFX (lo stage primario è creato dalla piattaforma)
+
+---
+
+### Creazione di un'applicazione JavaFX: linee guida
+
+1. La classe principale di un'applicazione JavaFX (chiamiamola `App`) deve estendere la classe `javafx.application.Application`
+3. Si effettua l'override di `void start(Stage primaryStage)` che è, di fatto, l'entry point dell'applicazione JavaFX (lo stage primario è creato dalla piattaforma)
 4. Sullo stage is imposta la scena (`setScene()`)
+5. Lo stage va mostrato invocando `show()`
+2. Una *classe separata* definisce il `main()` dell'applicazione Java, che deve chiamare `Application.launch(App.class)`
 
 <!-- La scena definita per lo stage (vedi metodo `setScene()`) costituisce il container principale per tutti i componenti della GUI -->
 
@@ -303,75 +318,74 @@ public class Example1 extends Application {
 
 
 
-* Per **binding** si intende il meccanismo che consente di collegare due proprietà fra loro, in modo unidirezionale o bidirezionale
-* Una `Property<T>` è un `ObservableValue<T>` che può essere collegato/scollegato ad altri osservabili o proprietà attraverso
-
-* `bind(ObservableValue<? extends T> observable)`
-* `bindBidirectional(Property<T> other)`
-* `unbind()`
-* `unbindBidirectional(Property<T> other)`
-
+* Per *binding* si intende il meccanismo che consente di collegare due proprietà fra loro, in modo unidirezionale o bidirezionale
+* Una *proprietà JavaFX* `Property<T>` è un `ObservableValue<T>` (un valore ottenibile con `getValue()` a cui possono essere associati dei `ChangeListener` via `remove/addListener`) *scrivibile* che può essere collegato/scollegato ad altri osservabili o proprietà attraverso
+    * `bind(ObservableValue<? extends T> observable)` / `bindBidirectional(Property<T> other)`
+    * `unbind()` / `unbindBidirectional(Property<T> other)`
+* Una proprietà JavaFX `xxx` di tipo `T` ha (opzionalmente) getter/setter `getXxx()` e `setXxx()`, e un metodo `xxxProperty()` che restituisce un oggetto `Property<T>`
+    * Ad esempio, un `TextField` offre `getText():String`, `setText(String)`, e `textProperty():Property<String>`
 
 
 ```java
 final TextField input = new TextField();
 final Label mirror = new Label();
 // connette la label con il valore del textfield
-mirror.textProperty()
-    .bindBidirectional(input.textProperty());
+mirror.textProperty().bindBidirectional(input.textProperty());
+mirror.setText("default");
 ```
 
 
 
 ---
 
-### Layouts (1/3)
+## I layout (cf. package [javafx.scene.layout](https://openjfx.io/javadoc/13/javafx.graphics/javafx/scene/layout/package-summary.html))
 
-#### Group
+* Sottoclassi di `Parent` (nodo che può avere nodi figli -- cf. proprietà protected `children`): 
+    * `Group` (gestisce un insieme di figli; ogni trasformazione/effetto è applicata su ogni figlio)
+    * `Region` (classe base per tutti i controlli UI e i layout)
+        * `Control` (classe base per tutti i controlli UI)
+* Ogni **layout** è un contenitore che regola il *posizionamento e il dimensionamento* dei nodi figli
 
+### Group
 
-
-* Non impone nessun posizionamento per i componenti figli
-* Da utilizzare per posizionare i componenti figli in posizioni fisse
-
-
-
-#### Region
-
-
-
-* Tutte le sue specializzazioni forniscono diversi layout general purpose
-* Sono simili a quelli offerti da Swing
+* Da utilizzare per posizionare i componenti figli in posizioni fisse (cf. proprietà `layoutX` e `layoutY` dei `Node`)
+* Ogni trasformazione/effetto applicato al gruppo è applicato su ogni figlio
 
 
+### Region
 
-#### Control
-
-
-
-* Costituisce l'insieme dei layout personalizzabili
-* Ciascun layout di questo tipo fornisce specifiche API per l'aggiunta dei componenti figli
-
-
-[https://openjfx.io/javadoc/13/javafx.graphics/javafx/scene/layout/package-summary.html](https://openjfx.io/javadoc/13/javafx.graphics/javafx/scene/layout/package-summary.html)
+* Classe base per tutti i layout general purpose (simili a quelli offerti da Swing):
+    * `BorderPane`, `HBox`/`VBox`, `TilePane`, `GridPane`, `FLowPane`, `AnchorPane`, `StackPane`
 
 
 ---
 
-### Layouts (2/3)
-
 
 ![](imgs/layouts.png)
 
+---
 
-#### Aggiungere componenti ad un layout
+
+### Aggiungere componenti ad un layout
 
 
 
 * Il metodo `ObservableList<Node> getChildren()` restituisce la lista di nodi figli di un qualunque nodo/layout
-* Alla lista possono essere aggiunti (`boolean add(Node e)`) e gestiti i componenti figli
+    * Alla lista possono essere aggiunti (`add(Node)` e `addAll(Node...)`) e gestiti i componenti figli
 
-
+```java
+Group g = new Group();
+Label l1 = new Label("label");
+Button b1 = new Button("a larger button");
+Button b2 = new Button("small button");
+g.getChildren().addAll(l1, b2, b3);
+// Use binding to suitable place the components
+b1.layoutXProperty().bind(l1.widthProperty().add(10));
+b2.layoutXProperty().bind(b1.layoutXProperty()
+    .add(b1.widthProperty()).add(10));
+g.setTranslateX(-5); // applies translation to all children
+g.setEffect(new DropShadow()); // applies effect to all children
+```
 
 
 ---
@@ -380,7 +394,6 @@ mirror.textProperty()
 
 
 
-\centering
 ![](imgs/javafx-layouts.drawio.png)
 
 
@@ -388,29 +401,33 @@ mirror.textProperty()
 
 ---
 
-### Eventi
+## Eventi
 
 
-* Possono essere generati in relazione nodi e alle scene
+* Gli **eventi** (`javafx.event.Event`) possono essere generati dall'interazione dell'utente con gli elementi grafici 
+    * ogni evento ha un *event source*, *event target*, ed *event type*  e può essere consumato (`consume()`)
+* GLi eventi possono essere gestiti attraverso *event handlers*
+    * Ogni `EventHandler<T extends Event>` deve implementare il metodo `void handle(T)`
+* Ogni nodo può registrare uno o più event handler
+    * In generale, attraverso i metodi `setOn...()`
+* Processamento degli eventi
+    1. selezione dell'*event target* (ad es., il nodo su cui si è clickato)
+    2. costruzione dell'*event route* (tipicamente dallo `Stage` all'event target)
+    3. percorrimento dell'event route
+        - (A) *capture phase*: esecuzione degli *event filter* dalla testa alla coda della route
+        - (B) *event bubbling*: esecuzione degli *event handler* dalla coda alla testa della route
 
-* Fanno riferimento alla classe `javafx.event.Event`
+---
 
-* Come in swing, si generano in funzione di azioni dell'utente sulla GUI
-* Possono essere gestiti attraverso *event handlers* (devono implementare l'interfaccia `EventHandler`)
-* Ogni nodo può registrare uno o più event handlers
-
-* In generale, attraverso i metodi `setOn...`()
-* Ogni event handler deve implementare il metodo `void handle(ActionEvent e)`
-
-
-
-#### Es. Gestione del click su un Button Node
+### Es. Gestione del click su un `Button`
 
 
 ```java
 btn.setOnMouseClicked(event -> {
     lbl.setText("Hello, JavaFX World!");
 });
+// same as
+btn.addEventHandler(ActionEvent.ACTION, e -> lbl.setText("Hello, JavaFX World!"));
 ```
 
 
@@ -498,14 +515,41 @@ public class Main {
 * Nota: è opportuno conoscere quali metodi hook dell'`Application` sono eseguiti (ad es. `start`) oppure no (ad es. `init`) su JFXAT
 * **Platform.runLater(Runnable)**
  accoda il runnable nella coda degli eventi del JFXAT
+    * l'analogo di `SwingUtilities.invokeLater`
 
-
-
-
-
-\section{FXML}
 
 ---
+
+### Conoscere dettagli degli schermi in uso
+
+```java
+Screen s = Screen.getPrimary();
+double dpi = s.getDpi();
+Rectangle2D sb = s.getBounds();
+Ractangle2D svb = s.getVisualBounds();
+
+ObservableList<Screen> screenList = Screen.getScreens();
+```
+
+Ad es., per dimensionare lo stage
+
+```java
+stage.xProperty().addListener(x -> {
+    Screen s = Screen.getScreensForRectangle(
+        new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight())
+    ).get(0);
+    stage.setMinHeight(...);
+    stage.setMinWidth(...);
+    stage.setMaxHeight(s.getVisualBounds().getHeight()/2);
+    stage.setMaxWidth(s.getVisualBounds().getWidth()/2);
+});
+```
+
+
+---
+
+## FXML
+
 
 ### Separazioni di ruoli e contenuti
 
@@ -520,18 +564,14 @@ public class Main {
 
 ---
 
-### FXML
+### Il linguaggio FXML
 
-*sep20pt
-* Linguaggio di markup basato su XML
-* Descrive la struttura della GUI
-
-* Tutti i componenti della GUI sono specificati mediante tag specifici
-* Le proprietà sono specificate come attributi su ciascun tag, nella forma chiave-valore
+* Linguaggio di markup basato su **XML**, utilizzato per descrivere la *struttura della GUI* (ovvero il *scene graph*)
+    * Tutti i *nodi* della GUI sono specificati mediante *tag* specifici
+    * Le *proprietà* sono specificate come *attributi* (su tag, nella forma chiave-valore) o *tag*
 
 * Ogni file FXML (con estensione `.fxml`) deve essere un file XML valido
-
-* Deve iniziare con il tag: `<?xml version="1.0" encoding="UTF-8"?>`
+    * Deve iniziare con il tag: `<?xml version="1.0" encoding="UTF-8"?>`
 
 
 
@@ -567,22 +607,18 @@ public class Main {
 
 ### Esempio di GUI in FXML -- Note
 
-\begin{enumerate}*sep15pt
 * Attraverso il tag `<?import ... ?>` è possibile specificare i package in cui recuperare le classi dei componenti d'interesse
+    * E' equivalente all'`import` di Java
 
-* E' equivalente all'`import` di Java
+* Il container principale (unico per il singolo file) *deve* specificare gli attributi `xmlns` e `xmlns:fx`
+    * Il namespace `fx` raccoglie nodi relativi al processamento interno del descrittore FXML
+```
+xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+```
+* Ogni container deve specificare i nodi figli all'interno dei tag `<children>` e `</children>`
+* Ogni nodo può definire il proprio ID mediante l'attributo `fx:id`
+    * Es. `<TextField fx:id="textField1"/>`
 
-* Il container principale (unico per il singolo file) \underline{deve} specificare gli attributi `xmlns` e `xmlns:fx`
-
-* \begin{verbatim}xmlns="http://javafx.com/javafx"\end{verbatim}
-* \begin{verbatim}xmlns:fx="http://javafx.com/fxml"\end{verbatim}
-
-* Ogni container deve specificare i nodi figli all'interno dei tag `$<$children$>$` e `$<$/children$>$`
-* Ogni nodo deve definire il proprio ID mediante l'attributo `fx:id`
-
-* Es. `$<$TextField fx:id="textField1"/$>$`
-
-\end{enumerate}
 
 
 ---
@@ -590,18 +626,16 @@ public class Main {
 ### Collegare il design della GUI al codice Java
 
 
-* La GUI descritta nel file FXML deve essere collegata alla scena agganciata allo stage dell'applicazione
+* La GUI descritta nel file FXML deve essere *collegata alla scena* agganciata allo stage dell'applicazione
 * Si può utilizzare il componente `javafx.fxml.FXMLLoader`
+    * Il metodo statico `load(URL location)`
+* Nota: occorre dichiarare il modulo `javafx.fxml` (si veda ad es. la build Gradle)
 
-* Il metodo statico `load(URL location)`
-
-* Nota: occorre dichiarare il modulo `javafx.fxml` (si veda ad es. la build Gradle più avanti)
-
-#### FXMLLoader (esempio)
+### `FXMLLoader` (esempio)
 
 
 
-* Si suppone che nel progetto sia presente il file `main.fxml` contenente una descrizione valida per la GUI da caricare
+* Si suppone che nel CLASSPATH sia presente il file `layouts/main.fxml` contenente una descrizione valida per la GUI da caricare
 
 ```java
 Parent root = FXMLLoader.load(
@@ -665,18 +699,13 @@ btn.setOnMouseClicked(handler -> {
 
 ### GUI Controller e Node Injection
 
-*sep20pt
+
 * Per una corretta separazione dei contenuti (e una buona implementazione del pattern MVC in JavaFX) è opportuno specificare un oggetto *controller* per ciascuna GUI
-
-* Il parent component della GUI deve definire l'attributo `fx:controller` con valore riferito al nome pienamente qualificato della classe che fungerà da controller
-
-* Mediante l'annotazione `@FXML` è possibile recuperare:
-
-* I riferimenti ai vari nodi
-	\iz{
-	* senza utilizzare esplicitamente il meccanismo di lookup---usando la corrispondenza tra l'ID del nodo nel file FXML e il nome della variabile d'istanza annotata nella classe controller
-	}
-* Associare gli event handler ai vari eventi dei componenti
+* Il root component della GUI deve definire l'attributo `fx:controller` con valore riferito al nome pienamente qualificato della classe che fungerà da controller
+* Nella classe controller, mediante l'annotazione `@FXML` è possibile recuperare:
+    * I riferimenti ai vari nodi
+        * senza utilizzare esplicitamente il meccanismo di lookup---usando la corrispondenza tra l'ID (`fx:id`) del nodo nel file FXML e il *nome della variabile d'istanza annotata* nella classe controller
+    * Associare gli event handler ai vari eventi dei componenti
 
 
 
@@ -710,7 +739,7 @@ public class CompleteExample extends Application {
 
 ### Esempio Completo (2/3) -- GUI (FXML file)
 
-```java
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
@@ -754,8 +783,69 @@ public class UIController {
 }
 ```
 
+---
 
-\section{Integrazione JavaFX e Swing}
+## Scene Builder
+
+
+### Scene Builder
+
+
+* Strumento per la creazione di GUI JavaFX-based in modalità drag-n-drop (GUI Builder)
+* Consente di esportare il file FXML relativo alla GUI disegnata
+* Distribuito come strumento esterno al JDK, non integrato (direttamente) in Eclipse
+* [https://gluonhq.com/products/scene-builder/](https://gluonhq.com/products/scene-builder/)
+
+
+
+---
+
+### Scene Builder
+
+
+![](imgs/scenebuilder.png)
+
+
+---
+
+## Stile separato via CSS
+
+### Esempio di file CSS
+
+```css
+#myButton {
+  -fx-padding: 0.5em; 
+}
+.label {
+  -fx-font-size: 30pt;
+} /* for all the labels */
+```
+
+### Applicazione dello stile
+
+Programmaticamente
+
+```java
+Scene scene = new Scene(pane); 
+scene.getStylesheets().add(ClassLoader.getSystemResource("css/scene.css"));
+
+HBox buttons = new HBox();
+buttons.setStyle("-fx-border-color: red;");
+buttons.getStyleClass().add("buttonrow");
+```
+
+Nel file FXML (ad esempio attaccandolo al nodo root)
+
+```xml
+<GridPane id="pane" stylesheets="css/scene.css"> ... </GridPane>
+```
+
+
+---
+
+
+
+## Integrazione JavaFX e Swing
 
 ---
 
@@ -763,20 +853,12 @@ public class UIController {
 
 
 * L'integrazione può avvenire nelle due direzioni
-	\iz{
-	* Si possono includere elementi Swing in applicazioni JavaFX attraverso `SwingNode`
-	* Si possono includere elementi JavaFX in applicazioni Swing attraverso `JFXPanel`
-	* Nota: `SwingNode` e `JFXPanel` si trovano nel modulo `javafx.swing`
-	}
-%* In Java, un'applicazione può contenere sia GUI programmate in Swing, sia altre programmate in JavaFX
-%
-%* La Main UI deve essere in Swing
-%* Si integrano Scene di JavaFX in JFrame avvalendosi di componenti che sono istanze di `JFXPanel`, eseguite nel thread specifico di JavaFX
-%
+    * Si possono includere elementi Swing in applicazioni JavaFX attraverso `SwingNode`
+    * Si possono includere elementi JavaFX in applicazioni Swing attraverso `JFXPanel`
+    * Nota: `SwingNode` e `JFXPanel` si trovano nel modulo `javafx.swing`
 * Va prestata particolare attenzione a dove viene eseguito il codice che gestisce la GUI
-
-* `javafx.application.Platform.runLater()`, per eseguire codice nel thread dedicato a JavaFX
-* `javax.swing.SwingUtilities.invokeLater()`, per eseguire codice nel thread dedicato a Swing
+    * `javafx.application.Platform.runLater()`, per eseguire codice nel thread dedicato a JavaFX
+    * `javax.swing.SwingUtilities.invokeLater()`, per eseguire codice nel thread dedicato a Swing
 
 
 
@@ -817,6 +899,8 @@ private static void initMainJFrame(final JFrame frame) {
   frame.setVisible(true);
 }
 ```
+
+---
 
 ```java
 private static Parent initJavaFXSceneUI() {
@@ -860,194 +944,4 @@ public final class JavaFXAppWithSwing extends Application {
     // ...
 }
 ```
-
-
-
-\section{Utilizzo di JavaFX con Eclipse e Gradle}
-
-%---
-## JavaFX con JDK 8
-
-%
-%---
-
-### JavaFX in Eclipse (JDK 8)
-
-%*sep20pt
-%* La libreria JavaFX è presente unicamente nel JDK 8
-%
-%* Distribuita attraverso il file `jfxrt.jar` presente nella directory `/lib/ext` della propria installazione del JDK
-%
-%* Tutti le librerire *esterne* \underline{non} sono automaticamente accessibili da tutti i progetti aperti nell'IDE Eclipse
-%
-%* In realtà dipende dalla versione di Eclipse...
-%
-%* Deve essere definita una regola d'accesso per JavaFX in relazione allo specifico progetto Java aperto in Eclipse
-%
-%
-%
-%---
-
-### Configurazione del progetto (1/2)
-
-%
-%* (tasto DX sul progetto) $>$ Properties $>$ Java Build Path
-%* (tab Libraries) $>$ Click sul JRE System Library $>$ Selezionare \textit{Access rules} $>$ Click su Edit
-%
-%
-%![](imgs/conf01.png)
-%
-%
-%
-%---
-
-### Configurazione del progetto (2/2)
-
-%
-%* Click su Add $>$ Aggiungere una regola con:
-%
-%* Resolution: **Accessible**
-%* Rule pattern: **javafx/****
-%
-%* OK $>$ OK $>$ Apply and Close
-%
-%
-%![](imgs/conf02.png)
-%
-%
-
-%---
-## Esecuzione di applicazioni JavaFX
-
-
----
-
-### JavaFX in Eclipse via Gradle ed esportazione runnable JAR
-
-
-* Da Java 11, JavaFX deve essere importato nel progetto come **libreria esterna**
-* Due alternative:
-\begin{enumerate}
-* Si aggiungono tutti i JAR della libreria direttamente nel progetto
-
-* Scaricabili da [https://gluonhq.com/products/javafx/](https://gluonhq.com/products/javafx/)
-
-* Si specificano le dipendenze via **Gradle**
-\end{enumerate}
-* Oggigiorno, è preferibile optare per la seconda alternativa
-	\iz{
-	* NOTA: l'export di un Runnable JAR con Eclipse non consente di impacchettare librerie esterne (come quelle configurate quando si importa un progetto Gradle)
-	* Per creare il runnable JAR comprendente tutte le dipendenze dell'applicazione, si usi il plugin Gradle **shadow** e il relativo task **shadowJar**
-	}
-* Si faccia riferimento a 
-[https://github.com/APICe-at-DISI/sample-javafx-project](https://github.com/APICe-at-DISI/sample-javafx-project)
-
-
-
-
-
----
-
-### \texttt{build.gradle.kts
- (completo -- sintassi Kotlin)}
-```java
-plugins {
-    java // add support for Java
-    // Apply the application plugin to add support for building a CLI application
-    // You can run your app via task "run": ./gradlew run
-    application
-    // Adds task 'shadowJar' to export a runnable jar.
-    // The runnable jar will be found in build/libs/projectname-all.jar
-    id("com.github.johnrengelman.shadow") version "5.2.0"
-}
-
-repositories { mavenCentral() }
-
-val javaFXModules = listOf( "base", "controls", "fxml", "swing", "graphics")
-val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
-val javaFxVersion = 15
-
-dependencies {
-    for (platform in supportedPlatforms) {
-        for (module in javaFXModules) {
-            implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
-        }
-    }
-    // JUnit API and testing engine
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
-}
-
-tasks.withType<Test> { useJUnitPlatform() } // Enables JUnit 5 Jupiter module 
-
-application { mainClassName = "it.unibo.samplejavafx.App" }
-```
-%java {
-%    sourceCompatibility = JavaVersion.VERSION_11
-%    targetCompatibility = JavaVersion.VERSION_11
-%}
-
-
-
-%---
-
-### \texttt{build.gradle
- (completo -- sintassi Groovy)}
-%```java
-%plugins {
-%  id 'application'
-%  id 'org.openjfx.javafxplugin' version '0.0.9'
-%}
-%
-%repositories {
-%  mavenCentral()
-%}
-%
-%dependencies {
-%  /* for cross-platform jar: */
-%  runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
-%  runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
-%  runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
-%}
-%
-%javafx {
-%  version = "14"
-%  modules = [ 'javafx.controls', 'javafx.fxml' ]
-%}
-%
-%mainClassName = 'application.Main'
-%
-%jar {
-%  manifest {
-%    attributes 'Main-Class': 'application.Main'
-%  }
-%
-%  from {
-%    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-%  }
-%}
-%```
-%
-
-
-\section{Scene Builder}
-
----
-
-### Scene Builder 2.0
-
-
-* Strumento per la creazione di GUI JavaFX-based in modalità drag-n-drop (GUI Builder)
-* Consente di esportare il file FXML relativo alla GUI disegnata
-* Distribuito come strumento esterno al JDK, non integrato (direttamente) in Eclipse
-* [https://gluonhq.com/products/scene-builder/](https://gluonhq.com/products/scene-builder/)
-
-
-
----
-
-### Scene Builder 2.0
-
-
-![](imgs/scenebuilder.png)
 
