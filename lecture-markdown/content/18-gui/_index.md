@@ -810,16 +810,13 @@ public class UIController {
 
 ## Stile separato via CSS
 
+- Esistono convenzioni (non regole) per "derivare" selettori di classe e proprietà CSS da nomi di classe e nomi di proprietà: per i `ToggleButton` c'è la classe `.toggle-button`, e per la proprietà `blendMode` la proprietà CSS `-fx-blend-mode` (notare prefisso `-fx-`)
+
 ### Esempio di file CSS
 
 ```css
-#myButton {
-  -fx-padding: 0.5em; 
-}
-.label {
-  -fx-font-size: 30pt;
-} /* for all the labels */
-```
+#myButton { -fx-padding: 0.5em; } /* for an individual node */
+.label { -fx-font-size: 30pt; }  /* for all the labels */
 
 ### Applicazione dello stile
 
@@ -841,107 +838,4 @@ Nel file FXML (ad esempio attaccandolo al nodo root)
 ```
 
 
----
-
-
-
-## Integrazione JavaFX e Swing
-
----
-
-### Integrare JavaFX e Swing
-
-
-* L'integrazione può avvenire nelle due direzioni
-    * Si possono includere elementi Swing in applicazioni JavaFX attraverso `SwingNode`
-    * Si possono includere elementi JavaFX in applicazioni Swing attraverso `JFXPanel`
-    * Nota: `SwingNode` e `JFXPanel` si trovano nel modulo `javafx.swing`
-* Va prestata particolare attenzione a dove viene eseguito il codice che gestisce la GUI
-    * `javafx.application.Platform.runLater()`, per eseguire codice nel thread dedicato a JavaFX
-    * `javax.swing.SwingUtilities.invokeLater()`, per eseguire codice nel thread dedicato a Swing
-
-
-
-
----
-
-### Usare JavaFX in applicazioni Swing: esempio
-
-
-```java
-public static void main(final String[] args){
-  initMainJFrame(new JFrame("JFrame GUI"));
-}
-```
-
-```java
-private static void initMainJFrame(final JFrame frame) {
-  final JButton button = new JButton();
-  button.setText("Launch JavaFX Scene");
-  button.addActionListener(event -> {
-    final JFXPanel jfxPanel = new JFXPanel();
-    Platform.runLater(() -> {
-      jfxPanel.setScene(new Scene(initJavaFXSceneUI(), 300, 300));
-      SwingUtilities.invokeLater(() -> {
-        final JFrame frameWithJavaFX = new JFrame("JFrame with JavaFX embedded!");
-        frameWithJavaFX.add(jfxPanel);
-        frameWithJavaFX.pack();
-        frameWithJavaFX.setVisible(true);
-  }); }); });
-
-  final JPanel panel = new JPanel();
-  panel.setLayout(new FlowLayout());
-  panel.add(button);
-
-  frame.setContentPane(panel);
-  frame.setSize(300, 300);
-  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  frame.setVisible(true);
-}
-```
-
----
-
-```java
-private static Parent initJavaFXSceneUI() {
-  final Label lbl = new Label();
-  lbl.setText("Hello, JavaFX World!");
-
-  final Button btn = new Button();
-  btn.setText("Say Hello");
-  btn.setOnMouseClicked(event -> {
-    lbl.setText("Hello from Button!");
-  });
-
-  final VBox root = new VBox();
-  root.getChildren().add(lbl);
-  root.getChildren().add(btn);
-
-  return root;
-}
-```
-
-
-
----
-
-### Usare Swing in applicazioni JavaFX
-
-
-```java
-public final class JavaFXAppWithSwing extends Application {
-    @Override
-    public void start(final Stage primaryStage) throws Exception {
-        final SwingNode msg = new SwingNode();
-        SwingUtilities.invokeLater(() ->
-            msg.setContent(new JLabel("Hello by Swing JLabel")));
-        HBox pane = new HBox();
-        pane.getChildren().add(msg);
-        primaryStage.setScene(new Scene(pane));
-        primaryStage.show();
-    }
-    
-    // ...
-}
-```
 
