@@ -8,7 +8,7 @@ aliases = ["/guis-swing/"]
 
 +++
 
-# Programmazione di interfacce utente grafiche (GUI)
+# Interfacce utente grafiche (GUI) con Swing
 
 <!-- {{% import path="front-page.md" %}} -->
 
