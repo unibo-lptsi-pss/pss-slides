@@ -14,6 +14,26 @@ aliases = ["/guis-javafx/"]
 
 <!-- {{% import path="cover.md" %}} -->
 
+## Premessa
+
+### Obiettivi della lezione
+
+- Introdurre la libreria *JavaFX*
+- Attraverso essa, introdurre allo sviluppo di interfacce grafiche utente, *Graphical User Interface (GUI)*
+- Gettare le basi per la possibilità di un approfondimento autonomo
+
+### Argomenti
+
+- Elementi principali di applicazioni JavaFX (applicazione, stage, scene, layout, nodi)
+- Elementi avanzati: data binding, FXML, CSS
+
+### Riferimenti
+
+- [https://github.com/unibo-lptsi-pss/pss-javafx](https://github.com/unibo-lptsi-pss/pss-javafx)
+- *Learn JavaFX 17. Kishori Sharan and Peter Späth (Apress, 2022)* ([repo](https://github.com/Apress/learn-javafx17))
+- [JavaFX JavaDoc](https://openjfx.io/javadoc/17/)
+
+---
 
 ## Introduzione a JavaFX
 
@@ -227,7 +247,7 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 ### Build Gradle ed esempi
 
 - Si faccia riferimento al repository di esempio: 
-[https://github.com/APICe-at-DISI/sample-javafx-project](https://github.com/APICe-at-DISI/sample-javafx-project)
+[https://github.com/unibo-lptsi-pss/pss-javafx](https://github.com/unibo-lptsi-pss/pss-javafx)
 
 
 ```kotlin
