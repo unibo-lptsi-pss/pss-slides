@@ -4,7 +4,7 @@
 title = "Progettazione e Sviluppo del Software"
 description = "Progettazione e Sviluppo del Software, Tecnologie dei Sistemi Informatici"
 outputs = ["Reveal"]
-aliases = ["/gui-swing-todo/"]
+aliases = ["/guis-swing/"]
 
 +++
 
@@ -26,9 +26,9 @@ aliases = ["/gui-swing-todo/"]
 
 
 
-  *  Illustrare la libreria Java Swing
-  *  Fornire pattern di progettazione per le GUI
-  
+*  Illustrare la libreria Java Swing
+*  Fornire pattern di progettazione per le GUI
+
 
 
   
@@ -36,13 +36,11 @@ aliases = ["/gui-swing-todo/"]
 
 
 
-    *  Organizzazione della libreria Swing
-    *  Panoramica dei meccanismi principali
-    *  La gestione degli eventi nelle GUI
-    *  Elementi di programmazione ad eventi
-    *  Organizzazione MVC delle GUI
-    *  ..in seguito, JavaFX
-  
+*  Libreria *Swing*
+    *  Panoramica dei concetti, meccanismi, e costrutti principali
+*  La gestione degli eventi nelle GUI ed elementi di *programmazione ad eventi*
+*  Organizzazione *MVC* delle GUI
+
 
 
 
@@ -61,11 +59,11 @@ aliases = ["/gui-swing-todo/"]
 
 
 
-*  Interfacce grafiche per l'interazione con l'utente
-*  Ritenute più semplici rispetto alle CUI (Console User Interfaces)
+*  *Interfacce grafiche per l'interazione con l'utente*
+    *  Ritenute più semplici da utilizzare rispetto alle *CUI (Console User Interfaces)*
 *  Sfruttano la possibilità di disegnare più o meno arbitrariamente i pixel della matrice dello schermo
 *  Oltre allo schermo possono sfruttare altri dispositivi: mouse, tastiera,..
-*  Si appoggiano su astrazioni grafiche (pulsanti, icone, finestre)
+*  Si appoggiano su *astrazioni grafiche* (pulsanti, icone, finestre)
 
 
 
@@ -74,12 +72,10 @@ aliases = ["/gui-swing-todo/"]
 
 
 
-*  Abstract Window Toolkit (AWT) in Java 1 e 2 -- basso livello
-*  Java Swing in Java 5,6,7,8 
-*  Alternative: JavaFX (consigliata da Java 8), SWT (usato da Eclipse) 
-* $\Rightarrow$ Vedremo Swing, che si appoggia su AWT
-* $\Rightarrow$ In laboratorio vedrete la più moderna JavaFX
-
+*  **Abstract Window Toolkit (AWT)** in Java 1 e 2 -- basso livello
+*  **Java Swing** in Java >= 5
+    * Costruito sopra AWT
+*  Alternative: **JavaFX** (consigliato per applicazioni moderne), SWT (usato da Eclipse) 
 
 
 
@@ -121,11 +117,11 @@ aliases = ["/gui-swing-todo/"]
 
 
 
+*  `JWindow`: componente piazzabile nel desktop (senza cornice)
 *  `JFrame`: finestra con "cornice" (menù, barra, icone chiusura)
 *  `JPanel`: pannello di componenti inseribili in un `JFrame`
-*  `JComponent`: componente (pulsante, textfield, ..)
+*  `JComponent`: componente (pulsante, etichetta, campo di testo, ...)
 *  `JDialog`: finestra di dialogo
-*  `JWindow`: componente piazzabile nel desktop (senza cornice)
     
 
 
@@ -146,11 +142,13 @@ aliases = ["/gui-swing-todo/"]
 
 ## Un primo esempio
 
-
+{{% smaller %}}
     
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/TrySwing.java" %}}
 ```
+
+{{% /smaller %}}
 
 
 ![](imgs/TrySwing.png)
@@ -203,15 +201,11 @@ aliases = ["/gui-swing-todo/"]
 
 
     
-### Lezione di oggi
+### Nota
 
-
-
-*  Mostriamo le tecniche principali
+*  Questa lezione illustra le tecniche principali
 *  Occasionalmente mostreremo il funzionamento di vari componenti
 *  Costruire GUI efficaci (e avanzate) richiede però conoscenze ulteriori ottenibili all'occorrenza dai riferimenti di cui sopra
-
-
 
 
 
@@ -257,11 +251,23 @@ aliases = ["/gui-swing-todo/"]
 
 
    
+
+
+
+<div class="container">
+<div class="col">
+   
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseNoLayout.java" %}}
 ```
 
+</div>
+<div class="col">
+
 ![](imgs/NoLayout.png)
+
+</div>
+</div>
 
 
 ---
@@ -270,14 +276,20 @@ aliases = ["/gui-swing-todo/"]
 
 ## `BorderLayout`
 
-
+<div class="container">
+<div class="col">
    
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseBorderLayout.java" %}}
 ```
 
+</div>
+<div class="col">
+
 ![](imgs/BorderLayout.png)
 
+</div>
+</div>
 
 ---
 
@@ -298,12 +310,23 @@ aliases = ["/gui-swing-todo/"]
 ## Nuova versione `UseBorderLayout2`
 
 
+
+<div class="container">
+<div class="col">
    
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseBorderLayout2.java" %}}
 ```
 
+</div>
+<div class="col">
+
 ![](imgs/BorderLayout.png)
+
+</div>
+</div>
+
+
 
 
 ---
@@ -312,13 +335,21 @@ aliases = ["/gui-swing-todo/"]
 ## Qualche modifica: `UseBorderLayout3`
 
 
+
+<div class="container">
+<div class="col">
    
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseBorderLayout3.java" %}}
 ```
 
+</div>
+<div class="col">
+
 ![](imgs/BorderLayoutBis.png)
 
+</div>
+</div>
 
 ---
 
@@ -326,13 +357,23 @@ aliases = ["/gui-swing-todo/"]
 ## `FlowLayout`
 
 
+<div class="container">
+<div class="col">
    
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseFlowLayout.java" %}}
 ```
 
+</div>
+<div class="col">
+
 ![](imgs/FlowLayout.png)
 
+</div>
+</div>
+
+
+   
 
 ---
 
@@ -340,13 +381,22 @@ aliases = ["/gui-swing-todo/"]
 ## Un uso combinato di `FlowLayout` e `BorderLayout`
 
 
+
+
+<div class="container">
+<div class="col">
    
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseFlowBorder.java" %}}
 ```
 
+</div>
+<div class="col">
+
 ![](imgs/FlowBorder.png)
 
+</div>
+</div>
 
 
 ---
@@ -356,12 +406,26 @@ aliases = ["/gui-swing-todo/"]
 
 
    
+
+<div class="container">
+<div class="col">
+   
+{{% smaller %}}
+
 ```java
-{{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseMixedLayouts.java" %}}
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseMixedLayouts.java" %}}
 ```
+
+{{% /smaller %}}
+
+
+</div>
+<div class="col">
 
 ![](imgs/Mixed.png)
 
+</div>
+</div>
 
 ---
 
@@ -394,9 +458,6 @@ aliases = ["/gui-swing-todo/"]
 ---
 
 
-## Lavorare incapsulando il frame dentro una classe
-
-
    
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/example/UserInterface.java" %}}
@@ -411,8 +472,6 @@ aliases = ["/gui-swing-todo/"]
 
 ---
 
-
-## Lavorare incapsulando il frame dentro una classe
 
 
    
@@ -468,8 +527,8 @@ aliases = ["/gui-swing-todo/"]
 
 
 *  `Subject` è la sorgente degli eventi
-*  `Observer` si registra con la `attach(o:Observer)`
-*  Quando accade l'evento, `Subject` chiama `notify(e:Event)`
+*  `Observer` si registra con la `Subject#attach(o:Observer)`
+*  Quando accade l'evento, `Subject` chiama `Observer#notify(e:Event)`
 
 
 
@@ -483,22 +542,24 @@ aliases = ["/gui-swing-todo/"]
 
 ```java
 // E' il subject degli eventi
-class JButton .. {
-    void setActionCommand(String s){..}
-    void addActionListener(ActionListener listener){..}
-    void removeActionListener(ActionListener listener){..}
+class JButton ... {
+   /* Sets the action command string that gets sent as part of the
+     * `ActionEvent` when the button is triggered. */
+    void setActionCommand(String s) { ... }
+    void addActionListener(ActionListener listener) { ... }
+    void removeActionListener(ActionListener listener) { ... }
 }
 
 // Interfaccia da implementare per ascoltare gli eventi
-interface ActionListener .. {
+interface ActionListener ... {
     void actionPerformed(ActionEvent e);
 }
 
 // Classe per rappresentare un evento
-class ActionEvent .. {
-    String	getActionCommand(){..}
-    long	getWhen(){..}
-    ..
+class ActionEvent ... {
+    String	getActionCommand() { ... }
+    long	getWhen() { ... }
+    ...
 }
 ```
 
@@ -534,13 +595,13 @@ class ActionEvent .. {
 
 ## Versione incapsulata (inner listener + source eventi)
 
-
+{{% smaller %}}
    
 ```java
 {{% import-raw from=9 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/EventsFrame.java" %}}
 ```
 
-
+{{% /smaller %}}
 
 ---
 
@@ -552,6 +613,16 @@ class ActionEvent .. {
    
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseButtonEvents2.java" %}}
+```
+
+---
+
+## Listeners come lambda
+
+
+   
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseButtonEvents3.java" %}}
 ```
 
 
@@ -576,11 +647,11 @@ class ActionEvent .. {
 
 
 
-*  Quando si crea un `JFrame`, la JVM crea l'`EventDispatchThread` (EDT)
+*  Quando si crea un `JFrame`, la JVM crea l'**Event Dispatch Thread (EDT)**
 *  Quindi l'applicazione non termina quando il `main` completa
 *  Quando un evento si verifica la JVM fa eseguire il corrispondente codice all'EDT
 *  Ecco perché la GUI non risponde a nuovi eventi finché uno precedente non è stato gestito
-*  Per gestire con migliore flessibilità le GUI servono meccanismi di programmazione concorrente, che vedremo in futuro
+*  Per gestire con migliore flessibilità le GUI servono meccanismi di programmazione concorrente
 
 
     
@@ -597,12 +668,25 @@ class ActionEvent .. {
 ## GUI con I/O: listeners che modificano l'interfaccia
 
 
+<div class="container">
+<div class="col">
    
+{{% smaller %}}
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseIOGUI.java" %}}
 ```
 
+{{% /smaller %}}
+
+
+</div>
+<div class="col">
+
 ![](imgs/iogui.png)
+
+</div>
+</div>
 
 
 ---
@@ -611,12 +695,26 @@ class ActionEvent .. {
 ## GUI con Layout dinamico
 
 
+<div class="container">
+<div class="col">
    
+{{% smaller %}}
+
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseDynamicLayout.java" %}}
 ```
 
+{{% /smaller %}}
+
+
+</div>
+<div class="col">
+
 ![](imgs/adding.png)
+
+</div>
+</div>
+
 
 
 ---
@@ -625,12 +723,26 @@ class ActionEvent .. {
 ## Uso di un pannello come Canvas
 
 
+
+<div class="container">
+<div class="col">
    
+{{% smaller %}}
+
 ```java
-{{% import-raw from=8 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseCanvas.java" %}}
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseCanvas.java" %}}
 ```
 
+{{% /smaller %}}
+
+
+</div>
+<div class="col">
+
 ![](imgs/Canvas.png)
+
+</div>
+</div>
 
 
 ---
@@ -638,13 +750,13 @@ class ActionEvent .. {
 
 ## La classe `DrawPanel`
 
-
+{{% smaller %}}
    
 ```java
 {{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/DrawPanel.java" %}}
 ```
 
-
+{{% smaller %}}
 
 ---
 
@@ -652,13 +764,25 @@ class ActionEvent .. {
 ## Uso delle finestre di dialogo
 
 
+<div class="container">
+<div class="col">
    
+{{% smaller %}}
+
 ```java
-{{% import-raw from=8 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseDialogs.java" %}}
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/UseDialogs.java" %}}
 ```
+
+{{% /smaller %}}
+
+
+</div>
+<div class="col">
 
 ![](imgs/dialogs.png)
 
+</div>
+</div>
 
 ---
 
@@ -676,8 +800,6 @@ class ActionEvent .. {
 *  Spesso non sono particolarmente semplici da  usare
 *  Con un po' di esperienza e una buona conoscenza delle librerie sottostanti, possono essere usati con successo
 *  Se li si usasse, si deve però anche comprendere (e criticare) il codice che producono
-
-
 
 
 

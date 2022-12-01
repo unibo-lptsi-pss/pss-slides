@@ -913,4 +913,333 @@ Nel file FXML (ad esempio attaccandolo al nodo root)
 ```
 
 
+---
+
+## Il pattern architetturale **Model-View-Controller (MVC)**
+
+### Problema
+
+- Come si *progetta* in modo efficace applicazioni interattive (ad es. con GUI)?
+    - ad es. un'applicazione di e-commerce
+- Al solito, si vuole promuovere il riuso, la modularità, l'estensibilità, la manutenibilità del software
+
+### Idea
+
+- E' opportuno separare i diversi *concern*
+    - Modello del dominio e stato dell'applicazione: utenti, prodotti, carrello
+    - Visualizzazione contenuti e interazione con l'utente
+    - Logica 
+
+
+---
+
+## MVC: descrizione sintetica del pattern
+
+
+  
+### MVC -- divide l'applicazione in 3 parti
+
+
+
+*  `Model`: modello OO del dominio applicativo del sistema
+*  `View`: gestisce le interazioni con l'utente (input e output)
+*  `Controller`: gestisce il coordinamento fra Model e View
+
+
+
+---
+
+
+
+## Applicazione del MVC
+
+
+    
+### Sulla costruzione di applicazioni con GUI
+
+
+
+*  Specialmente se non esperti, possono essere alquanto laboriose
+*  Usare un approccio strutturato sembra richiedere più tempo nel complesso, ma in realtà porta a soluzione più facilmente modificabili e controllabili
+
+
+
+    
+### Alcune linee guida
+
+
+
+*  Usare il pattern MVC per la struttura generale
+*  Identificate le varie "interazioni", e quindi costruire le interfacce dei vari componenti bene fin dall'inizio
+*  Cercare massima indipendenza fra i vari componenti (interfacce con meno metodi possibile)
+*  Costruire e testare modello e GUI separatamente (M e V), poi collegare il tutto col controllore (C) che risulterà particolarmente esile
+*  Per la GUI eventualmente usare un GUI Builder
+
+
+
+
+
+---
+
+
+## MVC con le GUI: un esempio di struttura
+
+
+![](imgs/MVC-abstract.png)
+
+
+---
+
+
+## Componenti e loro interazioni
+
+
+    
+### MVC
+
+
+
+*  `Model`: incapsula dati e logica relativi al dominio della applicazione
+*  `View`: incapsula la GUI, le sue sottoparti, e la logica di notifica
+*  `Controller`: intercetta gli eventi della View, comanda le modifiche al modello, cambia di conseguenza la View
+
+
+
+    
+### Interfacce -- nomi da modificare in una applicazione concreta
+
+
+
+*  `ModelInterface`: letture/modifiche da parte del Controller
+*  `ViewObserver`: comandi inviati dalla view al controller (`void`)
+*  `ViewInterface`: comandi per settare la view, notifiche a fronte dei comandi (errori..)
+
+
+
+
+
+---
+
+
+## Un esempio di applicazione: `DrawNumber`
+
+
+![](imgs/class.png)
+
+
+---
+
+
+## Interfaccia del model: `DrawNumber`
+
+
+
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/model/DrawNumber.java" %}}
+```
+
+
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/model/DrawResult.java" %}}
+```
+
+
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/model/AttemptsLimitReachedException.java" %}}
+```
+
+
+
+---
+
+
+## Implementazione del model: `DrawNumberImpl`
+
+{{% smaller %}}
+
+```java
+
+public class DrawNumberImpl implements DrawNumber {
+
+	private int choice;
+	private final int min, max;
+	private final int attempts;
+	private int remainingAttempts;
+	private final Random random = new Random();
+
+	public DrawNumberImpl(final int min, final int max, final int attempts) {
+		this.min = min; this.max = max;
+		this.attempts = attempts;
+		this.reset();
+	}
+
+	public void reset() {
+		this.remainingAttempts = this.attempts;
+		this.choice = this.min + random.nextInt(this.max - this.min + 1);
+	}
+
+	public DrawResult attempt(int n) throws AttemptsLimitReachedException {
+		if (this.remainingAttempts == 0) { throw new AttemptsLimitReachedException(); }
+		if (n < this.min || n > this.max) { throw new IllegalArgumentException(); }
+		if (n > this.choice) { return DrawResult.YOURS_IS_HIGHER; }
+		if (n < this.choice) { return DrawResult.YOURS_IS_LOWER; }
+		return DrawResult.YOU_WON;
+	}
+}
+```
+
+{{% /smaller %}}
+
+
+
+---
+
+
+## Interfacce della view: `DrawNumberView`
+
+
+
+```java
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/view/DrawNumberView.java" %}}
+```
+
+
+```java
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/view/DrawNumberViewObserver.java" %}}
+```
+
+
+
+---
+
+
+## Implementazione della view: `DrawNumberViewImpl`
+
+{{% smaller %}}
+
+```java
+public final class DrawNumberViewImpl implements DrawNumberView {
+    private DrawNumberViewObserver observer;
+    private Stage frame;
+    private Label message, error;
+
+    @Override public void start() {
+        frame = new Stage();
+        final TextField tNumber = new TextField();
+        final Button bGo = new Button(GO);
+        message = new Label(); error = new Label();
+        // ... set up scene graph / layout ...
+        bGo.setOnAction(e -> { 
+            try {
+                observer.newAttempt(Integer.parseInt(tNumber.getText()));
+            } catch (NumberFormatException exception) { /* ... */ } 
+        });
+        this.frame.setScene(new Scene(...)); this.frame.show();
+    }
+
+    @Override public void setObserver(final DrawNumberViewObserver o) { this.observer = o; }
+
+    @Override public void numberIncorrect() { displayError("Incorrect Number... try again"); }
+
+    @Override public void result(final DrawResult res) {
+        switch (res) {
+            case YOURS_HIGH: plainMessage(res.getDescription()); return;
+            case YOURS_LOW: plainMessage(res.getDescription()); return;
+            case YOU_WON: plainMessage(res.getDescription() + NEW_GAME); break;
+            case YOU_LOST: plainMessage(res.getDescription() + NEW_GAME); break;
+            default: throw new IllegalStateException("Unexpected result: " + res);
+        }
+        observer.resetGame();
+    }
+
+    private void plainMessage(final String msg) { message.setText(msg); }
+
+    @Override public void displayError(final String msg) { error.setText(msg); }
+```
+
+{{% /smaller %}}
+
+
+
+---
+
+
+
+
+## Implementazione del controller: `DrawNumberApp` 
+
+{{% smaller %}}
+
+
+
+```java
+public class DrawNumberApp implements DrawNumberViewObserver {
+	private static final int MIN = 0; private static final int MAX = 100;
+	private static final int ATTEMPTS = 10;
+	private final DrawNumber model;
+	private final DrawNumberView view;
+
+	public DrawNumberApp() {
+		this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+		this.view = new DrawNumberViewImpl();
+		this.view.setObserver(this);
+		this.view.start();
+	}
+
+	public void newAttempt(int n) {
+		try {
+			final DrawResult result = this.model.attempt(n);
+			this.view.result(result);
+			if (result == DrawResult.YOU_WON) { this.quit(); }
+		} catch (IllegalArgumentException e) { this.view.numberIncorrect(); } 
+        catch (AttemptsLimitReachedException e) { this.view.limitsReached(); }
+	}
+
+	public void resetGame() { this.model.reset(); }
+
+	public void quit() { System.exit(0); }
+
+	public static void main(String[] args) { new DrawNumberApp(); }
+}
+```
+
+{{% /smaller %}}
+
+
+
+---
+
+
+## Linee guida generali consigliate su MVC
+
+
+   
+### Metodologia proposta
+
+
+
+*  progettare le 3 interfacce
+
+    *  M: metodi di "dominio", chiamati da C
+    *  C: metodi (`void`) chiamati da V, esprimono "azioni utente"
+    *  V: metodi (`void`) chiamati da C, esprimono richieste di visualizzazione
+
+
+*  la tecnologia scelta per le GUI sia interna a V, e mai menzionata altrove o nelle interfacce
+*  implementare separatamente M, V e C, poi comporre e testare
+*  in progetti reali, M, V e C si compongono di varie parti
+
+
+
+   
+### Aspetti
+
+
+
+*  MVC è implementato in vari modi, o esiste in diverse varianti
+    - Model-View-ViewModel (MVVM), Model-View-Presenter (MVP), ...
+*  l'approccio proposto è particolarmente indicato per la sua semplicità
+*  si usino altri approcci se non peggiorativi
+
+
 
