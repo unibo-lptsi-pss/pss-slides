@@ -211,7 +211,7 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 ### Sommario
 
 
-![](imgs/javafx-app.png)
+![](imgs/javafx-app-summary.png)
 
 
 
@@ -387,17 +387,72 @@ g.setTranslateX(-5); // applies translation to all children
 g.setEffect(new DropShadow()); // applies effect to all children
 ```
 
+---
+
+- Layout pane forniscono metodi d'istanza/statici per dettagliare i posizionamenti
+
+```java
+Text center = new Text("Center"); // ...
+BorderPane bpane = new BorderPane(center, top, right, bottom, left);
+bpane.setCenter(new Text("NewCenter"));
+```
+
+```java
+Button topLeft = new Button("Top Left");
+AnchorPane.setTopAnchor(topLeft, 10.0); // 10px from the top edge
+AnchorPane.setLeftAnchor(topLeft, 10.0); // 10px from the left edge
+AnchorPane root = new AnchorPane(topLeft);
+```
+
+```java
+// An empty vertical TilePane with 5px horiz / 10px vertical spacing
+TilePane tp2 = new TilePane(Orientation.VERTICAL, 5, 10);
+tp2.setPrefRows(3);
+tp.setPrefTileHeight(100);
+for(Month m : Month.values()) { tp2.getChildren().add(new Label(m.name())); }
+```
+
+```java
+GridPane gp = new GridPane();
+gp.setGridLinesVisible(true);
+for(Month m : Month.values()) {
+    Label l = new Label(m.name());
+    gp.getChildren().add(l);
+    int columnIndex = (m.getValue()-1) / 4; int rowIndex = (m.getValue()-1) % 4;
+    GridPane.setConstraints(l, columnIndex, rowIndex);
+    // OR ALSO: gp.add(l, columnIndex, rowIndex);
+}
+```
+
+
 
 ---
 
-### Layouts (3/3)
+### Layout pane: sommario
 
 
 
 ![](imgs/javafx-layouts.drawio.png)
 
 
+---
 
+### Una nota sul posizionamento e dimensionamento delle GUI
+
+- I *bound* di un nodo/scena/stage/schermi ne definiscono:
+    - (1) *posizione* (position)
+    - (2) *dimensione* (size)
+- Essi sono definiti in termini di un cosiddetto *bounding rectangle*, rappresentato da un'istanza di `javafx.geometry.Bounds` che espone:
+    - (1) le coordinate del punto in alto a sinistra: `getMinX()`, `getMinY()`, `getMinZ()`
+    - (2) le dimensioni: `getWidth()`, `getHeight()`, `getDepth()`
+    - Di conseguenza si definisce un default anche per `getMaxX()`... come `getMinX()+getWidth()`...
+- Sul dimensionamento di una `Scene`
+    - Se dimensione non è specificata, sarà calcolata automaticamente in base alla dimensione preferita dal contenuto
+    - Se il nodo radice di una scene è ridimensionabile (ad es. `Region` ma non un `Group`), allora il ridimensionamento della scena causerà un aggiustamento del layout
+- Sul dimensionamento di uno `Stage`
+    - Se non ha una scena associata o la scena è vuota, la dimensione è specificata dalla piattaforma. Altrimenti, la dimensione sarà data dalla scena.
+- Un `Node` può essere "gestito" (*managed*) o meno: nel primo caso, il parent ne gestirà il posizionamento/dimensionamento (in base alla *preferred size* del nodo)
+- Se ci sono più `Screen` (si veda slide più avanti), i bound degli schermi non-primari saranno relativi a quelli dello schermo primario
 
 ---
 
