@@ -17,14 +17,16 @@ aliases = ["/intro/"]
 * Titolare del corso: Prof. Roberto Casadei
   * e-mail: [`roby.casadei@unibo.it`](mailto:roby.casadei@unibo.it)
   * homepage: [`https://www.unibo.it/sitoweb/roby.casadei/`](https://www.unibo.it/sitoweb/roby.casadei/)
-* Modulo 2: Prof. Danilo Pianini
-  * e-mail: [`danilo.pianini@unibo.it`](mailto:danilo.pianini@unibo.it)
-  * homepage: [`https://www.unibo.it/sitoweb/danilo.pianini/`](https://www.unibo.it/sitoweb/danilo.pianini)
-* Modulo 3: Prof.ssa Sara Montagna
-  * e-mail: [`sara.montagna@unibo.it`](mailto:sara.montagna@unibo.it)
-  * homepage: [`https://www.unibo.it/sitoweb/sara.montagna/`](https://www.unibo.it/sitoweb/sara.montagna)
-* Tutor: Dott. Francesco Dente
-  * e-mail: [`francesco.dente@studio.unibo.it`](mailto:francesco.dente@studio.unibo.it)
+* Modulo 2: Prof. Angelo Filaseta
+  * e-mail: [`angelo.filaseta@unibo.it`](mailto:angelo.filaseta@unibo.it)
+  * homepage: [`https://www.unibo.it/sitoweb/angelo.filaseta/`](https://www.unibo.it/sitoweb/angelo.filaseta/)
+* Modulo 3: Prof. Gianluca Aguzzi
+  * e-mail: [`gianluca.aguzzi@unibo.it`](mailto:gianluca.aguzzi@unibo.it)
+  * homepage: [`https://www.unibo.it/sitoweb/gianluca.aguzzi`](https://www.unibo.it/sitoweb/gianluca.aguzzi)
+* Tutor: Dott. Luca Deluigi
+  * e-mail: [`luca.deluigi5@unibo.it`](mailto:luca.deluigi5@unibo.it)
+  * homepage: [`https://www.unibo.it/sitoweb/luca.deluigi5/`](https://www.unibo.it/sitoweb/luca.deluigi5/)
+  
 
 ---
 
