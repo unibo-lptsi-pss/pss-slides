@@ -486,7 +486,7 @@ flowchart TB
 ### Modello di sviluppo attuale
 * Da Java 9, si ha una nuova release ogni 6 mesi
 * Ogni due anni, si ha una nuova LTS, e si raccomanda di non rimanere indietro
-* OpenJDK produce l'implmentazione di riferimento del JDK
+* OpenJDK produce l'implementazione di riferimento del JDK
     * Ne esistono anche altre!
         * Eclipse OpenJ9, Amazon Corretto, GraalVM...
 

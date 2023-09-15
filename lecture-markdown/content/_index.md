@@ -52,7 +52,7 @@ outputs = ["Reveal"]
 
 Contenuti laboratorio alla pagina successiva
 
-{{% smaller %}}
+{{% /smaller %}}
 
 ---
 

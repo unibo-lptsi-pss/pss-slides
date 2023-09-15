@@ -179,7 +179,7 @@ Si possono specificare più cartelle utilizzando come separatore il simbolo "`:`
 
 È buona norma organizzare i sorgenti in modo da rappresentare su filesystem la struttura
 dei package. Si noti però che (dato che il compilatore lavora su *__file__*) questa scelta
-**non è \underline{teoricamente} obbligatoria**!
+**non è <u>teoricamente</u> obbligatoria**!
 * Lo è di fatto in questo corso, perché le cose van fatte bene
 * Lo sarà nel mondo del lavoro, perché è prassi assolutamente comune
 

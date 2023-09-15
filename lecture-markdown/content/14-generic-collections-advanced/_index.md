@@ -487,7 +487,7 @@ Più in generale, se non possono accadere errori a tempo di esecuzione..
 *  Con le wildcard si aumenta il riuso dei metodi che non usano tutte le funzioni (che collettivamente porterebbero a invarianza) del tipo generico in input
   
 
-{{% smaller %}}
+{{% /smaller %}}
 
 
 ---
