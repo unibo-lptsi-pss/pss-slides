@@ -756,7 +756,7 @@ class ActionEvent ... {
 {{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/DrawPanel.java" %}}
 ```
 
-{{% smaller %}}
+{{% /smaller %}}
 
 ---
 
