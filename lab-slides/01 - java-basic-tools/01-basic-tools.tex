@@ -5,8 +5,8 @@
 
 \newcommand{\lab}{Lab01}
 
-\title%[{\lab} -- Strumenti di Base]
-{Strumenti di Base}
+\title[Strumenti di Base] %[{\lab} -- Strumenti di Base]
+{Strumenti di Base: terminale, \texttt{javac}, \texttt{java}, VSCode}
 
 \date[\today]{\today}
 
@@ -19,14 +19,46 @@
     \tableofcontents[]
 \end{frame}
 
-\section{Java Development Kit (JDK) Overview}
 
-\fr{Java Development Kit (JDK)}{
-    \bl{Esistono diverse distribuzioni di Java}{
+\section{Le piattaforme Java e il Java Development Kit (JDK)}
+
+\begin{frame}{Tipi di piattaforme Java}
+
+\begin{block}{Java platform}
+\begin{itemize}
+\item \textbf{Java SE} (Java Platform, Standard Edition) -- per applicazioni general-purpose su computer e server
+\item \textbf{Jakarta EE} (ex Java Platform, Enterprise Edition) -- per applicazioni ``enterprise'' (mission-critical)
+\item \textbf{Java SE Embedded} -- per applicazioni embedded
+\item \textbf{Java ME Embedded} (Java Platform, Micro Edition) -- per dispositivi resource-constrained
+%\item \textbf{Java Card} -- per smart card
+\end{itemize}
+\end{block}
+
+\begin{block}{Specifiche vs. implementazioni}
+\begin{itemize}
+\item Una piattaforma Java include \textbf{specifiche} e \textbf{implementazioni (di riferimento)} per
+	\begin{itemize}
+	\item ambiente d'esecuzione (macchina virtuale)
+	\item linguaggio (Java) e librerie (API)
+	\item strumenti di sviluppo (SDK)
+	\end{itemize}
+%\item \textbf{Java SE}: Fornisce la specifica per:
+%	\begin{itemize}
+%	\item \textbf{Java Runtime Environment (JRE)}: ambiente d'esecuzione, che include la \textbf{Java Virtual Machine (JVM)} e la \textbf{Java Class Library (JCL)} per funzionalità \emph{OS-independent} caricabili a runtime
+%	\item \textbf{Java Development Kit (JDK)}: JRE + tool per sviluppo di programmi (e.g. compilatore)
+%	\end{itemize}
+%\item \textbf{Jakarta EE}: Estende Java SE con ulteriori API % per lo sviluppo di applicazioni enterprise 
+%(e.g. Security, JSON)
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\fr{Java SE Development Kit (JDK)}{
+    \bl{Java Development Kit (JDK)}{
         \begin{description}
             \item[JRE] -- Java Runtime Environment: solo interprete
             \item[JDK] -- JRE + tool per lo sviluppo di programmi (e.g. compilatore)
-            \item[Java EE (dismesso)] -- Java Enterprise Edition: JDK + set esteso di librerie
         \end{description}
     }
 
@@ -46,26 +78,28 @@
 
 \fr{Java Development Kit (JDK)}{
     \begin{itemize}
-        \item Java 11 -- (pen)ultima versione LTS del JDK
+        \item Java 17 -- ultima versione LTS del JDK
         \begin{itemize}
-            \item Esistono varie versioni e vari distributori (OpenJDK, Oracle JDK, Eclipse OpenJ9, Amazon, Graal, Zulu\dots)
-            \item OpenJDK -- implementazione non commerciale, reference version
+            \item Esistono varie versioni e implementazioni (OpenJDK, Oracle JDK, Eclipse OpenJ9, Amazon, Graal, Zulu\dots)
+            \item \textbf{OpenJDK} -- implementazione \emph{open-source}, \textbf{reference version}
             \begin{itemize}
                 \item Per capire se una JVM si comporta correttamente, si confronta il suo comportamento con OpenJDK.
             \end{itemize}
+            \item Esistono vari distributori (e.g. Adoptium, Oracle) che offrono \emph{binari pre-built} dell'implementazione OpenJDK (sorgenti)
         \end{itemize}
     \end{itemize}
     \begin{block}{Riferimenti per il corso}
         \begin{itemize}
-            \item Java 11, distribuita da OpenJDK
+            %\item Java 11, distribuita da OpenJDK
+            \item Java 17, distribuita da Adoptium %OpenJDK            
             \item Adoptium: riferimento per il download del JDK
             \begin{itemize}
-                \item \texttt{https://adoptium.net/}
+                \item \url{https://adoptium.net/}
             \end{itemize}
             \item Chi lo desidera può sperimentare con le versioni più recenti
             \begin{itemize}
-            \item L'ultima al momento è Java 17, nuova LTS
-            \item Attenzione: la compatibilità è solo all'indietro
+            %\item L'ultima al momento è Java 17, nuova LTS
+            \item NB: la compatibilità è solo all'indietro (\emph{backwards compatibility}): è ok eseguire, su nuove JVM, applicazioni compilate per vecchie JVM
             \item \dots{}e spesso non completa\dots{}
             \end{itemize}
         \end{itemize}
@@ -83,24 +117,30 @@
 
 \begin{frame}{Elementi base del file system}
   \begin{itemize}
-    \item I sistemi operativi odierni consentono di memorizzare permanentemente le informazioni su
+    \item I sistemi operativi (S.O.) odierni consentono di memorizzare permanentemente le informazioni su
 supporti di memorizzazione di massa (dischi magnetici, dispositivi a stato solido...)
-    \item Le informazioni su questi supporti sono organizzate in file e cartelle:
+	\item Il \textbf{file system} è l'insieme di metodi e   strutture dati impiegati dal S.O. per controllare
+l’accesso e la memorizzazione dei dati.
+	\begin{enumerate}
+	\item \textbf{Livello logico}: riguarda come l'informazione è presentata all'utente
+	\item \textbf{Livello fisico}: riguarda come il livello logico è mappato nelle memorie
+	\end{enumerate}
+    \item Le informazioni sono organizzate in file e cartelle (livello logico):
       \begin{itemize}
-        \item i file contengono le informazioni
-        \item le cartelle sono contenitori, all'interno contengono i file ed altre cartelle
+        \item i \textbf{file} contengono le informazioni
+        \item le \textbf{cartelle} sono contenitori, all'interno contengono i file ed altre cartelle
       \end{itemize}
-    \item La cartella più esterna, che contiene tutte le altre, è detta root. Essa rappresenta il livello gerarchico più alto del file system
+    \item La cartella più esterna (contenente tutte le altre) è la \textbf{radice (\emph{root})} %. Essa rappresenta il livello gerarchico più alto del file system
       \begin{itemize}
-        \item In *nix (Linux, MacOS, BSD, Solaris...), vi è una unica radice, ossia \texttt{/}
-        \item In Windows, c'è una root per file system identificata da una lettera di unità (e.g.
-\texttt{C:}, \texttt{D:})
+        \item *nix (Linux, MacOS, BSD, Solaris...): vi è una unica radice, ossia \texttt{/}
+        \item Windows: c'è una root per FS, indicata da una lettera di unità (es.
+\texttt{C:}) %, \texttt{D:})
       \end{itemize}
-    \item La stringa che descrive un intero percorso dalla root fino ad un elemento del file system
-prende il nome di \emph{percorso} (o \emph{path}), e.g.:
+    \item File e cartelle possono essere individuati da un percorso o \textbf{path} (\emph{assoluto}, dalla root; o \emph{relativo}, da un certo punto del filesystem):
     \begin{itemize}
         \item \texttt{/home/user/frameworkFS.jar} (percorso Unix)
         \item \texttt{C:\textbackslash{}Windows\textbackslash{}win32.dll} (percorso Windows)
+        \item Altra sintassi: \texttt{.} (cartella corrente), \texttt{..} (cartella padre)
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -171,15 +211,14 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
 
 \fr{Sistemi Windows}{
     \bl{}{
-        L'interprete comandi è rappresentato dal programma \texttt{cmd.exe} in \texttt{C:$\backslash$Windows$\backslash$System32$\backslash$cmd.exe}
+        L'interprete comandi è rappresentato dal programma \textbf{cmd} (\texttt{C:$\backslash$Windows$\backslash$System32$\backslash$cmd.exe})
         \iz{
             \item Eredita in realtà sintassi e funzionalità della maggior parte dei comandi del vecchio MSDOS
-            \item Versioni recenti hanno introdotto PowerShell, basato su .NET e C\#
-            \item Da Windows 10 è possibile installare Linux dentro Windows usando Windows Subsystem for Linux (WSL2)
+            \item Versioni recenti hanno introdotto \textbf{PowerShell}, basato su .NET e C\#
+            \item Da Windows 10 è possibile installare Linux dentro Windows usando \textbf{Windows Subsystem for Linux (WSL2)}
             \begin{itemize}
                 \item Può essere un modo ragionevole di avere shell Unix in ambiente Windows
-                \item %\dots{}e infatti 
-                in laboratorio è disponibile una WSL2 con zsh $\heartsuit$
+                \item \dots{} le macchine di laboratorio hanno una WSL2 con zsh $\heartsuit$ %e infatti in laboratorio ho preparato una WSL2 con zsh $\heartsuit$
             \end{itemize}
         }
     }
@@ -201,7 +240,10 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
     \end{block}
     \begin{block}{Manjaro con Terminale ZSH via WSL2 (con configurazioni di Pianini)}
         \begin{itemize}
-            \item Avviare WSL tramite collegamento ``Lancia WSL'' sul desktop
+            \item Avviare WSL tramite collegamento ``Lancia WSL'' presente nella cartella ``WSL'' del Desktop
+            	\begin{itemize}
+            	\item Tasto destro sul file $\to$ \emph{Esegui con PowerShell} (rispondere ``T'' alla domanda sui criteri d'esecuzione, e attendere)
+            	\end{itemize}
             \item Attendere l'importazione della distro Linux (qualche minuto)
             \item Non aprire altre istanze finché la prima non è avviata!
             \item Questa è una shell nativa Linux, preconfigurata dal docente
@@ -218,6 +260,7 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
     \begin{tabular}{| l | c | c |}
       \hline
       \textbf{Operazione} & \textbf{Comando Unix} & \textbf{Comando Win} \\ \hline
+            \scriptsize{}Ottenere aiuto / elenco comandi & \texttt{help} & \texttt{help}  \\ \hline
       \scriptsize{}Visualizzare la directory corrente & \texttt{pwd} & \texttt{echo \%cd\%}  \\ \hline
       \scriptsize{}Eliminare il file \texttt{foo} (non va con le cartelle!) & \texttt{rm foo} & \texttt{del foo} \\ \hline
       \scriptsize{}Eliminare la directory di nome \texttt{bar} & \texttt{rm -r bar} & \texttt{rd bar} \\ \hline
@@ -241,7 +284,7 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
         \scriptsize{}
         Sia *nix che Windows offrono la possibilità di effettuare autocompletamento, ossia chiedere al sistema di provare a completare un comando.
         \begin{itemize}
-            \item Per farlo si utilizza il tasto \enf{``TAB''}.
+            \item Per farlo si utilizza il tasto \textbf{TAB}.
             \item L'autocompletamento cambia anche molto fra terminali diversi
             \begin{itemize}
                 \scriptsize{}
@@ -251,7 +294,7 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
     \end{block}
     \begin{block}{Memoria dei comandi precendenti}
         \scriptsize{}
-        Sia Bash/zsh che cmd offrono la possibilità di richiamare rapidamente i comandi inviati precedentemente premendo il tasto \enf{``FRECCIA SU'' ($\uparrow$)}.
+        Sia Bash/zsh che cmd offrono la possibilità di richiamare rapidamente i comandi inviati precedentemente premendo il tasto \textbf{FRECCIA SU}.
         \begin{itemize}
             \item  Su bash/zsh i comandi sono \emph{persistenti} (disponibili anche se il terminale viene riavviato).
         \end{itemize}
@@ -260,7 +303,7 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
         \scriptsize{}
         È possibile interrompere forzatamente un programma, qualora non risponda per vari motivi o non si voglia attenderne la normale terminazione.
         \begin{itemize}
-            \item Per farlo, sia su Windows che in *nix, si prema \enf{CTRL+C}.
+            \item Per farlo, sia su Windows che in *nix, si prema \textbf{CTRL+C} (invio segnale \texttt{SIGINT}).
             \item Esempio tipico: programma in loop infinito
         \end{itemize}
     \end{block}
@@ -274,7 +317,7 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
     \begin{block}{Ricerca nella storia dei comandi precedenti}
         \scriptsize{}
         \begin{itemize}
-            \item Premendo CTRL+R seguito da un testo da cercare, i sistemi *nix supportano la ricerca all'interno dei comandi lanciati recentemente, anche in sessioni utente precedenti. Non disponibile su Windows.
+            \item Premendo \textbf{CTRL+R} seguito da un testo da cercare, i sistemi *nix supportano la ricerca all'interno dei comandi lanciati recentemente, anche in sessioni utente precedenti. Non disponibile su Windows.
         \end{itemize}
     \end{block}
 \end{frame}
