@@ -578,7 +578,7 @@ tre concetti che spiegheremo in dettaglio nel prosieguo:
 ## "Hello world" Java Program
 
 ```java
-{{% import-raw path="code/objects/hello-world/HelloWorld.java" %}}
+{{% import-raw path="code/objects/hello-world/Hello.java" %}}
 ```
   
 ### Compilazione ed esecuzione
