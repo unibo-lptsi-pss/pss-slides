@@ -5,7 +5,8 @@
 
 \newcommand{\lab}{Lab01}
 
-\title[{\lab} -- Strumenti di Base]{Strumenti di Base}
+\title%[{\lab} -- Strumenti di Base]
+{Strumenti di Base}
 
 \date[\today]{\today}
 
@@ -278,48 +279,7 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
     \end{block}
 \end{frame}
 
-\section{Preparazione dell'ambiente di lavoro (per Lab01)}
 
-\fr{Preparazione Ambiente di Lavoro}{
-    \iz{
-        \item Accendere il PC ed eseguire l'accesso
-        \item Accedere al sito del corso
-        \item Scaricare dalla sezione dedicata a questa settimana il materiale dell'esercitazione odierna
-        \item Spostare il file scaricato sul Desktop
-        \item Decomprimere il file sul Desktop
-    }
-}
-
-
-\fr{Preparazione Ambiente di Lavoro}{
-    \iz{
-        \item Aprire un terminale
-        \item Si scelga l'opzione che si preferisce fra quelli proposti
-        \item Si comprenda in quale cartella ci si trova usando l'apposito comando
-        \iz{
-            \item Generalmente il prompt si apre nella directory principale dell'utente
-            \item Nel caso in cui si usasse zsh dentro WSL, o Git Bash, il file system di windows è agganciato emulando un file system Unix.
-        }
-        \item Posizionarsi all'interno della cartella scompattata con l'ausilio del comando \ttb{cd} (change directory)
-        \item Verificare che il contenuto della cartella sia quello atteso
-    }
-}
-
-\begin{frame}{Preparazione Ambiente di Lavoro}
-    \begin{itemize}
-        \item Scegliere un editor di testo per modificare i file sorgente
-        \begin{itemize}
-            \item Il laboratorio è equipaggiato con diversi editor di testo: JEdit, Notepad++, Visual Studio Code...
-            \item \textbf{NON} sono adatti per l'apertura e la modifica di file Java
-            (né di alcun altro linguaggio di programmazione) i word processors (Libreoffice Writer, Microsoft Word, Microsoft WordPad...), né l'editor di testo incluso in Windows (Notepad).
-        \end{itemize}
-        \item Si suggerisce l'utilizzo di \textbf{Code} (\texttt{https://code.visualstudio.com/})
-        \begin{itemize}
-            \item fornisce un supporto adeguato alla scrittura/modifica di sorgenti Java
-            \item offre la possibilità di interpretare la sintassi markdown: modalità con cui sono forniti i testi degli esercizi (per i primi laboratori)
-        \end{itemize}
-    \end{itemize}
-\end{frame}
 
 \section{Compilazione ed Esecuzione da Riga di Comando}
 
@@ -362,6 +322,49 @@ prende il nome di \emph{percorso} (o \emph{path}), e.g.:
         \textit{jshell} non è magico: dietro le quinte compila in memoria, quindi lancia l'interprete sul bytecode risultante
     \end{block}
     Noi costruiamo applicazioni: \textbf{prima} \textit{si compila}, \textbf{poi} \textit{si esegue}!
+\end{frame}
+
+\section{Preparazione dell'ambiente di lavoro (per Lab01)}
+
+\fr{Preparazione Ambiente di Lavoro}{
+    \iz{
+        \item Accendere il PC ed eseguire l'accesso
+        \item Accedere al sito del corso
+        \item Scaricare dalla sezione dedicata a questa settimana il materiale dell'esercitazione odierna
+        \item Spostare il file scaricato sul Desktop
+        \item Decomprimere il file sul Desktop
+    }
+}
+
+
+\fr{Preparazione Ambiente di Lavoro}{
+    \iz{
+        \item Aprire un terminale
+        \item Si scelga l'opzione che si preferisce fra quelli proposti
+        \item Si comprenda in quale cartella ci si trova usando l'apposito comando
+        \iz{
+            \item Generalmente il prompt si apre nella directory principale dell'utente
+            \item Nel caso in cui si usasse zsh dentro WSL, o Git Bash, il file system di windows è agganciato emulando un file system Unix.
+        }
+        \item Posizionarsi all'interno della cartella scompattata con l'ausilio del comando \ttb{cd} (change directory)
+        \item Verificare che il contenuto della cartella sia quello atteso
+    }
+}
+
+\begin{frame}{Preparazione Ambiente di Lavoro}
+    \begin{itemize}
+        \item Scegliere un editor di testo per modificare i file sorgente
+        \begin{itemize}
+            \item Il laboratorio è equipaggiato con diversi editor di testo: JEdit, Notepad++, Visual Studio Code...
+            \item \textbf{NON} sono adatti per l'apertura e la modifica di file Java
+            (né di alcun altro linguaggio di programmazione) i word processors (Libreoffice Writer, Microsoft Word, Microsoft WordPad...), né l'editor di testo incluso in Windows (Notepad).
+        \end{itemize}
+        \item Si suggerisce l'utilizzo di \textbf{Code} (\texttt{https://code.visualstudio.com/})
+        \begin{itemize}
+            \item fornisce un supporto adeguato alla scrittura/modifica di sorgenti Java
+            \item offre la possibilità di interpretare la sintassi markdown: modalità con cui sono forniti i testi degli esercizi (per i primi laboratori)
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \section{Appendice: richiami utili per gli esercizi del Lab01}
