@@ -367,62 +367,122 @@ l’accesso e la memorizzazione dei dati.
     Noi costruiamo applicazioni: \textbf{prima} \textit{si compila}, \textbf{poi} \textit{si esegue}!
 \end{frame}
 
-\section{Preparazione dell'ambiente di lavoro (per Lab01)}
-
-\fr{Preparazione Ambiente di Lavoro}{
-    \iz{
-        \item Accendere il PC ed eseguire l'accesso
-        \item Accedere al sito del corso
-        \item Scaricare dalla sezione dedicata a questa settimana il materiale dell'esercitazione odierna
-        \item Spostare il file scaricato sul Desktop
-        \item Decomprimere il file sul Desktop
-    }
-}
+\section{Visual Studio Code (VSCode)}
 
 
-\fr{Preparazione Ambiente di Lavoro}{
-    \iz{
-        \item Aprire un terminale
-        \item Si scelga l'opzione che si preferisce fra quelli proposti
-        \item Si comprenda in quale cartella ci si trova usando l'apposito comando
-        \iz{
-            \item Generalmente il prompt si apre nella directory principale dell'utente
-            \item Nel caso in cui si usasse zsh dentro WSL, o Git Bash, il file system di windows è agganciato emulando un file system Unix.
-        }
-        \item Posizionarsi all'interno della cartella scompattata con l'ausilio del comando \ttb{cd} (change directory)
-        \item Verificare che il contenuto della cartella sia quello atteso
-    }
-}
+\begin{frame}[fragile]{Visual Studio Code (VSCode): Introduzione}
 
-\begin{frame}{Preparazione Ambiente di Lavoro}
-    \begin{itemize}
-        \item Scegliere un editor di testo per modificare i file sorgente
-        \begin{itemize}
-            \item Il laboratorio è equipaggiato con diversi editor di testo: JEdit, Notepad++, Visual Studio Code...
-            \item \textbf{NON} sono adatti per l'apertura e la modifica di file Java
-            (né di alcun altro linguaggio di programmazione) i word processors (Libreoffice Writer, Microsoft Word, Microsoft WordPad...), né l'editor di testo incluso in Windows (Notepad).
-        \end{itemize}
-        \item Si suggerisce l'utilizzo di \textbf{Code} (\texttt{https://code.visualstudio.com/})
-        \begin{itemize}
-            \item fornisce un supporto adeguato alla scrittura/modifica di sorgenti Java
-            \item offre la possibilità di interpretare la sintassi markdown: modalità con cui sono forniti i testi degli esercizi (per i primi laboratori)
-        \end{itemize}
-    \end{itemize}
+\begin{itemize}
+\item \textbf{Visual Studio Code (VSCode)} è un editor di codice sorgente con licenza libera
+	\begin{itemize}
+	\item ricco di \emph{strumenti} ed \emph{estensioni}
+	\item da non confondere con il più completo e potente IDE \emph{Visual Studio}
+	\end{itemize}
+\item Scaricabile da: \url{https://code.visualstudio.com/download}
+\end{itemize}
+
 \end{frame}
 
-\section{Appendice: richiami utili per gli esercizi del Lab01}
+\begin{frame}{}
 
-\fr{A1 -- Operazioni con i Numeri Complessi}{
-    \bl{Numeri complessi -- breve ripasso}{
-        Siano $z,w \in \mathbb{C} : z = a + ib,\ w = c + id$, allora:
-        \iz {
-            \item Confronto: $z = w \iff a = c \wedge b = d$
-            \item Somma algebrica: $z \pm w = a \pm c + i(b \pm d)$
-            \item Prodotto: $z \cdot w = (a+ib)(c+id) = ac-bd+i(bc+ad)$
-            \item Rapporto: $\frac{z}{w} = \frac{(a+ib)(c-id)}{(c+id)(c-id)} = \frac{ac + bd}{c^2 + d^2} + i\frac{bc - ad}{c^2 + d^2}$
-        }
-    }
-}
+\fg{width=\textwidth}{img/vs-code-startup.png}
+\end{frame}
+
+\begin{frame}{Visual Studio Code (VSCode): utilizzo di base}
+
+\begin{itemize}
+\item Apertura VSCode
+	\begin{itemize}
+	\item[a)] Da terminale: \ttb{vscode} \emph{``percorso alla cartella da aprire''}
+	\item[b)] Apertura del programma + selezione cartella:
+		\begin{itemize}
+		\item \emph{[Menu] File $\to$ Open Folder...} selezionando la cartella radice del progetto
+		\end{itemize}
+	\end{itemize}
+
+\item Creazione di file:
+	\begin{itemize}
+	\item[a)] \emph{[Tasto destro nell'area ``Explorer''] $\to$ New file...}
+	\item[b)] \emph{[Menu] File $\to$ New file...}
+	\end{itemize}
+	
+\item Modifica di file
+	\begin{itemize}
+	\item Si noti che i file vanno salvati esplicitamente con CTRL+S o \emph{[Menu] File $\to$ Save} (altrimenti potrebbero non esistere nel filesystem)
+	\item File modificati e non salvati sono indicati con un $\bullet$ nel tab corrispondente
+	\end{itemize}
+
+\item Apertura terminale: 
+\emph{[Menu] Terminal $\to$ New Terminal}
+
+
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{}
+
+\fg{width=\textwidth}{img/vs-code.png}
+
+\end{frame}
+
+%\section{Preparazione dell'ambiente di lavoro (per Lab01)}
+%
+%\fr{Preparazione Ambiente di Lavoro}{
+%    \iz{
+%        \item Accendere il PC ed eseguire l'accesso
+%        \item Accedere al sito del corso
+%        \item Scaricare dalla sezione dedicata a questa settimana il materiale dell'esercitazione odierna
+%        \item Spostare il file scaricato sul Desktop
+%        \item Decomprimere il file sul Desktop
+%    }
+%}
+%
+%
+%\fr{Preparazione Ambiente di Lavoro}{
+%    \iz{
+%        \item Aprire un terminale
+%        \item Si scelga l'opzione che si preferisce fra quelli proposti
+%        \item Si comprenda in quale cartella ci si trova usando l'apposito comando
+%        \iz{
+%            \item Generalmente il prompt si apre nella directory principale dell'utente
+%            \item Nel caso in cui si usasse zsh dentro WSL, o Git Bash, il file system di windows è agganciato emulando un file system Unix.
+%        }
+%        \item Posizionarsi all'interno della cartella scompattata con l'ausilio del comando \ttb{cd} (change directory)
+%        \item Verificare che il contenuto della cartella sia quello atteso
+%    }
+%}
+%
+%\begin{frame}{Preparazione Ambiente di Lavoro}
+%    \begin{itemize}
+%        \item Scegliere un editor di testo per modificare i file sorgente
+%        \begin{itemize}
+%            \item Il laboratorio è equipaggiato con diversi editor di testo: JEdit, Notepad++, Visual Studio Code...
+%            \item \textbf{NON} sono adatti per l'apertura e la modifica di file Java
+%            (né di alcun altro linguaggio di programmazione) i word processors (Libreoffice Writer, Microsoft Word, Microsoft WordPad...), né l'editor di testo incluso in Windows (Notepad).
+%        \end{itemize}
+%        \item Si suggerisce l'utilizzo di \textbf{Code} (\texttt{https://code.visualstudio.com/})
+%        \begin{itemize}
+%            \item fornisce un supporto adeguato alla scrittura/modifica di sorgenti Java
+%            \item offre la possibilità di interpretare la sintassi markdown: modalità con cui sono forniti i testi degli esercizi (per i primi laboratori)
+%        \end{itemize}
+%    \end{itemize}
+%\end{frame}
+%
+%\section{Appendice: richiami utili per gli esercizi del Lab01}
+%
+%\fr{A1 -- Operazioni con i Numeri Complessi}{
+%    \bl{Numeri complessi -- breve ripasso}{
+%        Siano $z,w \in \mathbb{C} : z = a + ib,\ w = c + id$, allora:
+%        \iz {
+%            \item Confronto: $z = w \iff a = c \wedge b = d$
+%            \item Somma algebrica: $z \pm w = a \pm c + i(b \pm d)$
+%            \item Prodotto: $z \cdot w = (a+ib)(c+id) = ac-bd+i(bc+ad)$
+%            \item Rapporto: $\frac{z}{w} = \frac{(a+ib)(c-id)}{(c+id)(c-id)} = \frac{ac + bd}{c^2 + d^2} + i\frac{bc - ad}{c^2 + d^2}$
+%        }
+%    }
+%}
 
 \end{document}
 
