@@ -8,9 +8,11 @@ aliases = ["/intro/"]
 
 +++
 
-# Introduzione al corso
+# Introduzione al corso *Progettazione e Sviluppo del Software (PSS) a.a. 23-24*
 
 {{% import path="cover.md" %}}
+
+---
 
 # Docenti
 
@@ -30,36 +32,44 @@ aliases = ["/intro/"]
 
 ---
 
-# Contatti
+# Sito del corso su `virtuale.unibo.it`
 
-### Come contattare
-* Attraverso il **forum** per domande la cui risposta è di interesse generale
-  * https://virtuale.unibo.it/mod/forum/view.php?id=952233
-  * tutte le domande tecniche
-  * tutte le domande sull'organizzazione
-* Via email *tenendo in copia tutti i docenti*
-  * Per questioni personali
-* Ricevimento
-  * Si vedano le pagine web dei docenti
-
----
-
-# Sito del corso
-
-* [`https://virtuale.unibo.it/course/view.php?id=42156`](https://virtuale.unibo.it/course/view.php?id=42156)
-  * sarà il luogo degli avvisi (e notifiche), forum di discussione, produzione di materiale
+* URL: *(da attivare)* <!-- [`https://virtuale.unibo.it/course/view.php?id=42156`](https://virtuale.unibo.it/course/view.php?id=42156) -->
+  * sarà il luogo degli avvisi (e notifiche), forum di discussione, e della pubblicazione del materiale
   * tutti gli studenti che seguono il corso si iscrivano, e lo tengano d'occhio
 
 ---
 
+# Contatti
+
+### Come contattare
+
+* Attraverso il **Forum Studenti** per domande la cui risposta è di interesse generale
+  * URL: <!-- https://virtuale.unibo.it/mod/forum/view.php?id=TODO --> *(da attivare)*
+  * tutte le domande tecniche
+  * tutte le domande sull'organizzazione del corso
+* Via **email** *tenendo in copia tutti i docenti*
+  * Per questioni personali
+  * Si usi e-mail istituzionale `@studio.unibo.it`
+  * Si usi prefisso `[LPTSI-PSS]` nel subject della mail
+* **Ricevimento**
+  * Si vedano le pagine web dei docenti
+
+---
+
+
+
 # Organizzazione generale del corso
-  ## Lezioni aula (due da 2 ore la settimana)
-  * Illustrano i concetti teorici, metodologici e pratici
+
+  ## Lezioni aula (giovedì 13-17)
+
+  * Illustrano i concetti teorici, metodologici, e pratici
   * Basate su slide proiettate (ma non solo)
 
-  ## Laboratorio (3 ore a settimana)
+  ## Laboratorio (martedì 9-12)
+  
   * Illustra ulteriori aspetti metodologici e pratici
-  * Con esercizi necessari alla comprensione e alla sperimentazione
+  * Con esercizi (da svolgere in autonomia) necessari alla comprensione e alla sperimentazione
   * *È parte integrante del corso*
 
   ## Studio a casa
@@ -68,26 +78,44 @@ aliases = ["/intro/"]
 
 ---
 
-# Programma (di massima) del corso
-  ## Parti principali
-  * Elementi base di programmazione OO e Java
-  * Polimorfismo (ereditarietà, subtyping, genericità)
-  * Librerie (I/O, grafica, concorrenza)
-  * Integrazione col paradigma funzionale (Java 8 lambda)
-  * Pattern e buone pratiche di programmazione
+
+## Conoscenze e abilità da conseguire
+
+> Al termine del corso, lo studente possiede le conoscenze di base dei paradigmi di programmazione per **software in-the-large**, quali il **paradigma object-oriented** e quello **funzionale**, dei suoi principali **pattern di progettazione**, della sua incarnazione in linguaggi moderni e relativi framework di sviluppo. È in grado quindi **di progettare e sviluppare applicazioni complete di medio-piccole dimensioni**, usando **processi di sviluppo** e **tecniche agili**, tra cui l'approccio DevOps alla conduzione del progetto.
+
 
 ---
 
-# Testi di riferimento (non necessario l'acquisto)
-  ## Programmazione in Java
+# Contenuti
+
+  ## Programma (di massima) del corso
+
+  * Elementi base di programmazione *object-oriented (OO)* e Java
+  * Incapsulamento, Ereditarietà, Polimorfismo
+  * Programmazione generica (polimorfismo ad-hoc)
+  * Librerie (e.g., testing, I/O, interfacce grafiche)
+  * Integrazione col paradigma funzionale (Java 8 lambda)
+  * Pattern e *buone pratiche di programmazione* (cf. agile)
+
+---
+
+# Materiale
+
+- Slide (e codice sorgente) a cura dei docenti
+  - messi a disposizione sul sito del corso su Virtuale
+  - necessari e sufficienti per acquisire le competenze e superare l'esame
+
+## Testi di riferimento (non necessario l'acquisto)
+  ### Programmazione in Java
   * B.Eckel. Thinking in Java, 4th edition.
   * J.Block. Effective Java, 2nd edition.
   * R.Warburton. Java 8 Lambdas.
 
-  ## Programmazione in C\#
+<!--  ### Programmazione in C\#
   * Jon Skeet. C\# in depth, 3rd edition.
+-->
 
-  ## Altri riferimenti
+  ### Altri riferimenti
   * E.Gamma et al. Design Patterns Elements of Reusable Object-Oriented Software.
   * R.Martin. Clean Code: A Handbook of Agile Software Craftsmanship
   * Java e C\# online documentation (tutorials, Language Specification, APIs)
@@ -102,10 +130,10 @@ aliases = ["/intro/"]
 * Git https://git-scm.com/
 
 ## Istruzioni sull'installazione (sul PC di casa)
-* https://apice-at-disi.github.io/software-installation-instructions/
+* https://unibo-lptsi-pss.github.io/software-installation/
 * Molto importante rendersi operativi a casa nel giro di una settimana!
   * $\Rightarrow$ sarebbe consigliato l'uso del sistema operativo Linux...
-
+ore a 
 ---
 
 # Sul ruolo di questo corso
@@ -127,11 +155,12 @@ aliases = ["/intro/"]
 
 # Esame
 
-## Discussione progetto
-* Progetto sviluppato in gruppo, 60-70 ore a testa
+## Sviluppo + Discussione progetto
+
+* *Progetto sviluppato in gruppo (2-3 studenti)* <!-- ; 60-70 ore a testa -->
 * Concordato col docente prima di iniziare
-* Da relazionare con qualità, poi discusso su appuntamento
-  * I dettagli discussi a metà corso
+* Da relazionare con qualità, poi *discusso oralmente* (su appuntamento)
+    * I dettagli (cf. consegna, relazione etc.) discussi durante il corso
 
 ---
 
