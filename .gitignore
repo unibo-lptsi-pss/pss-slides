@@ -52,3 +52,5 @@ lecture-code/.project
 .vscode
 *.blg
 *.bbl
+.metals/
+.scala-build/
