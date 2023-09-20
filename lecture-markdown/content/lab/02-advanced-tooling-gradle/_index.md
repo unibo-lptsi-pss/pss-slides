@@ -8,7 +8,7 @@ aliases = ["/compilers/"]
 
 +++
 
-# Strumenti di compilazione avanzati
+# Compilazione avanzata e Build Systems
 
 ### Esercizi e soluzioni: https://github.com/unibo-lptsi-pss/pss-lab/releases/latest/
 

@@ -61,5 +61,4 @@ Contenuti laboratorio alla pagina successiva
 ### Indice dei contenuti
 
 * [Strumenti del JDK e introduzione a Visual Studio Code](lab/01-basic-tools/)
-* [Strumenti del JDK, parte seconda](lab/02-more-tools/)
-* [Strumenti di compilazione avanzati](lab/02-advanced-tooling-gradle/)
+* [Compilazione avanzata e Build Systems](lab/02-advanced-tooling-gradle/)
