@@ -1,8 +1,0 @@
-public/
-build/
-_gen/
-*.pdf
-*.hprof
-*build.lock
-pid
-node_modules/
