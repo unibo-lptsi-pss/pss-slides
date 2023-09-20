@@ -1,8 +1,8 @@
 
 +++
 
-title = "Laboratorio di Programmazione ad Oggetti"
-description = "Laboratorio di Programmazione ad Oggetti, Ingegneria e Scienze Informatiche"
+title = "Laboratorio di Progettazione e Sviluppo del Software"
+description = "Laboratorio di Progettazione e Sviluppo del Software, Ingegneria e Scienze Informatiche"
 outputs = ["Reveal"]
 aliases = ["/git-cheatsheet/"]
 

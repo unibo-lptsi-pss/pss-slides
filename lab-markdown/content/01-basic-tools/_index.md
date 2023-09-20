@@ -2,7 +2,7 @@
 +++
 
 title = "Strumenti di base del JDK"
-description = "Laboratorio di Programmazione ad Oggetti"
+description = "Laboratorio di Progettazione e Sviluppo del Software"
 outputs = ["Reveal"]
 aliases = ["/basic-tools/"]
 

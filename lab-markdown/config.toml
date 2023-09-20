@@ -1,6 +1,6 @@
 baseURL = "https://unibo-oop.github.io/lab-slides"
 languageCode = "en-us"
-title = "Laboratorio di Programmazione ad Oggetti"
+title = "Laboratorio di Progettazione e Sviluppo del Software"
 disableKinds = ["sitemap", "RSS"]
 theme = "reveal-hugo"
 publishDir = "build"

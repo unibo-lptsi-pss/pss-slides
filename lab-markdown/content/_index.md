@@ -1,19 +1,21 @@
 
 +++
 
-title = "Laboratorio di Programmazione ad Oggetti"
-description = "Laboratorio di Programmazione ad Oggetti"
+title = "Laboratorio di Progettazione e Sviluppo del Software"
+description = "Laboratorio di Progettazione e Sviluppo del Software"
 outputs = ["Reveal"]
 
 +++
 
-## Laboratorio di Programmazione ad Oggetti
+## Laboratorio di Progettazione e Sviluppo del Software
 
 ### Indice dei contenuti
 
-* [Introduzione e informazioni sul corso](intro/)
 * [Strumenti del JDK e introduzione a Visual Studio Code](basic-tools/)
 * [Strumenti del JDK, parte seconda](more-tools/)
+
+<!--
+
 * [Dipendenze nel software e build automation](build-systems-basics/)
 * [Sistemi di controllo versione](dvcs-basics/)
 * [Branching e merging](dvcs-branching/)
@@ -25,3 +27,5 @@ outputs = ["Reveal"]
 * [Monitoraggio e Profiling con VisualVM](profiling-with-visualvm/)
 * [Sviluppo di GUI con JavaFX](javafx/)
 * [Speciale: `git` cheatsheet](git-cheatsheet/)
+
+-->

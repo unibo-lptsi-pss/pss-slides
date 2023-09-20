@@ -2,7 +2,7 @@
 +++
 
 title = "Strumenti del JDK e introduzione a Visual Studio Code"
-description = "Laboratorio di Programmazione ad Oggetti"
+description = "Laboratorio di Progettazione e Sviluppo del Software"
 outputs = ["Reveal"]
 aliases = ["/more-tools/"]
 
