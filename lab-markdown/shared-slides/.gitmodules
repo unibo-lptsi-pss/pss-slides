@@ -1,0 +1,3 @@
+[submodule "PPS-ci-examples"]
+	path = PPS-ci-examples
+	url = https://github.com/APICe-at-DISI/PPS-ci-examples.git

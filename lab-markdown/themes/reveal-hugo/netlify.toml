@@ -1,0 +1,11 @@
+[build]
+command = "hugo -b $URL -s exampleSite"
+publish = "exampleSite/public"
+
+[context.production.environment]
+HUGO_VERSION = "0.109.0"
+GO_VERSION = "1.19.4"
+
+[context.deploy-preview.environment]
+HUGO_VERSION = "0.109.0"
+GO_VERSION = "1.19.4"

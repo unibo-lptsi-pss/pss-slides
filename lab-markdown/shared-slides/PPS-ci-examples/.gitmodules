@@ -1,0 +1,4 @@
+[submodule "01-dependencies"]
+	path = 01-dependencies
+	url = https://github.com/APICe-at-DISI/sample-gradle-project.git
+	branch = simplified

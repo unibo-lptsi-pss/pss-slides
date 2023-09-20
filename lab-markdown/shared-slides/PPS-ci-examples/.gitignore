@@ -1,0 +1,11 @@
+.gradle/
+.idea/
+.settings/
+.project
+.classpath
+bin/
+build/
+out/
+*.kate-swp
+
+APIKey
