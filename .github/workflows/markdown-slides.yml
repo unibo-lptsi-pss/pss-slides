@@ -47,7 +47,7 @@ jobs:
       #     NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
       #     SSH_PASS: ${{ secrets.SSH_PASS }}
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.153.0
+        uses: ruby/setup-ruby@v1.154.0
         with:
           working-directory: lecture-markdown/shared-slides
       - name: Run the pre-processor
@@ -68,4 +68,9 @@ jobs:
           branch: gh-pages
           folder: lecture-markdown/build
           repository-name: unibo-lptsi-pss/unibo-lptsi-pss.github.io
+          token: ${{ secrets.DEPLOYMENT_TOKEN }}
+      - name: Deploy lab
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: DanySK/compile-and-publish-all-latex@1.0.54
+        with:
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
