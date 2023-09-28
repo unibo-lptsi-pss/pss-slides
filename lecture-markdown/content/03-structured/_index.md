@@ -138,7 +138,7 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 *  Operatori di uguaglianza (su tutti i tipi): `==`, `!=`
   ```java
   10 == 20                     // false
-  new Object() == new Object() // false (confronta i riferimenti)
+  new Object() == new Object() // true o false ???
   ```
 *  Operatore ternario (booleano,tipo,tipo): `?:`
     *  `b ? v1 : v2` restituisce `v1` se `b` è vero, `v2` altrimenti
@@ -177,8 +177,8 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
 
 
   *  Base: `+`, `-`, `*`, `/` (con resto), `%` (resto), `+` e `-` anche unari
-  *  Bit-a-bit: `&` (and), `|` (or), `^` (xor), `~` (not)
-  *  Shift: `>>` (dx senza segno), `<<` (sx), `>>>` (dx senza segno)
+  *  Bit-a-bit: `&` (and), `|` (or), `^` (xor), `~` (complement)
+  *  Shift: `>>` (dx con segno), `<<` (sx), `>>>` (dx senza segno)
   *  Operatori unari/binari applicati ad un tipo, restituiscono il tipo stesso
 
 
