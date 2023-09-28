@@ -20,7 +20,7 @@ outputs = ["Reveal"]
 1. [Astrazione orientata agli oggetti](oo-abstraction/)
 1. [Oggetti e classi](objects/)
 1. [Programmazione strutturata in Java](java-structured-programming/)
-1. [Ciclo di vita degli oggetti](objects-lifecycle/)
+1. [Oggetti e classi (parte 2)](objects-2/)
 1. [Costruzione del software e librerie](build-systems/)
 1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 1. [Sistemi di controllo versione](git/)
