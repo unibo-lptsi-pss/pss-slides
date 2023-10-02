@@ -8,6 +8,15 @@ aliases = ["/git/"]
 
 +++
 
+## Riconoscimenti
+
+* Questo materiale è ampiamente basato su quello realizzato dal Prof.
+Danilo Pianini, che ringrazio.
+
+* Ogni errore riscontratovi è esclusiva responsabilità degli autori di questo documento.
+
+---
+
 # Sistemi di controllo versione
 
 {{% import path="front-page.md" %}}

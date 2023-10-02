@@ -8,6 +8,15 @@ aliases = ["/build-systems/"]
 
 +++
 
+## Riconoscimenti
+
+* Questo materiale è ampiamente basato su quello realizzato dal Prof.
+Danilo Pianini, che ringrazio.
+
+* Ogni errore riscontratovi è esclusiva responsabilità degli autori di questo documento.
+
+---
+
 # Build system (Gradle), costruzione del software, e librerie
 
 {{% import path="front-page.md" %}}

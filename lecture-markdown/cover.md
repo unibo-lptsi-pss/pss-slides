@@ -1,6 +1,6 @@
 {{% import path="front-page.md" %}}
 
-## Nota
+## Riconoscimenti
 
 * Questo materiale è ampiamente basato su quello realizzato dal Prof.
 Mirko Viroli, che ringrazio.
