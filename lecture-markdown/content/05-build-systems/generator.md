@@ -8,7 +8,7 @@ aliases = ["/build-systems/"]
 
 +++
 
-# Costruzione del software e librerie
+# Build system (Gradle), costruzione del software, e librerie
 
 {{% import path="front-page.md" %}}
 
