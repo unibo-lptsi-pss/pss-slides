@@ -33,8 +33,15 @@ Danilo Pianini, che ringrazio.
 
 ### Argomenti
 
-* Concetto di *Version Control System (VCS)* e VCS *decentralizzato*
-* 
+* Concetto di *Version Control System (VCS)* 
+* Tipologie di VCS: centralizzati vs. *decentralizzati*
+* Concetti dei DVCS: repository, working tree, commit, branch, commit reference, checkout
+* `git`: 
+  * operatività di base: comandi `config`, `init`, `add`, `reset`, `commit`, `status`, `checkout`, `log`, `diff`
+  * elementi peculiari: concetto di *stage* (*index*), configurazione, `.gitignore`,  gestione dei caratteri di "fine linea"
+  * ulteriore operatività di base: comandi `branch`, `merge`
+  * lavorare con i *remote*: comandi `clone`, `push`, `fetch`, `pull`
+* *GitHub*: hosting per repository git + servizi per sviluppo collaborativo
 
 ---
 
@@ -42,9 +49,24 @@ Danilo Pianini, che ringrazio.
 
 ---
 
+## Motivation
+
+Two main motivations
+
+* *keeping track of changes* during software development
+    * *avoiding loss* of progress
+    * looking at / going *back and forth*
+    * *documenting* the development process
+* supporting *collaboration* among multiple software developers
+    - working *concurrently*
+    - *integration* of changes and *conflict resolution*
+
+
+---
+
 ## Tracking changes
 
-Did you ever need to *roll back* some project or assignment to a previous version?
+Did you ever need to *roll back* some project or assignment to a *previous version*?
 
 How did you track the *history* of the project?
 
@@ -54,11 +76,11 @@ How did you track the *history* of the project?
 2. *make a copy* every time there is some relevant progress
 3. *make a copy* every time an ambitious but risky development begins
 
-**Inefficient!**
-* Consumes a lot of resources (space)
-* Requires time
-* How to tell what was in some previous releases?
-* How to cherry-pick some changes?
+**Ineffective!**
+
+* *Inefficient*: consumes a lot of resources (space)
+* Requires time and *error-prone* manual operations
+* Several tasks are *difficult*: How to tell what was in some previous releases? How to cherry-pick some changes?
 
 ---
 
@@ -80,23 +102,44 @@ How did you organize the work to *maximize the productivity*?
 
 ---
 
-## Version control systems
+## Version Control Systems (VCS)
 
-Tools meant to support the development of projects by:
+* Also called Source Content Management (SCM)
+
+*Version Control Systems (VCS)*: tools meant to support the development of projects by
 * Tracking the project *history*
 * Allowing *roll-backs*
 * Collecting *meta-information* on the changes
   * Authors, dates, notes...
 * *Merging* information produced at different stages
-* (in some cases) *facilitate parallel workflows*
-* Also called Source Content Management (SCM)
+* *Facilitate parallel workflows* (in some cases)
 
-**Distributed**: *Every copy* of the repository contains
-(i.e., every developer locally have)
-*the entire history*.
+Two main types:
 
-**Centralized**: A *reference copy* of the repository contains the whole history;
+* **Centralized**: A *reference copy* of the repository contains the whole history;
 developers work on a subset of such history
+* **Distributed**: *Every copy* of the repository contains
+*the entire history* (i.e., every developer locally have one)
+
+---
+
+## Local vs. centralized vs. distributed VCS
+
+### Local
+
+![](imgs/vcs_kind_local.png)
+
+---
+
+### Centralized
+
+![](imgs/vcs_kind_centralised.png)
+
+---
+
+### Distributed
+
+![](imgs/vcs_kind_distributed.png)
 
 
 ---
@@ -295,10 +338,10 @@ Reconciling diverging developments is usually referred to as **merge**
 
 ## DVCS concepts and terminology: *Repository*
 
-Project **meta-data**. Includes the whole project history
+**Repository**: includes the whole project *content/history* (and *meta-data*)
+
+* all the *changes*, together with their *authors*, *dates*, and *descriptions*
 * information on how to *roll back* changes 
-* *authors* of changes
-* *dates*
 * *differences* between different points in time
 * and so on
 
@@ -320,7 +363,7 @@ excluding the *meta-data*.
 A **saved status** of the project.
 * Collects the *changes* required to transform the previous (*parent*) commit into the current (*differential tracking*)
 * Creates a *snapshot* of the status of the worktree (snapshotting).
-* Records metadata: *parent commit*, *author*, *date*, a *message* summarizing the changes, and a *unique identifier*.
+* Records metadata: *parent commit*, *author*, *date*, a *message* summarizing the changes, and a *unique identifier (UID)*.
 * A commit with no parent is an *initial commit*.
 * A commit with multiple parents is a *merge commit*.
 
@@ -391,7 +434,7 @@ If no branch has been created at the first commit, a default name is used.
 ## DVCS concepts and terminology: *Commit references*
 
 To be able to go *back in time* or *change branch*, we need to **refer to commits**
-* 
+ 
 * Commit references are also referred to as `tree-ish`es
 * Every commit has a **unique identifier**, which is a valid reference
 * A **branch name** is a valid commit reference (points to the *last commit of that branch*)
@@ -438,7 +481,7 @@ gitGraph
 
 ## DVCS concepts and terminology: *Checkout*
 
-The operation of **moving to another commit**
+The operation of **moving to another commit** (i.e. to a snapshot or version of the project)
 * Moving to *another branch*
 * Moving *back in time*
 
@@ -629,7 +672,7 @@ De-facto reference distributed version control system
 
 #### (actually: terminal-only)
 
-**Git is a command line tool**
+**Git is a command-line interface (CLI) tool**
 
 Although graphical interfaces exsist, it makes no sense to learn a GUI:
 * they are more prone to future changes than the CLI
@@ -704,10 +747,10 @@ Two reasonable choices are `main` and `master`
 * Initializes a new repository *inside the current directory*
 * Reified in the `.git` folder
 * The location of the `.git` folder marks the root of the repository
-  * Do not nest repositories inside repositories, it is fragile
+  * *Do not nest* repositories inside repositories: it is fragile
   * Nested projects are realized via *submodules* (not discussed in this course)
 * **Beware of the place where you issue the command!**
-  * First use `cd` to locate yourself inside the folder that contains (or will containe the project)
+  * First use `cd` to locate yourself inside the folder that contains (or will contain the project)
     * (possibly, first create the folder with `mkdir`)
   * **Then** issue `git init`
   * if something goes awry, you can delete the repository by deleting the `.git` folder.
@@ -882,10 +925,9 @@ It is also very likely that, upon saving, the whole file gets rewritten with the
 * The differential would be huge
 * *Conflicts would arise everywhere*!
 
-Git tries to tackle this issue by converting the line endings so that they match the initial line endings of the file,
-resulting in repositories with *illogically mixed line endings*
-(depending on who created a file first)
-and loads of warnings about `LF`/`CRLF` conversions.
+Git tries to tackle this issue by *automatically converting* the line endings so that they match the *initial line endings of the file*
+
+* this usually results in repositories with *illogically mixed line endings* (depending on who created a file first) and loads of warnings about `LF`/`CRLF` conversions.
 
 Line endings should instead be **configured per file type!**
 
@@ -992,10 +1034,12 @@ We want to see which *differences* a commit introduced, or what we modified in s
 Git provides support to visualize the changes in terms of *modified lines* through `git diff`:
 * `git diff` shows the difference between the *stage* and the *working tree*
   * namely, what you would stage if you perform a `git add`
-* `git diff --staged` shows the difference between `HEAD` and the *working tree*
+* `git diff --staged` shows the difference between `HEAD` and the *stage*
+  * so, basically, what you are about to commit
 * `git diff <tree-ish>` shows the difference between `<tree-ish>` and the *working tree* (*stage excluded*)
 * `git diff --staged <tree-ish>` shows the difference between `<tree-ish>` and the *working tree*, *including staged changes*
 * `git diff <from> <to>`, where `<from>` and `<to>` are `<tree-ish>`es, shows the differences between `<from>` and `<to>`
+* `git diff --word-diff` is useful when working on text
 
 ---
 
@@ -1017,9 +1061,9 @@ index b492a8c..28302ff 100644
            echo "Scripts update line: \"$USES\""
 ```
 
-The output is compatible with the Unix commands `diff` and `patch`
-
-Still, *binary files are an issue*! Tracking the right files is paramount.
+* A [detailed explanation of the diff message format can be found here](https://www.freecodecamp.org/news/git-diff-and-patch/)
+* The output is compatible with the Unix commands `diff` and `patch`
+* Still, *binary files are an issue*! Tracking the right files is paramount.
 
 ---
 
@@ -1032,7 +1076,7 @@ In Git, this is performed with the `checkout` commit:
   * Unless there are changes that could get lost, *moves* `HEAD` to the provided `<tree-ish>`
   * Updates all tracked files to their version at the provided `<tree-ish>`
 
-The command can be used to selectively checkout a file from another revision:
+The command can be used to *selectively checkout a file from another revision*:
 * `git checkout <tree-ish> -- foo bar baz`
   * Restores the status of files `foo`, `bar`, and `baz` from commit `<tree-ish>`, and adds them to the stage (unless there are uncommitted changes that could be lost)
   * Note that `--` is surrounded by whitespaces, it is not a `--foo` option, it is just used as a separator between the `<tree-ish>` and the list of files
@@ -1086,7 +1130,7 @@ The system enters a special workmode called *detached head*.
 
 When **in detached head**, Git allows to make **commits**, but they **are lost**!
 
-(Not really, but to retrieve them we need `git reflog` and `git cherry-pick`, that we won't discuss)
+* (Not really, but we need to create a branch, or to retrieve them we need `git reflog` and `git cherry-pick`, that we won't discuss)
 
 
 ---
@@ -1152,8 +1196,7 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 commit;
 ```
 
-`HEAD` does not attach to the new branch by default,
-an explicit `checkout` is required.
+`HEAD` *does not attach to the new branch by default*: an explicit `checkout` is required.
 
 {{% /fragment %}}
 
