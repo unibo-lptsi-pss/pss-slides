@@ -406,6 +406,9 @@ Checkstyle si occupa di trovare errori di stile:
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="lf"/>
     </module>
+    <module name="LineLength">
+      <property name="max" value="85"/>
+    </module>
     <!-- ... -->
 </module>
 
@@ -439,3 +442,23 @@ repositories {
 - L'output dell'analisi viene riportato sotto `build/reports/checkstyle`
 
 ---
+
+- Di default, *fallisce la build* se le regole di stile non sono rispettate
+```txt
+$ ./gradlew check
+
+> Task :checkstyleMain
+[ant:checkstyle] [ERROR] /<PATH-TO-PROJ>/src/main/java/.../File.java:4: 
+                         Line is longer than 85 characters (found 102). [LineLength]
+
+> Task :checkstyleMain FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':checkstyleMain'.
+> A failure occurred while executing org.gradle.api.plugins.quality.internal.CheckstyleAction
+   > Checkstyle rule violations were found. See the report at: file:///<PATH-TO-PROJ>/build/reports/checkstyle/main.html
+     Checkstyle files with violations: 1
+     Checkstyle violations by severity: [error:1]
+```
