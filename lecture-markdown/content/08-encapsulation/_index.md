@@ -32,46 +32,18 @@ aliases = ["/encapsulation/"]
   
 ### Argomenti
 
-
-
-  *  Convenzioni su *formattazione* di codice sorgente Java
   *  *Incapsulamento* in Java
   *  Una metodologia di progettazione
-  *  Ulteriori convenzioni
-
-
----
-
-
+  
 <!--
 
-## Ambiente integrato Eclipse
-
-
-  
-### Funzionalità
-
-
-
-  *  Supporto multi-linguaggio (C/C++, Java, Scala,..)
-  *  Vasta quantità di plug-in 
-  *  Supporta editing "intelligente", compilazione on-the-fly, debug, esecuzione
-  *  Concetto di progetto
-  
-
-
-  
-### Metodologia
-
-
-
-*  creazione progetto, package, classi
-*  esecuzione dalla classe col main
-*  possibilità di importare/esportare file ZIP (p.e., codice aula)
-  
----
+  *  Convenzioni su *formattazione* di codice sorgente Java
+  *  Ulteriori convenzioni
 
 -->
+
+---
+
 
 
 # Alcuni principi di buona progettazione
@@ -83,8 +55,6 @@ aliases = ["/encapsulation/"]
       % controllo d'accesso (mopdifiers)
       % impacchettamento di dati e funzioni (classe)
 -->
-
-
 
 
 ## Dai meccanismi alla buona progettazione/programmazione
@@ -126,9 +96,8 @@ aliases = ["/encapsulation/"]
 ### Il nostro approccio
 
 
-  
+<!-- *  Ricapitoleremo le principali convenzioni sul codice Java -->
 
-*  Ricapitoleremo le principali convenzioni sul codice Java 
 *  Anticiperemo alcune tecniche di programmazione efficace basate sulle tecniche di *__incapsulamento__*, e conseguenti al fondamentale principio di *__decomposizione__* ($\Leftarrow$ aspetto cruciale della OO)
 *  Daremo qualche linea guida utile in future per costruire sistemi di più grosse dimensioni
   
@@ -140,275 +109,6 @@ Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello
 
 
 ---
-
-# Formattazione del codice
-
-
-
-## Convenzioni sulla formattazione
-
-
-  
-### Formattazione generale
-
-
-
-*  *Indentazione* di 4 caratteri (comunque non 1, non 10..)
-*  *Lughezza linee*: non più di 90 caratteri -- spezzare in modo coerente
-
-{{% smaller %}}
-
-```java
-// MIGLIORABILE
-void m() {
-        // indentazione di 8 caratteri, da evitare, in quanto i sorgenti crescono facilmente orizzontalmente
-        for(int i : new int[] {1, 2, 3}) {
-                if(i % 2 == 0){
-                        System.out.println(i);
-                }
-        }
-        System.out.println("Questa è una stringa veramente lunga che potrebbe portare ad infrangere la regola")
-}
-
-// OK
-void m() {
-    for(int i : new int[] {1, 2, 3}) {
-        if(i % 2 == 0){
-            System.out.println(i);
-        }
-    }
-    System.out.println("Questa è una stringa veramente lunga " + 
-        "che potrebbe portare ad infrangere la regola")
-}
-```
-
-{{% /smaller %}}
-
----
-  
-### Commenti nel codice
-
-
-
-*  `// ...` su una linea
-*  `/* ... */` su più linee per commentare sezioni
-*  `/** ... */` su più linee per commenti che generano documentazione
-
-```java
-/**
- * (Commento di documentazione)
- * Questa classe modella un generico dispositivo elettronico.
- */
-class Device {
-    /*
-     * Campi di istanza per modellare lo stato del dispositivo.
-     */
-    boolean on;
-
-    /*
-     * Metodi per accensione e spegnimento.
-     */
-    void switchOn() {
-        if(!this.on){
-            // Se non acceso, allora accendiamo 
-            this.on = true;
-        }
-    }
-    void switchOff() { ... }
-}
-```
-
----
-  
-### Istruzioni
-
-
-
-*  Definizione di variabile: una per linea, meglio se a inizio del metodo
-*  Meglio inizializzare sempre le variabili!
-*  Una sola istruzione per riga 
-  
-```java
-// MIGLIORABILE
-int a, b, c;
-b = c = 5;
-if(a > b) { System.out.println("a = " + a); } else { System.out.println("b = " + b); }
-
-// OK
-int a = 0;
-int b = 5;
-int c = 5;
-if(a > b) { 
-    System.out.println("a = " + a); 
-} else { 
-    System.out.println("b = " + b); 
-}
-```
-
-
-
----
-
-
-
-  
-### Costrutti vari
-
-
-* Blocchi e parentesi graffe
-    *  Apertura graffa: a fine linea della dichiarazione
-    *  Chiusura graffa: in linea a sè, dove inizia la linea che la apre
-    *  Usare graffe anche con blocchi ad uno statement
-* Espressioni
-    * Non usare assegnamenti dentro a espressioni
-    *  Disambiguare priorità operatori con parentesi
-* Spaziature di diverse "sezioni" del codice
-    * Metodi separati da una linea vuota (e non più di 1)
-
-{{% smaller %}}
-
-```java
-// MIGLIORABILE
-void m()
-{
-    if(this.disabled ? true : this.unavailable ? true : this.urgent) return; 
-}
-void f() 
-{
-    // ...
-}
-
-// OK
-void m() {
-    if(this.disabled ? true : (this.unavailable ? true : this.urgent)) { 
-      return; 
-    }
-}
-
-void f() {
-    // ...
-}
-```
-
-{{% /smaller %}}
-
----
-
- 
-### Nomi
-
-
-
-*  **Classi (e interface)**: iniziano con *maiuscola*
-    *  Se nome strutturato usare `CamelCasing`
-*  **Metodi, campi, variabili**: iniziano con *minuscola*
-    *  Se nome strutturato usare `camelCasing`
-*  **Package**: interamente in *minuscolo* (anche se parole consecutive), solo lettere
-*  **Campi costanti**: tutte *maiuscole* con eventuale separatore `_`
-
-```java
-// MIGLIORABILE
-package IT.UNIBO.some_package;
-class some_class {
-    static final int someConstant = 100;
-
-    void Some_Method() { /* ... */ }
-}
-
-// OK
-package it.unibo.somepackage;
-
-class SomeClass {
-    static final int SOME_CONSTANT = 100;
-    
-    void someMethod() { /* ... */ }
-}
-```
-
-
----
-
-  
-### Ordine degli elementi della classe <!-- (`protected` descritto in seguito) -->
-
-1.  Campi statici (pubblici, <!-- poi protetti, --> poi privati -- ovvero, dal più aperto al più chiuso)
-2.  Campi istanza (pubblici, <!-- poi protetti, --> poi privati)
-3.  Costruttori (pubblici, <!-- poi protetti, --> poi privati)
-4.  Metodi (*raggruppati per ruolo*, NON per visibilità, NON alfabeticamente)
-  
-```java
-// MIGLIORABILE
-class SomeClass {
-    void someMethod() { /* ... */ }
-
-    private static final int SOME_CONSTANT1 = 100;
-    public static final int SOME_CONSTANT2 = 100;
-
-    private int someField;
-}
-
-// OK
-class SomeClass {
-    // Campi statici
-    public static final int SOME_CONSTANT1 = 100;
-    private static final int SOME_CONSTANT2 = 100;
-
-    // Campi d'istanza
-    private int someField;
-    
-    // Metodi d'istanza
-    void someMethod() { /* ... */ }
-}
-```
-
----
-  
-### Nota finale
-
-*  L'uso delle corrette convenzioni rende il codice molto più leggibile, ma anche meno conciso
-*  Nelle slide è impossibile mostrarlo sempre in questo modo
-*  Quindi useremo in futuro solo alcune convenzioni..
-
-
----
-
-
-## Esempio di buona formattazione: `Point3D`
-
-{{% smaller %}}
-
-
-<div class="container">
-<div class="col">
-
-{{% smaller %}}
-
-
-```java
-{{% import-raw from=3 to=35 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
-```
-
-{{% /smaller %}}
-
-</div>
-<div class="col">
-
-{{% smaller %}}
-
-```java
-{{% import-raw from=36 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
-```
-
-{{% /smaller %}}
-
-
-</div></div>
-
-{{% /smaller %}}
-
-
----
-
 
 
 # Decomposizione, incapsulamento, information hiding
@@ -1186,7 +886,7 @@ Un possibile caso (non costituisce da solo un test esaustivo):
   
 
 
-
+<!--
 
 ---
 
@@ -1262,3 +962,4 @@ public class Lamp{
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/encapsulation/LampUtilities.java" %}}
 ```
 
+-->

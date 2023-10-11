@@ -23,7 +23,7 @@ outputs = ["Reveal"]
 1. [Oggetti e classi (parte 2)](objects-2/)
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. [Sistemi di controllo versione](git/)
-1. [Incapsulamento](encapsulation/)
+1. [Incapsulamento](encapsulation/) e [formattazione di codice Java](codestyle/)
 1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 1. [Interfacce](interfaces/)
 1. [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
