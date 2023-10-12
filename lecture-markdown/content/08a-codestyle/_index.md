@@ -462,3 +462,31 @@ Execution failed for task ':checkstyleMain'.
      Checkstyle files with violations: 1
      Checkstyle violations by severity: [error:1]
 ```
+
+<!--
+
+---
+
+### Soppressione in Checkstyle
+
+* La soppressione in checkstyle avviene tramite commenti, ed è configurabile
+* Ad es., con delle "comment fences":
+
+```java
+// CHECKSTYLE: <ruleName> OFF
+<java code with the false positive>
+// CHECKSTYLE: <ruleName> ON
+```
+
+* dove `<ruleName>` va sostituito col nome della regola di Checkstyle che si sta violando
+
+È bene aggiungere un commento che spieghi la ragione della soppressione
+
+```java
+// CHECKSTYLE: <ruleName> OFF
+// Rule disabled due to false positives, see this bug report: https://...
+<java code with the false positive>
+// CHECKSTYLE: <ruleName> ON
+```
+
+-->

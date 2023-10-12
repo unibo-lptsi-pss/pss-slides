@@ -8,7 +8,7 @@ aliases = ["/encapsulation/"]
 
 +++
 
-# Encapsulation
+# Incapsulamento
 
 {{% import path="cover.md" %}}
 
@@ -48,6 +48,7 @@ aliases = ["/encapsulation/"]
 
 # Alcuni principi di buona progettazione
 
+---
 
 <!--
   % information hiding permette di calare le interdipendenze
@@ -85,26 +86,21 @@ aliases = ["/encapsulation/"]
 
   $\Rightarrow$ un lunghissimo percorso: muoviamo i primi passi..
 
-
----
-
-
-## Passi
-
-
   
-### Il nostro approccio
+### Il nostro approccio: per passi
 
 
 <!-- *  Ricapitoleremo le principali convenzioni sul codice Java -->
 
-*  Anticiperemo alcune tecniche di programmazione efficace basate sulle tecniche di *__incapsulamento__*, e conseguenti al fondamentale principio di *__decomposizione__* ($\Leftarrow$ aspetto cruciale della OO)
+*  Anticiperemo alcune tecniche di programmazione efficace basate su
+    * tecniche di *__incapsulamento__*
+    * principio di *__decomposizione__* ($\Leftarrow$ aspetto cruciale della OO)
 *  Daremo qualche linea guida utile in future per costruire sistemi di più grosse dimensioni
   
 
-
+Nota: sono tecniche/linee guida importanti per gestire il livello di articolazione di Java
   
-Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello di articolazione del linguaggio Java, ossia per rendere il suo uso più semplice possibile
+<!-- Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello di articolazione del linguaggio Java, ossia per rendere il suo uso più semplice possibile -->
 
 
 
@@ -152,7 +148,7 @@ Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello
     * Bisogna isolare i "sottoproblemi" più semplici
 * **Dipendenza**: modulo $A$ è una *dipendenza* del modulo $B$ se $B$ ha bisogno di $A$ per alcune sue funzioni
     * Una dipendenza crea un **accoppiamento (coupling)** 
-* Bisogna cercare di ridurre al massimo le *"dipendenze"* fra i sottoproblemi, il che consente:
+* Bisogna cercare di ridurre al massimo le *"dipendenze"* fra i sottoproblemi (ovvero, di favorire un *accoppiamento lasco* [*loose coupling*]), il che consente:
     *  più autonomia decisionale
     *  meno interazione con altri
     *  *__meno influenze negative nel caso di modifiche__* (se il modulo $A$ cambia, può essere necessario modificare come conseguenza il modulo "dipendente" $B$)
@@ -231,13 +227,14 @@ Nota: tutte queste tecniche e linee guida sono necessarie per gestire il livello
 ### Dipendenza
 
 
-Si dice che una classe `A` *dipende da* una classe `B` se all'interno del codice di `A` si menziona la classe `B` (ad esempio come input di un metodo) o qualche sua proprietà. 
+Una classe `A` **dipende da** una classe `B` se in `A` *si menziona* `B` (ad es. come input di un metodo) o qualche sua proprietà. 
 
-* La dipendenza è tanto più profonda (*high coupling*) quanto più in `A` si usano anche costruttori e/o campi e/o metodi definiti in `B`.
+* La dipendenza è tanto più profonda (**high coupling**) quanto più in `A` si usano anche *costruttori / campi / metodi* di `B`.
   
-Implicazione di avere una dipendenza
+Implicazione
 
-* Ogni dipendenza vincola fortemente la possibilità di fare modifiche, perché ne comporta altre da fare in cascata. Se `A` dipende da `B` e modifico `B`, dovrò probabilmente modificare anche `A`.
+* *Una dipendenza vincola fortemente la capacità di fare modifiche, perché ne comporta altre in cascata*. 
+    * Se `A` dipende da `B` e modifico `B`, dovrò probabilmente modificare anche `A`.
   
 
   
@@ -256,16 +253,16 @@ Costruendo software complesso con troppe dipendenze, si giunge al punto che ogni
 
 ### Definizione
 
-**Incapsulamento**: il grado con cui un insieme di dati e funzioni sono parte di un oggetto
+**Incapsulamento**: il grado con cui un insieme di dati e funzioni sono *"parte interna"* di un oggetto
   
 L'incapsulamento si fonda su due ingredienti cruciali della programmazione OO:
 
 1. **Impacchettamento dati + funzioni per manipolarli**
 2. **Information hiding** (via *controllo d'accesso*)
 
-
+---
   
-### Filosofia
+### Incapsulamento: linee guida
 
 *  Ogni classe dichiari `public` solo quei (pochi) metodi/costruttori necessari a interagire con (o creare) le sue istanze
 *  Il resto (che quindi include meri aspetti realizzativi) sia `private`
@@ -275,10 +272,10 @@ L'incapsulamento si fonda su due ingredienti cruciali della programmazione OO:
 
 
   
-### Incapsulamento e dipendenze
+### L'incapsulamento aiuta a limitare dipendenze/accoppiamento
 
-Così facendo il "cliente" è debolmente influenzato da possibili modifiche future riguardanti meri aspetti realizzativi.
-  
+* Limitando la parti `public`, si riduce la superficie accessibile e quindi la dipendenza potenziale
+* Il "cliente" è debolmente influenzato da possibili modifiche future riguardanti meri aspetti realizzativi.
 
 
 
