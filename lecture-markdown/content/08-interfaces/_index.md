@@ -8,7 +8,7 @@ aliases = ["/interfaces/"]
 
 +++
 
-# Interfacce
+# Interfacce e composizione
 
 {{% import path="cover.md" %}}
 
@@ -138,17 +138,33 @@ Introdurremo la composizione (che è una versione più forte della associazione)
 
 
 
-*  un oggetto della classe `A` è ottenuto componendo un insieme di altri oggetti, delle classi `B1`, `B2`, ..., `Bn` 
+*  un oggetto della classe `A` è ottenuto *componendo* un insieme di altri oggetti, delle classi `B1`, `B2`, ..., `Bn` 
     *  si dice che un oggetto di `A` *contiene*, o *si compone di*, o *aggrega*, oggetti delle classi `B1`, `B2`, ..., `Bn`
 *  ossia, lo stato dell'oggetto di `A` include <!-- le informazioni relative allo stato di --> un oggetto di `B1`, uno di  `B2`, ..., uno di `Bn`
     *  si noti che si parla propriamente di composizione quando `B1`, `B2`, ..., `Bn` non sono tipi primitivi, ma classi
 
+```java
+class A {
+    private B1 component1;
+    private B2 component2;
+    public A(B1 b1, ...) { ... }
+}
+```
+
+---
+
 ### Composizione vs. aggregazione
 
-* Quando gli oggetti composti hanno vita propria senza l'esistenza di `A` si parla anche di *__aggregazione__* 
+* La distinzione si basa sul *ciclo di vita degli elementi contenuti rispetto al contenitore*
+    *  *__Aggregazione__*: in `A`, gli oggetti composti hanno *vita propria e indipendente* da `A`
+        * In pratica: sono spesso creati "fuori" da `A`, passati ad `A` all'atto di costruzione o via setter, e possono sopravvivere ad `A`
+    *  *__Composizione__*: in `A`, gli oggetti composti hanno *vita vincolata* da `A`
+        * In pratica: sono creati e distrutti entro `A`
+* Esempi
     * Esempio di *aggregazione*: una `ClasseScolastica` aggrega un insieme di oggetti `Studente`; una `Automobile` ha un `Motore`, quattro oggetti `Ruota` etc. 
     * Esempio di *composizione*: una `Casa` si compone di un insieme di oggetti `Stanza` (una stanza non ha vita indipendente dalla casa); un `Libro` si compone di più oggetti `Capitolo` (è vero, si potrebbe considerare un capitolo in isolamento, ma questo rimarrebbe comunque un capitolo di quel libro)
-* (ma non ci occuperemo per ora in dettaglio di questa distinzione)
+
+<!-- * (ma non ci occuperemo per ora in dettaglio di questa distinzione) -->
 
  
 
@@ -191,7 +207,7 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 
   
-### Un oggetto `A` si compone esattamente di un oggetto di `B`
+### Un oggetto `A` si compone *esattamente* di *1* oggetto di `B`
 
 
 
@@ -201,7 +217,7 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 
   
-### Un oggetto `A` si compone opzionalmente di un oggetto di `B`
+### Un oggetto `A` si compone *opzionalmente* di *1* oggetto di `B`
 
 
 
@@ -211,7 +227,7 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 
   
-### Un oggetto `A` si compone di un numero noto $n$ di oggetti di `B`
+### Un oggetto `A` si compone di un *numero noto* *$n$* di oggetti di `B`
 
 
 
@@ -220,7 +236,7 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 
   
-### Un oggetto `A` si compone di una moltitudine non nota di oggetti di `B`
+### Un oggetto `A` si compone di una *moltitudine non nota* di oggetti di `B`
 
 
 
@@ -681,18 +697,67 @@ public class DomusController {
 
 
   
-### Specifica
-
-
+### 1) Specifica astratta di oggetti
 
 * Serve un meccanismo per *separare esplicitamente*, ossia in dichiarazioni diverse, *l'interfaccia* della classe e la sua *realizzazione*
     * Si vuole poter *separare fisicamente* la parte di *"contratto"* (tipicamente fissa) con quella di *"implementazione"* (modificabile frequentemente)
     * Si vuole poter *astrarre* da molteplici possibili implementazioni 
 
+
+<div class="container">
+<div class="col">
+
+{{% smaller %}}
+
+```java
+class Lamp {
+   private final static double DELTA = 0.1;
+   private int intensity;
+   private boolean switchedOn;
+   // ...
+
+   public Lamp() {
+      this.switchedOn = false;
+      this.intensity = 0;
+   }
+
+   public void switchOn() {
+      this.switchedOn = true;
+   }
+
+   public boolean isSwitchedOn() {
+      return this.switchedOn;
+   }
+
+   public double getIntensity() {
+      return this.intensity * DELTA;
+   }
+
+   // ...
+}
+```
+
+{{% /smaller %}}
+
+</div><div class="col">
+
+Estrazione del "contratto d'uso" della lampadina
+
+```java
+interface Lamp {
+  void switchOn();
+  Boolean isSwitchedOn();
+  double getIntensity()
+  // ...
+}
+```
+
+</div>
+</div>
+
+---
   
-### Polimorfismo
-
-
+### 2) Polimorfismo: accesso uniforme a oggetti diversi
 
 *  Serve un meccanismo per poter fornire *diverse possibili realizzazioni di un contratto*
 *  Tutte devono poter essere *utilizzabili in modo omogeneo*
@@ -1497,6 +1562,7 @@ public class Lamp implements LuminousDevice {
 Familiarizzare con:
 
 *  Costruzione di semplici classi con incapsulamento
-*  Relativa costruzione di test
 *  Costruzione di classi con relazione d'uso verso una interfaccia
   
+<!-- *  Relativa costruzione di test -->
+
