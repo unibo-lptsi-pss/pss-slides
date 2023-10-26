@@ -93,17 +93,20 @@ interface LuminousDevice extends Device, Luminous { }
 
 ## Ereditarietà
 
-È un meccanismo che consente di definire una nuova classe *__specializzandone__* una esistente, ossia *"ereditando"* i suoi campi e metodi (quelli privati non sono visibili), possibilmente/eventualmente *modificando/aggiungendo* campi/metodi, e quindi *riusando* codice già scritto e testato.
-  
 <!--
+È un meccanismo che consente di definire una nuova classe *__specializzandone__* una esistente, ossia *"ereditando"* i suoi campi e metodi (quelli privati non sono visibili), possibilmente/eventualmente *modificando/aggiungendo* campi/metodi, e quindi *riusando* codice già scritto e testato.
+-->  
+
 È un meccanismo che consente di definire una nuova classe *__specializzandone__* una esistente, ossia
 
-* *"ereditando" i suoi campi e metodi*, quindi riusando codice già scritto e testato
+* *__"ereditando"__ i suoi campi e metodi*, quindi riusando codice già scritto e testato
   * è ortogonale al discorso di "visibilità": membri privati, seppur non visibili, sono comunque ereditati 
-* estendendo attraverso (A) *modifica* e/o (B) *aggiunta* di campi/metodi 
-  
--->
+* __estendendo__ attraverso 
+  * (A) *modifica* di metodi (*sovrascrittura/overriding*) e/o 
+  * (B) *aggiunta* di campi/metodi 
 
+
+---
 
 ### Scenari di riuso ed estensione
 
@@ -118,7 +121,7 @@ interface LuminousDevice extends Device, Luminous { }
 *  Data una classe, crearne una *più specializzata*
     * ad esempio, a partire da una lampadina (`SimpleLamp`), realizzare una lampadina con controllo livello di intensità luminosa (`AdvancedLamp`)
     * ad esempio, una classe più robusta e sicura, anche se più lenta
-*  Creare *gerarchie di classi* ossia di comportamenti
+*  Creare *gerarchie di classi* (ossia di "comportamenti")
     * Ad esempio, una famiglia di `Device` diversi e specializzati
   
 
@@ -169,6 +172,7 @@ interface LuminousDevice extends Device, Luminous { }
 
 ## Una nuova classe: `MultiCounter`
 
+* potrebbe essere implementata a partire dal codice sorgente di `Counter`
 * rispetto a `Counter`, offre un metodo `multiIncrement(int)`
 
 ```java
@@ -190,10 +194,11 @@ interface LuminousDevice extends Device, Luminous { }
 
 ## Versione con riuso via composizione: `MultiCounter2`
 
-
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/inheritance/pre/MultiCounter2.java" %}}
 ```
+
+* abbiamo riusato le funzionalità di `Counter` (via *delega*) ma non abbiamo veramente "ridotto" la quantità di codice scritto 
 
 ---
 
@@ -206,12 +211,13 @@ interface LuminousDevice extends Device, Luminous { }
 
 
 
-*  È tipico nei progetti software, accorgersi di dover creare anche versioni modificate delle classi esistenti
-*  Appoggiarsi al "copia e incolla" per ottenere *ripetizione di codice* è sempre sconsigliabile (principio *DRY*), perché tende a spargere errori in tutto il codice, e complica la manutenzione
+*  È tipico nei progetti software, accorgersi di dover creare anche *"versioni modificate/estese"* delle classi esistenti
+*  Appoggiarsi al *"copia e incolla"* per ottenere *ripetizione di codice* è sempre **sconsigliabile** (principio *DRY*)
+    * poiché tende a spargere errori in tutto il codice, e complica la manutenzione (se ciò che vogliamo modificare è sparso in `N` punti, dovremo prima localizzare questi `N` punti e poi ivi applicare la modifica)
 *  Ottenere riuso via *composizione* (ossia *delegazione*) è in generale una *__ottima soluzione__*.. ma è possibile in alcuni casi fare meglio..
   
 
-
+---
   
 ### Si usa il meccanismo di ereditarietà
 
@@ -223,9 +229,7 @@ interface LuminousDevice extends Device, Luminous { }
     * Nota: i *costruttori* non vengono ereditati, ma riusati implicitamente o esplicitamente <!-- costruttori di `D` non sono direttamente richiamabili con la `new`, bisogna sempre definirne di nuovi -->
 *  Terminologia: `D` *superclasse*, o *classe base*, o *classe padre*
 *  Terminologia: `C` *sottoclasse*, o *classe figlia*, o *specializzazione*
-*  Nota: non serve disporre dei sorgenti di `D`, basta il codice binario
-  
-
+*  Nota: non serve disporre dei sorgenti di `D` (basta il codice binario)
 
 
 
@@ -254,7 +258,7 @@ interface LuminousDevice extends Device, Luminous { }
 *  Definiamo il nuovo metodo `multiIncrement()`
 *  Definiamo il costruttore necessario
     *  Il costruttore di una sottoclasse può cominciare con l'istruzione `super`, che chiama un costruttore (non privato) della classe padre
-    *  Se non lo fa, si chiama il costruttore senza argomenti del padre (se c'è, altrimenti ERRORE)
+    *  *Se non lo fa, si chiama il costruttore senza argomenti del padre (se c'è, altrimenti ERRORE)*
     *  Senza costruttori, si ha al solito solo quello di default (che chiama il costruttore senza argomenti del padre)
 *  `UseMultiCounter` continua a funzionare!
   
@@ -277,9 +281,9 @@ interface LuminousDevice extends Device, Luminous { }
 ## Notazione UML per l'estensione
 
 
-*  Arco a *linea continua*  e  *punta a triangolo* (vuoto/pieno) per la relazione "`extends`"
+*  Arco a *linea continua*  e  *punta a triangolo* (vuoto/pieno) per la relazione "`extends`" (*specializzazione*)
     * Stessa notazione di "realizzazione interfaccia", a parte che quest'ultima ha linea tratteggiata
-*  Archi raggruppati per migliorare la resa grafica
+*  Nel caso di più classi figlie: archi raggruppati per migliorare la resa grafica
   
 
 
@@ -332,27 +336,29 @@ Counter <|-- MultiCounter
 
 ## Livello d'accesso `protected`
 
+* Motivazione: una *classe figlia* è un caso particolare di *scope* e quindi si potrebbe voler regolare la visibilità in tale scope
+    * Si ricordi che per il principio dell'*information hiding* si vuole ridurre il più possibile la "superficie visibile" per evitare una proliferazione di dipendenze
+    * Per motivi pratici (principalmente: riuso), può aver senso allargare la visibilità alle sottoclassi
 
-  
 ### Usabile per le proprietà d'una classe
 
 
 
 *  È un livello intermedio fra `public` e `private`
-*  Indica che la proprietà (campo, metodo, costruttore) è accessibile dalla classe corrente, da una sottoclasse, e dalle sottoclassi delle sottoclassi (ricorsivamente) -- cavillo: anche da tutto il package
-    * ovvero, é package-private con visibilità estesa alle classi discendenti  
+*  Indica che la proprietà (campo, metodo, costruttore) è accessibile, oltre che dalla classe corrente, da :
+    * *una sottoclasse* (in qualsiasi package), e dalle sottoclassi delle sottoclassi (ricorsivamente) 
+    * *cavillo: anche da tutto il package* (qualsiasi classe nello stess package)
+* In altre parole: il membro è "package-private" con visibilità estesa a tutte le classi discendenti  
 
-
+---
   
-### A cosa serve?
+### A cosa serve, `protected`?
 
 
 
 *  Consente alle sottoclassi di accedere ad informazioni della sopraclasse che non si vogliono far vedere agli utilizzatori	
 *  Molto spesso usato a posteriori rimpiazzando un `private`
-*  Molto meglio avere campi privati e getter/setter protetti
-  
-
+*  Molto meglio avere *campi privati* e *getter/setter protetti*
 
   
 ### Esempio classe `BiCounter` -- contatore bidirezionale
@@ -393,6 +399,7 @@ Counter <|-- MultiCounter
 
 ## Classe `BiCounter`
 
+* NB: irrealizzabile (a meno di trick come overflow) mantenendo l'interfaccia di `Counter` (i.e. `increment` + `getValue`) senza un rendere accessibile in scrittura alle sottoclassi il campo `value` (direttamente o via setter)
 
 
 ```java
@@ -403,7 +410,7 @@ Counter <|-- MultiCounter
 ---
 
 
-## Overriding di metodi
+## **Overriding** di metodi
 
 
   
@@ -411,12 +418,12 @@ Counter <|-- MultiCounter
 
 
 
-*  Quando si crea una nuova classe per estensione, molto *spesso non è sufficiente aggiungere nuove funzionalità*
+*  Quando si crea una nuova classe per estensione, *spesso non è sufficiente aggiungere nuove funzionalità*
 *  A volte serve anche *modificare* alcune di quelle disponibili, eventualmente anche stravolgendone il funzionamento originario
 *  Questo è realizzabile *riscrivendo* nella sottoclasse uno (o più) dei metodi della superclasse (ossia, facendone l'*__overriding__*)
-    *  Se necessario, il metodo riscritto può invocare la versione del padre usando il receiver speciale `super`
-  
-
+    *  Se necessario, il metodo riscritto può **invocare la versione del padre** usando il *receiver speciale* `super`
+* NB: non si confondano i termini *overloading* e *overriding* ("to preveil", "to extend over", "to supersede", "to overrule")
+    * Terminologicamente: [override vs. overwrite](https://english.stackexchange.com/questions/88400/when-to-use-override-and-overwrite) ("Override: the original is not being destroyed afterwards. Overwrite:  the original is being destoryed afterwards")
 
   
 ### Esempio
