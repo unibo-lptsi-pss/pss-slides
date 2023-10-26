@@ -759,7 +759,7 @@ class B extends A { B() { super(7); out.print("B"); } }
 
 *  Accade quello che accadrebbe se la classe corrente non avesse il metodo `m`, ossia viene eseguito il metodo `m` della superclasse 
     *  O, se anche lì assente, quello nella sopraclasse più specifica che lo definisce
-*  Se tale metodo al suo interno chiama un altro metodo `n` (su `this`), allora si ritorna a considerare la versione più specifica a partire dalla classe di partenza `C`
+*  *Se tale metodo al suo interno chiama un altro metodo `n` (su `this`), allora si ritorna a considerare la versione più specifica a partire dalla classe di partenza `C`*
   
 
 
@@ -901,17 +901,12 @@ Come sono fatte le tabelle relative alle classi `LimitedCounter` e `UnlimitedCou
    
 ### Soluzione: `final`
 
-
-
 *  Oltre che per i campi (e argomenti di funzione o variabili, come già visto), è possibile dichiare `final` anche metodi e intere classi
-*  Un metodo `final` è un metodo che NON può essere ri-definito per overriding
-*  Una classe `final` non può essere estesa
-   
+*  Un **metodo `final`** è un metodo che *NON può essere ri-definito per overriding*
+*  Una **classe `final`** *non può essere estesa*   
 
 
-   
 ### Nelle librerie Java
-
 
 
 *  Moltissime classi sono `final`, ad esempio `String`
@@ -992,6 +987,8 @@ class Person {
 }
 ```
 
+<!--
+
 ---
 
 
@@ -1014,3 +1011,5 @@ class Person {
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/patterns/factorymethod/domo/UseTwoLampsDevice.java" %}}
 ```
+
+-->
