@@ -10,7 +10,7 @@ aliases = ["/intro/"]
 
 # Introduzione al corso *Progettazione e Sviluppo del Software (PSS) a.a. 23-24*
 
-<!-- write-here "../cover.md" -->
+<!-- write-here "cover.md" -->
 
 <!-- end-write -->
 
