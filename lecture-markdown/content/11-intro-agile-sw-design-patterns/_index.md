@@ -32,7 +32,7 @@ aliases = ["/intro-agile-sw-design-patterns/"]
 * Introduzione ai *design pattern*
 * *Architettura* e *design di dettaglio*
 * *Agile software development*: cos'è, manifesto, principi
-* Pattern *Strategy*
+* Pattern *Strategy* e *Factory*
   
 
 ---
