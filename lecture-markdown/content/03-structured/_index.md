@@ -10,7 +10,10 @@ aliases = ["/java-structured-programming/"]
 
 # Programmazione strutturata in Java
 
-{{% import path="cover.md" %}}
+<!-- write-here "cover.md" -->
+
+<!-- end-write -->
+
 
 ## Riassunto delle puntate precedenti
 

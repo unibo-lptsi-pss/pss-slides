@@ -10,7 +10,10 @@ aliases = ["/objects-2/"]
 
 # Oggetti e Classi pt.2: inizializzazione, accessi, distruzione
 
-{{% import path="cover.md" %}}
+<!-- write-here "cover.md" -->
+
+<!-- end-write -->
+
 
 
 

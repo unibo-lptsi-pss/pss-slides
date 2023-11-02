@@ -10,7 +10,10 @@ aliases = ["/junit-tdd/"]
 
 # Unit Testing e Test-Driven Development in Java con JUnit 5
 
-{{% import path="front-page.md" %}}
+<!-- write-here "front-page.md" -->
+
+<!-- end-write -->
+
 
 
 ## Outline

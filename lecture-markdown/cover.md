@@ -1,4 +1,6 @@
-{{% import path="front-page.md" %}}
+<!-- write-here "front-page.md" -->
+
+<!-- end-write -->
 
 ## Riconoscimenti
 

@@ -12,7 +12,10 @@ aliases = ["/guis-swing/"]
 
 <!-- {{% import path="front-page.md" %}} -->
 
-{{% import path="cover.md" %}}
+<!-- write-here "cover.md" -->
+
+<!-- end-write -->
+
 
 ---
 
