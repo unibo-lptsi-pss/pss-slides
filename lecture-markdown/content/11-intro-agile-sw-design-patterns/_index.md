@@ -295,6 +295,22 @@ il proprio comportamento di conseguenza.
 ## Design Pattern
 
 
+
+<div class="container">
+<div class="col">
+
+![](imgs/pattern-gof-cover.jpg)
+
+</div>
+<div class="col">
+
+![](imgs/posa1-cover.jpg)
+![](imgs/posa4-cover.jpg)
+
+</div>
+</div>
+
+---
   
 ### I Pattern di progettazione
 
@@ -568,7 +584,7 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 *  Ai clienti passo un oggetto (di una specializzazione) dell'interfaccia base
 <!-- *  Se la strategia è funzionale si usano facilmente le lambda (e viceversa) -->
 
-*__È probabilmente uno dei pattern più importanti (assieme al Factory Methods)__*
+*__È probabilmente uno dei pattern più importanti (assieme al Factory Method)__*
     
 
 
@@ -827,14 +843,29 @@ Benefici dei *metodi factory statici* (rispetto ad uso diretto dei costruttori)
 </div>
 
 
----
 
 - Benefici
     - `TwoLampsDevice` può comporsi con diverse coppie di lampadine e lavorare con esse in modo uniforme senza dover variare il proprio codice (cf. polimorfismo)
     - `TwoLampsDevice` non dipende più da classi concrete, ma da oggetti di contratto `LampFactory`
-- Un pattern tra Abstract Factory e Factory Method
-    - Propriamente, Abstract Factory dovrebbe supportare una *famiglia di prodotti*
-    - Propriamente, Factory Method richiederebbe che le classi che specializzano il metodo factory riusino il contesto
+
+---
+
+- Un pattern tra Factory Method e Abstract Factory
+    - Propriamente, *Factory Method* si basa sul riuso del contesto via specializzazione, con override del "metodo factory" (da cui il nome del pattern)
+    - Propriamente, *Abstract Factory* dovrebbe supportare una *famiglia di prodotti*
+
+<div class="container">
+<div class="col">
+
+![](imgs/factorymethod.png)
+
+</div>
+<div class="col">
+
+![](imgs/pattern-abstractfactory-method.png)
+
+</div>
+</div>
 
 ---
 

@@ -427,14 +427,14 @@ public class Tv {
 
 ```java
 public class Tv {
-    boolean acceso;
+    boolean on;
 
     public void turnOn(){ 
-        this.acceso = true;
+        this.on = true;
     }
 
     public boolean isOn(){ 
-        return this.acceso;
+        return this.on;
     }
 }
 ```
