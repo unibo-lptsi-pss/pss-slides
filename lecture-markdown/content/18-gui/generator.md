@@ -10,12 +10,8 @@ aliases = ["/guis-javafx/"]
 
 # Interfacce utente grafiche (GUI) con JavaFX
 
-<!-- write-here "front-page.md" -->
+{{% import path="front-page.md" %}}
 
-<!-- end-write -->
-
-
-<!-- {{% import path="cover.md" %}} -->
 
 ## Premessa
 

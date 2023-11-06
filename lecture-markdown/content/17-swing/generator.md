@@ -10,11 +10,7 @@ aliases = ["/guis-swing/"]
 
 # Interfacce utente grafiche (GUI) con Swing
 
-<!-- {{% import path="front-page.md" %}} -->
-
-<!-- write-here "cover.md" -->
-
-<!-- end-write -->
+{{% import path="cover.md" %}}
 
 
 ---

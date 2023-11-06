@@ -10,9 +10,8 @@ aliases = ["/inheritance/"]
 
 # Ereditarietà
 
-<!-- write-here "cover.md" -->
+{{% import path="cover.md" %}}
 
-<!-- end-write -->
 
 
 ---

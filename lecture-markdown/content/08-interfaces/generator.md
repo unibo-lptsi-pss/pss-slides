@@ -10,9 +10,7 @@ aliases = ["/interfaces/"]
 
 # Interfacce e composizione
 
-<!-- write-here "cover.md" -->
-
-<!-- end-write -->
+{{% import path="cover.md" %}}
 
 
 ---

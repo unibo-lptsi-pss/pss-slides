@@ -12,9 +12,8 @@ aliases = ["/compilers/"]
 
 ### Esercizi e soluzioni: https://github.com/unibo-lptsi-pss/pss-lab/releases/latest/
 
-<!-- write-here "cover.md" -->
+{{% import path="cover.md" %}}
 
-<!-- end-write -->
 
 ## Pre-requisiti
 

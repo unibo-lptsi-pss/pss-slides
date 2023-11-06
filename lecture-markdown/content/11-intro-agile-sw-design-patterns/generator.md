@@ -10,9 +10,7 @@ aliases = ["/intro-agile-sw-design-patterns/"]
 
 # Introduzione alla progettazione efficace ed agile del software
 
-<!-- write-here "front-page.md" -->
-
-<!-- end-write -->
+{{% import path="front-page.md" %}}
 
 
 ## Outline

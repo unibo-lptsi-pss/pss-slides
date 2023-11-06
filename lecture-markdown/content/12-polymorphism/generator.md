@@ -10,9 +10,8 @@ aliases = ["/polymorphism/"]
 
 # Polimorfismo
 
-<!-- write-here "cover.md" -->
+{{% import path="cover.md" %}}
 
-<!-- end-write -->
 
 
 ---

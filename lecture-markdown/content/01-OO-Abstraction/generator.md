@@ -10,11 +10,7 @@ aliases = ["/oo-abstraction/"]
 
 # Ingegneria e astrazione orientata agli oggetti
 
-<!-- write-here "cover.md" -->
-
-<!-- end-write -->
-
-# Sistemi software e Ingegneria
+{{% import path="cover.md" %}}
 
 ---
 

@@ -10,12 +10,7 @@ aliases = ["/advanced-mechanisms-nested-enums/"]
 
 # Meccanismi avanzati: classi innestate, enum ...
 
-<!-- {{% import path="front-page.md" %}} -->
-
-<!-- write-here "cover.md" -->
-
-<!-- end-write -->
-
+{{% import path="cover.md" %}}
 
 ---
 

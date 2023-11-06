@@ -10,11 +10,9 @@ aliases = ["/objects/"]
 
 # Oggetti e classi
 
-<!-- write-here "cover.md" -->
+{{% import path="cover.md" %}}
 
-<!-- end-write -->
-
-
+---
 
 ## Outline
   

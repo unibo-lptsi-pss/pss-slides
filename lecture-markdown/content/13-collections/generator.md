@@ -10,12 +10,7 @@ aliases = ["/collections/"]
 
 # Collezioni
 
-<!-- {{% import path="front-page.md" %}} -->
-
-<!-- write-here "cover.md" -->
-
-<!-- end-write -->
-
+{{% import path="cover.md" %}}
 
 ---
 

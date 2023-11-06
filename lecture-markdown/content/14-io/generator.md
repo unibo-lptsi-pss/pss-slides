@@ -10,9 +10,8 @@ aliases = ["/io/"]
 
 # Input/Output
 
-<!-- write-here "cover.md" -->
+{{% import path="cover.md" %}}
 
-<!-- end-write -->
 
 ---
 

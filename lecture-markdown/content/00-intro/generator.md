@@ -10,11 +10,8 @@ aliases = ["/intro/"]
 
 # Introduzione al corso *Progettazione e Sviluppo del Software (PSS) a.a. 23-24*
 
-<!-- write-here "front-page.md" -->
+{{% import path="front-page.md" %}}
 
-<!-- end-write -->
-
----
 
 # Docenti
 

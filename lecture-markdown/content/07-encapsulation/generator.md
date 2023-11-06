@@ -10,10 +10,7 @@ aliases = ["/encapsulation/"]
 
 # Incapsulamento
 
-<!-- write-here "cover.md" -->
-
-<!-- end-write -->
-
+{{% import path="cover.md" %}}
 
 
 ---

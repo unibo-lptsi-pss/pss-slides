@@ -10,11 +10,7 @@ aliases = ["/git/"]
 
 # Sistemi di controllo versione
 
-<!-- write-here "front-page.md" -->
-
-<!-- end-write -->
-
-
+{{% import path="front-page.md" %}}
 
 
 ## Riconoscimenti

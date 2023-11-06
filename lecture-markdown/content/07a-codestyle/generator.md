@@ -10,10 +10,7 @@ aliases = ["/codestyle/"]
 
 # Stile e formattazione del codice
 
-<!-- write-here "cover.md" -->
-
-<!-- end-write -->
-
+{{% import path="cover.md" %}}
 
 
 ---

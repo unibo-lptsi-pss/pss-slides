@@ -10,9 +10,9 @@ aliases = ["/basic-tools/"]
 
 # Strumenti di base del JDK
 
-<!-- write-here "cover.md" -->
+{{% import path="cover.md" %}}
 
-<!-- end-write -->
+
 ---
 
 ## Tipi di piattaforme Java

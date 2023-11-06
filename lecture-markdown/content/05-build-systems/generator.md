@@ -10,10 +10,7 @@ aliases = ["/build-systems/"]
 
 # Build system (Gradle), costruzione del software, e librerie
 
-<!-- write-here "front-page.md" -->
-
-<!-- end-write -->
-
+{{% import path="front-page.md" %}}
 
 ---
 
