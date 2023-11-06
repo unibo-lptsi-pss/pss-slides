@@ -12,6 +12,7 @@ aliases = ["/intro-agile-sw-design-patterns/"]
 
 {{% import path="front-page.md" %}}
 
+---
 
 ## Outline
 

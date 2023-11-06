@@ -12,6 +12,7 @@ aliases = ["/git/"]
 
 {{% import path="front-page.md" %}}
 
+---
 
 ## Riconoscimenti
 

@@ -12,6 +12,7 @@ aliases = ["/guis-javafx/"]
 
 {{% import path="front-page.md" %}}
 
+---
 
 ## Premessa
 

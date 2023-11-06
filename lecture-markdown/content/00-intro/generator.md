@@ -12,6 +12,7 @@ aliases = ["/intro/"]
 
 {{% import path="front-page.md" %}}
 
+---
 
 # Docenti
 
