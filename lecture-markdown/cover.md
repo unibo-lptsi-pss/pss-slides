@@ -1,5 +1,7 @@
 {{% import path="front-page.md" %}}
 
+---
+
 ## Riconoscimenti
 
 * Questo materiale è ampiamente basato su quello realizzato dal Prof.
