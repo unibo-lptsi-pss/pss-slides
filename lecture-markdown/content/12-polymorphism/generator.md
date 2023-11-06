@@ -8,7 +8,7 @@ aliases = ["/polymorphism/"]
 
 +++
 
-# Polimorfismo
+# Polimorfismo, classi astratte, tipi a runtime
 
 {{% import path="cover.md" %}}
 
@@ -297,7 +297,7 @@ Allora un oggetto di `C` è simile ad un oggetto di `A`: ha solo *informazioni a
 
 
   
-### Le classi *non* consentono *"ereditarietà multipla"* (in C++ si)
+### Le classi in Java *non* consentono *"ereditarietà multipla"* (in C++ si)
 
 
 
@@ -777,10 +777,13 @@ Serve a dichiare uno *schema di strategia* con un **metodo "template"** (spesso 
 ## `UseLamps`
 
 
+{{% smaller %}}
+
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/polymorphism/abs/UseLamps.java" %}}
 ```
 
+{{% /smaller %}}
 
 ---
 
@@ -1110,6 +1113,8 @@ class ConcreteClass extends AbstractClass {
 
 ---
 
+<!--
+
 ## Pattern **Decorator**: strutturale, su oggetti
 
 
@@ -1127,19 +1132,11 @@ class ConcreteClass extends AbstractClass {
 *  Aggiunta di "logging" (stampe in output/su file) alle operazioni di un oggetto
 *  Aggiunta di una una barra di scorrimento ad un pannello in una GUI (temi che vedremo)
 *  Ottenere uno stream ordered da uno unordered (temi che vedremo)
-
-<!--
 *  Aggiungere (in modo componibile) la gestione "buffered" ad uno stream
--->    
-
 
     
 ### Soluzione
 
-<!--
-*  La classe base (*componente*) viene estesa con una nuova classe (*decoratore*) che è anche wrapper di un oggetto della classe base
-    *  Uno o più metodi potrebbero delegare semplicemente all'oggetto wrappato, altri modificare opportunamente, altri essere aggiuntivi
--->
 
 * Il *decoratore* ha un riferimento al *componente* e definisce un'interfaccia che è conforme a quella del *componente*: il *decoratore* fa "forwarding" delle richieste al *componente*, e può svolgere altre operazioni prima e/o dopo 
 * $\Rightarrow$ può essere visto come variante dello strategy (in cui la strategia è "il comportamento di base" del componente), e potrebbe includere dei template method
@@ -1261,12 +1258,13 @@ class ConcreteClass extends AbstractClass {
 
 ---
 
+-->
 
 ## Preview del prossimo laboratorio
 
 
   
-### Obbiettivi
+### Obiettivi
 
 Familiarizzare con:
 

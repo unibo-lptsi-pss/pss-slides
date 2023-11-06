@@ -675,6 +675,8 @@ Definisce una famiglia di algoritmi, e li rende interscambiabili, ossia usabili 
 </div>
 </div>
 
+<!--
+
 ---
 
 ## I pattern "factory"
@@ -879,3 +881,5 @@ Benefici dei *metodi factory statici* (rispetto ad uso diretto dei costruttori)
 
 - Consolidare l'uso di interfacce e composizione
 - Sperimentare con pattern Strategy e Factory
+
+-->
