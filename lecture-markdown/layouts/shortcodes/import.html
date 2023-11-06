@@ -6,4 +6,4 @@
 {{- $end := sub $end $start }}
 {{- $content := after $start (first (add $start $end) $content) -}}
 {{- $content := delimit $content "\n" -}}
-{{- $content -}}
+{{- $content | safeHTML -}}
