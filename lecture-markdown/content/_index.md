@@ -16,7 +16,7 @@ outputs = ["Reveal"]
 <div class="container">
 <div class="col">
 
-1 [Introduzione al corso](intro/)
+1. [Introduzione al corso](intro/)
 1. [Astrazione orientata agli oggetti](oo-abstraction/)
 1. [Oggetti e classi (parte 1/2)](objects/)
 1. [Programmazione strutturata in Java](java-structured-programming/)
