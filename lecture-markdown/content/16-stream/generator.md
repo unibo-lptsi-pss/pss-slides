@@ -26,9 +26,6 @@ aliases = ["/stream/"]
 
 *  Mostrare la gestione funzionale degli Stream
 *  Discutere altri aspetti relativi alle novità di Java 8
-  
-
-
 
 
 ---
