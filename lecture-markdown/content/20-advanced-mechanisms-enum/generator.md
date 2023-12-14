@@ -37,7 +37,11 @@ aliases = ["/advanced-mechanisms-enums/"]
 
 *  in alcune situazioni occorre definire dei tipi che possono assumere solo un numero fissato e limitato di possibili valori
 *  Esempi:
+<<<<<<< HEAD
 	  * le regioni d'Italia, il sesso di un individuo, i 6 pezzi negli scacchi, i giorni della settimana, le tipologie di camere di un hotel, le scuole di un ateneo, eccetera
+=======
+	  *  le cifre da 0 a 9, le regioni d'Italia, il sesso di un individuo, i 6 pezzi negli scacchi, i giorni della settimana, le tipologie di camere di un hotel, le scuole di un ateneo, eccetera
+>>>>>>> master
 
 
   
