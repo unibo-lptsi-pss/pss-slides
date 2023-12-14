@@ -1024,9 +1024,6 @@ Nel file FXML (ad esempio attaccandolo al nodo root)
 ## Un esempio di applicazione: `DrawNumber`
 
 
-![](imgs/class.png)
-
-
 ---
 
 
@@ -1035,177 +1032,433 @@ Nel file FXML (ad esempio attaccandolo al nodo root)
 
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/model/DrawNumber.java" %}}
+public interface DrawNumber {
+    void reset();
+    DrawResult attempt(int n);
+}
+
 ```
 
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/model/DrawResult.java" %}}
+public enum DrawResult {
+    YOURS_LOW("Your number is too small"),
+    YOURS_HIGH("Your number is too big"),
+    YOU_WON("You won"),
+    YOU_LOST("You lost");
+
+    private final String message;
+    
+    DrawResult(final String message) {
+        this.message = message;
+    }
+
+    public String getDescription() {
+        return message;
+    }
+}
+
 ```
 
-
+---
+## Interfaccia del Modello: `DrawNumberObservable`
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/model/AttemptsLimitReachedException.java" %}}
+public interface DrawNumberObservable extends DrawNumber {
+    Property<Integer> minProperty();
+
+    Property<Integer> maxProperty();
+
+    Property<Optional<Integer>> lastGuessProperty();
+
+    Property<Optional<DrawResult>> lastGuessResult();
+
+    Property<Integer> attemptsProperty();
+
+    Property<Integer> remainingAttemptsProperty();
+}
 ```
-
-
 
 ---
 
-
-## Implementazione del model: `DrawNumberImpl`
+## Implementazione del model (1/3): `DrawNumberImpl`
 
 {{% smaller %}}
 
 ```java
+public final class DrawNumberImpl implements DrawNumberObservable {
 
-public class DrawNumberImpl implements DrawNumber {
+    private final Property<Integer> choice;
+    private final Property<Integer> min;
+    private final Property<Integer> max;
+    private final Property<Integer> attempts;
+    private final Property<Integer> remainingAttempts;
+    private final Property<Optional<Integer>> lastGuess;
+    private final Property<Optional<DrawResult>> lastGuessResult;
+    private final Random random = new Random();
 
-	private int choice;
-	private final int min, max;
-	private final int attempts;
-	private int remainingAttempts;
-	private final Random random = new Random();
+    public DrawNumberImpl(final Configuration configuration) {
+        lastGuess = new SimpleObjectProperty<>(Optional.empty());
+        lastGuessResult = new SimpleObjectProperty<>(Optional.empty());
+        if (!configuration.isConsistent()) {
+            throw new IllegalArgumentException("The game requires a valid configuration");
+        }
+        this.min = new SimpleObjectProperty<>(configuration.getMin());
+        this.max = new SimpleObjectProperty<>(configuration.getMax());
+        this.attempts = new SimpleObjectProperty<>(configuration.getAttempts());
+        this.remainingAttempts = new SimpleObjectProperty<>(configuration.getAttempts());
+        this.choice = new SimpleObjectProperty<>(configuration.getAttempts());
+        this.reset();
+    }
 
-	public DrawNumberImpl(final int min, final int max, final int attempts) {
-		this.min = min; this.max = max;
-		this.attempts = attempts;
-		this.reset();
-	}
+    ...
+```
 
-	public void reset() {
-		this.remainingAttempts = this.attempts;
-		this.choice = this.min + random.nextInt(this.max - this.min + 1);
-	}
+{{% /smaller %}}
 
-	public DrawResult attempt(int n) throws AttemptsLimitReachedException {
-		if (this.remainingAttempts == 0) { throw new AttemptsLimitReachedException(); }
-		if (n < this.min || n > this.max) { throw new IllegalArgumentException(); }
-		if (n > this.choice) { return DrawResult.YOURS_IS_HIGHER; }
-		if (n < this.choice) { return DrawResult.YOURS_IS_LOWER; }
-		return DrawResult.YOU_WON;
-	}
+---
+## Implementazione del model (2/3): `DrawNumberImpl`
+{{% smaller %}}
+```java
+public final class DrawNumberImpl implements DrawNumberObservable {
+    ...
+    @Override
+    public void reset() {
+        this.remainingAttempts.setValue(this.attempts.getValue());
+        this.choice.setValue(this.min.getValue() + random.nextInt(this.max.getValue() - this.min.getValue() + 1));
+    }
+
+    @Override
+    public DrawResult attempt(final int guess) {
+        lastGuess.setValue(Optional.of(guess));
+        DrawResult result = lastGuessResult.getValue().orElse(DrawResult.YOU_LOST);
+        if (this.remainingAttempts.getValue() <= 0) {
+            result = DrawResult.YOU_LOST;
+        }
+        if (guess < this.min.getValue() || guess > this.max.getValue()) {
+            throw new IllegalArgumentException("The number is outside boundaries");
+        }
+        remainingAttempts.setValue(remainingAttempts.getValue() - 1);
+        if (guess > this.choice.getValue()) {
+            result = DrawResult.YOURS_HIGH;
+        }
+        if (guess < this.choice.getValue()) {
+            result = DrawResult.YOURS_LOW;
+        }
+        if (guess == this.choice.getValue()) {
+            result = DrawResult.YOU_WON;
+        }
+        lastGuessResult.setValue(Optional.of(result));
+        return result;
+    }
+    ...
 }
 ```
 
 {{% /smaller %}}
 
+---
+## Implementazione del model (3/3): `DrawNumberImpl`
+{{% smaller %}}
+```java
+public final class DrawNumberImpl implements DrawNumberObservable {
+    @Override
+    public Property<Integer> minProperty() {
+        return min;
+    }
 
+    @Override
+    public Property<Integer> maxProperty() {
+        return max;
+    }
+
+    @Override
+    public Property<Integer> remainingAttemptsProperty() {
+        return remainingAttempts;
+    }
+
+    @Override
+    public Property<Integer> attemptsProperty() {
+        return attempts;
+    }
+
+    @Override
+    public Property<Optional<Integer>> lastGuessProperty() {
+        return lastGuess;
+    }
+
+    @Override
+    public Property<Optional<DrawResult>> lastGuessResult() {
+        return lastGuessResult;
+    }
+```
+{{% /smaller %}}
 
 ---
-
 
 ## Interfacce della view: `DrawNumberView`
 
 
 
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/view/DrawNumberView.java" %}}
+public interface DrawNumberView {
+    void setObserver(DrawNumberViewObserver observer);
+
+    void start();
+
+    void numberIncorrect();
+
+    void result(DrawResult res);
+
+    void displayError(String message);
+}
 ```
 
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/guis/swing/mvc/view/DrawNumberViewObserver.java" %}}
+public interface DrawNumberViewObserver {
+    void newAttempt(int n);
+
+    void resetGame();
+
+    void quit();
+}
+
 ```
-
-
 
 ---
 
 
-## Implementazione della view: `DrawNumberViewImpl`
+## Implementazione della view (1/3): `DrawNumberViewImpl`
 
 {{% smaller %}}
 
 ```java
 public final class DrawNumberViewImpl implements DrawNumberView {
+
+    private static final String FRAME_NAME = "Draw Number App";
+    private static final String QUIT = "Quit";
+    private static final String RESET = "Reset";
+    private static final String GO = "Go";
+    private static final String NEW_GAME = ": a new game starts!";
+
     private DrawNumberViewObserver observer;
     private Stage frame;
-    private Label message, error;
+    private Label message;
+    private final DrawNumberObservable model;
+    private final Bounds initialBounds;
 
-    @Override public void start() {
-        frame = new Stage();
-        final TextField tNumber = new TextField();
-        final Button bGo = new Button(GO);
-        message = new Label(); error = new Label();
-        // ... set up scene graph / layout ...
-        bGo.setOnAction(e -> { 
-            try {
-                observer.newAttempt(Integer.parseInt(tNumber.getText()));
-            } catch (NumberFormatException exception) { /* ... */ } 
-        });
-        this.frame.setScene(new Scene(...)); this.frame.show();
+    /**
+     * Initialises a view implementation for a drawnumber game.
+     * @param model
+     * @param initialBounds
+     */
+    public DrawNumberViewImpl(final DrawNumberObservable model, final Bounds initialBounds) {
+        this.model = model;
+        this.initialBounds = initialBounds;
     }
 
-    @Override public void setObserver(final DrawNumberViewObserver o) { this.observer = o; }
-
-    @Override public void numberIncorrect() { displayError("Incorrect Number... try again"); }
-
-    @Override public void result(final DrawResult res) {
-        switch (res) {
-            case YOURS_HIGH: plainMessage(res.getDescription()); return;
-            case YOURS_LOW: plainMessage(res.getDescription()); return;
-            case YOU_WON: plainMessage(res.getDescription() + NEW_GAME); break;
-            case YOU_LOST: plainMessage(res.getDescription() + NEW_GAME); break;
-            default: throw new IllegalStateException("Unexpected result: " + res);
-        }
-        observer.resetGame();
-    }
-
-    private void plainMessage(final String msg) { message.setText(msg); }
-
-    @Override public void displayError(final String msg) { error.setText(msg); }
-```
-
-{{% /smaller %}}
-
-
-
----
-
-
-
-
-## Implementazione del controller: `DrawNumberApp` 
-
-{{% smaller %}}
-
-
-
-```java
-public class DrawNumberApp implements DrawNumberViewObserver {
-	private static final int MIN = 0; private static final int MAX = 100;
-	private static final int ATTEMPTS = 10;
-	private final DrawNumber model;
-	private final DrawNumberView view;
-
-	public DrawNumberApp() {
-		this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
-		this.view = new DrawNumberViewImpl();
-		this.view.setObserver(this);
-		this.view.start();
-	}
-
-	public void newAttempt(int n) {
-		try {
-			final DrawResult result = this.model.attempt(n);
-			this.view.result(result);
-			if (result == DrawResult.YOU_WON) { this.quit(); }
-		} catch (IllegalArgumentException e) { this.view.numberIncorrect(); } 
-        catch (AttemptsLimitReachedException e) { this.view.limitsReached(); }
-	}
-
-	public void resetGame() { this.model.reset(); }
-
-	public void quit() { System.exit(0); }
-
-	public static void main(String[] args) { new DrawNumberApp(); }
+    ...
 }
 ```
 
 {{% /smaller %}}
 
+---
 
+## Implementazione della view (2/3): `DrawNumberViewImpl`
+
+{{% smaller %}}
+
+```java
+public final class DrawNumberViewImpl implements DrawNumberView {
+    ...
+    public void start() {
+        frame = new Stage();
+        frame.setTitle(FRAME_NAME);
+        if (initialBounds != null) { frame.setX(initialBounds.getMinX()); frame.setY(initialBounds.getMinY()); }
+        final VBox vbox = new VBox();
+        final HBox playControlsLayout = new HBox();
+        final TextField inputNumber = new TextField();
+        final Button goButton = new Button(GO);
+        messageLabel = new Label();
+        
+        final HBox gameControlsLayout = new HBox();
+        final Button resetButton = new Button(RESET);
+        final Button quitButton = new Button(QUIT);
+        
+        final Label stateMessage = new Label();        
+        setUpStateMessage(stateMessage.textProperty(), model);
+
+        goButton.setOnAction(e -> {
+            try { observer.newAttempt(Integer.parseInt(inputNumber.getText())); } 
+            catch (NumberFormatException exception) {
+                MessageDialog.showMessageDialog(frame, "Validation error",
+                        "You entered " + inputNumber.getText() + ". Provide an integer please...");
+            }
+        });
+        quitButton.setOnAction(e -> observer.quit());
+        resetButton.setOnAction(e -> observer.resetGame());
+
+        playControlsLayout.getChildren().addAll(inputNumber, goButton, messageLabel);
+        gameControlsLayout.getChildren().addAll(resetButton, quitButton);
+        vbox.getChildren().addAll(playControlsLayout, gameControlsLayout, stateMessage);
+        final int sceneWidth = 600;
+        final int sceneHeight = 200;
+        final Scene scene = new Scene(vbox, sceneWidth, sceneHeight);
+        this.frame.setScene(scene);
+        this.frame.show();
+    }
+    ...
+}
+```
+
+{{% /smaller %}}
+
+---
+
+
+## Implementazione della view (2/3): `DrawNumberViewImpl`
+
+{{% smaller %}}
+
+```java
+public final class DrawNumberViewImpl implements DrawNumberView {
+    ...
+    public void setObserver(final DrawNumberViewObserver observer) { this.observer = observer; }
+    public void numberIncorrect() { displayError("Incorrect Number... try again"); }
+    public void result(final DrawResult result) {
+        switch (result) {
+            case YOURS_HIGH:
+                plainMessage(result.getDescription());
+                return;
+            case YOURS_LOW:
+                plainMessage(result.getDescription());
+                return;
+            case YOU_WON:
+                plainMessage(result.getDescription() + NEW_GAME);
+                break;
+            case YOU_LOST:
+                plainMessage(result.getDescription() + NEW_GAME);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected result: " + result);
+        }
+        observer.resetGame();
+    }
+    private void plainMessage(final String message) { this.messageLabel.setText(message); }
+    public void displayError(final String message) { this.messageLabel.setText(message); }
+    private void setUpStateMessage(Property<String> stateMessage, DrawNumberObservable model) {
+        stateMessage.bind(new SimpleStringProperty("Min=").concat(model.minProperty())
+            .concat("; Max=").concat(model.maxProperty())
+            .concat("\nMaxAttempts=").concat(model.attemptsProperty())
+            .concat("; Remaining attempts=").concat(model.remainingAttemptsProperty())
+            .concat("\nLast guess:").concat(model.lastGuessProperty())
+            .concat("; Last outcome:").concat(model.lastGuessResult())
+        );
+    }
+}
+```
+
+{{% /smaller %}}
+
+---
+
+## Implementazione del controller (1/2): `DrawNumberApp` 
+
+{{% smaller %}}
+
+```java
+public final class DrawNumberFXApplication extends Application implements DrawNumberViewObserver {
+    private DrawNumberObservable model;
+    private List<DrawNumberView> views;
+
+    public void init() {
+        final Parameters params = getParameters();
+        final String configFile = params.getRaw().stream().findFirst().orElseGet(() -> "examplemvc/config.yml");
+        final Configuration.Builder configurationBuilder = new Configuration.Builder();
+        // load from config ...
+        
+        final Configuration configuration = configurationBuilder.build();
+        if (configuration.isConsistent()) {
+            this.model = new DrawNumberImpl(configuration);
+        } else {
+            displayError(".....");
+            this.model = new DrawNumberImpl(new Configuration.Builder().build());
+        }
+
+        views = Arrays.asList(
+                new DrawNumberViewImpl(model, new BoundingBox(0, 0, 0, 0)),
+                new DrawNumberViewImpl(model, null),
+                new PrintStreamView(System.out)
+        );
+        try {
+            views.add(new PrintStreamView("output.log"));
+        } catch (FileNotFoundException fnfe) {
+            System.out.println("Cannot find output file: " + fnfe.getMessage());
+        }
+    }
+
+    @Override
+    public void start(final Stage primaryStage) throws Exception {
+        for (final DrawNumberView view : views) {
+            view.setObserver(this);
+            view.start();
+        }
+    }
+
+}
+
+```
+
+{{% /smaller %}}
+
+---
+
+## Implementazione del controller (1/2): `DrawNumberApp` 
+
+{{% smaller %}}
+
+```java
+public final class DrawNumberFXApplication extends Application implements DrawNumberViewObserver {
+    ....
+    @Override
+    public void start(final Stage primaryStage) throws Exception {
+        for (final DrawNumberView view : views) {
+            view.setObserver(this);
+            view.start();
+        }
+    }
+
+    private void displayError(final String err) {
+        views.forEach(view -> view.displayError(err));
+    }
+
+    @Override
+    public void newAttempt(final int n) {
+        try {
+            final DrawResult result = model.attempt(n);
+            views.forEach(view -> view.result(result));
+        } catch (IllegalArgumentException e) {
+            for (final DrawNumberView view : views) {
+                view.numberIncorrect();
+            }
+        }
+    }
+
+    @Override
+    public void resetGame() {
+        this.model.reset();
+    }
+
+    @Override
+    public void quit() {
+        Platform.exit();
+    }
+}
+
+```
+
+{{% /smaller %}}
 
 ---
 

@@ -30,7 +30,6 @@ aliases = ["/lambdas/"]
 *  Dettagliare il supporto alle lambda in Java
 
 
-
   
 ### Argomenti
 
@@ -39,7 +38,7 @@ aliases = ["/lambdas/"]
 *  Espressioni lambda
 *  Interfacce funzionali
 *  Altri usi nell'API
-
+*  Stream
 
 
 
@@ -103,20 +102,18 @@ aliases = ["/lambdas/"]
 ### Comparatori definiti attraverso classi innestate
 
 - Una **classe innestata statica** `B` (*static nested*) è definita all'interno di un'altra classe `A`
-    - Dunque ci si può riferire ad essa via `A.B` (secondo regole di visibilità), o direttamente via `B` da dentro la classe `A`
+    - Dunque ci si può riferire ad essa via `A.B` (secondo regole di visibilità), o direttamente via `B` da dentro la classe `A` -- [approfondimento](/advanced-mechanisms-nesting)
     
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableNested.java" %}}
 ```
-
 
 ---
 
 
 ### Comparatori definiti attraverso classi anonime
 
-- Una **classe anonima** è una classe definita "al volo" (senza fornirne dunque un nome) e immediatamente istanziata
-    *  Si vuole evitare la proliferazione di classi
+- Una **classe anonima** è una classe definita "al volo" (senza fornirne dunque un nome) e immediatamente istanziata per evitare la proliferazione di classi -- [approfondimento](/19-advanced-mechanisms-nesting/#/36)
     *  Tipicamente: per implementare "al volo" una interfaccia
     
 ```java
@@ -595,10 +592,90 @@ p.test("hello world"); // true
 
 ---
 
-## Esempi di `Stream`
 
-- Ogni `Collection<T>` ha un metodo `stream()` che restituisce uno `Stream<T>` (un flusso "lazy" di dati percorribile una sola volta e manipolabile per ottenere ad es. un'informazione aggregata)
+## Il concetto di Stream
 
+
+  
+### Idee
+
+
+
+*  Uno Stream rappresenta un flusso sequenziale (anche infinito) di dati omogenei, usabile una volta sola, e dal quale si vuole ottenere una informazione complessiva e/o aggregata
+*  Assomiglia al concetto di Iteratore, ma lo Stream è più dichiarativo, perché non indica passo-passo come l'informazione viene processata, e quindi è concettualmente più astratto
+*  Ove possibile, uno Stream manipola i suoi elementi in modo "lazy" (ritardato): i dati vengono processati mano a mano che servono, non sono memorizzati tutti assieme come nelle Collection
+*  E' possibile creare "catene" di trasformazioni di Stream (implementate con decorazioni successive) in modo funzionale, per ottenere flessibilmente computazioni non banali dei loro elementi, con codice più compatto e leggibile
+*  Questa modalità di lavoro rende le computazioni (automaticamente) parallelizzabili, ossia computabili da un set arbitrario di Thread
+  
+
+
+
+
+---
+
+
+## Computazioni con gli Stream
+
+
+  
+### Struttura a pipeline
+
+
+
+*  Una sorgente o sink:
+    *  Una Collection/array, un dispositivo di I/O, una funzione generatrice
+*  Una sequenza di trasformazioni:
+    *  mappe e filtri, ma non solo..
+*  Un terminatore, che aggrega i dati dello Stream:
+    *  una riduzione ad un valore, una Collection/array, un Iteratore
+  
+
+  
+### Esempio: con persone con nome, città e reddito
+
+
+
+*  Data una `List<Persona>` con proprietà reddito e città, ottenere la somma dei redditi di tutte le persone di Cesena
+*  Come lo realizziamo tramite una pipeline?
+    *  Sorgente: la lista
+    *  Trasformazione 1: filtro sulle persone di Cesena
+    *  Trasformazione 2: si mappa ogni persona sul suo reddito
+    *  Terminazione: sommo
+*  Aspetto cruciale: le fasi intermedie (dopo le trasformazioni), non generano collezioni temporanee
+
+
+
+---
+
+
+## Classe `Person` -- `equals`, `hashCode` e `toString` omessi
+
+
+    
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/streams/UseTransformations.java" %}}
+{{% import-raw from=5 to=34 path="pss-code/src/main/java/it/unibo/streams/Person.java" %}}
 ```
+
+
+
+---
+
+
+
+## Realizzazione dell'esempio in Java 8
+
+
+    
+```java
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/streams/UseStreamsOnPerson.java" %}}
+```
+
+
+
+---
+
+Questa è solo una introduzione alle lambda in Java. 
+Nel blocco di [approfondimento](/stream) si trovano ulteriori informazioni su come:
+- creare stream
+- manipolazioni di stream (avanzate)
+- esempi di uso di stream
