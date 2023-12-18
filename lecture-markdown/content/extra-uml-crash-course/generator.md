@@ -146,7 +146,7 @@ classDiagram
 ```mermaid
 classDiagram
   class Forma {
-    {abstract} +disegna()
+    +disegna()*
   }
   Forma <|-- Cerchio
 ```
@@ -193,21 +193,6 @@ classDiagram
   Persona -- Indirizzo : Associazione
   Squadra o-- Giocatore : Aggregazione
   Casa *-- Stanza : Composizione
-```
----
-## Elementi Avanzati dei Diagrammi di Classe
-
-- **Stereotipi**: Etichette o tag personalizzati applicati agli elementi per indicare il loro ruolo o vincoli.
-- **Vincoli**: Regole o condizioni aggiuntive applicate alle relazioni.
-- **Integrazione del Diagramma dei Pacchetti**: Raggruppamento di classi in pacchetti per una migliore organizzazione.
-- **Esempi**:
-  - Stereotipo: `<<controller>>` per una classe che gestisce richieste degli utenti.
-  - Vincolo: `{immutabile}` per indicare che una classe non può essere modificata.
-
-```mermaid
-classDiagram
-  class UserController <<controller>>
-  class ClasseImmutabile {immutabile}
 ```
 ---
 
