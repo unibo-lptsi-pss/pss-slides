@@ -46,7 +46,9 @@ aliases = ["/uml-crash/"]
 ## Strumenti principali
 - Mermaid: https://mermaid-js.github.io/mermaid/#/
   - Permette di creare diagrammi di classe, ma anche di sequenza, di flusso, ecc.
-- star
+  - Si basa su un linguaggio di markup per la creazione dei diagrammi
+- starUML: https://staruml.io/
+  - Strumento visuale per creare diagrammi UML
 ---
 
 ## Struttura Base di una Classe
