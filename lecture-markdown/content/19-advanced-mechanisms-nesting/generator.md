@@ -13,12 +13,6 @@ aliases = ["/advanced-mechanisms-nesting/"]
 {{% import path="cover.md" %}}
 
 ---
-<<<<<<< HEAD
-=======
-
-
-## Contenuto 
->>>>>>> master
 ### Argomenti
 
 *  Classi innestate statiche
