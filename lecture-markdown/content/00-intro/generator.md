@@ -16,15 +16,13 @@ aliases = ["/intro/"]
 
 # Docenti
 
-* Titolare del corso: Prof. Roberto Casadei
-  * e-mail: [`roby.casadei@unibo.it`](mailto:roby.casadei@unibo.it)
-  * homepage: [`https://www.unibo.it/sitoweb/roby.casadei/`](https://www.unibo.it/sitoweb/roby.casadei/)
-* Modulo 2: Prof. Angelo Filaseta
-  * e-mail: [`angelo.filaseta@unibo.it`](mailto:angelo.filaseta@unibo.it)
-  * homepage: [`https://www.unibo.it/sitoweb/angelo.filaseta/`](https://www.unibo.it/sitoweb/angelo.filaseta/)
-* Modulo 3: Prof. Gianluca Aguzzi
+* Titolare del corso: Prof. Gianluca Aguzzi
   * e-mail: [`gianluca.aguzzi@unibo.it`](mailto:gianluca.aguzzi@unibo.it)
   * homepage: [`https://www.unibo.it/sitoweb/gianluca.aguzzi`](https://www.unibo.it/sitoweb/gianluca.aguzzi)
+* Modulo 2 (Lab): Prof. Angelo Filaseta
+  * e-mail: [`angelo.filaseta@unibo.it`](mailto:angelo.filaseta@unibo.it)
+  * homepage: [`https://www.unibo.it/sitoweb/angelo.filaseta/`](https://www.unibo.it/sitoweb/angelo.filaseta/)
+
 * Tutor: Dott. Luca Deluigi
   * e-mail: [`luca.deluigi5@unibo.it`](mailto:luca.deluigi5@unibo.it)
   * homepage: [`https://www.unibo.it/sitoweb/luca.deluigi5/`](https://www.unibo.it/sitoweb/luca.deluigi5/)
