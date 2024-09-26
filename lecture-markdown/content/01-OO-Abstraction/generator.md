@@ -143,7 +143,6 @@ il problema (realizzate mediante i linguaggi e le tecnologie scelte e a fronte d
 ### Linguaggi e livelli di astrazione / paradigma
 *  C, Pascal: Computing function/procedure over data structures
 *  Lisp, ML: Everything is a function
-*  Prolog: Everything is a decision predicate
 *  Java, C++, C\#: Everything is an object (OO Programming)
 * $\Rightarrow$ L'OOP si è dimostrata efficace per sistemi complessi general-purpose
 
