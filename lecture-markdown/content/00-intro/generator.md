@@ -8,7 +8,7 @@ aliases = ["/intro/"]
 
 +++
 
-# Introduzione al corso *Progettazione e Sviluppo del Software (PSS) a.a. 23-24*
+# Introduzione al corso *Progettazione e Sviluppo del Software (PSS) a.a. 24-25*
 
 {{% import path="front-page.md" %}}
 
@@ -59,12 +59,12 @@ aliases = ["/intro/"]
 
 # Organizzazione generale del corso
 
-  ## Lezioni aula (giovedì 13-17)
+  ## Lezioni aula (giovedì 13-15, venerdì 13-16) - prof. Aguzzi
 
   * Illustrano i concetti teorici, metodologici, e pratici
   * Basate su slide proiettate (ma non solo)
-
-  ## Laboratorio (martedì 9-12)
+ 
+  ## Laboratorio (martedì 9-12) - prof. Filaseta
   
   * Illustra ulteriori aspetti metodologici e pratici
   * Con esercizi (da svolgere in autonomia) necessari alla comprensione e alla sperimentazione
@@ -79,7 +79,7 @@ aliases = ["/intro/"]
 
 ## Conoscenze e abilità da conseguire
 
-> Al termine del corso, lo studente possiede le conoscenze di base dei paradigmi di programmazione per **software in-the-large**, quali il **paradigma object-oriented** e quello **funzionale**, dei suoi principali **pattern di progettazione**, della sua incarnazione in linguaggi moderni e relativi framework di sviluppo. È in grado quindi **di progettare e sviluppare applicazioni complete di medio-piccole dimensioni**, usando **processi di sviluppo** e **tecniche agili**, tra cui l'approccio DevOps alla conduzione del progetto.
+> Al termine del corso, lo studente possiede le conoscenze di base dei paradigmi di programmazione per **software in-the-large**, quali il **paradigma object-oriented** e alcuni aspetti di quello **funzionale**, dei suoi principali **pattern di progettazione**, della sua incarnazione in linguaggi moderni (Java) e relativi framework di sviluppo. È in grado quindi **di progettare e sviluppare applicazioni complete di medio-piccole dimensioni**, usando **processi di sviluppo** e **tecniche agili**, tra cui l'approccio DevOps alla conduzione del progetto.
 
 
 ---
@@ -122,7 +122,7 @@ aliases = ["/intro/"]
 
 # Software
 ## Java
-* OpenJDK 17 (Open Java Development KIT) https://adoptium.net/
+* OpenJDK 21 (Open Java Development KIT) https://adoptium.net/
 * Visual Studio Code https://code.visualstudio.com/
 * Gradle https://gradle.org/
 * Git https://git-scm.com/
