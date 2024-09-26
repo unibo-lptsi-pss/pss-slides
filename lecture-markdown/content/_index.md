@@ -19,6 +19,7 @@ outputs = ["Reveal"]
 1. [Introduzione al corso](intro/)
 1. [Astrazione orientata agli oggetti](oo-abstraction/)
 1. [Oggetti e classi (parte 1/2)](objects/)
+<!--
 1. [Programmazione strutturata in Java](java-structured-programming/)
 1. [Oggetti e classi (parte 2/2)](objects-2/)
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
@@ -27,11 +28,10 @@ outputs = ["Reveal"]
 1. [Interfacce e composizione](interfaces/)
 1. [Ereditarietà](inheritance/)
 1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
-
-
+>
 </div>
 <div class="col">
-
+<!--
 11. [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 1. [Polimorfismo, classi astratte](polymorphism/)
 1. [Generici](generics/)
@@ -41,7 +41,7 @@ outputs = ["Reveal"]
 1. [Lambda e funzioni first-class](lambdas/)
 1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
 1. [Sviluppo di interfacce grafiche (GUI) con Swing](guis-swing/)
-
+-->
 <!-- 
 1. [Meccanismi avanzati: classi innestate, enum](advanced-mechanisms-nested-enums/) 
 1. [Stream e manipolazione di flussi di dati](stream/)

@@ -217,7 +217,22 @@ Come organizzarla? Quale servizi fornisce?
 {{% /fragment %}}
 
 ---
+## Classe vs Oggetto
+### Classe
+- Definisce la **struttura** di un oggetto
+  - può essere visto come uno "stampo" per creare oggetti
+- Definisce i **comportamenti** di un oggetto
+  - metodi che possono essere chiamati su un oggetto
+  - Ad esempio, tutte le lampadine possono essere accese o spente (metodi `on()` e `off()`)
+- Definisce le **proprietà** di un oggetto
+  - campi che descrivono lo stato dell'oggetto
+  - Ad esempio, una lampadina ha un colore, una luminosità, un'intensità
 
+### Oggetto
+- È un'**istanza** di una classe
+  - è un'entità concreta che esiste in memoria
+  - Data la classe `Lampadina`, un'istanza di `Lampadina` è una lampadina specifica, con un colore, una luminosità, un'intensità
+---
 ## OO: problem space, solution space
 
 ### L'esperienza mostra che:
