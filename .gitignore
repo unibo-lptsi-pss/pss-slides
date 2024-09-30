@@ -1,56 +1,8 @@
-syntax: glob
-
-# No backup files 
-*~
-
-# No .class
-*.class
-
-# No temp latex
-*.aux
-*.log
-*.nav
-*.out
-*.snm
-*.toc
-*.vrb
-.recommenders
-
-# No spurious
-.fuse*
-*.backup
-.~
-.directory
-.DS_Store
-*.index
-*.lck
-*META*
-
-# folders
-lecture-code/oop19-slides/bin/*
-old/*
-lecture-code/.metadata/*
-lecture-code/oop19-slides/src/it/unibo/apice/oop/old/*
-lecture-code/oop19-slides/src/it/unibo/apice/oop/ol/*
-lecture-code/oop19-slides/src/aula/*
-lecture-code/oop19-slides/.*
-slides/oop2019-slides/slides/old/*
-slides/build/*
-# no pdf and zip
-
+public/
+build/
+_gen/
 *.pdf
-*.zip
-*.fls
-*.fdb_latexmk
-
-*blx.bib
-*run.xml
-
-lecture-code/.classpath
-lecture-code/.project
-*.synctex.gz
-.vscode
-*.blg
-*.bbl
-.metals/
-.scala-build/
+*.hprof
+*build.lock
+pid
+node_modules/

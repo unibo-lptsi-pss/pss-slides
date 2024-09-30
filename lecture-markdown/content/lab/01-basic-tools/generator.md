@@ -64,9 +64,9 @@ più gli strumenti di sviluppo, fra cui:
 * impacchettatore (`jar`),
 * e disassemblatore (`javap`).
 
-* Java SE 17 -- ultima versione Long-Term Support (LTS) a disposizione prima dell'inizio del corso
-  * Java 21 è previsto entro fine 2023
-  * Chi lo desidera può sperimentare con le versioni più recenti
+* Java SE 21 -- ultima versione Long-Term Support (LTS) a disposizione prima dell'inizio del corso
+  * Java 21 è stato rilasciato a fine 2023
+  * Chi lo desidera può sperimentare con versioni più recenti
     * Nota: la compatibilità è solo "all'indietro" (*backwards compatibility*):
       nuove JVM possono in generale eseguire applicazioni compilate per un vecchio bytecode, ma non viceversa
 * Faremo riferimento a OpenJDK standard (che fa da *reference*)
@@ -78,7 +78,14 @@ più gli strumenti di sviluppo, fra cui:
 
 ## Java Virtual Machine: Architettura a Runtime
 
-![](img/arch_runtime.png)
+![
+I file sorgente in formato .java vengono compilati utilizzando il compilatore javac.
+I file in output avranno formato .class, e la Java Virtual Machine li utilizzerà per eseguire il programma.
+Quindi una volta che abbiamo i file .class sarà sufficiente avere a disposizione una JVM per l'esecuzione.
+Invece, in C, il compilatore gcc genera direttamente file eseguibili.
+Questi file non sono compatibili con tutte le macchine,
+a differenza dei file gestiti dalla JVM.
+](img/arch_runtime.png)
 
 ---
 
