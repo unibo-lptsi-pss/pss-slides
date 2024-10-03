@@ -20,8 +20,8 @@ outputs = ["Reveal"]
 1. [Astrazione orientata agli oggetti](oo-abstraction/)
 1. [Oggetti e classi (parte 1/2)](objects/)
 1. [Programmazione strutturata in Java](java-structured-programming/)
-<!--
 1. [Oggetti e classi (parte 2/2)](objects-2/)
+<!--
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. [Sistemi di controllo versione](git/)
 1. [Incapsulamento](encapsulation/) e [formattazione di codice Java](codestyle/)
@@ -60,5 +60,5 @@ Contenuti laboratorio alla pagina successiva
 
 ### Indice dei contenuti
 
-* [Strumenti del JDK e introduzione a Visual Studio Code](lab/01-basic-tools/)
-* [Compilazione avanzata e Build Systems](lab/02-advanced-tooling-gradle/)
+1. [Strumenti del JDK e introduzione a Visual Studio Code](lab/01-basic-tools/)
+1. [Compilazione avanzata e Build Systems](lab/02-advanced-tooling-gradle/)

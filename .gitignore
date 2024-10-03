@@ -54,3 +54,4 @@ lecture-code/.project
 *.bbl
 .metals/
 .scala-build/
+.idea/

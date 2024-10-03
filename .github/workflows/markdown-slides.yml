@@ -26,7 +26,7 @@ jobs:
           # Idea: the regex matcher of Renovate keeps this string up to date automatically
           # The version is extracted and used to access the correct version of the scripts
           USES=$(cat <<TRICK_RENOVATE
-          - uses: gohugoio/hugo@v0.134.3
+          - uses: gohugoio/hugo@v0.135.0
           TRICK_RENOVATE
           )
           echo "Scripts update line: \"$USES\""
@@ -63,7 +63,7 @@ jobs:
           config-file: lecture-markdown/config.toml
       - name: Deploy globally
         if: ${{ github.event_name != 'pull_request' }}
-        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        uses: JamesIves/github-pages-deploy-action@v4.6.8
         with:
           branch: gh-pages
           folder: lecture-markdown/build
