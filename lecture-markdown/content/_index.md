@@ -19,9 +19,9 @@ outputs = ["Reveal"]
 1. [Introduzione al corso](intro/)
 1. [Astrazione orientata agli oggetti](oo-abstraction/)
 1. [Oggetti e classi (parte 1/2)](objects/)
-<!--
 1. [Programmazione strutturata in Java](java-structured-programming/)
 1. [Oggetti e classi (parte 2/2)](objects-2/)
+<!--
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. [Sistemi di controllo versione](git/)
 1. [Incapsulamento](encapsulation/) e [formattazione di codice Java](codestyle/)

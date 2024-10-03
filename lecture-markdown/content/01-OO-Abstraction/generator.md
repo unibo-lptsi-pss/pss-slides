@@ -489,10 +489,11 @@ flowchart TB
 * Java 14 (2020): pattern Matching per `instanceof` e records
 * Java 15 (2020): classi `sealed` (gerarchie sigillate, sum types)
 * Java 16 (2021): stabilizzazione di features
-* **$\Rightarrow$ Java 17 LTS (2021)**: miglioramento delle switch expressions
+* Java 17 LTS (2021): miglioramento delle switch expressions
 * Java 18 (2022): miglioramenti minori
 * Java 19 (2022): supporto a Linux/RISC-V
-
+* Java 20 (2023): miglioramenti minori, introduzione di nuove features (alpha)
+*  **$\Rightarrow$ Java 21 LTS (2023)**: Virtual threads, record patterns
 ---
 
 ### Modello di sviluppo attuale
