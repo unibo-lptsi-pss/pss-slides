@@ -367,11 +367,11 @@ Point3D[] ps = new Point3D[2]; // [null, null]
 ---
 
 
-## Esempio: Persona (3 costruttori)
+## Esempio: Person (3 costruttori)
 
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Persona.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Person.java" %}}
 ```
 
 ---
@@ -381,7 +381,7 @@ Point3D[] ps = new Point3D[2]; // [null, null]
 
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/UsePersona.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/UsePerson.java" %}}
 ```
 
 ### Sequenza d'azioni effettuate con una `new`
@@ -412,7 +412,7 @@ Point3D[] ps = new Point3D[2]; // [null, null]
 
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Persona2.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Person2.java" %}}
 ```
 
 ---
