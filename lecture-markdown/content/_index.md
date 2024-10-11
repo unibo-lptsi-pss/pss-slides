@@ -22,10 +22,11 @@ outputs = ["Reveal"]
 1. [Programmazione strutturata in Java](java-structured-programming/)
 1. [Oggetti e classi (parte 2/2)](objects-2/)
 1. [Incapsulamento](encapsulation/) e [formattazione di codice Java](codestyle/)
+1. [Interfacce e composizione](interfaces/)
 <!--
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. [Sistemi di controllo versione](git/)
-1. [Interfacce e composizione](interfaces/)
+1. 
 1. [Ereditarietà](inheritance/)
 1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 >
