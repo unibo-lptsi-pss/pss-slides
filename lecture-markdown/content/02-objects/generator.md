@@ -512,9 +512,9 @@ tre concetti che spiegheremo in dettaglio nel prosieguo:
 ### Librerie di Java
 
 *  Documentazione auto-generata, consultabile offline, o online:
-  * https://docs.oracle.com/en/java/javase/17/docs/api/
+  * https://docs.oracle.com/en/java/javase/21/docs/api/
   <br>
-  (google search "*java 17 javadoc*")
+  (google search "*java 21 javadoc*")
 *  contano più di 4000 classi, raggruppate in 200+ *__package__* (e 50+ *__moduli__*)
   
 ### Package
