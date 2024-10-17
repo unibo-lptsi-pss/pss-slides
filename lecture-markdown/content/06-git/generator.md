@@ -45,121 +45,119 @@ Danilo Pianini, che ringrazio.
 
 ---
 
-# Introduction to Version Control Systems (VCS)
+# Introduzione ai Sistemi di Controllo di Versione (VCS)
 
 ---
 
-## Motivation
+## Motivazioni
 
-Two main motivations
+Due motivazioni principali:
 
-* *keeping track of changes* during software development
-    * *avoiding loss* of progress
-    * looking at / going *back and forth*
-    * *documenting* the development process
-* supporting *collaboration* among multiple software developers
-    - working *concurrently*
-    - *integration* of changes and *conflict resolution*
+* *tenere traccia delle modifiche* durante lo sviluppo del software
+    * *evitare la perdita* di progressi
+    * osservare / tornare *avanti e indietro* nella cronologia delle modifiche
+    * *documentare* il processo di sviluppo
+* supportare la *collaborazione* tra più sviluppatori di software
+    - lavorare *concorrentemente*
+    - *integrazione* delle modifiche e *risoluzione dei conflitti*
+---
 
+## Tracciare le modifiche
+
+Hai mai avuto bisogno di *ripristinare* un progetto o un compito a una *versione precedente*?
+
+Come hai tracciato la *storia* del progetto?
+
+### Metodo classico
+
+1. trovare una *convenzione di denominazione* per file/cartelle
+2. *creare una copia* ogni volta che si registra un progresso rilevante
+3. *creare una copia* ogni volta che inizia uno sviluppo ambizioso ma rischioso
+
+**Inefficace!**
+
+* *Inefficiente*: consuma molte risorse (spazio)
+* Richiede tempo e operazioni manuali *proclivi all'errore*
+* Diversi compiti sono *difficili*: Come capire cosa c'era nelle versioni precedenti? Come selezionare solo alcune modifiche?
 
 ---
 
-## Tracking changes
+## Promuovere flussi di lavoro collaborativi
 
-Did you ever need to *roll back* some project or assignment to a *previous version*?
+Hai mai avuto bisogno di sviluppare un progetto o un compito *in team*?
 
-How did you track the *history* of the project?
+Come hai organizzato il lavoro per *massimizzare la produttività*?
 
-### Classic way
+### Metodi classici
 
-1. find a *naming convention* for files/folders
-2. *make a copy* every time there is some relevant progress
-3. *make a copy* every time an ambitious but risky development begins
+* *Uno schermo, molte teste*
+  * a.k.a. uno lavora, gli altri dormono
+* *Blocchi*: "per favore non toccare la sezione 2, ci sto lavorando"
+  * probabilità di conflitti prossima al 100%
+* *Condivisione in tempo reale* (come Google Docs o Overleaf)
+  * accettabile in molti casi per documenti di testo (ma con il rischio di "frankenstenizzazione")
+  * dirompente con il codice (le incoerenze sono molto meno tollerabili nei linguaggi formali)
 
-**Ineffective!**
+---
+## Sistemi di Controllo di Versione (VCS)
 
-* *Inefficient*: consumes a lot of resources (space)
-* Requires time and *error-prone* manual operations
-* Several tasks are *difficult*: How to tell what was in some previous releases? How to cherry-pick some changes?
+* Anche chiamati Sistemi di Gestione del Contenuto Sorgente (SGCS)
+
+*Sistemi di Controllo di Versione (VCS)*: strumenti pensati per supportare lo sviluppo di progetti tramite
+* Il tracciamento della *storia* del progetto
+* Il permesso di effettuare dei *rollback*
+* La raccolta di *meta-informazioni* sulle modifiche
+  * Autori, date, note...
+* Il *merge* delle informazioni prodotte in diverse fasi
+* La *facilitazione di flussi di lavoro paralleli* (in alcuni casi)
+
+Due tipi principali:
+
+* **Centralizzati**: Una *copia di riferimento* del repository contiene tutta la storia; gli sviluppatori lavorano su un sottoinsieme di tale storia
+* **Distribuiti**: *Ogni copia* del repository contiene *tutta la storia* (cioè, ogni sviluppatore ne ha una localmente)
 
 ---
 
-## Fostering collaborative workflows
+## VCS Locale vs. Centralizzato vs. Distribuito
 
-Did you ever need to develop some project or assignment *as a team*?
-
-How did you organize the work to *maximize the productivity*?
-
-### Classic ways
-
-* *One screen, many heads*
-  * a.k.a. one works, the other ones sleep
-* *Locks*: "please do not touch section 2, I'm working on that"
-  * probability of arising conflicts close to 100%
-* *Realtime-sharing* (like google docs or overleaf)
-  * okay in many cases for text documents (but with a risk of frankestein-ization)
-  * disruptive with code (inconsistencies are much less tolerable in formal languages)
-
----
-
-## Version Control Systems (VCS)
-
-* Also called Source Content Management (SCM)
-
-*Version Control Systems (VCS)*: tools meant to support the development of projects by
-* Tracking the project *history*
-* Allowing *roll-backs*
-* Collecting *meta-information* on the changes
-  * Authors, dates, notes...
-* *Merging* information produced at different stages
-* *Facilitate parallel workflows* (in some cases)
-
-Two main types:
-
-* **Centralized**: A *reference copy* of the repository contains the whole history;
-developers work on a subset of such history
-* **Distributed**: *Every copy* of the repository contains
-*the entire history* (i.e., every developer locally have one)
-
----
-
-## Local vs. centralized vs. distributed VCS
-
-### Local
+### Locale
 
 ![](imgs/vcs_kind_local.png)
 
 ---
 
-### Centralized
+### Centralizzato
 
 ![](imgs/vcs_kind_centralised.png)
 
 ---
 
-### Distributed
+### Distribuito
 
 ![](imgs/vcs_kind_distributed.png)
 
 
 ---
 
-## Short history
+## Breve storia
 
-* **Concurrent Versioning System (CVS)** (1986): client-server (*centralized* model, the truth is on the server), operates on single files or repository-level, history stored in a hidden directory, uses delta compression to save space.
-* **Apache Subversion (SVN)** (2000): successor to CVS, still largely used (especially in businesses that struggle to renovate their processes). *Centralized* model (similar to CVS). Improved binary file management. Improved concurrency for the operation, still cumbersome for parallel workflows.
-* **Mercurial** and **Git** (both April 2005): *decentralized* version control systems (DVCSs), no "special" copy of the repository, each client stores the whole history. Highly scalable. Foster parallel work by allowing easy branching and merging. Very similar conceptually (when two succesful tools emerge at the same time with a similar model independently, it is an indication that the underlying model is "the right one" for the context).
+* **Concurrent Versioning System (CVS)** (1986): sistema client-server (modello *centralizzato*, la verità risiede sul server), opera su singoli file o a livello di repository, la cronologia è memorizzata in una directory nascosta, utilizza la compressione delta per risparmiare spazio.
+* **Apache Subversion (SVN)** (2000): successore di CVS, ancora ampiamente utilizzato (soprattutto nelle aziende che faticano a rinnovare i propri processi). Modello *centralizzato* (simile a CVS). Migliorata la gestione dei file binari. Migliorata la concorrenza per le operazioni, ma ancora macchinoso per i flussi di lavoro paralleli.
+* **Mercurial** e **Git** (entrambi aprile 2005): sistemi di controllo versione *decentralizzati* (DVCS), nessuna copia "speciale" del repository, ogni client memorizza l'intera cronologia. Altamente scalabili. Favoriscono il lavoro parallelo permettendo un'agevole creazione e fusione di rami. Concettualmente molto simili (quando due strumenti di successo emergono contemporaneamente con un modello simile in modo indipendente, è un'indicazione che il modello sottostante è "quello giusto" per il contesto).
 
-**Git** is now the dominant DVCS (although Mercurial is still in use, e.g., for Python, Java, Facebook).
+**Git** è ora il DVCS dominante (sebbene Mercurial sia ancora in uso, ad esempio, per Python, Java, Facebook).
 
 ---
 
-## Google trends to today
+## Tendenze Google ad oggi
+
 
 <script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/3045_RC01/embed_loader.js"></script>
 <script type="text/javascript">
 var today = new Date().toISOString().split('T')[0]
-var dateRange = `2004-01-01 ${today}`
+var dateRange = `2004-01-01 $
+{today}
+`
 trends.embed.renderExploreWidget(
   "TIMESERIES",
   {
@@ -178,12 +176,11 @@ trends.embed.renderExploreWidget(
   }
 );
 </script>
-
 ---
 
-## Intuition: the history of a project
+## Intuizione: la cronologia di un progetto
 
-1. Create a new project
+1. Crea un nuovo progetto
 ```mermaid
 %%{init: { 'gitGraph': { 'showBranches': false }} }%%
 gitGraph
@@ -191,8 +188,7 @@ gitGraph
 ```
 
 ---
-
-2. Make some changes
+2. Apportare alcune modifiche
 
 ```mermaid
 %%{init: { 'gitGraph': { 'showBranches': false }} }%%
@@ -203,7 +199,7 @@ gitGraph
 
 ---
 
-3. Then more and more, until the project is ready
+3. Poi sempre di più, fino a quando il progetto è pronto
 
 ```mermaid
 %%{init: { 'gitGraph': { 'showBranches': false }} }%%
@@ -214,22 +210,22 @@ gitGraph
   commit id: "It's finished!" type: HIGHLIGHT
 ```
 
-At a first glance, the history of a project *looks like* a **line**.
+A prima vista, la cronologia di un progetto *sembra* una **linea**.
 
 ---
 
-## Except that, in the real world...
+## Tranne che, nel mondo reale...
 
 > Anything that can go wrong will go wrong
-> <br><cite>$1^{st}$ Murphy's law</cite>
+<br><cite>$1^{st}$ Murphy's law</cite>
 
 > If anything simply cannot go wrong, it will anyway
-> <cite>$5^{th}$ Murphy's law</cite>
+<cite>$5^{th}$Murphy's law
+</br>
 
 ---
 
-# ...things go wrong
-
+# ...le cose vanno storte
 ```mermaid
 %%{init: { 'gitGraph': { 'showBranches': false }} }%%
 gitGraph
@@ -241,9 +237,9 @@ gitGraph
 
 ---
 
-## Rolling back changes
+## Ripristinare le modifiche
 
-Go *back in time* to a previous state where things work
+Tornare *indietro nel tempo* a uno stato precedente in cui le cose funzionavano
 
 ```mermaid
 %%{init: { 'gitGraph': { 'showBranches': false }} }%%
@@ -256,9 +252,9 @@ gitGraph
 
 ---
 
-## Get the previous version and fix
+## Ottenere la versione precedente e correggere
 
-Then fix the mistake
+Quindi correggere l'errore
 
 ```mermaid
 %%{init: { 'gitGraph': { 'mainBranchName': 'master' }} }%%
@@ -274,15 +270,15 @@ gitGraph
   commit id: "finished" type: HIGHLIGHT
 ```
 
-If you consider rollbacks, history is a **tree**!
+Se si considerano i rollback, la cronologia è un **albero**!
 
 ---
 
-# Collaboration: diverging
+# Collaborazione: divergenza
 
-Alice and Bob work together for some time, then they go home and work separately, in parallel
+Alice e Bob lavorano insieme per un po' di tempo, poi tornano a casa e lavorano separatamente, in parallelo
 
-They have a *diverging history*!
+Hanno una cronologia *divergente*!
 
 ```mermaid
 %%{init: { 'gitGraph': { 'mainBranchName': 'alice'}} }%%
@@ -306,7 +302,7 @@ gitGraph
 
 ---
 
-# Collaboration: reconciling
+# Collaborazione: riconciliazione
 
 ```mermaid
 %%{init: { 'gitGraph': { 'mainBranchName': 'alice'}} }%%
@@ -330,42 +326,42 @@ gitGraph
   commit id: "together-7"
 ```
 
-If you have the possibility to *reconcile diverging developments*, the history becomes a **graph**!
+Se si ha la possibilità di *riconciliare gli sviluppi divergenti*, la cronologia diventa un **grafo**!
 
-Reconciling diverging developments is usually referred to as **merge**
-
----
-
-## DVCS concepts and terminology: *Repository*
-
-**Repository**: includes the whole project *content/history* (and *meta-data*)
-
-* all the *changes*, together with their *authors*, *dates*, and *descriptions*
-* information on how to *roll back* changes 
-* *differences* between different points in time
-* and so on
-
-Usually, stored in a hidden folder in the *root folder* of the project
+Riconciliare gli sviluppi divergenti è solitamente chiamato **merge** (unione)
 
 ---
 
-## DVCS concepts and terminology: *Working Tree*
+## Concetti e terminologia DVCS: *Repository*
 
-(or *worktree*, or *working directory*)
+**Repository**: include l'intero contenuto/cronologia del progetto (e i *metadati*)
 
-the collection of **files** (usually, inside a *root folder*) that constitute the project,
-excluding the *meta-data*.
+* tutte le *modifiche*, insieme ai loro *autori*, *date* e *descrizioni*
+* informazioni su come *ripristinare* le modifiche
+* *differenze* tra diversi punti nel tempo
+* e così via
+
+Di solito, memorizzato in una cartella nascosta nella *cartella principale* del progetto
 
 ---
 
-## DVCS concepts and terminology: *Commit*
+## Concetti e terminologia DVCS: *Working Tree*
 
-A **saved status** of the project.
-* Collects the *changes* required to transform the previous (*parent*) commit into the current (*differential tracking*)
-* Creates a *snapshot* of the status of the worktree (snapshotting).
-* Records metadata: *parent commit*, *author*, *date*, a *message* summarizing the changes, and a *unique identifier (UID)*.
-* A commit with no parent is an *initial commit*.
-* A commit with multiple parents is a *merge commit*.
+(o *worktree*, o *working directory*)
+
+l'insieme di **file** (solitamente, all'interno di una *cartella radice*) che costituiscono il progetto,
+escludendo i *metadati*.
+
+---
+
+## Concetti e terminologia DVCS: *Commit*
+
+Uno **stato salvato** del progetto.
+* Raccoglie le *modifiche* necessarie per trasformare il commit precedente (*genitore*) nel commit corrente (*tracciamento differenziale*)
+* Crea uno *snapshot* dello stato del worktree (snapshotting).
+* Registra i metadati: *commit genitore*, *autore*, *data*, un *messaggio* che riassume le modifiche e un *identificatore univoco (UID)*.
+* Un commit senza genitori è un *commit iniziale*.
+* Un commit con più genitori è un *commit di merge*.
 
 ```mermaid
 %%{init: { 'gitGraph': { 'mainBranchName': 'alice'}} }%%
@@ -391,9 +387,9 @@ gitGraph
 
 ---
 
-## DVCS concepts and terminology: *Branch*
+## Concetti e terminologia DVCS: *Branch*
 
-A **named sequence of commits**
+Una **sequenza nominata di commit**
 
 ```mermaid
 %%{init: { 'gitGraph': { 'mainBranchName': 'default-branch'}} }%%
@@ -427,25 +423,25 @@ gitGraph
   merge default-branch
 ```
 
-If no branch has been created at the first commit, a default name is used.
+Se nessun branch è stato creato al primo commit, viene utilizzato un nome predefinito.
 
 ---
 
-## DVCS concepts and terminology: *Commit references*
+## Concetti e terminologia DVCS: *Riferimenti ai commit*
 
-To be able to go *back in time* or *change branch*, we need to **refer to commits**
- 
-* Commit references are also referred to as `tree-ish`es
-* Every commit has a **unique identifier**, which is a valid reference
-* A **branch name** is a valid commit reference (points to the *last commit of that branch*)
+Per poter tornare *indietro nel tempo* o *cambiare branch*, è necessario **fare riferimento ai commit**
 
-### A special commit name is  **HEAD**, which refers to the *current commit*
-  * When committing, the **HEAD** moves forward to the new commit
+* I riferimenti ai commit sono anche chiamati `tree-ish`
+* Ogni commit ha un **identificatore univoco**, che è un riferimento valido
+* Un **nome di branch** è un riferimento di commit valido (punta all'*ultimo commit di quel branch*)
+
+### Un nome di commit speciale è **HEAD**, che si riferisce al *commit corrente*
+  * Quando si esegue un commit, **HEAD** si sposta in avanti verso il nuovo commit
 
 
-### Absolute and relative references
+### Riferimenti assoluti e relativi
 
-Appending `~` and a number `i` to a valid tree-ish means "`i-th` parent of this tree-ish"
+Aggiungere `~` e un numero `i` a un tree-ish valido significa "`i-esimo` genitore di questo tree-ish"
 
 ```mermaid
 %%{init: { 'gitGraph': { 'mainBranchName': 'master', 'showCommitLabel': false}} }%%
@@ -479,23 +475,23 @@ gitGraph
 
 ---
 
-## DVCS concepts and terminology: *Checkout*
+## Concetti e terminologia DVCS: *Checkout*
 
-The operation of **moving to another commit** (i.e. to a snapshot or version of the project)
-* Moving to *another branch*
-* Moving *back in time*
+L'operazione di **spostamento verso un altro commit** (cioè a uno snapshot o versione del progetto)
+* Spostamento verso *un altro branch*
+* Spostamento *indietro nel tempo*
 
-Moves the `HEAD` to the specified *target tree-ish*
-
----
-
-## Project evolution example
-
-Let us try to see what happens when ve develop some project, step by step.
+Sposta `HEAD` verso il *tree-ish di destinazione* specificato
 
 ---
 
-1. first commit
+## Esempio di evoluzione del progetto
+
+Proviamo a vedere cosa succede quando sviluppiamo un progetto, passo dopo passo.
+
+---
+
+1. primo commit
 
 ```mermaid
 flowchart RL
@@ -513,7 +509,8 @@ flowchart RL
   class C1 commit
 ```
 
-2. second commit
+
+2. secondo commit
 
 ```mermaid
 flowchart RL
@@ -530,10 +527,9 @@ flowchart RL
   class b1,b2 branch;
   class C1,C2 commit;
 ```
-
 ---
 
-![four commits later](https://raw.githubusercontent.com/DanySK/shared-slides/6824b93d3d52b841386a744f57953a73ccb67378/git/4commitslater.png)
+![quattro commit dopo](https://raw.githubusercontent.com/DanySK/shared-slides/6824b93d3d52b841386a744f57953a73ccb67378/git/4commitslater.png)
 
 ---
 
@@ -554,11 +550,11 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6 commit;
 ```
 
-Oh, no, there was a mistake! We need to roll back!
+Oh, no, c'è stato un errore! Dobbiamo effettuare un rollback!
 
 ---
 
-## *checkout of C4*
+## *checkout di C4*
 
 ```mermaid
 flowchart RL
@@ -576,8 +572,9 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6 commit;
 ```
 
-* No information is lost, we can get back to `6` whenever we want to.
-* what if we commit now?
+
+* Nessuna informazione va persa, possiamo tornare allo stato `6` ogni volta che vogliamo.
+* Cosa succede se facciamo un commit ora?
 
 ---
 
@@ -604,7 +601,7 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8 commit;
 ```
 
-* Okay, but there was useful stuff in `5`, I'd like to have it into `new-branch`
+*Ok, ma c'erano elementi utili in `5`, vorrei averli in `new-branch` 
 
 ---
 
@@ -632,140 +629,137 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8 commit;
 ```
 
-**Notice that:**
-* we have two branches
-* `8` is a merge commit, as it has two parents: `7` and `5`
-* the situation is the same regardless that is a *single developer going back on the development* or *multiple developers working in parallel*!
-* this is possible because *every copy of the repository contains the entire history*!
-
-
+**Nota che:**
+* abbiamo due branch
+* `8` è un commit di merge, in quanto ha due genitori: `7` e `5`
+* la situazione è la stessa indipendentemente dal fatto che si tratti di *un singolo sviluppatore che torna indietro nello sviluppo* o di *sviluppatori multipli che lavorano in parallelo*!
+* questo è possibile perché *ogni copia del repository contiene l'intera history*!
 ---
 
 
+## Sistema di controllo delle versioni distribuito di riferimento: Git
 
-## Reference DVCS: Git
+Sistema di controllo delle versioni distribuito di fatto
 
-De-facto reference distributed version control system
+* *Distribuito*
+* Creato nel *2005* per sostituire BitKeeper come SCM per il kernel Linux
+  * Le prestazioni erano una preoccupazione principale
+  * Scritto in C
+* Sviluppato da Linus Torvalds
+  * Ora mantenuto da altri
+* *Orientato a Unix*
+  * Tiene traccia dei permessi dei file Unix
+* Molto *veloce*
+  * Alla sua creazione, 10 volte più veloce di Mercurial¹, 100 volte più veloce di Bazaar
 
-* *Distributed*
-* Born in *2005* to replace BitKeeper as SCM for the Linux kernel
-  * Performance was a major concern
-  * Written in C
-* Developed by Linus Torvalds
-  * Now maintained by others
-* *Unix-oriented*
-  * Tracks Unix file permissions
-* Very *fast*
-  * At conception, 10 times faster than Mercurial¹, 100 times faster than Bazaar
-
-¹ Less difference now, Facebook vastly improved Mercurial
+¹ Meno differenza ora, Facebook ha migliorato notevolmente Mercurial
 
 ---
 
-## Funny historical introduction
+## Divertente introduzione storica
 
 {{< youtube id="4XpnKHJAok8" autoplay="false" title="Linus Torvalds introduces Git at Google" >}}
 
 ---
 
-## Approach: terminal-first
+## Approccio: prima la riga di comando
 
-#### (actually: terminal-only)
+#### (in realtà: solo riga di comando)
 
-**Git is a command-line interface (CLI) tool**
+**Git è uno strumento a interfaccia a riga di comando (CLI)**
 
-Although graphical interfaces exsist, it makes no sense to learn a GUI:
-* they are more prone to future changes than the CLI
-* they add a level of interposition between you and the tool
-* unless they are incomplete, they expose *more complexity* than what we can deal with in this course
-  * what do you do with a checkbox labeled "squash when merging"?
-  * and what about *recursively checkout submodules*?
-* as soon as you learn *the CLI*, you become so proficient that you get *slower* when there is a graphical interface in-between
+Sebbene esistano interfacce grafiche, non ha senso imparare una GUI:
+* sono più soggette a modifiche future rispetto alla CLI
+* aggiungono un livello di interposizione tra te e lo strumento
+* a meno che non siano incomplete, espongono *più complessità* di quella che possiamo gestire in questo corso
+  * cosa fai con una casella di controllo etichettata "squash when merging"?
+  * e che dire del *checkout ricorsivo dei sottomoduli*?
+* non appena impari *la CLI*, diventi così proficuo che diventi *più lento* quando c'è un'interfaccia grafica di mezzo
 
-**I am assuming minimal knowledge of the shell, please let me know NOW if you've never seen it**
-
----
-
-# Basic operations with git
+**Do per scontato una conoscenza minima dello shell, per favore fammelo sapere ORA se non l'hai mai visto**
 
 ---
 
-## Configuration
+# Operazioni di base con Git
 
-Configuration in Git happens at two level
-* **global**: the default options, valid system-wide
-* **repository**: the options specific to a repository. They have *precedence* over the global settings
+---
 
-### Strategy
+## Configurazione
 
-Set up the global options reasonably,
-then override them at the repository level, if needed.
+La configurazione in Git avviene a due livelli:
+* **globale**: le opzioni predefinite, valide a livello di sistema
+* **repository**: le opzioni specifiche di un repository. Hanno *precedenza* sulle impostazioni globali
+
+### Strategia
+
+Imposta le opzioni globali in modo ragionevole,
+poi sovrascrivile a livello di repository, se necessario.
 
 ### `git config`
 
-The `config` subcommand sets the configuration options
-* when operated with the `--global` option, configures the tool globally
-* otherwise, it sets the option for the *current repository*
-  * (there must be a valid repository)
-* Usage: `git config [--global] category.option value`
-  * sets `option` of `category` to `value`
+Il sottocomando `config` imposta le opzioni di configurazione
+* quando viene utilizzato con l'opzione `--global`, configura lo strumento globalmente
+* altrimenti, imposta l'opzione per il *repository corrente*
+  * (deve esserci un repository valido)
+* Utilizzo: `git config [--global] category.option value`
+  * imposta `option` di `category` a `value`
 
 ---
 
-## Configuration: main options
+## Configurazione: opzioni principali
 
-As said, `--global` can be omitted to override the global settings locally
+Come detto, `--global` può essere omesso per sovrascrivere le impostazioni globali localmente
 
-### Username and email: `user.name` and `user.email`
+### Nome utente ed email: `user.name` e `user.email`
 
-A name and a contact are always saved as metadata, so they need to be set up
+Un nome e un contatto vengono sempre salvati come metadati, quindi devono essere configurati
 
-* `git config --global user.name "Your Real Name"`
-* `git config --global user.email "your.email.address@your.provider"`
+* `git config --global user.name "Il tuo vero nome"`
+* `git config --global user.email "il.tuo.indirizzo.email@il.tuo.provider"`
 
-### Default editor
+### Editor predefinito
 
-Some operations pop up a text editor.
-It is convenient to set it to a tool that you know how to use
-(to prevent, e.g., being "locked" inside `vi` or `vim`).
-Any editor that you can invoke from the terminal works.
+Alcune operazioni aprono un editor di testo.
+È conveniente impostarlo su uno strumento che sai usare
+(per evitare, ad esempio, di essere "bloccato" all'interno di `vi` o `vim`).
+Funziona qualsiasi editor che puoi invocare dal terminale.
 
 * `git config --global core.editor nano`
 
-### Default branch name
+### Nome del ramo predefinito
 
-How to name the default branch.
-Two reasonable choices are `main` and `master`
+Come denominare il ramo predefinito.
+Due scelte ragionevoli sono `main` e `master`
 
 * `git config --global init.defaultbranch master`
 
 ---
 
-## Initializing a repository
+## Inizializzazione di un repository
 
 ### `git init`
-* Initializes a new repository *inside the current directory*
-* Reified in the `.git` folder
-* The location of the `.git` folder marks the root of the repository
-  * *Do not nest* repositories inside repositories: it is fragile
-  * Nested projects are realized via *submodules* (not discussed in this course)
-* **Beware of the place where you issue the command!**
-  * First use `cd` to locate yourself inside the folder that contains (or will contain the project)
-    * (possibly, first create the folder with `mkdir`)
-  * **Then** issue `git init`
-  * if something goes awry, you can delete the repository by deleting the `.git` folder.
+* Inizializza un nuovo repository *all'interno della directory corrente*
+* Materializzato nella cartella `.git`
+* La posizione della cartella `.git` segna la radice del repository
+  * *Non annidare* i repository all'interno dei repository: è fragile
+  * I progetti annidati sono realizzati tramite *sottomoduli* (non discussi in questo corso)
+* **Attenzione al luogo in cui si esegue il comando!**
+  * Prima usa `cd` per posizionarti all'interno della cartella che contiene (o conterrà) il progetto
+    * (eventualmente, crea prima la cartella con `mkdir`)
+  * **Quindi** esegui `git init`
+  * se qualcosa va storto, puoi eliminare il repository eliminando la cartella `.git`.
 
 ---
 
 ## Staging
 
-Git has the concept of *stage* (or *index*).
-* Changes must be added to the stage to be committed.
-* Commits save the *__changes__ included in the stage*
-  * Files changed after being added to the stage neet to be re-staged
-* `git add <files>` moves the current state of the files into the stage as *changes*
-* `git reset <files>` removes currently staged *changes* of the files from stage
-* `git commit` creates a new *changeset* with the contents of the stage
+Git ha il concetto di *stage* (o *index*).
+* Le modifiche devono essere aggiunte allo stage per essere committate.
+* I commit salvano le *__modifiche__ incluse nello stage*
+  * I file modificati dopo essere stati aggiunti allo stage devono essere nuovamente aggiunti allo stage
+* `git add <files>` sposta lo stato corrente dei file nello stage come *modifiche*
+* `git reset <files>` rimuove le *modifiche* attualmente in stage dei file dallo stage
+* `git commit` crea un nuovo *changeset* con il contenuto dello stage
 
 ```mermaid
 flowchart LR
@@ -775,170 +769,169 @@ stage --reset-->workdir
 
 ---
 
-## Observing the repository status
+## Osservazione dello stato del repository
 
-It is extremely important to understand *clearly* what the current state of affairs is
-* Which *branch* are we working on?
-* Which *files* have been *modified*?
-* Which *changes* are already *staged*?
+È estremamente importante capire *chiaramente* qual è lo stato attuale delle cose
+* Su quale *ramo* stiamo lavorando?
+* Quali *file* sono stati *modificati*?
+* Quali *modifiche* sono già *in stage*?
 
-`git status` prints the current state of the repository, example output:
+`git status` stampa lo stato corrente del repository, esempio di output:
 
 ```git
 ❯ git status
-On branch master
-Your branch is up to date with 'origin/master'.
+Sul ramo master
+Il tuo ramo è aggiornato con 'origin/master'.
 
-Changes to be committed:
-  (use "git restore --staged <file>..." to unstage)
-        modified:   content/_index.md
-        new file:   content/dvcs-basics/_index.md
-        new file:   content/dvcs-basics/staging.png
+Modifiche da impegnare:
+  (usa "git restore --staged <file>..." per rimuovere dallo stage)
+        modificato:   content/_index.md
+        nuovo file:   content/dvcs-basics/_index.md
+        nuovo file:   content/dvcs-basics/staging.png
 
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-        modified:   layouts/shortcodes/gravizo.html
-        modified:   layouts/shortcodes/today.html
+Modifiche non in stage per l'impegno:
+  (usa "git add <file>..." per aggiornare ciò che verrà impegnato)
+  (usa "git restore <file>..." per scartare le modifiche nella working directory)
+        modificato:   layouts/shortcodes/gravizo.html
+        modificato:   layouts/shortcodes/today.html
 ```
 
 ---
 
-## Committing
+## Commit
 
-* Requires an **author** and an **email**
-  * They can be configured *globally* (at the *computer level*):
-    * `git config --global user.name 'Your Real Name'`
-    * `git config --global user.email 'your@email.com'`
-  * The global settings can be *overridden* at the *repository level*
-    * e.g., you want to commit with a different email between work and personal projects
-    * `git config user.name 'Your Real Name'`
-    * `git config user.email 'your@email.com'`
-* Requires a **message**, using appropriate messages is **extremely important**
-  * If unspecified, the commit does not get performed
-  * it can be specified inline with `-m`, otherwise Git will pop up the *default editor*
-    * `git commit -m 'my very clear and explanatory message'`
-* The *date* is recorded automatically
-* The *commit identifier* (a cryptographic hash) is generated automatically
-
----
-
-## Default branch
-
-At the first commit, there is no branch and no `HEAD`.
-
-Depending on the version of Git, the following behavior may happen upon the first commit:
-* Git creates a *new branch* named `master`
-  * *legacy behavior*
-  * the name is inherited from the default branch name in *Bitkeeper*
-* Git creates a *new branch* named `master`, but warns that it is a deprecated behavior
-  * although coming from the Latin "*magister*" (teacher) and not from the "master/slave" model of asymmetric communication control, many recently prefer `main` as seen as more inclusive
-* Git refuses to commit until a default branch name is specified
-  * *modern behavior*
-  * Requires configuration: `git config --global init.defaultbranch default-branch-name`
+* Richiede un **autore** e un'**email**
+  * Possono essere configurati *globalmente* (a livello di *computer*):
+    * `git config --global user.name 'Il tuo vero nome'`
+    * `git config --global user.email 'la.tua@email.com'`
+  * Le impostazioni globali possono essere *sovrascritte* a livello di *repository*
+    * ad esempio, desideri effettuare il commit con un'email diversa tra progetti lavorativi e personali
+    * `git config user.name 'Il tuo vero nome'`
+    * `git config user.email 'la.tua@email.com'`
+* Richiede un **messaggio**, l'utilizzo di messaggi appropriati è **estremamente importante**
+  * Se non specificato, il commit non viene eseguito
+  * può essere specificato in linea con `-m`, altrimenti Git aprirà l' *editor predefinito*
+    * `git commit -m 'il mio messaggio molto chiaro ed esplicativo'`
+* La *data* viene registrata automaticamente
+* L' *identificatore di commit* (un hash crittografico) viene generato automaticamente
 
 ---
 
-## Ignoring files
+## Ramo predefinito
 
-In general, we do not want to track *all* the files in the repository folder:
-* Some files could be *temporary* (e.g., created by the editor)
-* Some files could be *regenerable* (e.g., compiled binaries and application archives)
-* Some files could contain *private* information
+Al primo commit, non esiste alcun ramo e nessun `HEAD`.
 
-Of course, we could just not `add` them, but the error is around the corner!
-
-It would be much better to just tell Git to ignore some files.
-
-This is achieved through a *special `.gitignore` file*.
-  * the file must be named `.gitignore`, names like `foo.gitignore` or `gitignore.txt` won't work
-    * A good way to create/append to this file is via `echo whatWeWantToIgnore >> .gitignore` (multiplatform command)
-  * it is a list of paths that git will ignore (unless `git add` is called with the `--force` option)
-  * it is possible to add exceptions
+A seconda della versione di Git, potrebbe verificarsi il seguente comportamento al primo commit:
+* Git crea un *nuovo ramo* denominato `master`
+  * *comportamento legacy*
+  * il nome è ereditato dal nome del ramo predefinito in *Bitkeeper*
+* Git crea un *nuovo ramo* denominato `master`, ma avverte che si tratta di un comportamento deprecato
+  * sebbene derivi dal latino "*magister*" (maestro) e non dal modello "master/slave" di controllo asimmetrico della comunicazione, molti recentemente preferiscono `main` considerato più inclusivo
+* Git si rifiuta di effettuare il commit fino a quando non viene specificato un nome di ramo predefinito
+  * *comportamento moderno*
+  * Richiede la configurazione: `git config --global init.defaultbranch nome-ramo-predefinito`
 
 ---
 
-## `.gitignore` example
+## Ignorare i file
+
+In generale, non vogliamo tracciare *tutti* i file nella cartella del repository:
+* Alcuni file potrebbero essere *temporanei* (ad esempio, creati dall'editor)
+* Alcuni file potrebbero essere *rigenerabili* (ad esempio, binari compilati e archivi di applicazioni)
+* Alcuni file potrebbero contenere informazioni *private*
+
+Naturalmente, potremmo semplicemente non aggiungerli, ma l'errore è dietro l'angolo!
+
+Sarebbe molto meglio dire a Git di ignorare alcuni file.
+
+Ciò si ottiene tramite un file *speciale `.gitignore`*.
+  * il file deve essere denominato `.gitignore`, nomi come `foo.gitignore` o `gitignore.txt` non funzioneranno
+    * Un buon modo per creare/aggiungere a questo file è tramite `echo cosaVogliamoIgnorare >> .gitignore` (comando multipiattaforma)
+  * è un elenco di percorsi che Git ignorerà (a meno che `git add` non venga chiamato con l'opzione `--force`)
+  * è possibile aggiungere eccezioni
+
+---
+
+## Esempio di `.gitignore`
 
 ```ignore-list
-# ignore the bin folder and all its contents
+# ignora la cartella bin e tutto il suo contenuto
 bin/
-# ignore every pdf file
+# ignora ogni file pdf
 *.pdf
-# rule exception (beginning with a !): pdf files named 'myImportantFile.pdf' should be tracked
+# eccezione alla regola (che inizia con !): i file pdf denominati 'myImportantFile.pdf' devono essere tracciati
 !myImportantFile.pdf
 ```
 
 ---
 
-## Going to a new line is more complicated than it seems
+## Andare a capo è più complicato di quanto sembri
 
-Going to a new line is a two-phased operation:
-1. Bring the cursor back to the begin of the line
-2. Bring the cursor down one line
+Andare a capo è un'operazione in due fasi:
+1. Riporta il cursore all'inizio della riga
+2. Sposta il cursore di una riga in basso
 
-In *electromechanic teletypewriters* (and in typewriters, too), they were two distinct operations:
-1. *Carriage Return* (bringing the carriage to its leftmost position)
-2. *Line Feed* (rotating the carriage of one step)
+Nelle *teletipografie elettromeccaniche* (e anche nelle macchine da scrivere), erano due operazioni distinte:
+1. *Carriage Return* (riporta il carrello nella sua posizione più a sinistra)
+2. *Line Feed* (ruota il carrello di un passo)
 
 ---
-
-## A teletypewriter
+## Una telescrivente
 
 ![teletypewriter](https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Telescrivente_CEP_-_Calcolatrice_Elettronica_Pisana.jpg/1080px-Telescrivente_CEP_-_Calcolatrice_Elettronica_Pisana.jpg)
 
-* driving them text without drivers required to *explicitly send* *carriage return* and *line feed* commands
+* scrittura di testo senza che gli utenti debbano inviare esplicitamente comandi di *ritorno a capo* e *avanzamento riga*.
 
 ---
 
-## Newlines in the modern world
+## A capo nel mondo moderno
 
-Terminals were designed to behave like virtual teletypewriters
-* Indeed, they are still called **TTY** (**T**ele**TY**pewriter)
-* In Unix-like systems, they are still implemented as *virtual devices*
-  * If you have MacOS X or Linux, you can see which virtual device backs your current terminal using `tty`
-* At some point, Unix decided that `LF` was sufficient in virtual TTYs to go to a new line
-  * Probably *inspired by the C language*, where `\n` means "newline"
-  * The behaviour can still be disabled
+I terminali sono stati progettati per comportarsi come telescriventi virtuali.
+* Infatti, sono ancora chiamati **TTY** (**T**ele**TY**pewriter).
+* Nei sistemi Unix-like, sono ancora implementati come *dispositivi virtuali*.
+  * Se si dispone di MacOS X o Linux, è possibile vedere quale dispositivo virtuale supporta il terminale corrente usando `tty`.
+* Ad un certo punto, Unix ha deciso che `LF` era sufficiente nei TTY virtuali per andare a capo.
+  * Probabilmente *ispirato dal linguaggio C*, dove `\n` significa "a capo".
+  * Il comportamento può ancora essere disabilitato.
 ```text
-we would get
-            lines
-                 like these
+otterremmo
+            righe
+                 come queste
 ```
 
-####  Consequence:
-* Windows systems go to a new line with a `CR` character followed by an `LF` character: `\r\n`
-* Unix-like systems go to a new line with an `LF` character: `\n`
-* Old Mac systems used to go to a new line with a `CR` character: `\r`
-  * Basically they decided to use a single character like Unix did, but made the opposite choice
-  * MacOS X is POSIX-compliant, uses `\n`
+#### Conseguenza:
+* I sistemi Windows vanno a capo con un carattere `CR` seguito da un carattere `LF`: `\r\n`.
+* I sistemi Unix-like vanno a capo con un carattere `LF`: `\n`.
+* I vecchi sistemi Mac andavano a capo con un carattere `CR`: `\r`.
+  * Fondamentalmente hanno deciso di usare un singolo carattere come Unix, ma hanno fatto la scelta opposta.
+  * MacOS X è conforme a POSIX e usa `\n`.
 
 ---
 
-## Newlines and version control
+## A capo e controllo di versione
 
-If your team uses *multiple OSs*, it is likely that, by default, the text editors use either `LF` (on Unix) or `CRLF`
+Se il tuo team utilizza *sistemi operativi multipli*, è probabile che, per impostazione predefinita, gli editor di testo utilizzino `LF` (su Unix) o `CRLF`.
 
-It is also very likely that, upon saving, the whole file gets rewritten with the "*locally* correct" *line endings*
+È anche molto probabile che, al momento del salvataggio, l'intero file venga riscritto con i *terminatori di riga* "*localmente* corretti*".
 
-* This however would result in *all the lines being changed*!
-* The differential would be huge
-* *Conflicts would arise everywhere*!
+* Questo però porterebbe a *tutte le righe modificate*!
+* La differenziale sarebbe enorme.
+* *Sorgeranno conflitti ovunque*!
 
-Git tries to tackle this issue by *automatically converting* the line endings so that they match the *initial line endings of the file*
+Git cerca di affrontare questo problema *convertendo automaticamente* i terminatori di riga in modo che corrispondano ai *terminatori di riga iniziali del file*.
 
-* this usually results in repositories with *illogically mixed line endings* (depending on who created a file first) and loads of warnings about `LF`/`CRLF` conversions.
+* questo di solito si traduce in repository con *terminatori di riga illogicamente misti* (a seconda di chi ha creato per primo un file) e un sacco di avvisi sulle conversioni `LF`/`CRLF`.
 
-Line endings should instead be **configured per file type!**
+I terminatori di riga dovrebbero invece essere **configurati per tipo di file!**
 
 ---
 
 ## `.gitattributes`
 
-* A sensible strategy is to use `LF` everywhere, but for Windows scripts (`bat`, `cmd`, `ps1`)
-* Git can be configured through a `.gitattributes` file in the repository root
-  * It can do [much more than enforcing line endings](https://git-scm.com/docs/gitattributes), actually
-* Example: 
+* Una strategia sensata è quella di utilizzare `LF` ovunque, tranne che per gli script di Windows (`bat`, `cmd`, `ps1`).
+* Git può essere configurato tramite un file `.gitattributes` nella root del repository.
+  * In realtà può fare [molto di più che imporre i terminatori di riga](https://git-scm.com/docs/gitattributes).
+* Esempio:
 ```text
 * text=auto eol=lf
 *.[cC][mM][dD] text eol=crlf
@@ -949,39 +942,39 @@ Line endings should instead be **configured per file type!**
 
 ---
 
-## Dealing with removal and renaming of files
+## Gestione della rimozione e del rinominamento dei file
 
-* The removal of a file is a legit *change*
-* As we discussed, `git add` adds a *change* to the stage
-* **the change can be a removal!**
+* La rimozione di un file è una *modifica* legittima.
+* Come discusso, `git add` aggiunge una *modifica* allo staging area.
+* **la modifica può essere una rimozione!**
 
-`git add someDeletedFile` is a correct command, that will stage the fact that `someDeletedFile` does not exist anymore, and its deletion must be registered at the next `commit`.
+`git add someDeletedFile` è un comando corretto, che metterà in staging area il fatto che `someDeletedFile` non esiste più e che la sua eliminazione deve essere registrata al prossimo `commit`.
 
-* File *renaming* is *equivalent to file deletion and file creation* where, incidentally, the new file has the same content of the deleted file
-* To stage the rinomination of file `foo` into `bar`:
+* Il *rinominamento* di un file è *equivalente all'eliminazione e alla creazione di un file*, dove, per inciso, il nuovo file ha lo stesso contenuto del file eliminato.
+* Per mettere in staging area la rinominazione del file `foo` in `bar`:
   * `git add foo bar`
-  * it records that `foo` has been deleted and `bar` has been created
-  * Git is smart enough to understand that it is a name change, and will deal with it *efficiently*
+  * registra che `foo` è stato eliminato e `bar` è stato creato.
+  * Git è abbastanza intelligente da capire che si tratta di un cambio di nome e lo gestirà *efficientemente*.
 
 ---
 
-## Visualizing the history
+## Visualizzazione della cronologia
 
-Of course, it is useful to visualize the history of commits.
-Git provides a dedicated sub-command:
+Naturalmente, è utile visualizzare la cronologia dei commit.
+Git fornisce un sottocomando dedicato:
 
 `git log`
 
-* opens a *navigable interactive view* of the history from the `HEAD` commit (the current commit) backwards
-  * Press <kbd>Q</kbd>
-* *compact* visualization: `git log --oneline`
-* visualization of *all branches*: `git log --all`
-* visualization of a lateral *graph*: `git log --graph`
-* compact visualization of all branches with a graph: `git log --oneline --all --graph`
+* apre una *visualizzazione interattiva navigabile* della cronologia dal commit `HEAD` (il commit corrente) all'indietro.
+  * Premere <kbd>Q</kbd>
+* Visualizzazione *compatta*: `git log --oneline`
+* Visualizzazione di *tutti i branch*: `git log --all`
+* Visualizzazione di un grafico *laterale*: `git log --graph`
+* Visualizzazione compatta di tutti i branch con un grafico: `git log --oneline --all --graph`
 
 ---
 
-### example output of `git log --oneline --all --graph`
+### Esempio di output di `git log --oneline --all --graph`
 
 ```text
 * d114802 (HEAD -> master, origin/master, origin/HEAD) moar contribution
@@ -999,51 +992,51 @@ Git provides a dedicated sub-command:
 
 ---
 
-## Referring to commits: `<tree-ish>`es
+## Riferimento ai commit: `<tree-ish>`
 
-In git, a reference to a commit is called `<tree-ish>`. Valid `<tree-ish>`es are:
-* Full *commit hashes*, such as `b82f7567961ba13b1794566dde97dda1e501cf88`.
-* *Shortened commit hashes*, such as `b82f7567`.
-* *Branch names*, in which case the reference is to the last commit of the branch.
-* `HEAD`, a special name referring to the current commit (the head, indeed).
-* *Tag names* (we will discuss what a tag is later on).
-
----
-
-## Relative references
-
-It is possible to build *relative references*, e.g., "get me the commit before this `<tree-ish>`",
-by following the commit `<tree-ish>` with a tilde (`~`) and with the number of parents to get to:
-* `<tree-ish>~STEPS` where `STEPS` is an integer number produces a reference to the `STEPS-th` parent of the provided `<tree-ish>`:
-  * `b82f7567~1` references the *parent* of commit `b82f7567`.
-  * `some_branch~2` refers to the *parent of the parent* of the last commit of branch `some_branch`.
-  * `HEAD~3` refers to the *parent of the parent of the parent* of the current commit.
-
-* In case of merge commits (with multiple parents), `~` selects the first one
-* Selection of parents can be performed with caret in case of multiple parents (`^`)
-  * We won't go in depth here, but:
-    * The [`git rev-parse` reference on specifying revision](https://git-scm.com/docs/git-rev-parse#_specifying_revisions) is publicly available
-    * A [much more readable explanation can be found on Stack overflow](https://stackoverflow.com/a/2222920/1916413)
+In Git, un riferimento a un commit è chiamato `<tree-ish>`. I `<tree-ish>` validi sono:
+* Hash di *commit* completi, come `b82f7567961ba13b1794566dde97dda1e501cf88`.
+* Hash di *commit* abbreviati, come `b82f7567`.
+* *Nomi di branch*, nel qual caso il riferimento è all'ultimo commit del branch.
+* `HEAD`, un nome speciale che fa riferimento al commit corrente (la testa, appunto).
+* *Nomi di tag* (discuteremo cosa sia un tag più avanti).
 
 ---
 
-## Visualizing the differences
+## Riferimenti relativi
 
-We want to see which *differences* a commit introduced, or what we modified in some files of the work tree
+È possibile creare *riferimenti relativi*, ad esempio "prendimi il commit precedente a questo `<tree-ish>`",
+seguendo il commit `<tree-ish>` con una tilde (`~`) e con il numero di genitori a cui arrivare:
+* `<tree-ish>~STEPS` dove `STEPS` è un numero intero produce un riferimento al genitore `STEPS-esimo` del `<tree-ish>` fornito:
+  * `b82f7567~1` fa riferimento al *genitore* del commit `b82f7567`.
+  * `some_branch~2` fa riferimento al *genitore del genitore* dell'ultimo commit del branch `some_branch`.
+  * `HEAD~3` fa riferimento al *genitore del genitore del genitore* del commit corrente.
 
-Git provides support to visualize the changes in terms of *modified lines* through `git diff`:
-* `git diff` shows the difference between the *stage* and the *working tree*
-  * namely, what you would stage if you perform a `git add`
-* `git diff --staged` shows the difference between `HEAD` and the *stage*
-  * so, basically, what you are about to commit
-* `git diff <tree-ish>` shows the difference between `<tree-ish>` and the *working tree* (*stage excluded*)
-* `git diff --staged <tree-ish>` shows the difference between `<tree-ish>` and the *working tree*, *including staged changes*
-* `git diff <from> <to>`, where `<from>` and `<to>` are `<tree-ish>`es, shows the differences between `<from>` and `<to>`
-* `git diff --word-diff` is useful when working on text
+* Nel caso di commit di merge (con più genitori), `~` seleziona il primo.
+* La selezione dei genitori può essere eseguita con il caret nel caso di più genitori (`^`).
+  * Non approfondiremo qui, ma:
+    * Il riferimento [`git rev-parse` sulla specifica della revisione](https://git-scm.com/docs/git-rev-parse#_specifying_revisions) è pubblicamente disponibile.
+    * Una [spiegazione molto più leggibile si trova su Stack Overflow](https://stackoverflow.com/a/2222920/1916413).
 
 ---
 
-### `git diff` Example output:
+## Visualizzazione delle differenze
+
+Vogliamo vedere quali *differenze* ha introdotto un commit, o cosa abbiamo modificato in alcuni file dell'area di lavoro.
+
+Git fornisce supporto per visualizzare le modifiche in termini di *righe modificate* tramite `git diff`:
+* `git diff` mostra la differenza tra lo *staging area* e l'area di lavoro.
+  * vale a dire, ciò che si metterebbe in staging area se si esegue un `git add`.
+* `git diff --staged` mostra la differenza tra `HEAD` e lo *staging area*.
+  * quindi, fondamentalmente, ciò che si sta per commettere.
+* `git diff <tree-ish>` mostra la differenza tra `<tree-ish>` e l'area di lavoro (*staging area escluso*).
+* `git diff --staged <tree-ish>` mostra la differenza tra `<tree-ish>` e l'area di lavoro, *incluse le modifiche in staging area*.
+* `git diff <da> <a>`, dove `<da>` e `<a>` sono `<tree-ish>`, mostra le differenze tra `<da>` e `<a>`.
+* `git diff --word-diff` è utile quando si lavora su testo.
+
+---
+
+### Esempio di output di `git diff`:
 
 ```diff
 diff --git a/.github/workflows/build-and-deploy.yml b/.github/workflows/build-and-deploy.yml
@@ -1061,34 +1054,34 @@ index b492a8c..28302ff 100644
            echo "Scripts update line: \"$USES\""
 ```
 
-* A [detailed explanation of the diff message format can be found here](https://www.freecodecamp.org/news/git-diff-and-patch/)
-* The output is compatible with the Unix commands `diff` and `patch`
-* Still, *binary files are an issue*! Tracking the right files is paramount.
+* Una [spiegazione dettagliata del formato del messaggio diff si trova qui](https://www.freecodecamp.org/news/git-diff-and-patch/).
+* L'output è compatibile con i comandi Unix `diff` e `patch`.
+* Tuttavia, i *file binari sono un problema*! Il tracciamento dei file giusti è fondamentale.
 
 ---
 
-## Navigating the history
+## Navigazione nella cronologia
 
-Navigation of the history concretely means to move the head (in Git, `HEAD`) to arbitrary points of the history
+La navigazione nella cronologia significa concretamente spostare la testa (in Git, `HEAD`) su punti arbitrari della cronologia.
 
-In Git, this is performed with the `checkout` commit:
+In Git, questo viene eseguito con il commit `checkout`:
 * `git checkout <tree-ish>`
-  * Unless there are changes that could get lost, *moves* `HEAD` to the provided `<tree-ish>`
-  * Updates all tracked files to their version at the provided `<tree-ish>`
+  * A meno che non ci siano modifiche che potrebbero andare perse, *sposta* `HEAD` sul `<tree-ish>` fornito.
+  * Aggiorna tutti i file tracciati alla loro versione nel `<tree-ish>` fornito.
 
-The command can be used to *selectively checkout a file from another revision*:
+Il comando può essere utilizzato per *effettuare il checkout selettivo di un file da un'altra revisione*:
 * `git checkout <tree-ish> -- foo bar baz`
-  * Restores the status of files `foo`, `bar`, and `baz` from commit `<tree-ish>`, and adds them to the stage (unless there are uncommitted changes that could be lost)
-  * Note that `--` is surrounded by whitespaces, it is not a `--foo` option, it is just used as a separator between the `<tree-ish>` and the list of files
-    * the files could be named as a `<tree-ish>` and we need disambiguation
+  * Ripristina lo stato dei file `foo`, `bar` e `baz` dal commit `<tree-ish>` e li aggiunge allo staging area (a meno che non ci siano modifiche non commesse che potrebbero andare perse).
+  * Si noti che `--` è circondato da spazi bianchi, non è un'opzione `--foo`, viene semplicemente utilizzato come separatore tra il `<tree-ish>` e l'elenco dei file.
+    * i file potrebbero essere denominati come un `<tree-ish>` e abbiamo bisogno di disambiguazione.
 
 ---
 
-## Detached head
+## Head staccato
 
-Git does **not** allow *multiple heads per branch*
-(other DVCS do, in particular Mercurial):
-for a commit to be valid, `HEAD` must be at the "end" of a branch (on its last commit), as follows:
+Git **non** consente *più head per branch*
+(altri DVCS lo fanno, in particolare Mercurial):
+affinché un commit sia valido, `HEAD` deve essere alla "fine" di un branch (sul suo ultimo commit), come segue:
 
 ```mermaid
 flowchart RL
@@ -1106,9 +1099,9 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 commit;
 ```
 
-When an old commit is checked out this condition doesn't hold!
+Quando viene effettuato il checkout di un commit vecchio, questa condizione non è più valida!
 
-If we run `git checkout HEAD~4`:
+Se eseguiamo `git checkout HEAD~4`:
 
 ```mermaid
 flowchart RL
@@ -1125,34 +1118,34 @@ flowchart RL
   class b1,b2 branch;
   class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 commit;
 ```
+Il sistema entra in una modalità di lavoro speciale chiamata *detached head*.
 
-The system enters a special workmode called *detached head*.
+Quando si è in **detached head**, Git permette di effettuare **commit**, ma questi **vanno persi**!
 
-When **in detached head**, Git allows to make **commits**, but they **are lost**!
+* (Non del tutto, ma è necessario creare un branch, oppure per recuperarli serve `git reflog` e `git cherry-pick`, argomenti che non tratteremo)
 
-* (Not really, but we need to create a branch, or to retrieve them we need `git reflog` and `git cherry-pick`, that we won't discuss)
-
-
----
-
-# Branching and merging
 
 ---
 
-## Branches as labels
-
-To be able to start new development lines,
-we need to *create* a **branch**.
-
-In Git, branches work like *movable labels*:
-* Upon creation, they are attached to the same commit `HEAD` refers to
-* If a new commit is made when `HEAD` is attached to them, they **move along with `HEAD`**
+# Branching e merging
 
 ---
 
-## Branch creation
+## Branch come etichette
 
-Branches are created with `git branch branch_name`
+Per poter iniziare nuove linee di sviluppo,
+è necessario *creare* un **branch**.
+
+In Git, i branch funzionano come *etichette mobili*:
+* Al momento della creazione, sono attaccati allo stesso commit a cui fa riferimento `HEAD`
+* Se viene effettuato un nuovo commit quando `HEAD` è attaccato ad essi, si **muovono insieme a `HEAD`**
+
+---
+
+## Creazione di un branch
+
+I branch vengono creati con `git branch branch_name`
+
 
 ```mermaid
 flowchart RL
@@ -1196,15 +1189,15 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 commit;
 ```
 
-`HEAD` *does not attach to the new branch by default*: an explicit `checkout` is required.
+`HEAD` *non si associa al nuovo ramo per default*: è necessario un esplicito comando `checkout`.
 
 {{% /fragment %}}
 
 ---
 
-## Creating branches when in **DETACHED_HEAD**
+## Creazione di rami in stato **DETACHED_HEAD**
 
-Creating new branches allows to store changes made when we are in **DETACHED_HEAD** state.
+La creazione di nuovi rami permette di salvare le modifiche apportate quando ci si trova nello stato **DETACHED_HEAD**.
 
 ```mermaid
 flowchart RL
@@ -1247,7 +1240,8 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 commit;
 ```
 
-* **DETACHED_HEAD**: our changes will be discarded, unless...
+* **DETACHED_HEAD**: le nostre modifiche verranno scartate, a meno che...
+
 {{% /fragment %}}
 
 {{% fragment %}}
@@ -1256,7 +1250,7 @@ flowchart RL
 
 ---
 
-## Creating branches when in **DETACHED_HEAD**
+## Creazione di rami in stato **DETACHED_HEAD**
 
 ⬇️ `git branch new-experiment` ⬇️
 
@@ -1279,8 +1273,7 @@ flowchart RL
 ```
 
 {{% fragment %}}
-`HEAD` is still *detached* though, we need to *attach it to the new branch* for it to store our commits
-{{% /fragment %}}
+`HEAD` è ancora *staccato*, quindi dobbiamo *attaccarlo al nuovo ramo* affinché memorizzi i nostri commit.{{% /fragment %}}
 
 {{% fragment %}}
 ➡️ Next: `git checkout new-experiment` ➡️
@@ -1311,7 +1304,7 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 commit;
 ```
 
-* New commits will now be stored!
+* I nuovi commit saranno ora salvati!
 
 {{% fragment %}}
 
@@ -1341,19 +1334,19 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11 commit;
 ```
 
-$\Rightarrow$ `HEAD` brings our branch forward with it!
+$\Rightarrow$ `HEAD` fa avanzare il nostro ramo con sé!
 
 {{% /fragment %}}
 
 ---
 
-## One-shot branch creation
+## Creazione di un branch "one-shot"
 
-As you can imagine, creating a *new branch* and *attaching `HEAD`* to the freshly created branch is pretty common
+Come potete immaginare, creare un *nuovo branch* e *agganciare `HEAD`* al branch appena creato è un'operazione piuttosto comune.
 
-As customary for common operations, a short-hand is provided: `git checkout -b new-branch-name`
-* Creates `new-branch-name` from the current position of `HEAD`
-* Attaches `HEAD` to `new-branch-name`
+Come consuetudine per le operazioni comuni, è disponibile un comando abbreviato: `git checkout -b new-branch-name`
+* Crea `new-branch-name` dalla posizione corrente di `HEAD`
+* Aggancia `HEAD` a `new-branch-name`
 
 ```mermaid
 flowchart RL
@@ -1394,22 +1387,22 @@ flowchart RL
 
 ---
 
-## Merging branches
+## Unione di branch
 
-Reunifying diverging development lines is *much trickier* than spawning new development lines
+Riunificare linee di sviluppo divergenti è *molto più complicato* che creare nuove linee di sviluppo.
 
-In other words, *merging* is **much trickier** than *branching*
+In altre parole, *l'unione* è **molto più complicata** della *creazione di branch*.
 
-* Historically, with *centralized* version control systems, merging was considered extremely delicate and difficult
-* The *distributed* version control systems promoted *frequent*, *small-sized* merges, much easier to deal with
-* **Conflicts** *can still arise!*
-  * what if we change the same line of code in two branches differently?
+* Storicamente, con i sistemi di controllo di versione *centralizzati*, l'unione era considerata estremamente delicata e difficile.
+* I sistemi di controllo di versione *distribuiti* hanno promosso unioni *frequenti* e di *piccole dimensioni*, molto più facili da gestire.
+* I **conflitti** *possono ancora verificarsi!*
+  * cosa succede se modifichiamo la stessa riga di codice in due branch in modo diverso?
 
-In Git, `git merge target` merges the branch named `target` into the current branch (`HEAD` must be attached)
+In Git, `git merge target` unisce il branch chiamato `target` nel branch corrente (`HEAD` deve essere associato).
 
 ---
 
-## Merge visual example
+## Esempio visivo di unione
 
 ```mermaid
 flowchart RL
@@ -1460,9 +1453,9 @@ flowchart RL
 
 ---
 
-## Fast forwarding
+## Fast Forwarding
 
-Consider this situation:
+Consideriamo questa situazione:
 
 ```mermaid
 flowchart RL
@@ -1483,11 +1476,11 @@ flowchart RL
   class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13 commit;
 ```
 
-* We want `new-experiment` to also have the changes from `C7`, to `C10` (to be up to date with `master`)
-* `master` contains all the commits of `new-experiment`
-* We don't really need a merge commit, we can just move `new-experiment` to point it to `C6`
-* $\Rightarrow$ This is called a **fast-forward**
-  * It is the *default behavior* in Git when merging branches where the target is the head plus something
+* Vogliamo che `new-experiment` includa anche le modifiche da `C7` a `C10` (per essere aggiornato con `master`)
+* `master` contiene tutti i commit di `new-experiment`
+* Non abbiamo realmente bisogno di un merge commit, possiamo semplicemente spostare `new-experiment` per puntarlo a `C6`
+* $\Rightarrow$ Questo si chiama **fast-forward**
+  * È il *comportamento predefinito* di Git quando si fondono rami dove il target è la head più qualcosa
 
 {{% fragment %}}
 
@@ -1514,112 +1507,110 @@ flowchart RL
 
 ---
 
-## Merge conflicts
+## Conflitti di Merge
 
-Git tries to resolve most conflicts by *itself*
-* It's *pretty good* at it
-* but things can still require *human intervention*
+Git tenta di risolvere la maggior parte dei conflitti *automaticamente*.
+* È *abbastanza bravo* in questo.
+* ma alcune situazioni richiedono ancora *intervento umano*.
 
-In case of conflict on one or more files, Git marks the subject files as *conflicted*, and modifies them adding *merge markers*:
+In caso di conflitto su uno o più file, Git contrassegna i file in questione come *in conflitto* e li modifica aggiungendo dei *marcatori di merge*:
 
 ```text
 <<<<<<< HEAD
-Changes made on the branch that is being merged into,
-this is the branch currently checked out (HEAD).
+Modifiche apportate sul ramo in cui si sta fondendo,
+questo è il ramo attualmente selezionato (HEAD).
 =======
-Changes made on the branch that is being merged in.
+Modifiche apportate sul ramo che si sta fondendo.
 >>>>>>> other-branch-name
 ```
-
-* The user should *change the conflicted files* so that they reflect the *final desired status*
-* The (now fixed) files should get added to the stage with `git add`
-* The merge operation can be concluded through `git commit`
-  * In case of merge, the message is pre-filled in
-  * If the message is okay, `git commit --no-edit` can be used to use it without editing
-
----
-
-## Good practices
-
-**Avoiding merge conflicts is *much* better than solving them**
-
-Although they are unavoidable in some cases, they can be *minimized* by following a few *good practices*:
-
-* **Do not** *track files that can be generated*
-  * This is harmful under many points of view, and merge conflicts are one
-* **Do** *make many small commits*
-  * Each coherent change should be reified into a commit
-  * Even very small changes, like modification of the whitespaces
-  * Smaller commits help Git better figure out what changed and in which order,
-  generally leading to finer grained (and easier to solve) conflicts
-* **Do** *enforce style rules* across the team
-  * Style changes are legitimate changes
-  * Style is often enforced at the IDE level
-  * Minimal logical changes may cause widespread changes due to style modifications
-* **Do** *pay attention to newlines*
-  * Different OSs use different newline characters
-  * Git tries to be smart about it, often failing catastrophically
-
+* L'utente deve *modificare i file in conflitto* in modo che riflettano lo *stato finale desiderato*.
+* I file (ora corretti) devono essere aggiunti allo staging area con `git add`.
+* L'operazione di merge può essere conclusa tramite `git commit`.
+  * In caso di merge, il messaggio è pre-compilato.
+  * Se il messaggio va bene, `git commit --no-edit` può essere usato per accettarlo senza modificarlo.
 
 ---
 
-# Operations with remotes
+## Buone pratiche
+
+**Evitare i conflitti di merge è *molto* meglio che risolverli**
+
+Sebbene siano inevitabili in alcuni casi, possono essere *minimizzati* seguendo alcune *buone pratiche*:
+
+* **Non** *tenere traccia dei file che possono essere generati*.
+  * Questo è dannoso sotto molti punti di vista, e i conflitti di merge sono uno di questi.
+* **Sì** *effettuare molti piccoli commit*.
+  * Ogni modifica coerente dovrebbe essere materializzata in un commit.
+  * Anche modifiche molto piccole, come la modifica degli spazi bianchi.
+  * Commit più piccoli aiutano Git a capire meglio cosa è cambiato e in quale ordine, portando generalmente a conflitti più granulari (e più facili da risolvere).
+* **Sì** *applicare regole di stile* in tutto il team.
+  * Le modifiche di stile sono modifiche legittime.
+  * Lo stile è spesso imposto a livello di IDE.
+  * Modifiche logiche minime possono causare modifiche diffuse a causa di modifiche di stile.
+* **Sì** *fare attenzione alle nuove righe*.
+  * Sistemi operativi diversi usano caratteri di nuova riga diversi.
+  * Git cerca di essere intelligente in questo, spesso fallendo catastroficamente.
+
 
 ---
 
-## Importing a repository
+# Operazioni con i remotes
 
-* We can initialize an **emtpy** repository with `git init`
-* But most of the time we want to start from a *local copy* of an **existing** repository
+---
 
-Git provides a `clone` subcommand that copies *the whole history* of a repository locally
-* `git clone URI destination` creates the folder `destination` and clones the repository found at `URI`
-  * If `destination` is not empty, fails
-  * if `destination` is omitted, a folder with the same namen of the last segment of `URI` is created
-  * `URI` can be remote or local, Git supports the `file://`, `https://`, and `ssh` protocols
-      * `ssh` *recommended* when available
-* The `clone` subcommand checks out the remote branch where the `HEAD` is attached (*default branch*)
+## Importare un repository
 
-Examples:
-* `git clone /some/repository/on/my/file/system destination`
-  * creates a local folder called `destination` and copies the repository from the local directory
-* `git clone https://somewebsite.com/someRepository.git myfolder`
-  * creates a local folder called `myfolder` and copies the repository located at the specified `URL`
+* Possiamo inizializzare un repository **vuoto** con `git init`.
+* Ma nella maggior parte dei casi vogliamo partire da una copia *locale* di un repository **esistente**.
+
+Git fornisce un sottocomando `clone` che copia *tutta la cronologia* di un repository localmente.
+* `git clone URI destinazione` crea la cartella `destinazione` e clona il repository trovato in `URI`.
+  * Se `destinazione` non è vuota, fallisce.
+  * Se `destinazione` è omessa, viene creata una cartella con lo stesso nome dell'ultimo segmento di `URI`.
+  * `URI` può essere remoto o locale, Git supporta i protocolli `file://`, `https://` e `ssh`.
+      * `ssh` *raccomandato* quando disponibile.
+* Il sottocomando `clone` effettua il checkout del ramo remoto a cui è attaccato `HEAD` (*ramo predefinito*).
+
+Esempi:
+* `git clone /some/repository/on/my/file/system destinazione`
+  * crea una cartella locale chiamata `destinazione` e copia il repository dalla directory locale.
+* `git clone https://somewebsite.com/someRepository.git mia_cartella`
+  * crea una cartella locale chiamata `mia_cartella` e copia il repository situato all'URL specificato.
 * `git clone user@sshserver.com:SomePath/SomeRepo.git`
-  * creates a local folder called `SomeRepo` and copies the repository located at the specified `URL`
+  * crea una cartella locale chiamata `SomeRepo` e copia il repository situato all'URL specificato.
 
 ---
 
 ## Remotes
 
-* Remotes are the *known copies* of the repository that exist somewhere (usually in the Internet)
-* Each remote has a *name* and a *URI*
-* When a repository is created via `init`, no remote is known.
-* When a repository is imported via `clone`, a remote called `origin` is created automatically
+* I remotes sono le *copie conosciute* del repository che esistono da qualche parte (solitamente su Internet).
+* Ogni remoto ha un *nome* e un *URI*.
+* Quando un repository viene creato tramite `init`, nessun remoto è conosciuto.
+* Quando un repository viene importato tramite `clone`, viene creato automaticamente un remoto chiamato `origin`.
 
-*Non-local branches can be referenced* as `remoteName/branchName`
+*I rami non locali possono essere referenziati* come `nomeRemote/nomeBranch`.
 
-The `remote` subcommand is used to inspect and manage remotes:
-* `git remote -v` *lists* the known remotes
+Il sottocomando `remote` viene utilizzato per ispezionare e gestire i remotes:
+* `git remote -v` *elenca* i remotes conosciuti.
 
-* `git remote add a-remote URI` *adds* a new remote named `a-remote` and pointing to `URI`
-* `git remote show a-remote` displays *extended information* on `a-remote`
-* `git remote remove a-remote` *removes* `a-remote` (it does not delete information on the remote, it *locally* forgets that it exits)
-
----
-
-## Upstream branches
-
-Remote branches can be *associated* with local branches, with the intended meaning that the local and the remote branch are *intended to be two copies of the same branch*
-
-* A remote branch associated to a local branch is its **upstream branch**
-* upstream branches can be configured via `git branch --set-upstream-to=remote/branchName`
-  * e.g.: `git branch --set-upstream-to=origin/develop` sets the current branch upstream to `origin/develop`
-* When a repository is initialize by `clone`, its default branch is checked out locally with the same name it has on the remote, and the remote branch is automatically set as *upstream*
+* `git remote add un-remoto URI` *aggiunge* un nuovo remoto chiamato `un-remoto` e che punta a `URI`.
+* `git remote show un-remoto` mostra *informazioni estese* su `un-remoto`.
+* `git remote remove un-remoto` *rimuove* `un-remoto` (non elimina le informazioni sul remoto, *localmente* dimentica che esiste).
 
 ---
 
-### Actual result of `git clone git@somesite.com/repo.git`
+## Rami upstream
+
+I rami remoti possono essere *associati* a rami locali, con il significato che il ramo locale e quello remoto sono *destinati ad essere due copie dello stesso ramo*.
+
+* Un ramo remoto associato a un ramo locale è il suo **ramo upstream**.
+* I rami upstream possono essere configurati tramite `git branch --set-upstream-to=remoto/nomeRamo`.
+  * es.: `git branch --set-upstream-to=origin/develop` imposta l'upstream del ramo corrente su `origin/develop`.
+* Quando un repository viene inizializzato da `clone`, il suo ramo predefinito viene effettuato il checkout localmente con lo stesso nome che ha sul remoto, e il ramo remoto viene impostato automaticamente come *upstream*.
+
+---
+
+### Risultato effettivo di `git clone git@somesite.com/repo.git`
 
 ```mermaid
 flowchart RL
@@ -1665,16 +1656,16 @@ class master,masterl,bug22,serverless branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
 
-* `git@somesite.com/repo.git` is saved as `origin`
-* The main branch (the branch where `HEAD` is attached, in our case `master`) on `origin` gets checked out locally with the same name
-* The local branch `master` is set up to track `origin/master` as upstream
-* Additional branches are *fetched* (they are known locally), but they are not checked out
+* `git@somesite.com/repo.git` è salvato come `origin`
+* Il branch principale (il branch a cui è attaccato `HEAD`, nel nostro caso `master`) su `origin` viene checkoutato localmente con lo stesso nome
+* Il branch locale `master` è configurato per tracciare `origin/master` come upstream
+* Altri branch vengono *fetchati* (sono noti localmente), ma non viene fatto checkout
 
 ---
 
-## Importing remote branches
+## Importare branch remoti
 
-`git branch` (or `git checkout -b`) can checkout remote branches locally *once they have been fetched*.
+`git branch` (o `git checkout -b`) può fate checkout branch remoti localmente *una volta che sono stati fetchati*.
 
 ```mermaid
 flowchart RL
@@ -1774,371 +1765,37 @@ class HEAD,HEADL head;
 class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
-
-* A new branch `imported-feat` is created locally, and `origin/feat/new-client` is set as its *upstream*
+* Viene creata una nuova branch locale `imported-feat`, e `origin/feat/new-client` viene impostata come suo *upstream*.
 
 ---
 
-## Importing remote branches
+## Importare branch remote
 
-* It is customary to reuse the upstream name if there are no conflicts
+* È consuetudine riutilizzare il nome upstream se non ci sono conflitti
   * `git checkout -b feat/new-client origin/feat/new-client`
-* Modern versions of Git automatically checkout remote branches if there are no ambiguities:
+* Le versioni moderne di Git effettuano automaticamente il checkout delle branch remote se non ci sono ambiguità:
   * `git checkout feat/new-client`
-  * creates a new branch `feat/new-client` with the upstream branch set to `origin/feat/new-client` if:
-    * there is **no** *local branch* named `feat/new-client`
-    * there is **no** *ambiguity* with remotes
-  * Quicker if you are working with a single remote (pretty common)
+  * crea una nuova branch `feat/new-client` con la branch upstream impostata su `origin/feat/new-client` se:
+    * **non** esiste una *branch locale* chiamata `feat/new-client`
+    * **non** c'è *ambiguità* con i remote
+  * Più rapido se si lavora con un singolo remote (abbastanza comune)
 
 ---
 
-## Example with multiple remotes
+## Recupero degli aggiornamenti
 
-```mermaid
-flowchart RL
+Per verificare se un *remote* ha degli *aggiornamenti* disponibili, Git fornisce il sottocomando `git fetch`.
+* `git fetch a-remote` controlla se `a-remote` ha nuove informazioni. Se sì, le scarica.
+  * **Nota**: *non le* *merge*, semplicemente memorizza il suo stato attuale.
+* `git fetch` senza specificare un remote:
+  * se `HEAD` è *attaccato* e il *branch corrente* ha un *upstream*, allora viene effettuato il fetch del *remote* che ospita il *branch upstream*.
+  * altrimenti, viene effettuato il fetch di `origin`, se presente.
+* Per applicare gli aggiornamenti, è quindi necessario usare *manualmente* `merge`.
 
-subgraph somesite.com/repo.git
-  direction RL
-  HEAD{{"HEAD"}}
-  master(master)
-  serverless(feat/serverless)
-
-  C4([4]) --> C3([3]) --> C2([2]) --> C1([1])
-  C7([7]) --> C6([6]) --> C5([5]) --> C2 
-
-  master -.-> C4
-  serverless -.-> C7
-
-  HEAD -.-> C4
-  HEAD --"fas:fa-link"--o master
-end
-
-subgraph somewherelse.org/repo.git
-  direction RL
-
-  masterl(master)
-  HEADL{{"HEAD"}}
-
-  CL10([10]) --> CL9([9]) --> CL8([8]) --> CL4([4]) --> CL3([3]) --> CL2([2]) --> CL1([1])
-
-  masterl -.-> CL10
-
-  HEADL -.-> CL10
-  HEADL --"fas:fa-link"--o masterl
-end
-
-class local,somesite.com/repo.git,somewherelse.org/repo.git repo;
-class origin remote;
-class HEAD,HEADL head;
-class master,masterl,bug22,serverless,imported branch;
-class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
-```
-
-➡️ Next: `git clone git@somesite.com/repo.git` ➡️
+Le nuove *informazioni recuperate* includono nuovi *commit*, *branch* e *tag*.
 
 ---
 
-⬇️ `git clone git@somesite.com/repo.git` ⬇️
-
-```mermaid
-flowchart RL
-
-subgraph somesite.com/repo.git
-  direction RL
-  HEAD{{"HEAD"}}
-  master(master)
-  serverless(feat/serverless)
-
-  C4([4]) --> C3([3]) --> C2([2]) --> C1([1])
-  C7([7]) --> C6([6]) --> C5([5]) --> C2 
-
-  master -.-> C4
-  serverless -.-> C7
-
-  HEAD -.-> C4
-  HEAD --"fas:fa-link"--o master
-end
-
-subgraph somewherelse.org/repo.git
-  direction RL
-
-  masterl(master)
-  HEADL{{"HEAD"}}
-
-  CL10([10]) --> CL9([9]) --> CL8([8]) --> CL4([4]) --> CL3([3]) --> CL2([2]) --> CL1([1])
-
-  masterl -.-> CL10
-
-  HEADL -.-> CL10
-  HEADL --"fas:fa-link"--o masterl
-end
-
-subgraph local
-  direction RL
-
-  origin[(origin)]
-
-  HEADa{{"HEAD"}}
-  mastera(master)
-
-  C4a([4]) --> C3a([3]) --> C2a([2]) --> C1a([1])
-
-  mastera -.-> C4a
-  mastera ==o master
-
-  HEADa -.-> C4a
-  HEADa --"fas:fa-link"--o mastera
-end
-
-origin ==o somesite.com/repo.git
-
-class local,somesite.com/repo.git,somewherelse.org/repo.git repo;
-class origin remote;
-class HEAD,HEADL,HEADa head;
-class master,masterl,mastera,bug22,serverless,imported branch;
-class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C1a,C2a,C3a,C4a,C5a,C6a,C7a,C8a,C9a,C10a,C11a,C12a,C13a,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
-```
-
-➡️ Next: `git checkout -b feat/serverless origin/feat/serverless` ➡️
-
----
-
-⬇️ `git checkout -b feat/serverless origin/feat/serverless` ⬇️
-
-```mermaid
-flowchart RL
-
-subgraph somesite.com/repo.git
-  direction RL
-  HEAD{{"HEAD"}}
-  master(master)
-  serverless(feat/serverless)
-
-  C4([4]) --> C3([3]) --> C2([2]) --> C1([1])
-  C7([7]) --> C6([6]) --> C5([5]) --> C2 
-
-  master -.-> C4
-  serverless -.-> C7
-
-  HEAD -.-> C4
-  HEAD --"fas:fa-link"--o master
-end
-
-subgraph somewherelse.org/repo.git
-  direction RL
-
-  masterl(master)
-  HEADL{{"HEAD"}}
-
-  CL10([10]) --> CL9([9]) --> CL8([8]) --> CL4([4]) --> CL3([3]) --> CL2([2]) --> CL1([1])
-
-  masterl -.-> CL10
-
-  HEADL -.-> CL10
-  HEADL --"fas:fa-link"--o masterl
-end
-
-subgraph local
-  direction RL
-
-  origin[(origin)]
-
-  HEADa{{"HEAD"}}
-  mastera(master)
-  serverlessa(feat/serverless)
-
-  C4a([4]) --> C3a([3]) --> C2a([2]) --> C1a([1])
-  C7a([7]) --> C6a([6]) --> C5a([5]) --> C2a 
-
-  mastera -.-> C4a
-  mastera ==o master
-
-  serverlessa -.-> C7a
-  serverlessa ==o serverless
-
-  HEADa -.-> C7a
-  HEADa --"fas:fa-link"--o serverlessa
-end
-
-origin ==o somesite.com/repo.git
-
-class local,somesite.com/repo.git,somewherelse.org/repo.git repo;
-class origin remote;
-class HEAD,HEADL,HEADa head;
-class master,masterl,mastera,bug22,serverless,serverlessa,imported branch;
-class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C1a,C2a,C3a,C4a,C5a,C6a,C7a,C8a,C9a,C10a,C11a,C12a,C13a,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
-```
-
-➡️ Next: `git remote add other git@somewhereelse.org/repo.git` ➡️
-
----
-
-⬇️ `git remote add other git@somewhereelse.org/repo.git` ⬇️
-
-```mermaid
-flowchart RL
-
-subgraph somesite.com/repo.git
-  direction RL
-  HEAD{{"HEAD"}}
-  master(master)
-  serverless(feat/serverless)
-
-  C4([4]) --> C3([3]) --> C2([2]) --> C1([1])
-  C7([7]) --> C6([6]) --> C5([5]) --> C2 
-
-  master -.-> C4
-  serverless -.-> C7
-
-  HEAD -.-> C4
-  HEAD --"fas:fa-link"--o master
-end
-
-subgraph somewherelse.org/repo.git
-  direction RL
-
-  masterl(master)
-  HEADL{{"HEAD"}}
-
-  CL10([10]) --> CL9([9]) --> CL8([8]) --> CL4([4]) --> CL3([3]) --> CL2([2]) --> CL1([1])
-
-  masterl -.-> CL10
-
-  HEADL -.-> CL10
-  HEADL --"fas:fa-link"--o masterl
-end
-
-subgraph local
-  direction RL
-
-  origin[(origin)]
-  other[(other)]
-
-  HEADa{{"HEAD"}}
-  mastera(master)
-  serverlessa(feat/serverless)
-
-  C4a([4]) --> C3a([3]) --> C2a([2]) --> C1a([1])
-  C7a([7]) --> C6a([6]) --> C5a([5]) --> C2a 
-
-  mastera -.-> C4a
-  mastera ==o master
-
-  serverlessa -.-> C7a
-  serverlessa ==o serverless
-
-  HEADa -.-> C7a
-  HEADa --"fas:fa-link"--o serverlessa
-end
-
-origin ==o somesite.com/repo.git
-other ==o somewherelse.org/repo.git
-
-class local,somesite.com/repo.git,somewherelse.org/repo.git repo;
-class origin,other remote;
-class HEAD,HEADL,HEADa head;
-class master,masterl,mastera,bug22,serverless,serverlessa,imported branch;
-class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C1a,C2a,C3a,C4a,C5a,C6a,C7a,C8a,C9a,C10a,C11a,C12a,C13a,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
-```
-
-➡️ Next: `git checkout -b other-master other/master` ➡️
-
----
-
-⬇️ `git checkout -b other-master other/master` ⬇️
-
-```mermaid
-flowchart RL
-
-subgraph somesite.com/repo.git
-  direction RL
-  HEAD{{"HEAD"}}
-  master(master)
-  serverless(feat/serverless)
-
-  C4([4]) --> C3([3]) --> C2([2]) --> C1([1])
-  C7([7]) --> C6([6]) --> C5([5]) --> C2 
-
-  master -.-> C4
-  serverless -.-> C7
-
-  HEAD -.-> C4
-  HEAD --"fas:fa-link"--o master
-end
-
-subgraph somewherelse.org/repo.git
-  direction RL
-
-  masterl(master)
-  HEADL{{"HEAD"}}
-
-  CL10([10]) --> CL9([9]) --> CL8([8]) --> CL4([4]) --> CL3([3]) --> CL2([2]) --> CL1([1])
-
-  masterl -.-> CL10
-
-  HEADL -.-> CL10
-  HEADL --"fas:fa-link"--o masterl
-end
-
-subgraph local
-  direction RL
-
-  HEADa{{"HEAD"}}
-  mastera(master)
-  serverlessa(feat/serverless)
-  othermaster(other-master)
-
-  C10a([10]) --> C9a([9]) --> C8a([8]) --> C4a([4]) --> C3a([3]) --> C2a([2]) --> C1a([1])
-  C7a([7]) --> C6a([6]) --> C5a([5]) --> C2a 
-
-  mastera -.-> C4a
-  mastera ==o master
-
-  serverlessa -.-> C7a
-  serverlessa ==o serverless
-
-  othermaster -.-> C10a
-  othermaster ==o masterl
-
-  HEADa -.-> C10a
-  HEADa --"fas:fa-link"--o othermaster
-
-  origin[(origin)]
-  other[(other)]
-end
-
-origin ==o somesite.com/repo.git
-other ==o somewherelse.org/repo.git
-
-class local,somesite.com/repo.git,somewherelse.org/repo.git repo;
-class origin,other remote;
-class HEAD,HEADL,HEADa head;
-class master,masterl,mastera,bug22,serverless,serverlessa,imported,othermaster branch;
-class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C1a,C2a,C3a,C4a,C5a,C6a,C7a,C8a,C9a,C10a,C11a,C12a,C13a,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
-```
-
----
-
-## Multiple remotes
-
-You can operate with *multiple remotes*! Just remember: *branch names* must be *unique* for every repository
-  * If you want to track `origin/master` and `anotherRemote/master`, you need *two local branches* with *diverse names*
-
----
-
-## Fetching updates
-
-To check if a *remote* has any *update* available, git provides th `git fetch` subcommand.
-* `git fetch a-remote` checks if `a-remote` has any new information. If so, it downloads it.
-  * **Note**: *it does **not** merge* it anywhere, it just memorizes its current status
-* `git fetch` without a remote:
-  * if `HEAD` is *attached* and the *current branch* has an *upstream*, then the *remote* that is hosting the *upstream branch* is fetched
-  * otherwise, `origin` is fetched, if present
-* To apply the updates, is then necessary to use *manually* use `merge`
-
-The new *information fetched* includes new *commits*, *branches*, and *tags*.
-
----
 
 ## Fetch + merge example
 
@@ -2183,13 +1840,13 @@ class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
 
-➡️ Next: Changes happen on `somesite.com/repo.git` and on our repository concurrently ➡️
+➡️ Successivo: Vengono apportate modifiche contemporaneamente su `somesite.com/repo.git` e sul nostro repository ➡️
 
 ---
 
-## Fetch + merge example
+## Esempio di Fetch + merge
 
-⬇️ Changes happen on `somesite.com/repo.git` and on our repository concurrently ⬇️
+⬇️ Vengono apportate modifiche contemporaneamente su `somesite.com/repo.git` e sul nostro repository ⬇️
 
 ```mermaid
 flowchart RL
@@ -2232,13 +1889,13 @@ class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
 
-➡️ `git fetch && git merge origin/master` (assuming no conflicts or conflicts resolved) ➡️
+➡️ `git fetch && git merge origin/master` (assumendo nessun conflitto o conflitti risolti) ➡️
 
 ---
 
-## Fetch + merge example
+## Esempio Fetch + merge 
 
-⬇️ `git fetch && git merge origin/master` (assuming no conflicts or conflicts resolved) ⬇️
+⬇️ `git fetch && git merge origin/master` (assumendo nessun conflitto o conflitti risolti) ⬇️
 
 ```mermaid
 flowchart RL
@@ -2282,44 +1939,42 @@ class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
 
-If there had been no updates locally, we would have experienced a *fast-forward*
+Se non ci fossero stati aggiornamenti localmente, avremmo assistito ad un *fast-forward*.
 
 ---
-
 ## `git pull`
 
-*Fetching* the remote with the upstream branch and then *merging* is *extremely common*,
-so common that there is a special subcommand that operates.
+Fa *fetch* del remoto con il ramo upstream e poi *mergiarlo* è *estremamente comune*, così comune che esiste un sottocomando speciale che esegue questa operazione.
 
-`git pull` is equivalent to `git fetch && git merge FETCH_HEAD`
-* `git pull remote` is the same as `git fetch remote && git merge FETCH_HEAD`
-* `git pull remote branch` is the same as `git fetch remote && git merge remote/branch`
+`git pull` è equivalente a `git fetch && git merge FETCH_HEAD`
+* `git pull remote` è uguale a `git fetch remote && git merge FETCH_HEAD`
+* `git pull remote branch` è uguale a `git fetch remote && git merge remote/branch`
 
-`git pull` is more commonly used than `git fetch` + `git merge`,
-still, it is important to understand that *it is not a primitive operation*
-
----
-
-## Sending local changes
-
-Git provides a way to *send* changes to a remote: `git push remote branch`
-* sends the current branch changes to `remote/branch`, and updates the remote `HEAD`
-* if the branch or the remote is omitted, then the *upstream* branch is used
-* `push` *requires writing rights to the remote repository*
-* `push` *fails* if the pushed branch is not a *descendant* of the destination branch, which means:
-  * the destination branch has *work that is not present* in the local branch
-  * the destination branch *cannot be fast-forwarded* to the local branch
-  * the commits on the destination branch *are not a subset* of the ones on the local branch
-
-#### Pushing tags
-
-By default, `git push` does not send *tags*
-* `git push --tags` sends only the tags
-* `git push --follow-tags` sends commits and then tags
+`git pull` è usato più comunemente di `git fetch` + `git merge`,
+nonostante ciò, è importante capire che *non è un'operazione primitiva*.
 
 ---
 
-## Example with git pull and git push
+## Invio delle modifiche locali
+
+Git fornisce un modo per *inviare* le modifiche a un remoto: `git push remote branch`
+* invia le modifiche del ramo corrente a `remote/branch`, e aggiorna il remoto `HEAD`
+* se il ramo o il remoto vengono omessi, allora viene utilizzato il ramo *upstream*
+* `push` *richiede i diritti di scrittura sul repository remoto*
+* `push` *fallisce* se il ramo pushato non è un *discendente* del ramo di destinazione, il che significa:
+  * il ramo di destinazione ha *lavoro non presente* nel ramo locale
+  * il ramo di destinazione *non può essere portato avanti velocemente* (fast-forwarded) al ramo locale
+  * i commit sul ramo di destinazione *non sono un sottoinsieme* di quelli sul ramo locale
+
+#### Pushare i tag
+
+Per impostazione predefinita, `git push` non invia i *tag*
+* `git push --tags` invia solo i tag
+* `git push --follow-tags` invia i commit e poi i tag
+
+---
+
+## Esempio con git pull e git push
 
 ```mermaid
 flowchart RL
@@ -2362,13 +2017,13 @@ class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
 
-➡️ Next: [some changes] `git add . && git commit` ➡️
+➡️ Successivo: [alcune modifiche] `git add . && git commit` ➡️
 
 ---
 
-## Example with git pull and git push
+## Esempio con git pull e git push
 
-⬇️ [some changes] `git add . && git commit` ⬇️
+⬇️ [alcune modifiche] `git add . && git commit` ⬇️
 
 ```mermaid
 flowchart RL
@@ -2415,7 +2070,7 @@ class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8
 
 ---
 
-## Example with git pull and git push
+## Esempio con git pull e git push
 
 ⬇️ `git push` ⬇️
 
@@ -2460,16 +2115,16 @@ class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
 
-* Everything okay! `origin/master` was a *subset* of `master`
-* The remote `HEAD` can be *fast-forwarded*
+* Tutto okay! `origin/master` era un *sottoinsieme* di `master`
+* Il `HEAD` remoto può essere *fast-forwarded*
 
-➡️ Next: someone else pushes a change ➡️
+➡️ Successivo: qualcun altro effettua un push di una modifica ➡️
 
 ---
 
-## Example with git pull and git push
+## Esempio con git pull e git push
 
-⬇️ someone else pushes a change ⬇️
+⬇️ qualcun altro effettua un push di una modifica ⬇️
 
 ```mermaid
 flowchart RL
@@ -2512,13 +2167,13 @@ class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
 
-➡️ Next: [some changes] `git add . && git commit` ➡️
+➡️ Successivo: [alcune modifiche] `git add . && git commit` ➡️
 
 ---
 
-## Example with git pull and git push
+## Esempio con git pull e git push
 
-⬇️ [some changes] `git add . && git commit` ⬇️
+⬇️ [alcune modifiche] `git add . && git commit` ⬇️
 
 ```mermaid
 flowchart RL
@@ -2560,12 +2215,11 @@ class HEAD,HEADL head;
 class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
-
-➡️ Next: `git push` ➡️
+➡️ Successivo: `git push` ➡️
 
 ---
 
-## Example with git pull and git push
+## Esempio con git pull e git push
 
 ⬇️ `git push` ⬇️
 
@@ -2583,10 +2237,11 @@ hint: (e.g., 'git pull ...') before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 ```
 
-* `master` is not a *superset* of `origin/master`
-  * commit `10` is in `origin/master` but not in `master`, preventing a remote *fast-forward*
-* How to solve?
-  * (Git's error explains it pretty well)
+* `master` non è un *superset* di `origin/master`
+  * il commit `10` è presente in `origin/master` ma non in `master`, impedendo un *fast-forward* remoto.
+* Come risolvere?
+  * (L'errore di Git lo spiega piuttosto bene)
+
 {{% /fragment %}}
 
 {{% fragment %}}
@@ -2595,9 +2250,9 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 
 ---
 
-## Example with git pull and git push
+## Esempio con git pull e git push
 
-⬇️ `git pull` (assuming no merge conflicts, or after conflict resolution) ⬇️
+⬇️ `git pull` (assumendo nessun conflitto di merge, o dopo la risoluzione del conflitto) ⬇️
 
 ```mermaid
 flowchart RL
@@ -2641,13 +2296,13 @@ class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
 
-* Now `master` is a *superset* of `origin/master`! (all the commits in `origin/master`, plus `11` and `12`)
+* Ora `master` è un *superset* di `origin/master`! (tutti i commit in `origin/master`, più `11` e `12`)
 
-➡️ Next: `git push` ➡️
+➡️ Successivo: `git push` ➡️
 
 ---
 
-## Example with git pull and git push
+## Esempio con git pull e git push
 
 
 ⬇️ `git push` ⬇️
@@ -2694,8 +2349,7 @@ class HEAD,HEADL head;
 class master,masterl,bug22,serverless,imported branch;
 class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,CL1,CL2,CL3,CL4,CL5,CL6,CL7,CL8,CL9,CL10,CL11,CL12,CL13 commit;
 ```
-
-The push suceeds now!
+Il push ha avuto successo!
 
 
 ---
@@ -2705,87 +2359,87 @@ The push suceeds now!
 
 ---
 
-## Git repository hosting
+## Hosting di repository Git
 
-Several services allow the creation of *shared repositories on the cloud*.
-They *enrich* the base git model with services built around the tool:
+Diversi servizi permettono la creazione di *repository condivisi sul cloud*.
+Essi *arricchiscono* il modello base di Git con servizi integrati nello strumento:
 
-* **Forks**: copies of a repository associated to different users/organizations
-* **Pull requests** (or **Merge requests**): formal requests to *pull* updates from *forks*
-  * repositories do not allow pushes from everybody
-  * what if we want to contribute to a project we cannot push to?
-    * *fork* the repository (we *own* that copy)
-    * write the contribution and push to our *fork*
-    * ask the maintainers of the *original repository* to *pull from* our fork
-* **Issue tracking**
+* **Fork**: copie di un repository associate a diversi utenti/organizzazioni
+* **Pull request** (o **Merge request**): richieste formali per *effettuare un pull* di aggiornamenti da *fork*
+  * i repository non permettono il push da parte di chiunque
+  * cosa succede se vogliamo contribuire a un progetto in cui non possiamo effettuare il push?
+    * *forchiamo* il repository (possediamo quella copia)
+    * scriviamo il contributo ed effettuiamo il push sul nostro *fork*
+    * chiediamo ai manutentori del *repository originale* di *effettuare un pull* dal nostro fork
+* **Gestione delle issue**
 
 ---
 
-## Most common services
+## Servizi più comuni
 
 * <i class="fa-brands fa-github"></i> **GitHub**
-  * Replaced Sourceforge as the *de-facto standard* for open source projects hosting
-  * *Academic plan*
+  * Ha sostituito Sourceforge come *standard di fatto* per l'hosting di progetti open source
+  * *Piano accademico*
 * <i class="fa-brands fa-gitlab"></i> **GitLab**
-  * Available for free as *self-hosted*
-  * Userbase grew when Microsoft acquired GitHub
+  * Disponibile gratuitamente come *self-hosted*
+  * La base utenti è cresciuta quando Microsoft ha acquisito GitHub
 * <i class="fa-brands fa-bitbucket"></i> **Bitbucket**
-  * From Atlassian
-  * Well integrated with other products (e.g., Jira)
+  * Di Atlassian
+  * Ben integrato con altri prodotti (es., Jira)
 
 
 ---
 
 ## <i class="fa-brands fa-github"></i> GitHub
 
-* *Hosting* for git repositories
-* *Free for open source*
-* *Academic accounts*
-* *De-facto standard* for open source projects
-* One *static website* per-project, per-user, and per-organization
-  * (a feature exploited by these slides)
+* *Hosting* per repository Git
+* *Gratuito per l'open source*
+* *Account accademici*
+* *Standard di fatto* per i progetti open source
+* Un *sito web statico* per progetto, per utente e per organizzazione
+  * (una funzionalità sfruttata da queste diapositive)
 
 ---
 
-## <i class="fa-brands fa-github"></i> repositories as remotes: authentication
+## <i class="fa-brands fa-github"></i> repository come remote: autenticazione
 
-<i class="fa-brands fa-github"></i> repositories are uniquely identified by an **owner** and a **repository name**
-* `owner/repo` is a name unique to every repository
+I repository <i class="fa-brands fa-github"></i> sono identificati in modo univoco da un **owner** e da un **nome del repository**
+* `owner/repo` è un nome unico per ogni repository
 
-<i class="fa-brands fa-github"></i> supports two kind of authentications:
-### **HTTPS** -- Requires authentication via token
-* The <i class="fab fa-windows"></i> port of <i class="fa-brands fa-git"></i> should include a graphical authenticator, otherwise:
-    * a token must be generated with `repo` access scope at https://github.com/settings/tokens/new
-    * the URL `https://github.com/owner/repo.git` becomes: `https://token@github.com/owner/repo.git`
-* Recommended to <i class="fab fa-windows"></i> users with no Unix shell
+<i class="fa-brands fa-github"></i> supporta due tipi di autenticazione:
+### **HTTPS** -- Richiede l'autenticazione tramite token
+* La versione <i class="fab fa-windows"></i> di <i class="fa-brands fa-git"></i> dovrebbe includere un autenticatore grafico, altrimenti:
+    * un token deve essere generato con ambito di accesso `repo` su https://github.com/settings/tokens/new
+    * l'URL `https://github.com/owner/repo.git` diventa: `https://token@github.com/owner/repo.git`
+* Consigliato agli utenti <i class="fab fa-windows"></i> senza shell Unix
 
-### **Secure Shell (SSH)** -- Requires authentication via public/private key pair
-* Recommended to <i class="fab fa-linux"></i>/<i class="fab fa-apple"></i> users and to those with a working SSH installation
-* The same protocol used to open remote terminals on other systems
-* Tell Github your **public** key and use the **private** (and *secret*) key to authenticate
+### **Secure Shell (SSH)** -- Richiede l'autenticazione tramite coppia di chiavi pubblica/privata
+* Consigliato agli utenti <i class="fab fa-linux"></i>/<i class="fab fa-apple"></i> e a coloro che hanno un'installazione SSH funzionante
+* Lo stesso protocollo utilizzato per aprire terminali remoti su altri sistemi
+* Comunicare a Github la chiave **pubblica** e utilizzare la chiave **privata** (e *segreta*) per l'autenticazione
 
 ---
 
-## Configuration of OpenSSH for <i class="fa-brands fa-github"></i>
+## Configurazione di OpenSSH per <i class="fa-brands fa-github"></i>
 
-**Disclaimer**: this is a "quick and dirty" way of generating and using SSH keys.
+**Avviso**: questo è un modo "veloce e sporco" per generare e utilizzare le chiavi SSH.
 <!-- markdown-link-check-disable-next-line -->
-You are warmly recommended to learn how it works and [the best security practices](https://archive.ph/3Pn0L).
+Si consiglia vivamente di imparare come funziona e [le migliori pratiche di sicurezza](https://archive.ph/3Pn0L).
 
-1. If you don't already have one, generate a new key pair
+1. Se non ne avete già una, generate una nuova coppia di chiavi
     * `ssh-keygen`
-    * You can confirm the default options
-    * You can pick an empty password
-        * <i class="fa-solid fa-arrow-up"></i> your private key will be stored *unencrypted* on your file system
-        * please understand the associated security issues, if you don't, use a password.
-2. Obtain your **public key**
+    * È possibile confermare le opzioni predefinite
+    * È possibile scegliere una password vuota
+        * <i class="fa-solid fa-arrow-up"></i> la chiave privata sarà archiviata *senza crittografia* sul file system
+        * si prega di comprendere i problemi di sicurezza associati, in caso contrario, utilizzare una password.
+2. Ottenere la chiave **pubblica**
     * `cat ~/.ssh/id_rsa.pub`
-    * Looks something like:
+    * Appare simile a:
     ```text
-    ssh-rsa AAAAB3Nza<snip, a lot of seemingly random chars>PIl+qZfZ9+M= you@your_hostname
+    ssh-rsa AAAAB3Nza<snip, un sacco di caratteri apparentemente casuali>PIl+qZfZ9+M= you@your_hostname
     ```
-3. Create a new key at https://github.com/settings/ssh/new
-    * Provide a title that allows you to identify the key
-    * Paste your key
+3. Creare una nuova chiave su https://github.com/settings/ssh/new
+    * Fornire un titolo che consenta di identificare la chiave
+    * Incollare la chiave
 
-You are all set! Enjoy your secure authentication.
+Il gioco è fatto! Buon divertimento con l'autenticazione sicura.
