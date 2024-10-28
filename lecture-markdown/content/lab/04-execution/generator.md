@@ -58,5 +58,3 @@ Abbiamo sempre più elementi che ci permettono di creare software di qualità:
 - Grazie a **git** possiamo tenere traccia delle modifiche che apportiamo al software;
 - Grazie a **Gradle** possiamo automatizzare la compilazione e l'esecuzione del software;
     - Inoltre esistono numerosi plugin che ci aiutano ad automatizzare altri aspetti come la qualità del codice (vedi **Checkstyle**);
-
----
