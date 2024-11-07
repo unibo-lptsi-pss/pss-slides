@@ -25,19 +25,20 @@ outputs = ["Reveal"]
 1. [Sistemi di controllo versione](git/)
 1. [Interfacce e composizione](interfaces/)
 1. [Ereditarietà](inheritance/)
+1. [Polimorfismo, classi astratte](polymorphism/)
 1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
+1. [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 <!--
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. 
 1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
->
+-->
 </div>
 <div class="col">
-<!--
-11. [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
-1. [Polimorfismo, classi astratte](polymorphism/)
-1. [Generici](generics/)
+
+13. [Generici](generics/)
 1. [Collezioni](collections/)
+<!--
 1. [Eccezioni](exceptions/)
 1. [Input/Output](io/)
 1. [Lambda e funzioni first-class](lambdas/)

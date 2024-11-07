@@ -971,6 +971,31 @@ Fornisce alcuni metodi di utilità generale
     
 ---
 
+## Equals
+
+* Il metodo `equals` è definito nella classe `Object` e può essere sovrascritto
+* Il metodo `equals` è usato per confrontare due oggetti
+* La sua implementazione di default confronta i riferimenti degli oggetti
+  * La sua implementazione di default è equivalente a `==`
+* La sua implementazione di default è spesso inadeguata
+  * Ad esempio, due oggetti con lo stesso contenuto dovrebbero essere considerati uguali 
+  * == quindi non è un confronto semantico
+* In generale quindi si sovrascrive `equals` per definire un confronto semantico
+
+```java
+class Person {
+    private String name;
+    private int age;
+    // ...
+    @Override
+    public boolean equals(Object o) {
+      return age == person.age && Objects.equals(name, person.name);
+    }
+}
+```
+
+---
+
 ## Annotazione `@Override`
 
 * Metodi che fanno override di metodi di interfacce/classi base possono essere annotati con `@Override`
