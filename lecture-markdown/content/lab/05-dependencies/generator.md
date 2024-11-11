@@ -8,9 +8,7 @@ aliases = ["/build-systems/"]
 
 +++
 
----
-
-# Dipendenze e Librerie
+# Dipendenze e Librerie in Gradle
 {{% import path="cover.md" %}}
 
 ---
