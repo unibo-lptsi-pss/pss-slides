@@ -8,8 +8,18 @@ aliases = ["/build-systems/"]
 
 +++
 
+---
+
+# Dipendenze e Librerie
+{{% import path="cover.md" %}}
+
+---
+
 <!-- write-here "shared-slides/build-systems/it-gradle-dependencies.md" -->
 
+<!-- end-write -->
+
+---
 
 ## JUnit 5 e Gradle
 
@@ -17,7 +27,6 @@ aliases = ["/build-systems/"]
   [<i class="fa-solid fa-link"></i>](https://github.com/junit-team/junit5-samples/junit5-jupiter-starter-gradle)
   [<i class="fa-solid fa-link"></i>](https://docs.gradle.org/current/userguide/java_testing.html#java_testing)
 
----
 
 ```kotlin
 plugins {
@@ -46,4 +55,3 @@ $ ./gradlew test
 $ ./gradlew test --tests it.unibo.*.Buggy*Test # filtra i test da eseguire
 ```
 
-<!-- end-write -->
