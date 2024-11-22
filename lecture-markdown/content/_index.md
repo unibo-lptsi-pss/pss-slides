@@ -38,11 +38,12 @@ outputs = ["Reveal"]
 
 13. [Generici](generics/)
 1. [Collezioni](collections/)
-<!--
 1. [Eccezioni](exceptions/)
+1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
+
+<!--
 1. [Input/Output](io/)
 1. [Lambda e funzioni first-class](lambdas/)
-1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
 1. [Sviluppo di interfacce grafiche (GUI) con Swing](guis-swing/)
 -->
 <!-- 
@@ -53,9 +54,14 @@ outputs = ["Reveal"]
 
 </div></div>
 
-Contenuti laboratorio alla pagina successiva
-
 {{% /smaller %}}
+
+{{% smaller %}}
+Extra:
+- [UML crash course](extra-uml-crash-course/)
+{{% /smaller %}}
+
+Contenuti laboratorio alla pagina successiva
 
 ---
 
