@@ -13,23 +13,6 @@ aliases = ["/advanced-mechanisms-nesting/"]
 {{% import path="cover.md" %}}
 
 ---
-<<<<<<< HEAD
-=======
-
-
-## Contenuto 
->>>>>>> master
-### Argomenti
-
-*  Classi innestate statiche
-*  Inner class
-*  Classi locali
-*  Classi anonime
-*  Mappe del Collection Framework
-
-
----
-
 
 # Classi innestate statiche
 
