@@ -46,7 +46,6 @@ outputs = ["Reveal"]
 
 <!--
 1. [Input/Output](io/)
-
 1. [Sviluppo di interfacce grafiche (GUI) con Swing](guis-swing/)
 -->
 <!-- 
