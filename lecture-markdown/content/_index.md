@@ -41,11 +41,12 @@ outputs = ["Reveal"]
 1. [Eccezioni](exceptions/)
 1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
 1. [Meccanismi avanzati: classi innestate](advanced-mechanisms-nesting/)
+1. [Lambda e funzioni first-class](lambdas/)
 1. [Meccanismi avanzati: enum](advanced-mechanisms-enums/)
 
 <!--
 1. [Input/Output](io/)
-1. [Lambda e funzioni first-class](lambdas/)
+
 1. [Sviluppo di interfacce grafiche (GUI) con Swing](guis-swing/)
 -->
 <!-- 
