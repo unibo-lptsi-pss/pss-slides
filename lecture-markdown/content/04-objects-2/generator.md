@@ -33,12 +33,12 @@ aliases = ["/objects-2/"]
 
 
 
-  *  Codice statico
-  *  Costruttori
-  *  Overloading di metodi
-  *  Approfondimento sui package
-  *  Controllo d'accesso
-  *  Finalizzazione e garbage collection
+*  Codice statico
+*  Costruttori
+*  Overloading di metodi
+*  Approfondimento sui package
+*  Controllo d'accesso
+*  Finalizzazione e garbage collection
 
 
 

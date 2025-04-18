@@ -288,7 +288,7 @@ _Competenza attuale attesa: costruzione di semplici classi; loro esercizio media
       *  (+ Specifico $\rightarrow$ + Generale) `byte`$\rightarrow$`short`$\rightarrow$`int`$\rightarrow$`long`$\rightarrow$`float`$\rightarrow$`double`
   *  Due casi:
       *  In assegnamenti: `long l=100;` diventa `long l=(long)100;`
-      *  Operazioni fra tipi diversi: `10.1+20` diventa `10.1+(double)10`
+      *  Operazioni fra tipi diversi: `10.1+10` diventa `10.1+(double)10`
       *  Passando valori a funzioni
 
 

@@ -23,22 +23,21 @@ aliases = ["/interfaces/"]
 
 
 
-  *  Illustrare concetti generali di *composizione* e *riuso*
-  *  Introdurre il concetto di *interfaccia*
-  *  Discutere il *principio di sostituibilità*
-  *  Evidenziare il *polimorfismo* derivante dalle interfacce
+*  Illustrare concetti generali di *composizione* e *riuso*
+*  Introdurre il concetto di *interfaccia*
+*  Discutere il *principio di sostituibilità*
+*  Evidenziare il *polimorfismo* derivante dalle interfacce
   
-
 
   
 ### Argomenti
 
 
 
-  *  Tipi di composizione e loro realizzazione
-  *  Notazione UML
-  *  `interface` in Java e meccanismi collegati
-  *  Polimorfismo con le interfacce
+*  Tipi di composizione e loro realizzazione
+*  Notazione UML
+*  `interface` in Java e meccanismi collegati
+*  Polimorfismo con le interfacce
   
 
 
