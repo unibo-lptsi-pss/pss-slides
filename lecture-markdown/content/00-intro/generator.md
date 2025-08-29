@@ -35,7 +35,7 @@ aliases = ["/intro/"]
 
 # Sito del corso su `virtuale.unibo.it`
 
-* URL: [https://virtuale.unibo.it/course/view.php?id=65701](https://virtuale.unibo.it/course/view.php?id=65701)
+* URL: [https://virtuale.unibo.it/course/view.php?id=65701](https://virtuale.unibo.it/course/view.php?id=65701) TODO
   * sarà il luogo degli avvisi (e notifiche), forum di discussione, e della pubblicazione del materiale
   * tutti gli studenti che seguono il corso si iscrivano, e lo tengano d'occhio
 
@@ -62,41 +62,43 @@ aliases = ["/intro/"]
 
 # Organizzazione generale del corso
 
-  ## Lezioni aula (giovedì 13-15, venerdì 13-16) - prof. Aguzzi
+## Lezioni aula (giovedì 15-18, venerdì 9-12)
 
-  * Illustrano i concetti teorici, metodologici, e pratici
-  * Basate su slide proiettate (ma non solo)
- 
-  ## Laboratorio (martedì 9-12) - prof. Filaseta
-  
-  * Illustra ulteriori aspetti metodologici e pratici
-  * Con esercizi (da svolgere in autonomia) necessari alla comprensione e alla sperimentazione
-  * *È parte integrante del corso*
+* Illustrano i concetti teorici, metodologici, e pratici
+* Basate su slide proiettate (ma non solo)
 
-  ## Studio a casa
-  * Rilettura slide, esperimenti pre- e/o post-laboratorio
-  * È praticamente obbligatorio se volete rimanere in pari...
+## Laboratorio (martedì 9-12)
 
----
+* Illustra aspetti metodologici e pratici
+* Con esercizi (da svolgere in autonomia) necessari alla comprensione e alla sperimentazione
+    * Con l'aiuto del docente e del tutor per dubbi, problemi, e *correzioni*
+* *È parte integrante del corso*, è **fondamentale per riuscire a sostenere l'esame**
 
-
-## Conoscenze e abilità da conseguire
-
-> Al termine del corso, lo studente possiede le conoscenze di base dei paradigmi di programmazione per **software in-the-large**, quali il **paradigma object-oriented** e alcuni aspetti di quello **funzionale**, dei suoi principali **pattern di progettazione**, della sua incarnazione in linguaggi moderni (Java) e relativi framework di sviluppo. È in grado quindi **di progettare e sviluppare applicazioni complete di medio-piccole dimensioni**, usando **processi di sviluppo** e **tecniche agili**, tra cui l'approccio DevOps alla conduzione del progetto.
-
+## Studio a casa
+* Rilettura slide
+* Completamento di tutti gli esercizi presentati in laboratorio
+* È praticamente obbligatorio se volete rimanere in pari...
 
 ---
 
 # Contenuti
 
-  ## Programma (di massima) del corso
+## Programma (di massima) del corso
 
-  * Elementi base di programmazione *object-oriented (OO)* e Java
-  * Incapsulamento, Ereditarietà, Polimorfismo
-  * Programmazione generica (polimorfismo ad-hoc)
-  * Librerie (e.g., testing, I/O, interfacce grafiche)
-  * Integrazione col paradigma funzionale (Java 8 lambda)
-  * Pattern e *buone pratiche di programmazione* (cf. agile)
+* Elementi base di programmazione *object-oriented (OO)*
+    * Incapsulamento, Ereditarietà, Polimorfismo
+* Conoscenza del linguaggio Java
+    * Vi sarà utile anche per capire il linguaggio Kotlin a Sistemi Mobile
+* Aspetti avanzati dei linguaggi OO
+    * Generici e varianza
+    * Reflection
+    * Lambda expressions, stream, e programmazione ibrida OO/funzionale
+* Librerie (incluse interfacce grafiche)
+* Testing
+* Pattern e *buone pratiche di programmazione*
+* Organizzazione di un progetto software
+    * Version control (`git`)
+    * Build automation (`gradle`)
 
 ---
 
@@ -126,15 +128,15 @@ aliases = ["/intro/"]
 # Software
 ## Java
 * OpenJDK 21 (Open Java Development KIT) https://adoptium.net/
-* Visual Studio Code https://code.visualstudio.com/
+* IntelliJ Idea https://www.jetbrains.com/idea/
 * Gradle https://gradle.org/
 * Git https://git-scm.com/
 
 ## Istruzioni sull'installazione (sul PC di casa)
 * https://unibo-lptsi-pss.github.io/software-installation/
-* Molto importante rendersi operativi a casa nel giro di una settimana!
-  * $\Rightarrow$ sarebbe consigliato l'uso del sistema operativo Linux...
-ore a 
+* **Molto importante rendersi operativi prima del primo laboratorio!**
+  * $\Rightarrow$ è consigliato l'uso del sistema operativo Linux
+
 ---
 
 # Sul ruolo di questo corso
@@ -158,8 +160,15 @@ ore a
 
 ## Sviluppo + Discussione progetto
 
-* *Progetto sviluppato in gruppo (2-3 studenti)* <!-- ; 60-70 ore a testa -->
+* *Progetto sviluppato in gruppo (3-4 studenti)* <!-- ; 60-70 ore a testa -->
+    * Potete formare i gruppi anche prima del progetto, e aiutarvi per i laboratori
+    * Il progetto vero e proprio andrà iniziato dopo la fine delle lezioni, perché solo allora avrete tutti gli elementi necessari
 * Concordato col docente prima di iniziare
+* Esempi di progetti del passato:
+    * Tutti i progetti passati
+        * https://github.com/orgs/unibo-oop-projects/repositories
+    * Progetti "carini" (notare che non significa che siano ben progettati!)
+        * https://unibo-oop.github.io/showcase/
 * Da relazionare con qualità, poi *discusso oralmente* (su appuntamento)
     * I dettagli (cf. consegna, relazione etc.) discussi durante il corso
 

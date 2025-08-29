@@ -28,10 +28,92 @@ aliases = ["/objects/"]
 *  Accenno a package e librerie
 *  Stampe a video
 *  Primo semplice programma Java
-  
+
 ---
 
-# Elementi base dei tipi di Java
+## Astrazione OO
+*  **Everything is an object.** Un oggetto è una entità che fornisce operazioni per essere manipolata.
+*  **Un programma è un set di oggetti che si comunicano cosa fare scambiandosi messaggi.** Questi messaggi sono richieste per eseguire le operazioni fornite.
+*  **Un oggetto ha una memoria fatta di altri oggetti.** Un oggetto è ottenuto impacchettando altri oggetti.
+*  **Ogni oggetto è istanza di una classe.** Una classe descrive il comportamento dei suoi oggetti.
+*  **Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.** La classe indica tra le altre cose quali operazioni sono fornite, quindi per comunicare con un oggetto basta sapere qual è la sua classe.
+
+
+---
+
+## Classi e Oggetti
+
+Due forni a microonde dello stesso modello sono due oggetti distinti, ma hanno la stessa struttura e gli stessi comportamenti.
+
+La **classe** in OOP è la descrizione di un tipo di oggetto, ne definisce:
+* *struttura* (come è fatta, quali sono gli elementi che la compongono)
+* *comportamento* (cosa può fare, quali operazioni sono possibili)
+    * il comportamento potrebbe prevedere l'*interazione* con altri oggetti
+
+A partire da una classe, si possono creare degli **oggetti**
+* Si dice che l'opggetto è *istanza* della classe
+
+Un programma OOP è un insieme di classi.
+Il comportamento è definito a partire da un punto di ingresso (il `main`),
+e si sviluppa attraverso l'interazione tra gli oggetti.
+
+---
+
+Flusso:
+
+* HelloWorld in Java che mostra il punto d'ingresso senza codice
+* Interazione di base fra il programma e il sistema utilizzando System.out.println
+    * Esiste un oggetto sistema (sempre disponibile e creato dalla JVM) che si chiama `System.out` e rappresenta lo standard output
+    * Questo oggetto può ricevere messaggi `print` (funziona come `printf` in C) che stampano a video quello che viene fornito e messaggi `println` che vanno anche a capo
+* Abbiamo usato una Stringa `"..."`: esistono alcuni tipi di dato che sono forniti dal sistema
+
+# Tipi primitivi e operatori
+
+* In java i tipi di dato si dividono in due categorie: le classi e i tipi primitivi
+    * Infatti Java non è un linguaggio OOP "puro" (i primitivi esistono per motivi di efficienza)
+* descrizione dei primitivi
+* operatori su primitivi (+ - * / % < > <= >= == != && || !)
+* descrizione delle stringhe (che sono classe)
+* concatenazione di stringhe
+* definizione di variabili con tipo esplicito o con `var`
+
+---
+
+### Esempio (a parole) di programma OOP
+
+TODO: Gianlu metti un UML
+
+Programma che scalda un piatto di pasta e lo mangia:
+* Classi: `MicrowaveOven`, `Food`
+* Programma:
+    1. Crea un oggetto di tipo `MicrowaveOven`, modello `"HotPoint Ariston"`, nome: `oven`
+    2. Crea un oggetto di tipo `Food`, tipo: `"Pasta al sugo"`, nome: `pasta`
+    3. Invia il messaggio `insert(pasta)` all'oggetto `oven`
+    4. Invia il messaggio `setTime(60)` all'oggetto `oven`
+    5. Invia il messaggio `setPower(800)` all'oggetto `oven`
+    6. Invia il messaggio `start()` all'oggetto `oven`
+    7. Invia il messaggio `getContent()` all'oggetto `oven`
+    8. Invia il messaggio `consume()` all'oggetto `pasta`
+
+---
+
+Flusso:
+* Uml del programma di esempio
+* Costruzione di classi (solo campi)
+* Istanziazione di oggetti
+* Programma di esempio quindi quello sopra ma senza metodi
+* Individuare la scomodità: vogliamo controllare che la potenza non superi 800W.
+* introdurre `if` (`else`/`else if`)
+* Il controllo di potenza lo deve fare il microonde, non il programma: se provate a scaldare la pasta a 8KW, il microonde semplicemente non ve lo fa fare
+* Aggiunta di metodi alla classe
+
+## Ogni oggetto ha una interfaccia
+
+### Classi, istanze, metodi, interfaccia
+*  Oggetti simili sono istanze della stessa *__classe__*, o *__tipo__*
+*  La classe definisce i messaggi ricevibili, attraverso *__metodi__*
+*  L'insieme dei metodi prende il nome di *__interfaccia__*
+*  Un messaggio ha effetto su stato e comportamento dell'oggetto
 
 ---
 

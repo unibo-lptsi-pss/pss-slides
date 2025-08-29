@@ -10,7 +10,7 @@ aliases = ["/oo-abstraction/"]
 
 # Ingegneria e astrazione orientata agli oggetti
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -186,17 +186,67 @@ $\Rightarrow$ (quasi) tutti aspetti da discutere nel corso
 ## 2. *comportamento*
 ## 3. *identità*
 
----
-
-## Astrazione OO: definizione più dettagliata
-*  **Everything is an object.** Un oggetto è una entità che fornisce operazioni per essere manipolata.
-*  **Un programma è un set di oggetti che si comunicano cosa fare scambiandosi messaggi.** Questi messaggi sono richieste per eseguire le operazioni fornite.
-*  **Un oggetto ha una memoria fatta di altri oggetti.** Un oggetto è ottenuto impacchettando altri oggetti.
-*  **Ogni oggetto è istanza di una classe.** Una classe descrive il comportamento dei suoi oggetti.
-*  **Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.** La classe indica tra le altre cose quali operazioni sono fornite, quindi per comunicare con un oggetto basta sapere qual è la sua classe.
 
 ---
 
+Esempio "lampadina" in notazione UML (Unified Modelling Language):
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', fontFamily: 'Inconsolata' }}}%%
+classDiagram
+class Light {
+<< interface >>
+  on()
+  off()
+  brighten()
+  dim()
+}
+```
+
+È un linguaggio visuale che consente di rappresentare gli elementi di un sistema software in modo standardizzato.
+* Funziona particolarmente bene per sistemi OO
+
+---
+
+
+### Un proto-oggetto in C
+
+La stessa lampadina, in C, diventerebbe...
+
+```c
+typedef struct { // stato
+    int isOn;
+    double brightness;
+} Lamp;
+
+// comportamento (interfaccia)
+void on(Lamp* l) {
+    l->isOn = 1;
+}
+
+void off(Lamp* l) {
+    l->isOn = 0;
+}
+
+void brighten(Lamp* l) {
+    if (l->isOn) l->brightness += 0.1;
+}
+
+void dim(Lamp* l) {
+    if (l->isOn && l->brightness > 0) l->brightness -= 0.1;
+}
+
+void main(void) {
+    Lamp myLamp = {0, 0.0}; // Creazione dell'oggetto: nel caso di C, il riferimento in memoria è l'identità
+    on(&myLamp); // messaggio
+    brighten(&myLamp); // messaggio
+}
+
+```
+
+---
+
+<!--
 ## Sono questi concetti utili per il problem space?
     
 ### Esempio di sistema reale: la gestione informativa di un ateneo
@@ -216,22 +266,8 @@ Come organizzarla? Quale servizi fornisce?
 {{% /fragment %}}
 
 ---
-## Classe vs Oggetto
-### Classe
-- Definisce la **struttura** di un oggetto
-  - può essere visto come uno "stampo" per creare oggetti
-- Definisce i **comportamenti** di un oggetto
-  - metodi che possono essere chiamati su un oggetto
-  - Ad esempio, tutte le lampadine possono essere accese o spente (metodi `on()` e `off()`)
-- Definisce le **proprietà** di un oggetto
-  - campi che descrivono lo stato dell'oggetto
-  - Ad esempio, una lampadina ha un colore, una luminosità, un'intensità
+-->
 
-### Oggetto
-- È un'**istanza** di una classe
-  - è un'entità concreta che esiste in memoria
-  - Data la classe `Lampadina`, un'istanza di `Lampadina` è una lampadina specifica, con un colore, una luminosità, un'intensità
----
 ## OO: problem space, solution space
 
 ### L'esperienza mostra che:
@@ -247,38 +283,20 @@ Come organizzarla? Quale servizi fornisce?
 
 ## Overview
 *  Ogni oggetto ha un'*interfaccia*
-*  Un oggetto *fornisce un servizio*
-*  Un oggetto deve *nascondere l'implementazione*
+    * I messaggi che può ricevere
+*  Un oggetto (ben progettato) *fornisce uno e un solo servizio*
+    * "Single Responsibility Principle"
+    * Non vi aspettate che il vostro microonde possa anche lavare i panni, giusto?
+*  Un oggetto (ben progettato) deve *nascondere l'implementazione*
+    * Incapsulamento e "information hiding"
+    * Non vi aspettate di dover smontare il microonde per scaldare un piatto di pasta, giusto?
 *  Le implementazioni possono essere *riusate*
-*  Il riuso tramite ereditarietà
+    * "Don't Repeat Yourself" (DRY)
+    * Non dovete cambiare microonde se invece della pasta scaldate il riso, giusto?
 
 ---
 
-## Ogni oggetto ha una interfaccia
-  
-### Classi, istanze, metodi, interfaccia
-*  Oggetti simili sono istanze della stessa *__classe__*, o *__tipo__*
-*  La classe definisce i messaggi ricevibili, attraverso *__metodi__*
-*  L'insieme dei metodi prende il nome di *__interfaccia__*
-*  Un messaggio ha effetto su stato e comportamento dell'oggetto
-
----
-
-Esempio "lampadina" in notazione UML (Unified Modelling Language):
-
-```mermaid
-%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', fontFamily: 'Inconsolata' }}}%%
-classDiagram
-class Light {
-<< interface >>
-  on()
-  off()
-  brighten()
-  dim()
-}
-```
-
----
+<!--
 
 ## Un oggetto fornisce un servizio
   
@@ -396,6 +414,7 @@ Shape <|-- Triangle
 
 ---
 
+-->
 
 # Java
 
@@ -494,6 +513,11 @@ flowchart TB
 * Java 19 (2022): supporto a Linux/RISC-V
 * Java 20 (2023): miglioramenti minori, introduzione di nuove features (alpha)
 *  **$\Rightarrow$ Java 21 LTS (2023)**: Virtual threads, record patterns
+* Java 22 (2024):  Unnamed Variables, Stream Gatherers.
+* Java 23 (2024): miglioramenti alla gestione della memoria, documentazione in Markdown
+* Java 24 (2025): class file API, miglioramenti minori
+* Java 25 LTS (2025): Instance Main Methods
+
 ---
 
 ### Modello di sviluppo attuale
@@ -503,3 +527,8 @@ flowchart TB
     * Ne esistono anche altre!
         * Eclipse OpenJ9, Amazon Corretto, GraalVM...
 
+---
+
+# Ingegneria e astrazione orientata agli oggetti
+
+{{% import path="front-page.md" %}}

@@ -5,5 +5,6 @@
 ### [Gianluca Aguzzi --- `gianluca.aguzzi@unibo.it`](mailto:gianluca.aguzzi@unibo.it)
 ### [Angelo Filaseta --- `angelo.filaseta@unibo.it`](mailto:angelo.filaseta@unibo.it)
 
-[<i class="fa fa-print" aria-hidden="true"></i> versione stampabile](?print-pdf&pdfSeparateFragments=false)
+Compiled on: {{< today >}} --- [<i class="fa fa-print" aria-hidden="true"></i> versione stampabile](?print-pdf&pdfSeparateFragments=false)
 
+[<i class="fa fa-undo" aria-hidden="true"></i> back](..)
