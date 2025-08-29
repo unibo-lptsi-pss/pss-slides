@@ -8,7 +8,7 @@ aliases = ["/intro/"]
 
 +++
 
-# Introduzione al corso *Progettazione e Sviluppo del Software (PSS) a.a. 24-25*
+# Introduzione al corso *Progettazione e Sviluppo del Software (PSS)*
 
 {{% import path="front-page.md" %}}
 
@@ -16,10 +16,13 @@ aliases = ["/intro/"]
 
 # Docenti
 
-* Titolare del corso: Prof. Gianluca Aguzzi
+* Titolare del corso: Prof. Danilo Pianini
+  * e-mail: [`danilo.pianini@unibo.it`](mailto:danilo.pianini@unibo.it)
+  * homepage: [`https://www.unibo.it/sitoweb/danilo.pianini`](https://www.unibo.it/sitoweb/danilo.pianini)
+* Modulo 2: Prof. Gianluca Aguzzi
   * e-mail: [`gianluca.aguzzi@unibo.it`](mailto:gianluca.aguzzi@unibo.it)
   * homepage: [`https://www.unibo.it/sitoweb/gianluca.aguzzi`](https://www.unibo.it/sitoweb/gianluca.aguzzi)
-* Modulo 2 (Lab): Prof. Angelo Filaseta
+* Modulo 3 (Lab): Prof. Angelo Filaseta
   * e-mail: [`angelo.filaseta@unibo.it`](mailto:angelo.filaseta@unibo.it)
   * homepage: [`https://www.unibo.it/sitoweb/angelo.filaseta/`](https://www.unibo.it/sitoweb/angelo.filaseta/)
 
