@@ -188,17 +188,17 @@ $\Rightarrow$ (quasi) tutti aspetti da discutere nel corso
 
 ---
 
-Esempio "lampadina" in notazione UML (Unified Modelling Language):
+Esempio "microonde" in notazione UML (Unified Modelling Language):
 
 ```mermaid
 %%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', fontFamily: 'Inconsolata' }}}%%
 classDiagram
-class Light {
+class MicrowaveOven {
 << interface >>
-  on()
-  off()
-  brighten()
-  dim()
+    setTime(int seconds)
+    setPower(int watts)
+    start()
+    consume()
 }
 ```
 
@@ -210,35 +210,38 @@ class Light {
 
 ### Un proto-oggetto in C
 
-La stessa lampadina, in C, diventerebbe...
+<!-- Lo stesso forno a microonde in C diventerebbe... -->
 
 ```c
 typedef struct { // stato
+    int power;
+    int desiredTime;
     int isOn;
-    double brightness;
-} Lamp;
+} MicrowaveOven;
 
-// comportamento (interfaccia)
-void on(Lamp* l) {
-    l->isOn = 1;
+void setPower(MicrowaveOven* oven, int watts) {
+    if (watts > 0) oven->power = watts;
 }
 
-void off(Lamp* l) {
-    l->isOn = 0;
+void setTime(MicrowaveOven* oven, int seconds) {
+    if (seconds > 0) oven->desiredTime = seconds;
 }
 
-void brighten(Lamp* l) {
-    if (l->isOn) l->brightness += 0.1;
+void start(MicrowaveOven* oven) {
+    if (oven->isOn || oven->desiredTime == 0 || oven->power == 0) return;
+    oven->isOn = 1;
 }
 
-void dim(Lamp* l) {
-    if (l->isOn && l->brightness > 0) l->brightness -= 0.1;
+void consume(MicrowaveOven* oven) {
+    if (oven->isOn) oven->isOn = 0; // si spegne automaticamente
 }
 
 void main(void) {
-    Lamp myLamp = {0, 0.0}; // Creazione dell'oggetto: nel caso di C, il riferimento in memoria è l'identità
-    on(&myLamp); // messaggio
-    brighten(&myLamp); // messaggio
+    MicrowaveOven myOven = {0, 0, 0};
+    setPower(&myOven, 800);
+    setTime(&myOven, 120);
+    start(&myOven);
+    consume(&myOven);
 }
 
 ```
