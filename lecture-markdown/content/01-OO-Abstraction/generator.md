@@ -514,11 +514,11 @@ flowchart TB
 * Java 18 (2022): miglioramenti minori
 * Java 19 (2022): supporto a Linux/RISC-V
 * Java 20 (2023): miglioramenti minori, introduzione di nuove features (alpha)
-*  **$\Rightarrow$ Java 21 LTS (2023)**: Virtual threads, record patterns
+* Java 21 LTS (2023): Virtual threads, record patterns
 * Java 22 (2024):  Unnamed Variables, Stream Gatherers.
 * Java 23 (2024): miglioramenti alla gestione della memoria, documentazione in Markdown
 * Java 24 (2025): class file API, miglioramenti minori
-* Java 25 LTS (2025): Instance Main Methods
+* **$\Rightarrow$ Java 25 LTS (2025)**: Instance Main Methods
 
 ---
 
