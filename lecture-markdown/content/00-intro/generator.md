@@ -35,7 +35,7 @@ aliases = ["/intro/"]
 
 # Sito del corso su `virtuale.unibo.it`
 
-* URL: [https://virtuale.unibo.it/course/view.php?id=65701](https://virtuale.unibo.it/course/view.php?id=65701) TODO
+* URL: [https://virtuale.unibo.it/course/view.php?id=65701](https://virtuale.unibo.it/course/view.php?id=65701)
   * sarà il luogo degli avvisi (e notifiche), forum di discussione, e della pubblicazione del materiale
   * tutti gli studenti che seguono il corso si iscrivano, e lo tengano d'occhio
 

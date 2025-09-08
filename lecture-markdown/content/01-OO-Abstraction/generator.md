@@ -287,7 +287,7 @@ Come organizzarla? Quale servizi fornisce?
 *  Ogni oggetto ha un'*interfaccia*
     * I messaggi che può ricevere
 *  Un oggetto (ben progettato) *fornisce uno e un solo servizio*
-    * "Single Responsibility Principle"
+    * "Single Responsibility Principle" (SRP)
     * Non vi aspettate che il vostro microonde possa anche lavare i panni, giusto?
 *  Un oggetto (ben progettato) deve *nascondere l'implementazione*
     * Incapsulamento e "information hiding"
