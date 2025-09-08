@@ -30,7 +30,7 @@ aliases = ["/java-structured-programming/"]
 
 ---
 
-- Java 21
+- Java 25
     - *write once, run everywhere*
     - JDK: JRE (JVM [`java`] + JCL) + strumenti di sviluppo (`javac`, ...)
 - Costrutti Java per la OOP

@@ -127,7 +127,7 @@ aliases = ["/intro/"]
 
 # Software
 ## Java
-* OpenJDK 21 (Open Java Development KIT) https://adoptium.net/
+* OpenJDK 25 (Open Java Development KIT) https://jdk.java.net/25/
 * IntelliJ Idea https://www.jetbrains.com/idea/
 * Gradle https://gradle.org/
 * Git https://git-scm.com/
