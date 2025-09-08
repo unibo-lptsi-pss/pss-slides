@@ -3,11 +3,11 @@
 title = "Progettazione e Sviluppo del Software"
 description = "Progettazione e Sviluppo del Software, Tecnologie dei Sistemi Informatici"
 outputs = ["Reveal"]
-aliases = ["/objects/"]
+aliases = ["/basics/"]
 
 +++
 
-# Oggetti e classi
+# Introduzione al linguaggio Java
 
 {{% import path="front-page.md" %}}
 
@@ -16,47 +16,685 @@ aliases = ["/objects/"]
 ## Outline
   
 ### Goal della lezione
-*  Illustrare i concetti base del paradigma object-oriented
 *  Mostrare un primo semplice programma Java
-*  Fornire una panoramica di alcuni meccanismi Java
+*  Fornire una panoramica di alcuni meccanismi base di Java
   
 ### Argomenti
-*  Oggetti e riferimenti
-*  Tipi primitivi
-*  Classi, metodi e campi
-*  Accenno a package e librerie
-*  Stampe a video
-*  Primo semplice programma Java
+* Stampa a video
+* Tipi primitivi e operatori
+* Variabili e riferimenti
 
 ---
 
-## Astrazione OO
-*  **Everything is an object.** Un oggetto è una entità che fornisce operazioni per essere manipolata.
-*  **Un programma è un set di oggetti che si comunicano cosa fare scambiandosi messaggi.** Questi messaggi sono richieste per eseguire le operazioni fornite.
-*  **Un oggetto ha una memoria fatta di altri oggetti.** Un oggetto è ottenuto impacchettando altri oggetti.
-*  **Ogni oggetto è istanza di una classe.** Una classe descrive il comportamento dei suoi oggetti.
-*  **Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.** La classe indica tra le altre cose quali operazioni sono fornite, quindi per comunicare con un oggetto basta sapere qual è la sua classe.
+## Hello World in Java
+
+```java
+void main() {
+    System.out.println("Hello, World!");
+}
+```
+In C sarebbe:
+```c
+#include <stdio.h>
+int main(void) {
+    printf("Hello, World!\n");
+    return 0;
+}
+```
+
+Cos'è `System.out.println`? 
+  - In ogni programma java esiste un oggetto di sistema chiamato `System.out` che rappresenta lo standard output
+  - Questo oggetto può ricevere messaggi `print` (funziona come `printf` in C) che stampano a video quello che viene fornito e messaggi `println` che vanno anche a capo
+---
+
+## Eseguimolo!
+
+- Visto che è un java è un linguaggio compilato, prima di eseguirlo dobbiamo compilarlo
+- Salviamolo in un file `HelloWorld.java`
+- Compiliamolo con `javac HelloWorld.java`
+- Eseguiamolo con `java HelloWorld`
+- Dovremmo vedere il messaggio "Hello, World!" stampato a video.
+
+---
+## Il tool `JShell`
+
+- In fase di sviluppo può essere utile un tool che permetta di eseguire codice Java senza doverlo salvare in un file e compilarlo ogni volta.
+
+### JShell (JDK 9+)
+  *  richiamabile da linea di comando: `jshell`
+  *  è una console Java, dove si possono eseguire istruzioni vedendone subito l'effetto
+  *  si ispira a tool *REPL (Read-Eval-Print Loop)* di altri linguaggi
+  *  non molto usata, ma utile per veloci esperimenti (cf. slide seguenti)
+
+---
+
+
+
+# Tipi e operatori di Java
+
+---
+
+## Tipi
+
+
+
+### Cos'è un tipo
+
+  *  È un meccanismo per classificare valori (e oggetti)
+  *  Un *tipo* è costituito da un *nome*, un *set di valori*, e un *set di operatori*/meccanismi per manipolarli
+
+### Tipi di Java
+
+*  *Primitivi*: `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `char`
+*  *Classi*: oggi vedremo `String`, ma ce ne sono molte altre
+*  *Array*: `boolean[]`, `byte[]`, `String[]`, `String[][]`, $\ldots$
+### Java e i tipi
+
+* Java ha *tipizzazione statica*: ogni espressione ha un tipo noto dal compilatore
+* Java ha *tipizzazione forte*: non si accettano espressioni con errori di tipo
+* $\Rightarrow$ .. permette l'intercettazione a priori di molti errori
+* $\Rightarrow$ .. disciplina progettazione e programmazione
 
 
 ---
 
-## Classi e Oggetti
 
-Due forni a microonde dello stesso modello sono due oggetti distinti, ma hanno la stessa struttura e gli stessi comportamenti.
+## Tipo Booleano
 
-La **classe** in OOP è la descrizione di un tipo di oggetto, ne definisce:
-* *struttura* (come è fatta, quali sono gli elementi che la compongono)
-* *comportamento* (cosa può fare, quali operazioni sono possibili)
-    * il comportamento potrebbe prevedere l'*interazione* con altri oggetti
+* Nome del tipo: `boolean`
+* Valori: `true`, `false`
 
-A partire da una classe, si possono creare degli **oggetti**
-* Si dice che l'opggetto è *istanza* della classe
+*  Operatori unari: `!` (not)
+*  Operatori binari: `&` (and), `|` (or), `^` (xor), `&&` (and-c), `||` (or-c)
+    * `&&` e `||` valutano il secondo argomento solo se necessario (*short-circuiting*)
+    * `false && X` restituisce `false` senza valutare `X`
+    * `true || X` restituisce `true` senza valutare `X`
+*  Operatori di confronto numerici: `>`, `<`, `>=`, `<=`
+*  Operatori di uguaglianza (su tutti i tipi): `==`, `!=`
+  ```java
+  10 == 20                     // false
+  "ciao" == "ciao"             // true
+  ```
+*  Operatore ternario (booleano,tipo,tipo): `?:`
+    *  `b ? v1 : v2` restituisce `v1` se `b` è vero, `v2` altrimenti
 
-Un programma OOP è un insieme di classi.
-Il comportamento è definito a partire da un punto di ingresso (il `main`),
-e si sviluppa attraverso l'interazione tra gli oggetti.
+
+
+
 
 ---
+
+
+## Tipi numerici
+
+
+| Type name | Size (bits) | Minimum | Maximum |
+| --------- | ---- | ------- | ------- |
+| char | 16 | `\u0000` ($0$) | `\uFFFF` ($2^{16}-1$) |
+| byte | 8 | $-128$ | $128$ |
+| short | 16 | $-2^{15}$ | $2^{15}-1$ |
+| int | 32 | $-2^{31}$ | $2^{31}-1$ |
+| long | 64 | $-2^{63}$ | $2^{63}-1$ |
+| float | 32 | IEEE754 | IEEE754 |
+| double | 64 | IEEE754 | IEEE754 |
+<!--| void | -- | -- | -- |-->
+<!--| boolean | -- | -- | -- |-->
+
+---
+
+
+## Interi: `byte`, `short`, `int`, `long`
+
+
+
+### Operatori
+
+
+
+  *  Base: `+`, `-`, `*`, `/` (con resto), `%` (resto), `+` e `-` anche unari
+  *  Bit-a-bit: `&` (and), `|` (or), `^` (xor), `~` (complement)
+  *  Shift: `>>` (dx con segno), `<<` (sx), `>>>` (dx senza segno)
+  *  Operatori unari/binari applicati ad un tipo, restituiscono il tipo stesso
+
+
+
+
+### Codifica, rappresentazione
+
+
+
+  *  Interi codificati in complemento a 2 (ciò impatta il suo range)
+  *  Rappresentazione decimale (`200`), ottale (`0310`), esadecimale (`0xC8`)
+  *  Di default sono `int`, per avere un `long` va aggiunta una `L` (`15L`)
+
+
+
+
+### Prassi
+
+
+
+*  Raro l'uso di `byte` e `short`, non molto più efficienti di `int`
+*  `int` più efficiente di `long`
+
+
+
+
+
+---
+
+
+## Numeri in virgola mobile: `float`, `double`
+
+
+
+### Operatori
+
+
+
+  *  Base: `+`, `-`, `*`, `/` (con resto), `%` (resto), `+` e `-` anche unari
+
+
+
+
+### Codifica, rappresentazione
+
+
+
+  *  Codificati secondo lo standard IEEE 754
+  *  Rappresentazione standard (`-128.345`), o scientifica (`-1.2835E+2`)
+  *  Di default sono `double`, per avere un `float` va aggiunta una `F`
+
+```java
+5   // int
+5.  // double
+5d  // double
+5f  // float
+```
+
+### Prassi
+
+
+
+  *  Raro l'uso di `float`, anche se più efficiente di `double`
+  *  Attenzione agli errori di precisione!!
+
+
+
+
+
+---
+
+
+## Provate voi stessi..
+
+
+<!--  \srcode{\scriptsize}{3}{100}{\ecl/Try.java} -->
+
+```java
+{{% import-raw from=2 path="pss-code/src/main/java/it/unibo/structured/Try.java" %}}
+```
+
+---
+
+
+## Conversioni
+
+
+
+### Conversioni di tipo, dette anche *cast*: `(tipo)valore`
+
+
+
+* Fra tipi numerici sono sempre consentite
+    * mentre non lo sono, ad es. tra tipi numerici e `boolean`
+* Possono causare perdita di informazione
+* Es.: `(int)3.33`, `((double)10)/3`, `(short)100`
+
+### Conversioni automatiche, dette anche *coercizioni*
+
+
+
+  *  Le inserisce automaticamente il compilatore in certi casi
+  *  Quando ci si aspetta un tipo, e si usa un valore diverso
+  *  Solo da un tipo più specifico a uno più generale (*promozione*)
+      *  (+ Specifico $\rightarrow$ + Generale) `byte`$\rightarrow$`short`$\rightarrow$`int`$\rightarrow$`long`$\rightarrow$`float`$\rightarrow$`double`
+  *  Due casi:
+      *  In assegnamenti: `long l=100;` diventa `long l=(long)100;`
+      *  Operazioni fra tipi diversi: `10.1+10` diventa `10.1+(double)10`
+      *  Passando valori a funzioni
+
+
+
+
+
+
+---
+
+
+## I caratteri
+
+
+
+### Rappresentazione (esterna)
+
+  *  Singolo carattere: `'a'`, `'z'`, `'A'`, `'='`
+  *  Codice ASCII: 65 (`'A'`), 66 (`'B'`)
+  *  Caratteri escape: `'\n'`, `'\\'`, `'\0'`
+  *  Caratteri UTF16: `'\u6C34'`
+
+
+
+
+### Codifica (rappresentazione interna)
+
+*  UTF16
+    - variable-length encoding (ogni *codepoint* in 1 o 2 unità di 16 bit) $\to$ non compatibile con ASCII
+*  automaticamente convertibile ad un numerico fra 0 e 65535
+
+
+
+<!--  \srcode{\scriptsize}{3}{100}{\ecl/TryChars.java} -->
+
+```java
+{{% import-raw from=2 path="pss-code/src/main/java/it/unibo/structured/TryChars.java" %}}
+```
+
+
+<!--
+
+---
+
+```
+a".getBytes(java.nio.charset.StandardCharsets.ISO_8859_1) // byte[1] { 97 }
+
+a".getBytes(java.nio.charset.StandardCharsets.UTF_8)      // byte[1] { 97 }
+
+a".getBytes(java.nio.charset.StandardCharsets.UTF_16)     // byte[4] { -2, -1, 0, 97 }
+```
+-->
+
+---
+
+
+# Array
+
+---
+
+
+
+## Java array
+
+
+
+### Caratteristiche generali
+
+
+
+  *  Internamente sono degli oggetti (cf. creazione con `new`)
+  *  Quindi sono gestiti con riferimenti sullo heap
+  *  Notazione ad-hoc (e C-like) per creare, leggere e scrivere elementi
+
+
+
+
+### Principale differenza rispetto al C
+
+
+
+  *  Un array ha una lunghezza (campo `length`) esplicita e accessibile (non modificabile)
+  *  È impossibile violare i limiti di una array, pena un errore (`ArrayIndexOutOfBoundsException`)
+  *  L'accesso all'array è di conseguenza leggermente rallentato
+
+
+
+
+
+---
+
+
+## Sintassi Array
+
+
+
+### Creazione array
+
+
+
+* Due notazioni, per elenco (elencazione di valori) 
+  ```java
+  int[] ar1 = new int[]{10,20,30,40,50,7,8,9};
+  var   ar2 = new int[]{10,20,30}; // variante con `var`
+  int[] ar3 = {10,20,30};          // variante senza `new`
+  ```
+  e per dimensione
+  ```java
+  int[] ar4 = new int[200];        // new int[]{0,0,...,0}
+  ```
+    *  quando creati per dimensione, gli elementi sono inizializzati (come se fossero campi di una classe)
+*  la creazione di array di array (*matrici*) è analoga:
+
+```java
+int[][] m  = new int[][]{ new int[]{...}, ... };
+int[][] m2 = new int[200][200];
+```
+
+### Accesso array (*zero-indexed*)
+
+```java
+ar4.length    // 200 (lunghezza)
+ar4[23]       // espressione per leggere 24-esimo elemento
+ar4[23] = 10; // assegnamento del 24-esimo elemento
+m[1][2] = 10; // assegnamento riga 2 colonna 3
+```
+
+
+
+
+
+---
+
+
+## Qualche esempio d'uso di array
+
+
+<!--  \srcode{\scriptsize}{3}{100}{\ecl/UseArrays.java} -->
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/UseArrays.java" %}}
+```
+
+---
+
+
+## Array di oggetti
+
+
+
+### Creazione array -- stessa notazione
+
+
+
+*  Per elenco:
+```java
+Object[] ar = new Object[]{ new Object(), new Object() };
+```
+*  Per dimensione
+```java
+Object[] ar2 = new Object[200];
+```
+* Note
+    *  in ogni posizione c'è `null`
+    *  frequente errore dello studente è pensare che sia un array di nuovi oggetti automaticamente creati
+    *  ricorda: è una sola `new` quindi si crea un solo oggetto, l'array stesso
+
+
+
+
+
+---
+
+# Istruzioni (statement)
+
+---
+
+## I linguaggi OO sono anche imperativi/strutturati
+
+
+
+### Java "estende" il C
+
+
+
+  *  Come C++ e C\#, Java è alla base anche imperativo/strutturato -- altri linguaggi come Scala invece no
+  *  Il codice di un metodo è un insieme di comandi C-like
+<!--  *  Ecco perché li si chiama object-oriented e non object-based -->
+<!-- In realtà: object-based PLs consentono di creare e usare oggetti; quelli object-oriented forniscono inoltre supporto per ereditarietà e polimorfismo -->
+
+
+
+
+### Panoramica istruzioni
+
+
+
+  *  Variabili e assegnamenti:
+```java
+int x;              // dichiarazione
+int x=5;  var x=5;  // dichiarazione e inizializzazione (assegnamento)
+x=5;                // assegnamento
+```
+  *  Ritorno: `return 5;`
+  *  Chiamate: `meth(3,4);` `obj.meth(3);`  `Cls.meth(4);`
+  *  Costrutti di controllo del flusso: `for`, `while`, `do`, `switch`, `if`, `break`, `continue`
+  *  Qualche altra tipologia, che vedremo nel prosieguo
+
+
+
+
+
+---
+
+
+## Java vs C
+
+
+
+### Principali differenze
+
+
+
+* No coercizione da altri tipi verso `boolean` (cf. strong typing)
+    * Nota: la condizione dell'`if`, `for`, `while` e `do` è un `boolean`
+  ```java
+  boolean b = 1;            // ERROR: incompatible types: int cannot be converted to boolean
+  boolean b = (boolean) 1;  // incompatible types: int cannot be converted to boolean
+  if(1){ /* ... */ }        // ERROR: incompatible types: int cannot be converted to boolean
+  ```
+* No puntatori, no de/allocazione manuale di oggetti
+
+<!--
+*  Nel `for` è possibile dichiarare la variabile di ciclo (come nel C99), che sarà visibile solo internamente
+```java
+for(int i=0; i<10; i++){ /* .. */ }
+```
+--->
+
+
+
+
+### Differenza filosofica
+
+
+
+*  Java è molto più restrittivo del C
+*  Molto di ciò che è solo *warning* in C, è *errore* in Java
+    *  *unreachable statement*: istruzioni non raggiungibili (per errore)
+    *  *variable may not have been initialised* (uso variabile prima del suo init)
+    *  *missing return statement* (un return finale è obbligatorio)
+*  Può sembrare una filosofia che rende la programmazione "rigida", e invece è cruciale per supportare lo sviluppo di software di qualità
+*  Le prassi che discuteremo ci porteranno ulteriori rigidità
+
+---
+
+
+## Java come linguaggio puramente strutturato-procedurale
+
+### Un uso limitato (ma a volte utile) di Java
+
+  *  Una classe ha solo metodi o campi dichiarati `static`
+  *  In questo caso tale classe definice un insieme di *funzioni/procedure* e *variabili globali* (a quella classe), ossia una struttura analoga a quella di una libreria C
+  *  Un metodo (o campo) *__statico__* viene richiamato nel seguente modo:
+      *  da fuori la classe (se dichiarato `public`): `<nome-classe>.<nome-metodo>(...)`
+      *  da dentro la classe: `<nome-metodo>(...)`
+  *  E' una tecnica usata per realizzare *utility class*, come ad esempio la classe delle funzioni matematiche `java.lang.Math`
+
+
+---
+
+
+
+## Qualche prova di `java.lang.Math`
+
+
+<!--  \srcode{\ssmall}{3}{100}{\ecl/UseMath.java} -->
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/UseMath.java" %}}
+```
+
+---
+
+
+
+## Un esercizio sugli array
+
+
+
+Costruire una funzione che dato un array ne produce in uscita uno della stessa lunghezza, ma invertendo il primo elemento con l'ultimo, il secondo col penultimo, etc..
+
+<!--  %\sizedcode{\scriptsize}{code/Reverse.java}
+  \srcode{\scriptsize}{3}{100}{\ecl/Reverse.java} -->
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/Reverse.java" %}}
+```
+
+---
+
+
+## For-each
+
+
+
+### Java introduce una variante del ciclo `for`
+
+
+
+   *  supporta l'astrazione di "per ogni elemento della collezione fai.."
+   *  utile con gli array quando non importa il valore corrente dell'indice
+   *  utilizzabile con oggetti *iterabili*, quindi anche con le Collection di Java (liste, insiemi,..)
+
+
+
+
+### Sintassi -- caso di array di interi
+
+```java
+for(int v: array){ /* uso di v */ }
+```
+
+   *  spesso usato con `var`:
+```java
+for(var v: array){ /* uso di v */ }
+```
+   *  `array` è una espressione che restituisce un `int[]`
+   *  nel corpo del `for`, `v` vale via via ogni elemento dell'array
+   *  leggi "per ogni `v` in `array` esegui il corpo"
+
+
+
+
+
+
+---
+
+
+## For-each: esempio
+
+
+<!--  %\sizedcode{\scriptsize}{code/Sum.java}
+  \srcode{\scriptsize}{3}{100}{\ecl/Sum.java} -->
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/Sum.java" %}}
+```
+
+---
+
+
+## Fornire input da linea di comando: argomenti del `main`
+
+
+<!--  %\sizedcode{\scriptsize}{code/Sum.java}
+  \srcode{\scriptsize}{3}{100}{\ecl/SumMain.java}-->
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/SumMain.java" %}}
+```
+
+---
+
+
+## Elementi applicativi all'interno del corso OOP
+
+
+
+### Teoria o applicazioni?
+
+
+
+  *  La parte applicativa è maggiormente sviluppata in laboratorio e poi sperimentata nella realtà nella prova d'esame di progetto
+  *  In aula si illustrano i concetti, i meccanismi, e gli elementi metodologici
+  *  Spesso comunque si mostreranno applicazioni di esempio, semplici ma "paradigmatiche", dove discutere alcuni aspetti tecnici e metodologici
+
+
+
+
+
+---
+
+
+## Applicazione: `GuessMyNumberApp`
+
+
+
+### Problema
+
+
+  Realizzare una applicazione che, scelto un numero a caso compreso fra 1 a 100, chieda all'utente di indovinarlo, dandogli $10$ tentativi e indicando ogni volta se il numero in input è maggiore o minore di quello scelto all'inizio
+
+
+
+### Alcune scelte progettuali
+
+
+
+  *  L'applicazione è realizzabile in prima battuta come codice strutturato dentro al `main`
+  *  Le (max) 10 iterazioni sono realizzabili da un ciclo (p.e., `for`)
+
+
+
+
+### Elementi implementativi
+
+
+
+  *  `java.io.Console#readLine` usabile per leggere input da tastiera (console ottenibile da `System.console()`, se associata alla JVM in uso)
+  *  `java.lang.Integer.parseInt(String)` usabile per convertire una stringa in un numero
+  *  `java.util.Random.nextInt` usabile per ottenere un numero random
+
+
+
+
+
+---
+
+
+
+## Implementazione `GuessMyNumberApp`
+
+
+<!--  \srcode{\scriptsize}{3}{100}{\ecl/GuessMyNumberApp.java} -->
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/structured/GuessMyNumberApp.java" %}}
+```
+
+---
+
+
+## Tipi primitivi e operatori
 
 Flusso:
 
