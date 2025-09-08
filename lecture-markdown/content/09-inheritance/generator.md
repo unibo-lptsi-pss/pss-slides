@@ -10,7 +10,7 @@ aliases = ["/inheritance/"]
 
 # Ereditarietà
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 
@@ -1013,6 +1013,13 @@ class Person {
     }
 }
 ```
+
+--- 
+
+# Ereditarietà
+
+{{% import path="front-page.md" %}}
+
 
 <!--
 

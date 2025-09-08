@@ -1,4 +1,3 @@
-
 +++
 
 title = "Progettazione e Sviluppo del Software"
@@ -10,7 +9,7 @@ aliases = ["/interfaces/"]
 
 # Interfacce e composizione
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 ---

@@ -10,7 +10,7 @@ aliases = ["/guis-swing/"]
 
 # Interfacce utente grafiche (GUI) con Swing
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 ---
@@ -1081,7 +1081,9 @@ class ActionEvent ... {
 *  l'approccio proposto è particolarmente indicato per la sua semplicità
 *  si usino altri approcci se non peggiorativi
 
+---
 
 
+# Interfacce utente grafiche (GUI) con Swing
 
-
+{{% import path="front-page.md" %}}

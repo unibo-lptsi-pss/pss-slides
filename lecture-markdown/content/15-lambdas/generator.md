@@ -679,3 +679,9 @@ Nel blocco di [approfondimento](/stream) si trovano ulteriori informazioni su co
 - creare stream
 - manipolazioni di stream (avanzate)
 - esempi di uso di stream
+
+---
+
+# Lambda e funzioni first-class
+
+{{% import path="cover.md" %}}

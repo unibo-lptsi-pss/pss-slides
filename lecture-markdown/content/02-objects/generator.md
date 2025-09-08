@@ -1,4 +1,3 @@
- 
 +++
 
 title = "Progettazione e Sviluppo del Software"
@@ -10,7 +9,7 @@ aliases = ["/objects/"]
 
 # Oggetti e classi
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -721,3 +720,9 @@ tre concetti che spiegheremo in dettaglio nel prosieguo:
 ### Obiettivi
 * familiarizzare con la compilazione da linea di comando in Java
 * fare qualche esercizio con la costruzione e uso di classi
+
+---
+
+# Oggetti e classi
+
+{{% import path="front-page.md" %}}

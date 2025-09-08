@@ -10,7 +10,7 @@ aliases = ["/io/"]
 
 # Input/Output
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 ---
@@ -665,3 +665,8 @@ che testuale
 
 Standard testuali sono più *facilmente leggibili*,
 e, laddove le prestazioni e lo spazio non siano stringenti, preferiti
+
+---
+# Input/Output
+
+{{% import path="front-page.md" %}}

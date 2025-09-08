@@ -883,3 +883,10 @@ Benefici dei *metodi factory statici* (rispetto ad uso diretto dei costruttori)
 - Sperimentare con pattern Strategy e Factory
 
 -->
+
+---
+
+
+# Introduzione alla progettazione efficace ed agile del software
+
+{{% import path="front-page.md" %}}

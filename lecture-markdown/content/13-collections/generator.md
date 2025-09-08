@@ -10,7 +10,7 @@ aliases = ["/collections/"]
 
 # Collezioni
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -670,3 +670,11 @@ usata per rappresentare una coda bidirezionale
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/generic/map/UseMap.java" %}}
 ```
+
+
+---
+
+
+# Collezioni
+
+{{% import path="front-page.md" %}}

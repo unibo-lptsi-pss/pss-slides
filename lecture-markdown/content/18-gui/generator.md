@@ -1494,5 +1494,9 @@ public final class DrawNumberFXApplication extends Application implements DrawNu
 *  l'approccio proposto è particolarmente indicato per la sua semplicità
 *  si usino altri approcci se non peggiorativi
 
+---
 
 
+# Interfacce utente grafiche (GUI) con JavaFX
+
+{{% import path="front-page.md" %}}

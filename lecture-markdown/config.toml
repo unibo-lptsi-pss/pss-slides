@@ -10,7 +10,7 @@ ignoreFiles = ['.*generator.md$']
 # relativeURLs = true
 # uglyURLs = true
 
-[author]
+[params.author]
 name = "Danilo Pianini"
 
 # currently only the unsafe mode for goldmark is supported

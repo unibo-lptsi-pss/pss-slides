@@ -2443,3 +2443,8 @@ Si consiglia vivamente di imparare come funziona e [le migliori pratiche di sicu
     * Incollare la chiave
 
 Il gioco è fatto! Buon divertimento con l'autenticazione sicura.
+
+
+# Sistemi di controllo versione
+
+{{% import path="front-page.md" %}}

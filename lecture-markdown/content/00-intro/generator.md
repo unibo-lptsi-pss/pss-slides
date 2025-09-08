@@ -183,3 +183,11 @@ aliases = ["/intro/"]
 ## Attenzione a chi è già "fluente" in linguaggi ad oggetti
 * Java o C#
 * è difficile disimparare le cattive abitudini!
+
+---
+
+
+
+# Introduzione al corso *Progettazione e Sviluppo del Software (PSS)*
+
+{{% import path="front-page.md" %}}

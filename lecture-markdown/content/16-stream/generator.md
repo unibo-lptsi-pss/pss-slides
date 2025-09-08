@@ -10,7 +10,7 @@ aliases = ["/stream/"]
 
 # Stream
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 ---
@@ -409,4 +409,8 @@ aliases = ["/stream/"]
 {{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/streams/UseStreamsForAlgorithms.java" %}}
 ```
 
+---
 
+# Stream
+
+{{% import path="front-page.md" %}}

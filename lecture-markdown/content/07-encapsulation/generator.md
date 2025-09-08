@@ -10,7 +10,7 @@ aliases = ["/encapsulation/"]
 
 # Incapsulamento
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 ---
@@ -880,7 +880,13 @@ Un possibile caso (non costituisce da solo un test esaustivo):
 	*  Spesso ripaga in termini di temi complessivi e qualità del software profotto
 	*  Supportata da framework dedicati ai test (*JUnit*)
 
-  
+--- 
+
+
+# Incapsulamento
+
+{{% import path="front-page.md" %}}
+
 
 
 <!--

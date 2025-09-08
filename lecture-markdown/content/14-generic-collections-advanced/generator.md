@@ -10,7 +10,7 @@ aliases = ["/generic-collections-advanced/"]
 
 # Collezioni generiche (avanzate)
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 
@@ -536,4 +536,8 @@ Più in generale, se non possono accadere errori a tempo di esecuzione..
 {{% import-raw path="code/generics/variance/UseVector.java" %}}
 ```
 
+---
 
+# Collezioni generiche (avanzate)
+
+{{% import path="front-page.md" %}}

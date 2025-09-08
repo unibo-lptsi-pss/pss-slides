@@ -10,7 +10,7 @@ aliases = ["/polymorphism/"]
 
 # Polimorfismo, classi astratte, tipi a runtime
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 
@@ -1271,3 +1271,11 @@ Familiarizzare con:
 *  Estensione delle classi e corrispondente polimorfismo
 *  Classi astratte
 *  Tipi a run-time e boxing
+
+
+---
+
+# Polimorfismo, classi astratte, tipi a runtime
+
+{{% import path="front-page.md" %}}
+

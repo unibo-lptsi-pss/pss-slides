@@ -61,10 +61,6 @@ outputs = ["Reveal"]
 
 {{% /smaller %}}
 
-{{% smaller %}}
-Extra:
-- [UML crash course](extra-uml-crash-course/)
-{{% /smaller %}}
 
 Contenuti laboratorio alla pagina successiva
 

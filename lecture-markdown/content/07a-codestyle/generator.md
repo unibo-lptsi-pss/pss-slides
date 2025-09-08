@@ -10,7 +10,7 @@ aliases = ["/codestyle/"]
 
 # Stile e formattazione del codice
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 ---
@@ -462,6 +462,11 @@ Execution failed for task ':checkstyleMain'.
      Checkstyle files with violations: 1
      Checkstyle violations by severity: [error:1]
 ```
+---
+
+# Stile e formattazione del codice
+
+{{% import path="front-page.md" %}}
 
 <!--
 

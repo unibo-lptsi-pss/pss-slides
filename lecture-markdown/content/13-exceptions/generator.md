@@ -10,7 +10,7 @@ aliases = ["/exceptions/"]
 
 # Eccezioni
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -451,3 +451,11 @@ try {
 ```java
 {{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/exceptions/classes/IOFromKeyboard4.java" %}}
 ```
+
+
+----
+
+
+# Eccezioni
+
+{{% import path="front-page.md" %}}

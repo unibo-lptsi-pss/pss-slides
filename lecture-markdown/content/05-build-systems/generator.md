@@ -1,4 +1,3 @@
- 
 +++
 
 title = "Progettazione e Sviluppo del Software"
@@ -26,3 +25,7 @@ Danilo Pianini, che ringrazio.
 # Build systems
 ## Questo  materiale è deprecato ed è stato spostato alle slide di laboratorio
 ---
+
+# Build system (Gradle), costruzione del software, e librerie
+
+{{% import path="front-page.md" %}}

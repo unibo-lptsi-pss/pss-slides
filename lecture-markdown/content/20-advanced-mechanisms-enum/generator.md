@@ -10,7 +10,7 @@ aliases = ["/advanced-mechanisms-enums/"]
 
 # Meccanismi avanzati: enumerazioni
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -434,5 +434,9 @@ aliases = ["/advanced-mechanisms-enums/"]
 *  `enum Regione` potrebbe essere inserita dentro `Persona`
 *  `enum Zona` potrebbe essere inserita dentro `Regione`
     
+---
 
-   
+
+# Meccanismi avanzati: enumerazioni
+
+{{% import path="front-page.md" %}}

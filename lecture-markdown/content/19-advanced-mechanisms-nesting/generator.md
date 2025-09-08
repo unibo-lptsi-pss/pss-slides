@@ -10,7 +10,7 @@ aliases = ["/advanced-mechanisms-nesting/"]
 
 # Meccanismi avanzati: classi innestate (materiale di supporto)
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -749,3 +749,9 @@ Utili quando si vuole isolare un sotto-comportamento in una classe a sé, senza 
     2.  *inner class*: anche enclosing class, accessibile ovunque dall'outer
     3.  *local class*: anche argomenti/variabili, accessibile da un solo metodo
     4.  *anonymous class*: per creare un oggetto, senza un nuovo costruttore
+
+---
+
+# Meccanismi avanzati: classi innestate (materiale di supporto)
+
+{{% import path="front-page.md" %}}

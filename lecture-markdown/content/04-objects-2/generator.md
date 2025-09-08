@@ -10,7 +10,7 @@ aliases = ["/objects-2/"]
 
 # Oggetti e Classi pt.2: inizializzazione, accessi, distruzione
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -878,3 +878,8 @@ classDef c fill:#fff;
 * Uso costruttori
 * Aspetti avanzati della compilazione in Java (cf. classpath)
 * Introduzione al build system Gradle
+
+---
+# Oggetti e Classi pt.2: inizializzazione, accessi, distruzione
+
+{{% import path="front-page.md" %}}

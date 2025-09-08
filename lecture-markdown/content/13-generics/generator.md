@@ -10,7 +10,7 @@ aliases = ["/generics/"]
 
 # Generici
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 
 ---
@@ -869,3 +869,9 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
 
 * `Vector<? extends Number>` si può leggere come "`Vector` che può fornire ma non accettare `Number`" (cf. in C# dove la keyword `out` è usata per specificare parametri di tipo covarianti)
 * `Vector<? super Number>` si può leggere come "`Vector` che può accettare ma non fornire `Number`" (cf. in C# dove la keyword `in` è usata per specificare parametri di tipo controvarianti)
+
+---
+
+# Generici
+
+{{% import path="front-page.md" %}}

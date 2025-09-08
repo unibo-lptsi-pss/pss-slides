@@ -1,4 +1,3 @@
- 
 +++
 
 title = "Progettazione e Sviluppo del Software"

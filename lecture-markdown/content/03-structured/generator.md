@@ -1,4 +1,3 @@
-
 +++
 
 title = "Progettazione e Sviluppo del Software"
@@ -10,7 +9,7 @@ aliases = ["/java-structured-programming/"]
 
 # Programmazione strutturata in Java
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -926,3 +925,9 @@ if (5) ..
 *  Prediligeremo sempre la soluzione più semplice/compatta
 *  Ci si aspetta non si usino soluzioni sia più complesse che più lente
 *  Ci si aspetta che si sappiano allocare correttamente le risorse (memoria, tempo) qualora richiesto
+
+----
+
+# Programmazione strutturata in Java
+
+{{% import path="front-page.md" %}}
