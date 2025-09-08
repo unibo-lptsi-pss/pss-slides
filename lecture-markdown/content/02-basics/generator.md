@@ -346,45 +346,26 @@ s = s + " Mondo";   // crea una nuova String
 
 ---
 
-
-
 ## Java array
 
-
-
 ### Caratteristiche generali
-
-
 
   *  Internamente sono degli oggetti (cf. creazione con `new`)
   *  Quindi sono gestiti con riferimenti sullo heap
   *  Notazione ad-hoc (e C-like) per creare, leggere e scrivere elementi
 
-
-
-
 ### Principale differenza rispetto al C
-
-
 
   *  Un array ha una lunghezza (campo `length`) esplicita e accessibile (non modificabile)
   *  È impossibile violare i limiti di una array, pena un errore (`ArrayIndexOutOfBoundsException`)
   *  L'accesso all'array è di conseguenza leggermente rallentato
-
-
-
-
 
 ---
 
 
 ## Sintassi Array
 
-
-
 ### Creazione array
-
-
 
 * Due notazioni, per elenco (elencazione di valori) 
   ```java
