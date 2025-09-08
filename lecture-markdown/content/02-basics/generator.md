@@ -315,7 +315,32 @@ a".getBytes(java.nio.charset.StandardCharsets.UTF_16)     // byte[4] { -2, -1, 0
 -->
 
 ---
+## Le Stringhe
 
+### Rappresentazione
+- In Java sono oggetti della classe `String`.
+  - Vedremo le classi in dettaglio più avanti.
+- Si rappresentano con sequenze di caratteri racchiusi da doppi apici: `"Ciao Mondo!"`
+
+### Immutabilità
+- Le istanze di `String` sono immutabili: una volta create non possono essere modificate.
+  - Operazioni che "modificano" una stringa in realtà ne creano una nuova.
+
+### Operazione principale — Concatenazione
+- L'operatore `+` concatena stringhe:
+```java
+"Ciao " + "Mondo!" // "Ciao Mondo!"
+String s = "Ciao";
+s = s + " Mondo";   // crea una nuova String
+```
+
+
+### Conversioni
+- Da primitive a stringa: `String.valueOf(42)` o `"" + 42`
+- Da stringa a numeri: `Integer.parseInt("42")`, `Double.parseDouble("3.14")`
+
+
+---
 
 # Array
 
