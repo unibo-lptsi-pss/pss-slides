@@ -47,7 +47,7 @@ Cos'è `System.out.println`?
   - Questo oggetto può ricevere messaggi `print` (funziona come `printf` in C) che stampano a video quello che viene fornito e messaggi `println` che vanno anche a capo
 ---
 
-## Eseguimolo!
+## Eseguiamolo!
 
 - Visto che è un java è un linguaggio compilato, prima di eseguirlo dobbiamo compilarlo
 - Salviamolo in un file `HelloWorld.java`
@@ -68,8 +68,6 @@ Cos'è `System.out.println`?
 
 ---
 
-
-
 # Tipi e operatori di Java
 
 ---
@@ -80,8 +78,11 @@ Cos'è `System.out.println`?
 
 ### Cos'è un tipo
 
-  *  È un meccanismo per classificare valori (e oggetti)
-  *  Un *tipo* è costituito da un *nome*, un *set di valori*, e un *set di operatori*/meccanismi per manipolarli
+* È un meccanismo per classificare valori (e oggetti)
+* Un *tipo* è costituito da:
+    * un *nome*
+    * delle regole che ne definiscono la struttura, oppure dall'enumerazione dei possibili valori
+    * un *insieme di operatori* o meccanismi per manipolarli
 
 ### Tipi di Java
 
