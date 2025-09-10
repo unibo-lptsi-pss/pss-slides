@@ -294,6 +294,7 @@ s = s + " Mondo";   // crea una nuova String
 
 
 ---
+
 # Array
 
 ---
@@ -302,24 +303,25 @@ s = s + " Mondo";   // crea una nuova String
 
 ### Caratteristiche generali
 
-  *  Internamente sono degli oggetti
-  *  Quindi sono gestiti con riferimenti sullo heap
-  *  Notazione ad-hoc (e C-like) per creare, leggere e scrivere elementi
+*  Internamente sono degli oggetti
+*  Quindi sono gestiti con riferimenti sullo heap
+*  Notazione ad-hoc (e C-like) per creare, leggere e scrivere elementi
 
 ### Principale differenza rispetto al C
 
-  *  Un array ha una lunghezza esplicita e accessibile (non modificabile)
-  *  È impossibile violare i limiti di una array, pena un errore (`ArrayIndexOutOfBoundsException`)
-  *  L'accesso all'array è di conseguenza leggermente rallentato
+* Un array ha una lunghezza esplicita e accessibile (non modificabile)
+    * In C la lunghezza va tracciata separatamente
+* È impossibile violare i limiti di una array, pena un errore (`ArrayIndexOutOfBoundsException`)
+    * In C si può provare a leggere o scrivere fuori dai limiti, con conseguenze imprevedibili
+      (da lettura di dati spuri a crash del programma per segmentation fault)
 
 ---
-
 
 ## Sintassi Array (introduzione)
 
 ### Creazione array
 
-- ```int[] arr = {10,20,30};``` (inizializzazione per elenco)
+- ```int[] array = {10, 20, 30};``` (inizializzazione per elenco)
 - Vedremo altre forme più avanti
 
 ### Accesso array (*zero-indexed*)
@@ -402,21 +404,18 @@ for(int i=0; i<10; i++){ /* .. */ }
 
 ---
 
-
-
 ### Differenza filosofica
 
-
-*  Java è molto più restrittivo del C
-*  Molto di ciò che è solo *warning* in C, è *errore* in Java
-    *  *unreachable statement*: istruzioni non raggiungibili (per errore)
-    *  *variable may not have been initialised* (uso variabile prima del suo init)
-    *  *missing return statement* (un return finale è obbligatorio)
+*  Java è molto più restrittivo di C
+*  Molto di ciò che è solo *warning* in C, è **errore** in Java
+    * *unreachable statement*: istruzioni non raggiungibili (per errore)
+    * *variable may not have been initialised* (uso variabile prima del suo init)
+    * *missing return statement* (un return finale è obbligatorio)
 *  Può sembrare una filosofia che rende la programmazione "rigida", e invece è cruciale per supportare lo sviluppo di software di qualità
+    * Principio ingegneristico: *fail fast*
 *  Le prassi che discuteremo ci porteranno ulteriori rigidità
 
 ---
-
 
 ## Controllo di flusso: `if`
 
@@ -427,7 +426,8 @@ if(condizione) {
 }
 ```
 - La condizione deve essere di tipo `boolean`.
-- Raccomandato usare sempre le parentesi graffe anche per un'unica istruzione.
+- Usare sempre le parentesi graffe anche per un'unica istruzione.
+    - Non richiesto dalla sintassi, ma evita errori difficili da individuare.
 
 ### Esempio
 ```java
@@ -462,7 +462,55 @@ if (n < 0) {
   System.out.println("Positivo");
 }
 ```
+
 ---
+
+## Ciclo `while`
+### `while`
+```java
+while (condizione) {
+  // corpo
+}
+```
+
+1. valuta `condizione` (deve restituire `boolean`)
+2. se `true`, esegue il corpo e torna a 1.
+
+Esempio:
+```java
+int i = 0;
+while (i < 5) {
+  System.out.println(i);
+  i++;
+}
+```
+
+---
+
+## Ciclo `do`-`while`
+### `do`-`while`
+```java
+do {
+  // corpo
+} while (condizione);
+```
+
+1. esegue il corpo
+2. valuta `condizione` (deve restituire `boolean`)
+3. se `true`, torna a 1.
+
+Utile se il corpo deve essere eseguito almeno una volta.
+
+Esempio:
+```java
+int i = 0;
+do {
+  System.out.println(i);
+  i++;
+} while (i < 5);
+```
+
+--- 
 
 ## Ciclo `for` (classico)
 
@@ -473,34 +521,22 @@ for (inizializzazione; condizione; aggiornamento) {
 }
 ```
 
+1. Esegue `inizializzazione`
+2. Valuta `condizione` (deve restituire `boolean`)
+3. Se `true`, esegue il corpo
+4. esegue `aggiornamento`
+5. Torna a 2.
+
 ### Esempio
 ```java
 for (int i = 0; i < 10; i++) {
   System.out.println(i);
 }
 ```
-- La variabile dichiarata (`int i`) ha scope limitato al `for`.
-- Usare tipi adeguati (`int` per contatori, `long` se necessario).
+- È possibile dichiarare una variabile nel blocco di inizializzazione
+    - La variabile dichiarata (`int i`) ha scopo limitato al `for` (non è visibile fuori)
 
 ---
-
-## Ciclo `while` 
-### `while`
-```java
-while (condizione) {
-  // corpo
-}
-```
-Esempio:
-```java
-int i = 0;
-while (i < 5) {
-  System.out.println(i);
-  i++;
-}
-```
-
---- 
 
 ## Come si itera sugli array?
 
