@@ -129,6 +129,9 @@ I tipi primitivi in Java sono `boolean`, `byte`, `short`, `int`, `long`, `float`
     * Sono oggetti, ma hanno una sintassi speciale
 * *Stringhe*: `String`
     * Sequenza di caratteri (oggetti, ma con sintassi speciale)
+* *Wrapper types*: `Boolean`, `Byte`, `Short`, `Integer`, `Long`, `Float`, `Double`, `Char`, `Void`
+    * Versioni "oggetto" dei tipi primitivi, saranno utili in futuro
+    * Per ora, sono comode per ottenere alcuni valori speciali (es.: `Integer.MAX_VALUE`)
 
 ---
 
@@ -188,18 +191,16 @@ si aspettano valori di tipo `boolean`
     * da cui, per un numero di $N$ bit, il range di valori rappresentabili è $[-2^{N-1}, 2^{N-1}-1]$
 * Rappresentazione decimale (`200`), ottale (`0310`), esadecimale (`0xC8`)
 * Di default sono `int`, per avere un `long` va aggiunta una `L` (`15L`)
-* Non c'è sintassi per `byte` e `short` (usati di rado): si usano cast espliciti (`(byte) 5`)
+* Nessuna sintassi speciale per `byte` e `short` (usati di rado): si usano "cast" espliciti (`(byte) 5`)
 * È possibile usare underscore (`_`) per separare le cifre
     * Es.: `1_000_000` è più leggibile di `1000000`
+* Valori *speciali* nei wrapper types: `*.MAX_VALUE`, `*.MIN_VALUE`, e.g. `Integer.MAX_VALUE`
 
 ---
 
 ## Numeri in virgola mobile: `float`, `double`
 
-Numeri con virgola mobile, con valori speciali:
-* "not-a-number" (`NaN`),
-* $\infty$ (`POSITIVE_INFINITY`), $-\infty$ (`NEGATIVE_INFINITY`)
-
+Numeri con virgola mobile, con valori speciali che rappresentano valori non numerici o infiniti
 ### Operatori
 * Unari: `+` e `-`
 * Binari: `+`, `-`, `*`, `/`, `%` (resto della divisione)
@@ -210,110 +211,68 @@ Numeri con virgola mobile, con valori speciali:
     * Sono possibili errori di arrotondamento (provate a fare `0.1 + 0.2` in JShell)
 * Rappresentazione standard (`-128.345`), o scientifica (`-1.2835E+2`)
 * Di default sono `double`, per avere un `float` va aggiunta una `f`
-
-```java
-5   // int
-5.  // double
-5d  // double
-5f  // float
-```
+* Valori speciali:
+    * "not-a-number" (`Float.NaN`, `Double.NaN`),
+    * $\infty$ (`Float.POSITIVE_INFINITY`, `Double.POSITIVE_INFINITY`)
+    * $-\infty$ (`Float.NEGATIVE_INFINITY`, `Double.NEGATIVE_INFINITY`)
+    * Valori più grandi e più piccoli rappresentabili: `*.MAX_VALUE`, `*.MIN_VALUE`
 
 ---
 
-
-## Provate voi stessi..
-
+## Provate voi stessi
 
 <!--  \srcode{\scriptsize}{3}{100}{\ecl/Try.java} -->
 
 ```java
 {{% import-raw from=2 path="pss-code/src/main/java/it/unibo/structured/Try.java" %}}
 ```
+---
+
+## Conversioni fra tipi *primitivi*
+
+### Conversioni di tipo forzate, dette *type cast*: `(tipo) valore`
+* Sempre consentite fra tipi numerici
+* non consentite tra tipi numerici e `boolean`
+* Possono causare perdita di informazione!
+    * Es.: `(int) 3.33`, `((double) 10)/3`, `(short) 100_000`
+
+### Conversioni automatiche, dette *coercizioni*
+* Solo da un tipo più specifico a uno più generale (*promozione*)
+    * (+ Specifico $\rightarrow$ + Generale) `byte`$\rightarrow$`short`$\rightarrow$`int`$\rightarrow$`long`$\rightarrow$`float`$\rightarrow$`double`
+    * Possono comunque generare perdita di informazione nel passaggio da `long` a `float`!
+        * Provate: `(long) ((float) Long.MAX_VALUE - 1) == Long.MAX_VALUE - 1`
+        * Perché?
+* Le inserisce automaticamente il compilatore dove necessario, ad esempio:
+    *  In assegnamenti: `long l = 100;` diventa `long l = 100L;`
+    *  In operazioni fra tipi diversi: `10.1 + 10` diventa `10.1 + 10.0`
+    *  Passando valori a funzioni che si aspettano un tipo più generale
 
 ---
 
-## Conversioni
-
-### Conversioni di tipo, dette anche *cast*: `(tipo)valore`
-
-* Fra tipi numerici sono sempre consentite
-    * mentre non lo sono, ad es. tra tipi numerici e `boolean`
-* Possono causare perdita di informazione
-* Es.: `(int)3.33`, `((double)10)/3`, `(short)100`
-
-### Conversioni automatiche, dette anche *coercizioni*
-
-
-
-  *  Le inserisce automaticamente il compilatore in certi casi
-  *  Quando ci si aspetta un tipo, e si usa un valore diverso
-  *  Solo da un tipo più specifico a uno più generale (*promozione*)
-      *  (+ Specifico $\rightarrow$ + Generale) `byte`$\rightarrow$`short`$\rightarrow$`int`$\rightarrow$`long`$\rightarrow$`float`$\rightarrow$`double`
-  *  Due casi:
-      *  In assegnamenti: `long l=100;` diventa `long l=(long)100;`
-      *  Operazioni fra tipi diversi: `10.1+10` diventa `10.1+(double)10`
-      *  Passando valori a funzioni
-
-
-
-
-
-
----
-
-
-## I caratteri
-
-
-
-### Rappresentazione (esterna)
-
-  *  Singolo carattere: `'a'`, `'z'`, `'A'`, `'='`
-  *  Codice ASCII: 65 (`'A'`), 66 (`'B'`)
-  *  Caratteri escape: `'\n'`, `'\\'`, `'\0'`
-  *  Caratteri UTF16: `'\u6C34'`
-
-
-
+## `char`
 
 ### Codifica (rappresentazione interna)
-
 *  UTF16
-    - variable-length encoding (ogni *codepoint* in 1 o 2 unità di 16 bit) $\to$ non compatibile con ASCII
-*  automaticamente convertibile ad un numerico fra 0 e 65535
+    - variable-length encoding (ogni *codepoint* in 1 o 2 unità di 16 bit) $\to$ sussume ASCII
+*  automaticamente convertibile da/a un numerico fra 0 e 65535
 
-
-
-<!--  \srcode{\scriptsize}{3}{100}{\ecl/TryChars.java} -->
-
-```java
-{{% import-raw from=2 path="pss-code/src/main/java/it/unibo/structured/TryChars.java" %}}
-```
-
-
-<!--
+### Rappresentazione (esterna)
+* Singolo carattere: `'a'`, `'z'`, `'A'`, `'='`, `'✀'`
+* Codice UTF-16 (sussume ASCII): 65 (`'A'`), 66 (`'B'`), 9984 (`'✀'`)
+* Caratteri speciali: `'\n'`, `'\\'`, `'\0'`...
+* UTF-16 code units (equivale a Unicode code points da U+0000 a U+FFFF): `'\u2603'` (`'☃'`)
+* Code points > U+FFFF possono essere rappresentati con due `char` (*surrogate pairs*)
+    - Es.: `"\uD83E\uDD96"` (`"🦖"`) (notare che produce una stringa di due caratteri)
 
 ---
 
-```
-a".getBytes(java.nio.charset.StandardCharsets.ISO_8859_1) // byte[1] { 97 }
-
-a".getBytes(java.nio.charset.StandardCharsets.UTF_8)      // byte[1] { 97 }
-
-a".getBytes(java.nio.charset.StandardCharsets.UTF_16)     // byte[4] { -2, -1, 0, 97 }
-```
--->
-
----
 ## Le Stringhe
 
-### Rappresentazione
-- In Java sono oggetti della classe `String`.
-  - Vedremo le classi in dettaglio più avanti.
-- Si rappresentano con sequenze di caratteri racchiusi da doppi apici: `"Ciao Mondo!"`
+Oggetti della classe `String` (vedremo le classi in dettaglio più avanti).
 
-### Immutabilità
-- Le istanze di `String` sono immutabili: una volta create non possono essere modificate.
+Si rappresentano con sequenze di caratteri racchiusi da doppi apici: `"Ciao Mondo!"`
+
+Le istanze di `String` sono **immutabili**: una volta create non possono essere modificate.
   - Operazioni che "modificano" una stringa in realtà ne creano una nuova.
 
 ### Operazione principale — Concatenazione
@@ -324,10 +283,14 @@ String s = "Ciao";
 s = s + " Mondo";   // crea una nuova String
 ```
 
-
 ### Conversioni
-- Da primitive a stringa: `String.valueOf(42)` o `"" + 42`
-- Da stringa a numeri: `Integer.parseInt("42")`, `Double.parseDouble("3.14")`
+- Da primitivo a stringa: `String.valueOf(42)`, oppure `Integer.toString(42)`
+    - In generale, per ogni wrapper type `T`, `T.toString(x)` converte `x` in `String`
+- Da stringa a primitivo: `Integer.parseInt("42")`, `Double.parseDouble("3.14")`
+    - In generale, per ogni wrapper type `T`, `T.parseT(s)` converte la stringa `s` in un valore di tipo `T`
+
+**Attenzione**: le conversioni **non sono cast**!
+* Java non consente cast fra tipi primitivi e tipi non-primitivi (eccetto wrapper types), le conversioni vanno effettuate tramite apposite funzioni
 
 
 ---
