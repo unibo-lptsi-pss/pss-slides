@@ -26,7 +26,7 @@ aliases = ["/basics/"]
 
 ---
 
-## Hello World in Java
+## Hello World in Java (25+)
 
 ```java
 void main() {
@@ -42,18 +42,33 @@ int main(void) {
 }
 ```
 
-Cos'è `System.out.println`? 
-  - In ogni programma java esiste un oggetto di sistema chiamato `System.out` che rappresenta lo standard output
-  - Questo oggetto può ricevere messaggi `print` (funziona come `printf` in C) che stampano a video quello che viene fornito e messaggi `println` che vanno anche a capo
+Come leggerlo?
+- In Java esiste un oggetto chiamato `System` che rappresenta il sistema (creato automaticamente dalla virtual machine)
+- L'oggetto system può ricevere il messaggio `out`, e risponde fornendo un oggetto che rappresenta lo standard output
+- Fra i messaggi che l'oggetto che rappresenta lo standard output può ricevere ci sono:
+    - `print`, analogo a `printf` in C, che stampa a video la stringa fornita
+    - `println`, come `print`, ma va a capo sempre anche se non viene specificato `\n` 
+
 ---
 
-## Eseguiamolo!
+## Compilazione ed esecuzione
 
-- Visto che è un java è un linguaggio compilato, prima di eseguirlo dobbiamo compilarlo
-- Salviamolo in un file `HelloWorld.java`
-- Compiliamolo con `javac HelloWorld.java`
+- Salviamo il sorgente dentro un file `HelloWorld.java`
+- Java è un linguaggio compilato, prima di eseguirlo dobbiamo compilarlo
+    - Ossia, dobbiamo *tradurlo* da codice Java a un formato eseguibile dalla Java Virtual Machine (JVM),
+        chiamato *bytecode* (file con estensione `.class`)
+    - Il compilatore trasforma **file** di testo (di solito `*.java`) in **file** binari (`*.class`)
+    - Il tool di compilazione è `javac` (Java Compiler)
+        - Posizioniamo il terminale dove si trova il nostro file Java e lanciamo: `javac HelloWorld.java`
+- Osserviamo che viene creato il file `HelloWorld.class`
+    - Questo file contiene le iscrizioni in linguaggio bytecode
+    - È un file binario, non può essere letto con un editor di testo
+    - È però possibile decompilarlo e osservare le istruzioni usando `javap`
+- L'interprete del bytecode (la Java Virtual Machine) non esegue file, ma *classi*
 - Eseguiamolo con `java HelloWorld`
-- Dovremmo vedere il messaggio "Hello, World!" stampato a video.
+    - Notate che eseguiamo `HelloWorld`, e non `HelloWorld.class`!
+    - La risoluzione del file `.class` dove si trova la classe viene fatta automaticamente dalla JVM
+- Il risultato è la stampa a video di `Hello, World!`
 
 ---
 ## Il tool `JShell`
