@@ -23,40 +23,6 @@ aliases = ["/basics/"]
 * Stampa a video
 * Tipi primitivi e operatori
 * Variabili e riferimenti
-
----
-
-## I linguaggi OO sono anche imperativi/strutturati
-
-
-
-### Java "estende" il C
-
-
-
-  *  Come C++ e C\#, Java è alla base anche imperativo/strutturato -- altri linguaggi come Scala invece no
-  *  Il codice di un metodo è un insieme di comandi C-like
-<!--  *  Ecco perché li si chiama object-oriented e non object-based -->
-<!-- In realtà: object-based PLs consentono di creare e usare oggetti; quelli object-oriented forniscono inoltre supporto per ereditarietà e polimorfismo -->
-
-
-
-
-### Panoramica istruzioni
-
-
-
-  *  Variabili e assegnamenti:
-```java
-int x;              // dichiarazione
-int x=5;  var x=5;  // dichiarazione e inizializzazione (assegnamento)
-x=5;                // assegnamento
-```
-  *  Ritorno: `return 5;`
-  *  Chiamate: `meth(3,4);` `obj.meth(3);`  `Cls.meth(4);`
-  *  Costrutti di controllo del flusso: `for`, `while`, `do`, `switch`, `if`, `break`, `continue`
-  *  Qualche altra tipologia, che vedremo nel prosieguo
-  
   
 ---
 
@@ -260,6 +226,24 @@ Numeri con virgola mobile, con valori speciali che rappresentano valori non nume
 ```java
 {{% import-raw from=2 path="pss-code/src/main/java/it/unibo/structured/Try.java" %}}
 ```
+---
+
+## Variabili e Assegnamento
+
+In Java, come in C, è possibile assegnare dei nomi a dei valori (*variabili*).
+* Una variabile ha un *tipo* e un *nome*
+    - A partire da Java 11, è possibile dedurre (_inferire_) il tipo automaticamente usando `var` al posto del tipo 
+- Il tipo e il nome delle variabili, una volta assegnati, non possono essere cambiati!!
+    - Il valore invece può essere cambiato (vedremo in futuro come impedirlo)
+
+```java
+int x;              // dichiarazione
+int y = 5;          // dichiarazione + inizializzazione
+var z = 5;          // dichiarazione + inizializzazione con inferenza del tipo
+x = 5;              // assegnamento
+// z = 3.14;         // ERRORE: stiamo provando ad assegnare un double a una variabile di tipo int
+```
+- *Consiglio*: All'inizio si raccomanda di dichiarare il tipo in modo esplicito per prendere maggior confidenza con il linguaggio.
 ---
 
 ## Conversioni fra tipi *primitivi*
