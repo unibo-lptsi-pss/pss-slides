@@ -21,16 +21,16 @@ outputs = ["Reveal"]
 2. [Introduzione al linguaggio Java](basics/)
     * Il primo programma Java (Java 25)
     * Programmazione strutturata in Java
-1. [Programmazione strutturata in Java](java-structured-programming/)
-1. [Oggetti e classi (parte 1/2)](objects/)
-1. [Oggetti e classi (parte 2/2)](objects-2/)
-1. [Incapsulamento](encapsulation/) e [formattazione di codice Java](codestyle/)
-1. [Sistemi di controllo versione](git/)
-1. [Interfacce e composizione](interfaces/)
-1. [Ereditarietà](inheritance/)
-1. [Polimorfismo, classi astratte](polymorphism/)
-1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
-1. [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
+1. 🚧 [Programmazione strutturata in Java](java-structured-programming/)
+1. 🚧 [Oggetti e classi (parte 1/2)](objects/)
+1. 🚧 [Oggetti e classi (parte 2/2)](objects-2/)
+1. 🚧 [Incapsulamento](encapsulation/) e [formattazione di codice Java](codestyle/)
+1. 🚧 [Sistemi di controllo versione](git/)
+1. 🚧 [Interfacce e composizione](interfaces/)
+1. 🚧 [Ereditarietà](inheritance/)
+1. 🚧 [Polimorfismo, classi astratte](polymorphism/)
+1. 🚧 [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
+1. 🚧 [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 <!--
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. 
@@ -39,14 +39,16 @@ outputs = ["Reveal"]
 </div>
 <div class="col">
 
-13. [Generici](generics/)
-1. [Collezioni](collections/)
-1. [Eccezioni](exceptions/)
-1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
-1. [Meccanismi avanzati: classi innestate](advanced-mechanisms-nesting/)
-1. [Lambda e funzioni first-class](lambdas/)
-1. [Input/Output](io/)
-1. [Meccanismi avanzati: enum](advanced-mechanisms-enums/)
+14. 🚧 [Generici](generics/)
+1. 🚧 [Collezioni](collections/)
+1. 🚧 [Eccezioni](exceptions/)
+1. 🚧 [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
+1. 🚧 [Meccanismi avanzati: classi innestate](advanced-mechanisms-nesting/)
+1. 🚧 [Lambda e funzioni first-class](lambdas/)
+1. 🚧 [Input/Output](io/)
+1. 🚧 [Enumerazioni](advanced-mechanisms-enums/)
+
+🧪 [Slide di laboratorio $\Rightarrow$](#2)
 
 <!--
 1. [Sviluppo di interfacce grafiche (GUI) con Swing](guis-swing/)
@@ -61,8 +63,8 @@ outputs = ["Reveal"]
 
 {{% /smaller %}}
 
+⚠️ Le slide con il simbolo 🚧 sono da considerarsi in costruzione, potrebbero essere incomplete, e saranno soggette a modifiche
 
-Contenuti laboratorio alla pagina successiva
 
 ---
 
