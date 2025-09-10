@@ -26,6 +26,40 @@ aliases = ["/basics/"]
 
 ---
 
+## I linguaggi OO sono anche imperativi/strutturati
+
+
+
+### Java "estende" il C
+
+
+
+  *  Come C++ e C\#, Java è alla base anche imperativo/strutturato -- altri linguaggi come Scala invece no
+  *  Il codice di un metodo è un insieme di comandi C-like
+<!--  *  Ecco perché li si chiama object-oriented e non object-based -->
+<!-- In realtà: object-based PLs consentono di creare e usare oggetti; quelli object-oriented forniscono inoltre supporto per ereditarietà e polimorfismo -->
+
+
+
+
+### Panoramica istruzioni
+
+
+
+  *  Variabili e assegnamenti:
+```java
+int x;              // dichiarazione
+int x=5;  var x=5;  // dichiarazione e inizializzazione (assegnamento)
+x=5;                // assegnamento
+```
+  *  Ritorno: `return 5;`
+  *  Chiamate: `meth(3,4);` `obj.meth(3);`  `Cls.meth(4);`
+  *  Costrutti di controllo del flusso: `for`, `while`, `do`, `switch`, `if`, `break`, `continue`
+  *  Qualche altra tipologia, che vedremo nel prosieguo
+  
+  
+---
+
 ## Hello World in Java (25+)
 
 ```java
@@ -599,4 +633,4 @@ for(var v: array){ /* uso di v */ }
 
 # Introduzione al linguaggio Java
 
-{{% import path="front-page.md" %}}
+{{% import path="front-page.md" %}}https://content.helpme-codesys.com/en/LibDevSummary/interfaces.html
