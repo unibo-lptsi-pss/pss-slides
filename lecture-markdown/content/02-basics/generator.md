@@ -633,4 +633,4 @@ for(var v: array){ /* uso di v */ }
 
 # Introduzione al linguaggio Java
 
-{{% import path="front-page.md" %}}https://content.helpme-codesys.com/en/LibDevSummary/interfaces.html
+{{% import path="front-page.md" %}}
