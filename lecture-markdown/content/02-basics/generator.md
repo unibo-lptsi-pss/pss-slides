@@ -89,137 +89,127 @@ Come leggerlo?
 
 ## Tipi
 
-
-
 ### Cos'è un tipo
 
 * È un meccanismo per classificare valori (e oggetti)
 * Un *tipo* è costituito da:
     * un *nome*
-    * delle regole che ne definiscono la struttura, oppure dall'enumerazione dei possibili valori
+    * delle regole che ne definiscono la struttura, o l'enumerazione dei possibili valori
     * un *insieme di operatori* o meccanismi per manipolarli
 
-### Tipi di Java
+### Type checking in Java
 
-*  *Primitivi*: `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `char`
-*  *Classi*: oggi vedremo `String`, ma ce ne sono molte altre
-*  *Array*: `boolean[]`, `byte[]`, `String[]`, `String[][]`, $\ldots$
-### Java e i tipi
-
-* Java ha *tipizzazione statica*: ogni espressione ha un tipo noto dal compilatore
-* Java ha *tipizzazione forte*: non si accettano espressioni con errori di tipo
-* $\Rightarrow$ .. permette l'intercettazione a priori di molti errori
-* $\Rightarrow$ .. disciplina progettazione e programmazione
+* Java ha *tipizzazione statica*: ogni espressione ha un tipo noto al compilatore
+* Java è *type safe*: non si accettano espressioni con errori di tipo
+* $\Rightarrow\ldots$ permette l'intercettazione a priori di molti errori
+* $\Rightarrow\ldots$ disciplina progettazione e programmazione
 
 
 ---
 
+### Tipi in Java
 
-## Tipo Booleano
+Java distingue due macro-categorie di tipi: tipi **primitivi** e tipi **non-primitivi**.
 
-* Nome del tipo: `boolean`
-* Valori: `true`, `false`
+#### Tipi primitivi
 
-*  Operatori unari: `!` (not)
-*  Operatori binari: `&` (and), `|` (or), `^` (xor), `&&` (and-c), `||` (or-c)
+I tipi primitivi in Java sono `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `char`, `void`
+* Sono tipi "fondamentali"
+* Sono predefiniti nel linguaggio e non possono essere ridefiniti o creati dal programmatore
+* Non sono oggetti (non accettano l'invio di messaggi)
+* Risiedono nello stack, non nello heap
+* Hanno sempre un valore (non possono essere `null`)
+
+#### Tipi non-primitivi
+
+* *Classi*: tipi di dato creabili dal programmatore
+    * Sono utilizzate per costruire oggetti, che risiedono nello heap
+* *Array*: `boolean[]`, `byte[]`, `String[]`, `String[][]`, $\ldots$
+    * Sequenze ordinate (accessibili per indice) di valori dello stesso tipo
+    * Sono oggetti, ma hanno una sintassi speciale
+* *Stringhe*: `String`
+    * Sequenza di caratteri (oggetti, ma con sintassi speciale)
+
+---
+
+## Tipi primitivi
+
+| Type name | Size (bits) | Minimum        | Maximum               |
+|-----------|-------------|----------------|-----------------------|
+| `char`    | 16          | `\u0000` ($0$) | `\uFFFF` ($2^{16}-1$) |
+| `byte`    | 8           | $-128$         | $128$                 |
+| `short`   | 16          | $-2^{15}$      | $2^{15}-1$            |
+| `int`     | 32          | $-2^{31}$      | $2^{31}-1$            |
+| `long`    | 64          | $-2^{63}$      | $2^{63}-1$            |
+| `float`   | 32          | IEEE754        | IEEE754               |
+| `double`  | 64          | IEEE754        | IEEE754               |
+| `boolean` | 8           | --             | --                    |
+| `void`    | --          | --             | --                    |
+
+---
+
+## `boolean`
+
+Rappresentano valori di verità
+
+* Valori ammessi: `true`, `false`
+* Operatori unari: `!` (not)
+* Operatori binari: `&` (and), `|` (or), `^` (xor), `&&` (and-c), `||` (or-c)
     * `&&` e `||` valutano il secondo argomento solo se necessario (*short-circuiting*)
-    * `false && X` restituisce `false` senza valutare `X`
-    * `true || X` restituisce `true` senza valutare `X`
-*  Operatori di confronto numerici: `>`, `<`, `>=`, `<=`
-*  Operatori di uguaglianza (su tutti i tipi): `==`, `!=`
-  ```java
-  10 == 20                     // false
-  "ciao" == "ciao"             // true
-  ```
-*  Operatore ternario (booleano,tipo,tipo): `?:`
-    *  `b ? v1 : v2` restituisce `v1` se `b` è vero, `v2` altrimenti
+        * `false && X` restituisce `false` senza valutare `X`
+        * `true || X` restituisce `true` senza valutare `X`
 
+Gli *operatori* di *confronto e uguaglianza* restituiscono `boolean`
+* Operatori di uguaglianza e diseguaglianza: `==`, `!=`
+* Operatori di confronto fra primitivi numerici: `>`, `<`, `>=`, `<=`
 
-
-
+Gli *operatori* e le *strutture di controllo* che operano sulla base di *valori di verità*
+(operatore ternario `?:`, strutture `if`, `while`, e `for`)
+si aspettano valori di tipo `boolean`
 
 ---
-
-
-## Tipi numerici
-
-
-| Type name | Size (bits) | Minimum | Maximum |
-| --------- | ---- | ------- | ------- |
-| char | 16 | `\u0000` ($0$) | `\uFFFF` ($2^{16}-1$) |
-| byte | 8 | $-128$ | $128$ |
-| short | 16 | $-2^{15}$ | $2^{15}-1$ |
-| int | 32 | $-2^{31}$ | $2^{31}-1$ |
-| long | 64 | $-2^{63}$ | $2^{63}-1$ |
-| float | 32 | IEEE754 | IEEE754 |
-| double | 64 | IEEE754 | IEEE754 |
-<!--| void | -- | -- | -- |-->
-<!--| boolean | -- | -- | -- |-->
-
----
-
 
 ## Interi: `byte`, `short`, `int`, `long`
 
-
-
 ### Operatori
 
-
-
-  *  Base: `+`, `-`, `*`, `/` (con resto), `%` (resto), `+` e `-` anche unari
-  *  Bit-a-bit: `&` (and), `|` (or), `^` (xor), `~` (complement)
-  *  Shift: `>>` (dx con segno), `<<` (sx), `>>>` (dx senza segno)
-  *  Operatori unari/binari applicati ad un tipo, restituiscono il tipo stesso
-
-
-
+* Binari per operazioni numeriche: `+`, `-`, `*`, `/`, `%` (resto della divisione)
+* Binari bit-a-bit: `&` (and), `|` (or), `^` (xor)
+* Binari per bit-shift: `<<` (sinistra), `>>` (destra con segno), `>>>` (destra senza segno)
+* Unari: `+`, `-` (inversione del segno), `~` (complemento bit-a-bit), `++` (incremento), `--` (decremento)
+    * `++` e `--` possono essere prefissi o postfissi
+        * `++x` e `--x` incrementano/decrementano e restituiscono il nuovo valore
+        * `x++` e `x--` restituiscono il vecchio valore e poi incrementano/decrementano
+* Operatori unari/binari applicati ad un tipo, restituiscono il tipo stesso
 
 ### Codifica, rappresentazione
 
-
-
-  *  Interi codificati in complemento a 2 (ciò impatta il suo range)
-  *  Rappresentazione decimale (`200`), ottale (`0310`), esadecimale (`0xC8`)
-  *  Di default sono `int`, per avere un `long` va aggiunta una `L` (`15L`)
-
-
-
-
-### Prassi
-
-
-
-*  Raro l'uso di `byte` e `short`, non molto più efficienti di `int`
-*  `int` più efficiente di `long`
-
-
-
-
+* Interi codificati in [complemento a 2](https://it.wikipedia.org/wiki/Complemento_a_due)
+    * da cui, per un numero di $N$ bit, il range di valori rappresentabili è $[-2^{N-1}, 2^{N-1}-1]$
+* Rappresentazione decimale (`200`), ottale (`0310`), esadecimale (`0xC8`)
+* Di default sono `int`, per avere un `long` va aggiunta una `L` (`15L`)
+* Non c'è sintassi per `byte` e `short` (usati di rado): si usano cast espliciti (`(byte) 5`)
+* È possibile usare underscore (`_`) per separare le cifre
+    * Es.: `1_000_000` è più leggibile di `1000000`
 
 ---
 
-
 ## Numeri in virgola mobile: `float`, `double`
 
-
+Numeri con virgola mobile, con valori speciali:
+* "not-a-number" (`NaN`),
+* $\infty$ (`POSITIVE_INFINITY`), $-\infty$ (`NEGATIVE_INFINITY`)
 
 ### Operatori
-
-
-
-  *  Base: `+`, `-`, `*`, `/` (con resto), `%` (resto), `+` e `-` anche unari
-
-
-
+* Unari: `+` e `-`
+* Binari: `+`, `-`, `*`, `/`, `%` (resto della divisione)
 
 ### Codifica, rappresentazione
-
-
-
-  *  Codificati secondo lo standard IEEE 754
-  *  Rappresentazione standard (`-128.345`), o scientifica (`-1.2835E+2`)
-  *  Di default sono `double`, per avere un `float` va aggiunta una `F`
+* Codificati secondo lo standard [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754)
+    * Perdono di precisione man mano che il numero cresce
+    * Sono possibili errori di arrotondamento (provate a fare `0.1 + 0.2` in JShell)
+* Rappresentazione standard (`-128.345`), o scientifica (`-1.2835E+2`)
+* Di default sono `double`, per avere un `float` va aggiunta una `f`
 
 ```java
 5   // int
@@ -227,17 +217,6 @@ Come leggerlo?
 5d  // double
 5f  // float
 ```
-
-### Prassi
-
-
-
-  *  Raro l'uso di `float`, anche se più efficiente di `double`
-  *  Attenzione agli errori di precisione!!
-
-
-
-
 
 ---
 
@@ -253,14 +232,9 @@ Come leggerlo?
 
 ---
 
-
 ## Conversioni
 
-
-
 ### Conversioni di tipo, dette anche *cast*: `(tipo)valore`
-
-
 
 * Fra tipi numerici sono sempre consentite
     * mentre non lo sono, ad es. tra tipi numerici e `boolean`
