@@ -15,7 +15,7 @@ aliases = ["/install-intellij/"]
 
 ## Introduzione
 
-* IntelliJ IDEA è un **IDE** sviluppato da JetBrains, tra i più diffusi per Java e non solo
+* IntelliJ IDEA è un **IDE** sviluppato da JetBrains, tra i più diffusi per Java (e non solo)
 * Esistono due versioni:
   * **Ultimate** (a pagamento, gratuita con licenza studente)
   * **Community** (gratuita, open source)
@@ -29,28 +29,25 @@ aliases = ["/install-intellij/"]
 ---
 ## PC dei laboratori
 
-* I computer dei laboratori sono **già attrezzati** con IntelliJ IDEA e JDK configurati.  
-* Non è quindi necessario effettuare alcuna installazione aggiuntiva durante le esercitazioni.   
+* I computer dei laboratori sono **già attrezzati** con IntelliJ IDEA e JDK configurati  
+* Non è quindi necessario effettuare alcuna installazione aggiuntiva durante le esercitazioni
 
 ## Lavorare a casa
 
 Per esercitarsi autonomamente a casa è necessario ricreare lo stesso ambiente:  
- 
-- Installare **IntelliJ IDEA** seguendo le istruzioni riportate per il proprio sistema operativo:
-   * <i class="fa-brands fa-windows"></i> Windows  
-   * <i class="fa-brands fa-linux"></i> Linux  
-   * <i class="fa-brands fa-apple"></i> macOS 
-- Installare il **JDK** seguendo le istruzioni riportate in [Strumenti del JDK e introduzione a Visual Studio Code](lab/01-basic-tools/);
 
-In questo modo sarà possibile allenarsi e sviluppare progetti anche fuori dall’aula.
+- Installare il **JDK** seguendo le istruzioni riportate in [Strumenti del JDK](lab/01-basic-tools/)
+- Installare **IntelliJ IDEA** seguendo le istruzioni che seguono
+
+In questo modo sarà possibile allenarsi e sviluppare progetti anche fuori dall’aula
 
 --- 
 ## <i class="fa-brands fa-windows"></i> Installazione su Windows
 
-1. Scaricare l’installer per la propria architettura dal <a src="https://www.jetbrains.com/idea/download/">sito ufficiale di JetBrains</a>;
-2. Eseguire il file `.exe`
+1. Scaricare l’installer con formato `.exe` adatto alla propria architettura dal [sito ufficiale di JetBrains](https://www.jetbrains.com/idea/download/)
+2. Eseguire l'installer.
 3. Seguire la procedura guidata:
-   * è possibile avanzare nel wizard di installazione lasciando inalterate tutte le opzioni disponibili;
+   * è possibile avanzare nel wizard lasciando inalterate tutte le opzioni disponibili;
 4. Completare l’installazione e avviare IntelliJ IDEA
 
 ---
@@ -59,10 +56,10 @@ In questo modo sarà possibile allenarsi e sviluppare progetti anche fuori dall�
 
 * Dal sito JetBrains è disponibile un **generico** archivio (`.tar.gz`)  
   * Può essere estratto e avviato su **gran parte delle distribuzioni Linux**  
-  * Contiene uno script `idea.sh` nella cartella `bin` per lanciare l’IDE  
+  * è possibile installare il software seguendo le istruzioni in `Install-Linux-tar.txt`
 
 * Tuttavia, **è preferibile** seguire le istruzioni specifiche per la propria distribuzione  
-  * usando il package manager disponibile (es. `apt`, `dnf`, `pacman`, `snap`, `flatpak`)  
+  * ad esempio utilzzando il package manager disponibile (es. `apt`, `dnf`, `pacman`, `snap`, `flatpak`)  
   * questo garantisce aggiornamenti automatici e migliore integrazione con il sistema  
 
 * In caso di difficoltà con l’installazione:  
@@ -74,7 +71,7 @@ In questo modo sarà possibile allenarsi e sviluppare progetti anche fuori dall�
 ## <i class="fa-brands fa-apple"></i> Installazione su macOS
 
 
-1. Scaricare il file `.dmg` dal <a src="https://www.jetbrains.com/idea/download/">sito JetBrains</a>;
+1. Scaricare il file `.dmg` dal [sito ufficiale di JetBrains](https://www.jetbrains.com/idea/download/)
 2. Aprire il pacchetto e trascinare IntelliJ IDEA nella cartella **Applicazioni**;
 3. Avviare l’IDE dal Launchpad o Finder.
 
