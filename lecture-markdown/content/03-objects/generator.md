@@ -15,7 +15,7 @@ aliases = ["/objects/"]
 
 ## Outline
   
-### Goal della lezione
+### Obiettivi della lezione
 *  Illustrare i concetti base del paradigma object-oriented
 *  Mostrare un primo semplice programma Java
 *  Fornire una panoramica di alcuni meccanismi Java
@@ -31,11 +31,11 @@ aliases = ["/objects/"]
 ---
 
 ## Astrazione OO
-*  **Everything is an object.** Un oggetto è una entità che fornisce operazioni per essere manipolata.
-*  **Un programma è un set di oggetti che si comunicano cosa fare scambiandosi messaggi.** Questi messaggi sono richieste per eseguire le operazioni fornite.
+*  **Everything is an object.** Un oggetto è un'entità che fornisce operazioni per essere manipolata.
+*  **Un programma è un insieme di oggetti che si comunicano cosa fare scambiandosi messaggi.** Questi messaggi sono richieste per eseguire le operazioni fornite.
 *  **Un oggetto ha una memoria fatta di altri oggetti.** Un oggetto è ottenuto impacchettando altri oggetti.
 *  **Ogni oggetto è istanza di una classe.** Una classe descrive il comportamento dei suoi oggetti.
-*  **Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.** La classe indica tra le altre cose quali operazioni sono fornite, quindi per comunicare con un oggetto basta sapere qual è la sua classe.
+*  **Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.** La classe indica, tra le altre cose, quali operazioni sono fornite; quindi, per comunicare con un oggetto basta sapere qual è la sua classe.
 
 
 ---
@@ -44,15 +44,15 @@ aliases = ["/objects/"]
 
 Due forni a microonde dello stesso modello sono due oggetti distinti, ma hanno la stessa struttura e gli stessi comportamenti.
 
-La **classe** in OOP è la descrizione di un tipo di oggetto, ne definisce:
+La **classe** in OOP è la descrizione di un tipo di oggetto; ne definisce:
 * *struttura* -- come è fatta, quali sono gli elementi (proprietà) che la compongono
   * Nel caso di un forno a microonde, ad esempio, la potenza, il tempo di cottura, il tipo di cibo inserito
 * *comportamento* -- cosa può fare, quali operazioni sono possibili
     * il comportamento potrebbe prevedere l'*interazione* con altri oggetti
     * ad esempio, il microonde può ricevere un messaggio per impostare la potenza, oppure per avviarsi
 
-A partire da una classe, si possono creare degli **oggetti**
-* Si dice che l'oggetto è *istanza* della classe
+A partire da una classe, si possono creare degli **oggetti**.
+* Si dice che l'oggetto è un'istanza della classe.
 
 Un programma OOP è un insieme di classi.
 Il comportamento è definito a partire da un punto di ingresso (il `main`),
@@ -138,7 +138,7 @@ MicrowaveOven oven = new MicrowaveOven();
 ```
 ### Riferimenti ad oggetti
 *  Nessun meccanismo per accedere ai dati per valore o puntatore!
-*  Le variabili conterranno dei riferimenti agli oggetti veri e propri, sono quindi dei nomi "locali" utilizzabili per denotare l'oggetto
+*  Le variabili conterranno dei riferimenti agli oggetti veri e propri; sono quindi dei nomi "locali" utilizzabili per denotare l'oggetto.
 * Notate: Il `nome` della classe è anche il `nome` del `tipo` degli oggetti che crea!
   
 ---
@@ -152,7 +152,7 @@ Assomigliano molto a quelli del C, ma hanno dimensioni fissate
 | --------- | ---- | ------- | ------- |
 | boolean | -- | -- | -- |
 | char | 16 | `\u0000` | `\uFFFF` |
-| byte | 8 | $-128$ | $128$ |
+| byte | 8 | $-128$ | $127$ |
 | short | 16 | $-2^{15}$ | $2^{15}-1$ |
 | int | 32 | $-2^{31}$ | $2^{31}-1$ |
 | long | 64 | $-2^{63}$ | $2^{63}-1$ |
@@ -196,14 +196,14 @@ flowchart TB
 ### Elementi costitutivi dei campi
 * i campi di una classe assomigliano ai membri di una struct del C
 * ognuno è una sorta di variabile (nome + tipo)
-    * per i campi non è usabile il costrutto `var`!
+    * per i campi non è usabile il costrutto `var`.
 * ve ne possono essere 0,1, molti
-* lo stato di un oggetto è l'attuale valore associato ai campi
+* lo stato di un oggetto è l'attuale valore associato ai suoi campi
 * potrebbero essere valori primitivi, o altri oggetti
   
 ### Valore di un campo
-*  impostabile al momento della sua dichiarazione
-*  se non inizializzato vale:
+*  impostabile al momento della dichiarazione
+*  se non inizializzato, vale:
     *  `0` per i tipi numerici
     *  `false` per i booleani
     *  `null` per le classi
@@ -249,7 +249,7 @@ void main() {
 
 
 ## Costruzione di una classe: metodi
-- Supponiamo ora di voler far in modo di verificare che la potenza non superi 800W
+- Supponiamo ora di voler verificare che la potenza non superi 800 W
 - Come si potrebbe fare:
 ```java
 int power = System.in.nextInt(); // leggo la potenza da terminale
@@ -261,8 +261,8 @@ if (power <= 800 || power >= 0) {
 ```
 - Nota: come esiste System.out per l'output, esiste System.in per l'input
 - Se volessi reimpostare la potenza?
-- Dovrei riscrivere lo stesso codice, con il rischio di errori e duplicazioni 
-  - Ad esempio, cambia la potenza massima da 800W a 700W e devo cambiare tutto
+- Dovrei riscrivere lo stesso codice, con il rischio di errori e duplicazioni.
+  - Ad esempio, se la potenza massima cambia da 800 W a 700 W devo modificare più punti.
 - La **responsabilità** di mantenere lo **stato** coerente è del forno a microonde, non del `main`!
 - Per questo, in OOP si usano i **metodi**
 
@@ -314,7 +314,7 @@ class MicrowaveOven {
     }
   }
 
-  void getContent() {
+  Food getContent() {
     return content;
   }
 
@@ -368,13 +368,13 @@ Object on = null; // Riferimento speciale al valore null
 ---
 
 Flusso:
-* Uml del programma di esempio
+* UML del programma di esempio
 * Costruzione di classi (solo campi)
 * Istanziazione di oggetti
-* Programma di esempio quindi quello sopra ma senza metodi
-* Individuare la scomodità: vogliamo controllare che la potenza non superi 800W.
-* introdurre `if` (`else`/`else if`)
-* Il controllo di potenza lo deve fare il microonde, non il programma: se provate a scaldare la pasta a 8KW, il microonde semplicemente non ve lo fa fare
+* Programma di esempio: quello sopra ma senza metodi
+* Individuare la scomodità: vogliamo controllare che la potenza non superi 800 W.
+* Introdurre `if` (`else`/`else if`)
+* Il controllo della potenza deve farlo il microonde, non il programma: se provate a scaldare la pasta a 8 kW, il microonde semplicemente non ve lo permette.
 * Aggiunta di metodi alla classe
 
 
@@ -409,7 +409,7 @@ class Adder {
 ## Metodi: altro esempio Point3D
 
 ```java
-class Point3D { // Class declaration
+class Point3D { // dichiarazione della classe
     double x; // 3 campi
     double y;
     double z;
@@ -424,16 +424,17 @@ class Point3D { // Class declaration
         return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
-    boolean equal(Point3D q){	// true if two points are equal
+    boolean equal(Point3D q){
+        // true se i due punti sono uguali
         return this.x == q.x && this.y == q.y && this.z == q.z;    
     }
 }
 // codice cliente
-Point3D p = new Point3D(); // Create a new point p
-p.build(10.0, 20.0, 30.0); // set up the point 
-Point3D q = new Point3D(); // create a new point q
-q.build(10.0, 20.0, 31.0); // set up point q
-double m2 = p.getNormSquared(); // get the squared norm of m2
+Point3D p = new Point3D(); // crea un nuovo punto p
+p.build(10.0, 20.0, 30.0); // inizializza il punto 
+Point3D q = new Point3D(); // crea un nuovo punto q
+q.build(10.0, 20.0, 31.0); // inizializza il punto q
+double m2 = p.getNormSquared(); // ottiene la norma al quadrato
 boolean samePoint = p.equal(q); // chiedo a p se è uguale a q
 ```
 
@@ -445,12 +446,3 @@ boolean samePoint = p.equal(q); // chiedo a p se è uguale a q
 * fare qualche esercizio con la costruzione e uso di classi
 
 ---
-
----
-
-
-
-
-# Oggetti e classi
-
-{{% import path="front-page.md" %}}
