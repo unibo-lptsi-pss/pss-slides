@@ -21,7 +21,7 @@ aliases = ["/objects/"]
 *  Fornire una panoramica di alcuni meccanismi Java
   
 ### Argomenti
-*  Oggetti e riferimenti
+*  Oggetti e riferimenti 
 *  Tipi primitivi
 *  Classi, metodi e campi
 *  Accenno a package e librerie
@@ -31,11 +31,11 @@ aliases = ["/objects/"]
 ---
 
 ## Astrazione OO
-*  **Everything is an object.** Un oggetto è un'entità che fornisce operazioni per essere manipolata.
-*  **Un programma è un insieme di oggetti che si comunicano cosa fare scambiandosi messaggi.** Questi messaggi sono richieste per eseguire le operazioni fornite.
-*  **Un oggetto ha una memoria fatta di altri oggetti.** Un oggetto è ottenuto impacchettando altri oggetti.
-*  **Ogni oggetto è istanza di una classe.** Una classe descrive il comportamento dei suoi oggetti.
-*  **Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.** La classe indica, tra le altre cose, quali operazioni sono fornite; quindi, per comunicare con un oggetto basta sapere qual è la sua classe.
+* **Everything is an object.** Un oggetto è un'entità che fornisce operazioni per essere manipolata.
+* **Un programma è un insieme di oggetti che comunicano scambiandosi messaggi.** Questi messaggi sono richieste per eseguire le operazioni fornite.
+* **Un oggetto ha una memoria fatta di altri oggetti.** Un oggetto è ottenuto impacchettando altri oggetti.
+* **Ogni oggetto è istanza di una classe.** Una classe descrive il comportamento comune a tutti gli oggetti che le appartengono.
+* **Tutti gli oggetti di una classe possono ricevere gli stessi messaggi.** La classe indica, tra le altre cose, quali operazioni sono fornite; quindi, per comunicare con un oggetto basta sapere qual è la sua classe.
 
 
 ---
@@ -97,8 +97,10 @@ classDiagram
     - type: String
     + consume()
   }
-  MicrowaveOven --> Food : content
+  MicrowaveOven o-- Food
 ```
+
+Il rombo indica "può contenere un oggetto del tipo indicato" (*aggregazione*).
 
 ---
 
@@ -136,36 +138,29 @@ class MicrowaveOven {
 ```java
 MicrowaveOven oven = new MicrowaveOven();
 ```
+
 ### Riferimenti ad oggetti
-*  Nessun meccanismo per accedere ai dati per valore o puntatore!
-*  Le variabili conterranno dei riferimenti agli oggetti veri e propri; sono quindi dei nomi "locali" utilizzabili per denotare l'oggetto.
-* Notate: Il `nome` della classe è anche il `nome` del `tipo` degli oggetti che crea!
+* L'accesso agli oggetti avviene sempre per *riferimento*
+    * Java non offre alcuna sintassi per conoscere la posizione in memoria (puntatore),
+    né consente di allocare oggetti sullo stack (valore)
+  * Le variabili sono quindi dei nomi "locali" utilizzabili per denotare l'oggetto
+  * Esiste un valore speciale (`null`) che indica l'assenza di un oggetto
+* Notate: Il **nome della _classe_** è anche il **nome del _tipo_** degli oggetti che crea!
+    * `null` può essere assegnato a variabili di tipo oggetto indipendentemente dalla classe
   
 ---
 
-## "(Almost) Everything is an object"
+## In Java: "(*almost*) Everything is an object"
 
-### Tipi primitivi: rappresentano i valori "built-in"
-Assomigliano molto a quelli del C, ma hanno dimensioni fissate
-  
-| Type name | Size (bits) | Minimum | Maximum |
-| --------- | ---- | ------- | ------- |
-| boolean | -- | -- | -- |
-| char | 16 | `\u0000` | `\uFFFF` |
-| byte | 8 | $-128$ | $127$ |
-| short | 16 | $-2^{15}$ | $2^{15}-1$ |
-| int | 32 | $-2^{31}$ | $2^{31}-1$ |
-| long | 64 | $-2^{63}$ | $2^{63}-1$ |
-| float | 32 | IEEE754 | IEEE754 |
-| double | 64 | IEEE754 | IEEE754 |
-| void | -- | -- | -- |
+* I tipi primitivi (`int`, `boolean`, `char`, ...) non sono oggetti
+    * In molti linguaggi OO lo sono
+    * In Java, sono "tipi speciali" per motivi di efficienza
+    * Esistono comunque delle classi wrapper (`Integer`, `Boolean`, `Character`, ...) che li incapsulano
+    * Esistono anche formati numerici più complessi che sono oggetti (`BigInteger`, `BigDecimal`)
+* Le strutture di controllo (`if`, `while`, `for`, ...) non sono oggetti
+    * Questo anche nella maggior parte degli altri linguaggi object-oriented
 
-*  I `boolean` possono valere `true` o `false`
-*  Altre classi di libreria (`BigDecimal`, `BigInteger`) gestiscono numeri di dimensione/precisione arbitraria
-
----
-
-## Una prima classificazione dei tipi
+### Una prima classificazione dei tipi
 
 ```mermaid
 flowchart TB
@@ -181,55 +176,91 @@ flowchart TB
       double(double)
       void(void)
     end
-    subgraph Classes
-      Object(Object)
-      String(String)
-      other(...)
+    subgraph Non-primitive types
+        direction TB
+        subgraph Arrays
+          direction TB
+          intA("int[]")
+          StringA("String[]")
+          other("...[]")
+        end
+        subgraph Classes
+            direction TB
+          Double(Double)
+          Integer(Integer)
+          BigInteger(BigInteger)
+          String(String)
+          MicrowaveOven(MicrowaveOven)
+          other(...)
+        end
     end
   end
 ```
 ---
 
+## **Stato** di un oggetto: *campi*
 
-## Campi
-  
-### Elementi costitutivi dei campi
+Lo **stato** di un oggetto sono codificati attraverso *campi*
 * i campi di una classe assomigliano ai membri di una struct del C
+* i campi possono essere valori primitivi o altri oggetti
 * ognuno è una sorta di variabile (nome + tipo)
     * per i campi non è usabile il costrutto `var`.
-* ve ne possono essere 0,1, molti
-* lo stato di un oggetto è l'attuale valore associato ai suoi campi
-* potrebbero essere valori primitivi, o altri oggetti
-  
+* lo stato di un oggetto a un dato momento è rappresentato dal valore associato ai suoi campi
+* dato un oggetto in una variabile di nome `object`, il suo campo `field` è accessibile con notazione `object.field` (*dot notation*)
+
+TODO sintassi
+
 ### Valore di un campo
-*  impostabile al momento della dichiarazione
-*  se non inizializzato, vale:
-    *  `0` per i tipi numerici
-    *  `false` per i booleani
-    *  `null` per le classi
-*  accessibile da codice cliente con notazione `object.field`
-    * c.d. "dot notation"
+* impostabile al momento della dichiarazione
+* se non inizializzato, vale:
+   *  `0` per i tipi numerici
+   *  `false` per i booleani
+   *  `null` per le classi
 
 --- 
 
 ## Costruzione di una classe: campi
-- Il cibo è una classe a sé stante, con un campo `type` che ne indica il tipo
+
+- Il cibo è una classe a sé stante, con un campo `name` che ne indica il tipo
 ```java
 class Food {
-  String type;   // tipo di cibo, es. "Pasta al sugo"
-  boolean isEaten; // true se il cibo è stato mangiato
+  String name;   // nome di cibo, es. "Pasta al sugo"
+  boolean eaten; // true se il cibo è stato mangiato
 }
 ```
+
+TODO Gianlu Food
+
+---
+
+## Costruzione di una classe: campi
+
+Il microonde deve:
+* tenere traccia del tempo di cottura
+* tenere traccia della potenza
+* sapere se è acceso o spento
+* sapere che cibo contiene (se c'è)
+
+Quali campi?
+
+{{% fragment %}}
 
 - Il forno a microonde ha tre campi: `time`, `power`, e `content`
 
 ```java
 class MicrowaveOven {
-  int time;       // tempo di cottura in secondi
-  int power;      // potenza in watt
-  Food content;   // cibo attualmente nel forno
+    int time;       // tempo di cottura in secondi
+    int power;      // potenza in watt
+    boolean on;   // true se il forno è acceso
+    Food content;   // cibo attualmente nel forno
 }
 ```
+
+{{% /fragment %}}
+
+
+---
+
 - Ora possiamo riprodurre il programma di esempio:
 ```java
 void main() {
@@ -247,36 +278,39 @@ void main() {
 ```
 ---
 
+## Definire il comportamento di un oggetto
 
-## Costruzione di una classe: metodi
-- Supponiamo ora di voler verificare che la potenza non superi 800 W
-- Come si potrebbe fare:
-```java
-int power = System.in.nextInt(); // leggo la potenza da terminale
-if (power <= 800 || power >= 0) {
-  oven.power = power;
-} else {
-  System.out.println("Errore: potenza troppo alta!");
-}
-```
-- Nota: come esiste System.out per l'output, esiste System.in per l'input
-- Se volessi reimpostare la potenza?
-- Dovrei riscrivere lo stesso codice, con il rischio di errori e duplicazioni.
-  - Ad esempio, se la potenza massima cambia da 800 W a 700 W devo modificare più punti.
-- La **responsabilità** di mantenere lo **stato** coerente è del forno a microonde, non del `main`!
-- Per questo, in OOP si usano i **metodi**
+Problema: il microonde deve operare solo in certe condizioni:
+- se il cibo è presente (altrimenti è pericoloso)
+- se il tempo è positivo (altrimenti non ha senso) e non superiore a 1 ora (altrimenti il rischio di bruciare è troppo alto)
+- se la potenza è positiva e compresa fra 150W (scongelamento) e 800W (massimo del forno)
+
+Possiamo fare tutti questi controlli nel `main`, **ma**:
+* per ogni accensione del microonde, vanno ripetuti
+* in caso di modifica, come ad esempio supporto per potenza di 900W, vanno modificati tutti i punti
+* c'è alta probabilità di errori
+
+La **responsabilità** di mantenere coerente lo **stato** è del forno a microonde, non del `main`!
+
+#### Vorremmo poter inviare al forno **un messaggio** che richieda di accendere *se le condizioni sono verificate*
 
 ---
 
 ## Metodi
   
 ### Elementi costitutivi dei metodi
-*  i metodi di una classe assomigliano a funzioni (del C)
-*  ognuno ha una *__intestazione__* (o signature) e un corpo
-    * a sua volta l'intestazione ha il *nome*, tipo di *ritorno*, *argomenti*
-*  di metodi ve ne possono essere 0,1, molti
-*  definiscono il *comportamento* dell'oggetto
-  
+* i metodi definiscono il *comportamento* dell'oggetto
+* i metodi di una classe assomigliano a funzioni (di C)
+    * con una speciale variabile implicita `this`, sempre definita, che denota l'oggetto che contiene il metodo
+* i metodi hanno una *__intestazione__* (o **signature**), un **tipo di ritorno** e un **corpo**
+    * a sua volta l'intestazione ha il *nome* e una *lista di argomenti*
+    * non possono esistere due metodi con la stessa signature
+
+---
+
+TODO: sintassi (definizione e invocazione)
+
+
 ### Significato di un metodo
 * codice cliente richiama un metodo con notazione `object.method(arguments)`
   * Di nuovo, *dot notation*! (stavolta con le parentesi)
@@ -326,6 +360,8 @@ class MicrowaveOven {
 }
 ```
 
+---
+
 ## Oggetti e memoria
   
 ### Gestione della memoria
@@ -334,37 +370,20 @@ class MicrowaveOven {
 * le *variabili* allocate nello **stack**, nei rispettivi record di attivazione
 * le variabili di *tipi primitivi contengono direttamente il valore*
 * le variabili che contengono *oggetti in realtà hanno un riferimento* verso lo heap
-* nota: ancora non sappiamo cosa contiene un oggetto
 
-```java
-// assegnamenti con tipi primitivi: contengono VALORI!
-var i = 5;
-var d = 145e-20;
-var b = true;
-// assegnamenti con classi contengono RIFERIMENTI!
-var o = new Object(); 
-var s = "altra stringa";
-var p = new Point2D(10.4, 20.3);
-var other = i; // VALORE!
-var q = p; // Stesso RIFERIMENTO!
-Object on = null; // Riferimento speciale al valore null
-```
-
----
-
-## Visibilità
-  
-### "Scope" delle variabili
-*  È simile a quello di C
-*  variabili dentro un blocco non sono visibili fuori
-*  differenza rispetto a C: variabili non inizializzate non sono utilizzabili!
-  
 ### Tempo di vita degli oggetti
 *  finito lo scope di una variabile, l'oggetto continua a esistere
 *  verrà deallocato automaticamente dal sistema se non più usato
     *  se, direttamente o indirettamente, nessuna variabile lo può raggiungere
     *  un componente della JVM, il *__garbage collector__*, è preposto a questo compito
 
+TODO: lezione prima
+
+### "Scope" delle variabili
+*  È simile a quello di C
+*  variabili dentro un blocco non sono visibili fuori
+*  differenza rispetto a C: variabili non inizializzate non sono utilizzabili!
+  
 ---
 
 Flusso:
