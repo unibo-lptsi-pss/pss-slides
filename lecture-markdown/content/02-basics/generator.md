@@ -244,6 +244,7 @@ x = 5;              // assegnamento
 // z = 3.14;         // ERRORE: stiamo provando ad assegnare un double a una variabile di tipo int
 ```
 - *Consiglio*: All'inizio si raccomanda di dichiarare il tipo in modo esplicito per prendere maggior confidenza con il linguaggio.
+
 ---
 
 ## Conversioni fra tipi *primitivi*
@@ -412,6 +413,13 @@ Object[] ar2 = new Object[200];
   if(1){ /* ... */ }        // ERROR: incompatible types: int cannot be converted to boolean
   ```
 * No puntatori, no de/allocazione manuale di oggetti
+
+
+### "Scope" delle variabili
+*  È simile a quello di C
+*  variabili dentro un blocco non sono visibili fuori
+*  differenza rispetto a C: variabili non inizializzate non sono utilizzabili!
+  
 
 <!--
 *  Nel `for` è possibile dichiarare la variabile di ciclo (come nel C99), che sarà visibile solo internamente

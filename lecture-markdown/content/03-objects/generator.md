@@ -386,41 +386,6 @@ TODO: lezione prima
   
 ---
 
-Flusso:
-* UML del programma di esempio
-* Costruzione di classi (solo campi)
-* Istanziazione di oggetti
-* Programma di esempio: quello sopra ma senza metodi
-* Individuare la scomodità: vogliamo controllare che la potenza non superi 800 W.
-* Introdurre `if` (`else`/`else if`)
-* Il controllo della potenza deve farlo il microonde, non il programma: se provate a scaldare la pasta a 8 kW, il microonde semplicemente non ve lo permette.
-* Aggiunta di metodi alla classe
-
-
-
-## La variabile speciale `this`
-
-* dentro ad un metodo si può accedere agli argomenti o ai campi
-* per rendere meno ambigua la sintassi, Java fornisce una variabile speciale denotata con `this`
-  * contiene il riferimento all'oggetto che sta gestendo il messaggio
-* per motivi di leggibilità, viene spesso omessa
-  * all'inizio, è opportuno usarla sempre!
-
-
-```java
-class Adder {
-  int total;
-
-  void add(int a){ // input "int a"
-    this.total = this.total + a;              
-  }
-
-  int getValue(){ // intestazione funzione
-    return this.total; // corpo funzione
-  }
-}
-```
-
 ---
 
 
