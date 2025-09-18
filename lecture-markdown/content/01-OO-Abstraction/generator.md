@@ -198,7 +198,7 @@ class MicrowaveOven {
     setTime(int seconds)
     setPower(int watts)
     start()
-    consume()
+    off()
 }
 ```
 
@@ -232,8 +232,8 @@ void start(MicrowaveOven* oven) {
     oven->isOn = 1;
 }
 
-void consume(MicrowaveOven* oven) {
-    if (oven->isOn) oven->isOn = 0; // si spegne automaticamente
+void off(MicrowaveOven* oven) {
+    if (oven->isOn) oven->isOn = 0; // se è acceso, lo spegne
 }
 
 void main(void) {
@@ -241,7 +241,7 @@ void main(void) {
     setPower(&myOven, 800);
     setTime(&myOven, 120);
     start(&myOven);
-    consume(&myOven);
+    off(&myOven);
 }
 
 ```
