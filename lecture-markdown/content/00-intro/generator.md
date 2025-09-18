@@ -121,7 +121,7 @@ aliases = ["/intro/"]
   ### Altri riferimenti
   * E.Gamma et al. Design Patterns Elements of Reusable Object-Oriented Software.
   * R.Martin. Clean Code: A Handbook of Agile Software Craftsmanship
-  * Java e C\# online documentation (tutorials, Language Specification, APIs)
+  * Java online documentation (tutorials, Language Specification, APIs)
 
 ---
 
@@ -181,7 +181,7 @@ aliases = ["/intro/"]
 * costruzione e comprensione di semplici algoritmi e strutture dati
 
 ## Attenzione a chi è già "fluente" in linguaggi ad oggetti
-* Java o C#
+* Java o C\#
 * è difficile disimparare le cattive abitudini!
 
 ---
