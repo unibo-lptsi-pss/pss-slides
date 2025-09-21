@@ -21,10 +21,7 @@ aliases = ["/objects/"]
 *  Fornire una panoramica di alcuni meccanismi Java
   
 ### Argomenti
-*  Oggetti e riferimenti 
-*  Tipi primitivi
 *  Classi, metodi e campi
-*  Accenno a package e librerie
 *  Stampe a video
 *  Primo semplice programma Java
 
@@ -52,7 +49,7 @@ La **classe** in OOP è la descrizione di un tipo di oggetto; ne definisce:
     * ad esempio, il microonde può ricevere un messaggio per impostare la potenza, oppure per avviarsi
 
 A partire da una classe, si possono creare degli **oggetti**.
-* Si dice che l'oggetto è un'istanza della classe.
+* Si dice che l'oggetto è un'**istanza** della *classe*.
 
 Un programma OOP è un insieme di classi.
 Il comportamento è definito a partire da un punto di ingresso (il `main`),
@@ -66,7 +63,7 @@ Programma che scalda un piatto di pasta e lo mangia:
 * Classi: `MicrowaveOven`, `Food`
 * Programma:
   1. Crea un oggetto di tipo `MicrowaveOven`, modello `"HotPoint Ariston"`, nome: `oven`
-  2. Crea un oggetto di tipo `Food`, tipo: `"Pasta al sugo"`, nome: `pasta`
+  2. Crea un oggetto di tipo `Food`, tipo: `"Pasta al sugo"`
   3. Invia il messaggio `insert(pasta)` all'oggetto `oven`
   4. Invia il messaggio `setTime(60)` all'oggetto `oven`
   5. Invia il messaggio `setPower(800)` all'oggetto `oven`
@@ -86,6 +83,7 @@ classDiagram
     - time: int
     - power: int
     - content: Food
+    - on: boolean
     + insert(Food)
     + setTime(int)
     + setPower(int)
@@ -94,7 +92,8 @@ classDiagram
     + getContent() Food
   }
   class Food {
-    - type: String
+    - name: String
+    - eaten: boolean
     + consume()
   }
   MicrowaveOven o-- Food
@@ -105,21 +104,41 @@ Il rombo indica "può contenere un oggetto del tipo indicato" (*aggregazione*).
 ---
 
 ### Diagramma delle sequenze UML
-
 ```mermaid
 sequenceDiagram
-  participant Program
+  actor Client
   participant oven as MicrowaveOven
   participant pasta as Food
 
-  Program->>oven: new MicrowaveOven("HotPoint Ariston")
-  Program->>pasta: new Food("Pasta al sugo")
-  Program->>oven: insert(pasta)
-  Program->>oven: setTime(60)
-  Program->>oven: setPower(800)
-  Program->>oven: start()
-  Program->>oven: getContent()
-  Program->>pasta: consume()
+  Client->>oven: insert(pasta)
+  activate oven
+  oven-->>Client: ok
+  deactivate oven
+
+  Client->>oven: setTime(60)
+  activate oven
+  oven-->>Client: ok
+  deactivate oven
+
+  Client->>oven: setPower(800)
+  activate oven
+  oven-->>Client: ok
+  deactivate oven
+
+  Client->>oven: start()
+  activate oven
+  oven-->>Client: started
+  deactivate oven
+
+  Client->>oven: getContent()
+  activate oven
+  oven-->>Client: returns pasta
+  deactivate oven
+
+  activate pasta
+  Client->>pasta: consume()
+  pasta-->>Client: consumed
+  deactivate pasta
 ```
 
 Ok, ora vediamo come si realizza un programma del genere in Java!
@@ -208,34 +227,49 @@ Lo **stato** di un oggetto sono codificati attraverso *campi*
 * lo stato di un oggetto a un dato momento è rappresentato dal valore associato ai suoi campi
 * dato un oggetto in una variabile di nome `object`, il suo campo `field` è accessibile con notazione `object.field` (*dot notation*)
 
-TODO sintassi
+### Sintassi di un campo
+```java
+[modificatori] tipo nome [= valore_iniziale];
+```
+- I **modificatori** sono opzionali, e ne esistono diversi (li vedremo più avanti)
+- Il **tipo** può essere un tipo primitivo o il nome di una classe
+- Il **nome** è un identificatore (in camelCase)
 
+```java
+class ClassName {
+    int field1;
+}
+```
+
+--- 
 ### Valore di un campo
+* - Il **valore_iniziale** è opzionale, e può essere un'espressione del tipo appropriato
 * impostabile al momento della dichiarazione
 * se non inizializzato, vale:
    *  `0` per i tipi numerici
    *  `false` per i booleani
    *  `null` per le classi
-
+```java
+class ClassName {
+    int field1 = 10; // inizializzato a 10
+    boolean field2;  // inizializzato a false
+    String field3;   // inizializzato a null
+}
+```
 --- 
 
 ## Costruzione di una classe: campi
 
 - Il cibo è una classe a sé stante, con un campo `name` che ne indica il tipo
 ```java
-class Food {
-  String name;   // nome di cibo, es. "Pasta al sugo"
-  boolean eaten; // true se il cibo è stato mangiato
-}
+{{% import-raw from=2 to=5 path="pss-code/src/main/java/it/unibo/base/Fields.java" %}}
 ```
-
-TODO Gianlu Food
-
 ---
 
 ## Costruzione di una classe: campi
 
 Il microonde deve:
+* tenere traccia del modello
 * tenere traccia del tempo di cottura
 * tenere traccia della potenza
 * sapere se è acceso o spento
@@ -245,37 +279,21 @@ Quali campi?
 
 {{% fragment %}}
 
-- Il forno a microonde ha tre campi: `time`, `power`, e `content`
+- Il forno a microonde ha cinque campi: `model`, `time`, `power`, `on`, e `content`
 
 ```java
-class MicrowaveOven {
-    int time;       // tempo di cottura in secondi
-    int power;      // potenza in watt
-    boolean on;   // true se il forno è acceso
-    Food content;   // cibo attualmente nel forno
-}
+{{% import-raw from=7 to=13 path="pss-code/src/main/java/it/unibo/base/Fields.java" %}}
 ```
 
 {{% /fragment %}}
-
 
 ---
 
 - Ora possiamo riprodurre il programma di esempio:
 ```java
-void main() {
-  MicrowaveOven oven = new MicrowaveOven();
-  oven.time = 60;
-  oven.power = 800;
-  oven.content = new Food(); // new Food() è un'espressione!
-  oven.content.type = "Pasta al sugo"; // Posso accedere ai campi di content!
-  oven.isOn = true;
-  oven.content.isEaten = true;
-  System.out.println(oven.content.type); // stampa "Pasta al sugo"
-  System.out.println(oven.power); // stampa 800
-  System.out.println(oven.time); // stampa 60
-}
+{{% import-raw from=15 to=29 path="pss-code/src/main/java/it/unibo/base/Fields.java" %}}
 ```
+
 ---
 
 ## Definire il comportamento di un oggetto
@@ -308,125 +326,145 @@ La **responsabilità** di mantenere coerente lo **stato** è del forno a microon
 
 ---
 
-TODO: sintassi (definizione e invocazione)
+## Sintassi: definizione e invocazione dei metodi
 
+### Definizione di un metodo
+```java
+[modificatori] tipo_ritorno nome([tipo1 arg1, tipo2 arg2, ...]) {
+    // corpo
+    return espressione; // se tipo_ritorno != void
+}
+```
+- I **modificatori** sono opzionali, e ne esistono diversi (li lifeveremo più avanti)
+- Il **tipo_ritorno** è il tipo del valore restituito (o `void` se non restituisce nulla)
+- Il **nome** è un identificatore (in camelCase)
+- I **parametri** sono una lista separata da virgole di variabili formali
+    * ogni parametro ha un tipo e un nome 
+- Il **corpo** è un blocco di codice tra parentesi graffe `{}`
+- La parola chiave `return` è usata per restituire un valore (se il tipo di ritorno non è `void`)
+- Dentro ad un metodo si può accedere ai campi dell'oggetto usando `this.field`
+```java
+class ClassName {
+  int field1;
+  int method1(int arg1) {
+      return this.field1 + arg1;
+  }
+}
+```
+---
 
-### Significato di un metodo
+### Significato di un metodo (invocazione)
 * codice cliente richiama un metodo con notazione `object.method(arguments)`
   * Di nuovo, *dot notation*! (stavolta con le parentesi)
 * corrisponde ad inviare un messaggio a `object`
 * `object` è chiamato il *__receiver__* del messaggio (o dell'invocazione)
 * il comportamento conseguente è dato dall'esecuzione del corpo
 * il corpo può leggere/scrivere il valore dei campi
-
+```java
+ClassName obj = new ClassName();
+int result = obj.method1(20);    // Manda il messaggio method1(20) a obj 
+```
 ---
 
-## Metodi -- Piccolo esempio
-
+## Metodi -- `Food`
+Proviamo ad aggiungere dei metodi alle nostre classi `Food` e `MicrowaveOven`
+- La classe `Food` ha un metodo `consume()` che "mangia" il cibo
+- Se il cibo è già stato mangiato, non succede nulla
 ```java
-class MicrowaveOven {
-  int time;
-  int power;
-  Food content;
-  boolean isOn;
-
-  void setPower(int power) {
-    if (power <= 800 && power >= 0) {
-      this.power = power;
-    }
-  }
-
-  void setTime(int time) {
-    if (time >= 0) {
-      this.time = time;
-    }
-  }
-
-  void start() {
-    if (!isOn && content != null && power > 0 && time > 0) {
-      isOn = true;
-    }
-  }
-
-  Food getContent() {
-    return content;
-  }
-
-  void off() {
-    if (isOn){
-      isOn = false; // se è acceso, lo spegne
-    }
-  }
-}
+{{% import-raw from=1 to=12 path="pss-code/src/main/java/it/unibo/base/Methods.java" %}}
 ```
 
 ---
 
-## Oggetti e memoria
-  
-### Gestione della memoria
+## Metodi -- `MicrowaveOven`
+- Che metodi avrà la classe `MicrowaveOven`?
+{{% fragment %}}
+- Deve avere diversi metodi per impostare lo stato:
+  * `setTime(int t)` per impostare il tempo (controllo, t > 0 e t <= 120)
+  * `setPower(int p)` per impostare la potenza (controllo, p >= 150 e p <= 800)
+  * `insert(Food f)` per inserire il cibo (controllo, se il forno è in uno stato valido, e f != null)
+{{% /fragment %}}
 
-* tutti gli *oggetti* sono allocati nella memoria __heap__
-* le *variabili* allocate nello **stack**, nei rispettivi record di attivazione
-* le variabili di *tipi primitivi contengono direttamente il valore*
-* le variabili che contengono *oggetti in realtà hanno un riferimento* verso lo heap
-
-### Tempo di vita degli oggetti
-*  finito lo scope di una variabile, l'oggetto continua a esistere
-*  verrà deallocato automaticamente dal sistema se non più usato
-    *  se, direttamente o indirettamente, nessuna variabile lo può raggiungere
-    *  un componente della JVM, il *__garbage collector__*, è preposto a questo compito
-
-TODO: lezione prima
-
-### "Scope" delle variabili
-*  È simile a quello di C
-*  variabili dentro un blocco non sono visibili fuori
-*  differenza rispetto a C: variabili non inizializzate non sono utilizzabili!
-  
----
+{{% fragment %}}
+- Deve avere dei metodi per azionare/spegnere il forno:
+  * `start()` per accendere (controllo, cibo != null, time > 0, power > 150)
+  * `off()` per spegnere (nessun controllo)
+  * `getContent()` per ottenere il cibo cotto (se il forno è acceso, lo spegne e restituisce il cibo togliendolo dal microonde)
+{{% /fragment %}}
 
 ---
 
+## Metodi -- `MicrowaveOven` (continua)
+<div style="display:flex; gap:2rem; flex-wrap:wrap; align-items:stretch; height:100%; font-size:0.9rem; box-sizing:border-box;">
+  <div style="flex:1; min-width:280px; height:100%;">
 
+  ```java
+  {{% import-raw from=14 to=72 path="pss-code/src/main/java/it/unibo/base/Methods.java" %}}
+  ```
+  
+  </div>
+</div>
 
-## Metodi: altro esempio Point3D
+--- 
+
+## Nuovo programma con metodi
 
 ```java
-class Point3D { // dichiarazione della classe
-    double x; // 3 campi
-    double y;
-    double z;
-
-    void build(double a, double b, double c){
-        this.x = a;
-        this.y = b;
-        this.z = c;
-    }
-
-    double getNormSquared(){
-        return this.x * this.x + this.y * this.y + this.z * this.z;
-    }
-
-    boolean equal(Point3D q){
-        // true se i due punti sono uguali
-        return this.x == q.x && this.y == q.y && this.z == q.z;    
-    }
-}
-// codice cliente
-Point3D p = new Point3D(); // crea un nuovo punto p
-p.build(10.0, 20.0, 30.0); // inizializza il punto 
-Point3D q = new Point3D(); // crea un nuovo punto q
-q.build(10.0, 20.0, 31.0); // inizializza il punto q
-double m2 = p.getNormSquared(); // ottiene la norma al quadrato
-boolean samePoint = p.equal(q); // chiedo a p se è uguale a q
+{{% import-raw from=73 to=91 path="pss-code/src/main/java/it/unibo/base/Methods.java" %}}
 ```
 
+---
 
-## Preview del prossimo laboratorio
-  
-### Obiettivi
-* familiarizzare con la compilazione da linea di comando in Java
-* fare qualche esercizio con la costruzione e uso di classi
+
+## Altro esempio: classe `Point3D`
+
+- Una classe che rappresenta un punto nello spazio tridimensionale
+- con tre campi `x`, `y`, `z`
+  - tutti di tipo `double`
+  - e tre metodi:
+    - `build(double a, double b, double c)` per inizializzare il punto
+    - `getNormSquared()` che restituisce la norma al quadrato del punto
+    - `equal(Point3D q)` che restituisce true se il punto è uguale a `q`
 
 ---
+
+## Classe `Point3D`: implementazione
+
+{{% smallest %}}
+
+```java
+{{% import-raw from=1 to=21 path="pss-code/src/main/java/it/unibo/base/PointExample.java" %}}
+```
+{{% /smallest %}}
+
+## Esempi d'uso
+
+{{% smaller %}}
+
+```java
+{{% import-raw from=22 to=40 path="pss-code/src/main/java/it/unibo/base/PointExample.java" %}}
+```
+{{% /smaller %}}
+
+
+- *Notate*: la *costruzione* e l'*inizializzazione* hanno senso se messe insieme 
+  - in Java, questo è fatto con i **costruttori** (ne parleremo più avanti)
+
+---
+
+## Riepilogo
+- Abbiamo visto i concetti base della programmazione object-oriented
+  - Che cos'è un *oggetto* e una *classe*?
+  - Come si definiscono *campi* e *metodi*
+- Abbiamo visto come si costruisce un semplice programma Java
+- Cosa vedremo nella prossima lezione:
+  - Codice Statico
+  - Costruttori
+  - Oggetti in memoria
+  - Package
+
+---
+
+# Oggetti e classi
+
+{{% import path="front-page.md" %}}
