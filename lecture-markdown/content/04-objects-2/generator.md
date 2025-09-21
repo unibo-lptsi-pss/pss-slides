@@ -490,11 +490,49 @@ classDef c fill:#fff;
 
 ---
 
-## `GuessMyNumberApp` revisited
+## `GuessMyNumberApp`: un esempio completo
+
+*  Realizziamo un semplice gioco: "indovina il numero"
+*  Il computer sceglie un numero casuale in un intervallo predefinito
+*  Il giocatore ha un numero limitato di tentativi per indovinarlo
+*  Ad ogni tentativo, il computer fornisce un suggerimento: "troppo alto" o "troppo basso"
+
+### Analisi dei requisiti
+*  **Costanti del gioco**: numero massimo e minimo, tentativi disponibili
+*  **Generazione numero casuale** nell'intervallo specificato
+*  **Ciclo di gioco**: ripetere fino a vittoria o esaurimento tentativi
+*  **Input/Output**: leggere il tentativo del giocatore e fornire il feedback
+
+### Logica principale
+1. **Inizializzazione**: generare numero casuale
+2. **Ciclo di gioco**: per ogni tentativo:
+   - Mostrare il numero del tentativo
+   - Leggere l'input del giocatore
+   - Confrontare con il numero segreto
+   - Fornire il feedback appropriato
+3. **Terminazione**: vittoria immediata o sconfitta dopo tutti i tentativi
+
+---
+
+## Implementazione completa
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/GuessMyNumberApp.java" %}}
 ```
+
+---
+
+## Note sull'implementazione
+
+### Generazione numero casuale
+*  `new Random().nextInt(MAX_GUESS - MIN_GUESS) + MIN_GUESS`
+*  `nextInt(n)` genera numero tra 0 e n-1
+*  Sommiamo `MIN_GUESS` per ottenere l'intervallo desiderato
+
+### Lettura input
+*  `System.console().readLine()` legge una riga da console
+*  `Integer.parseInt()` converte la stringa in intero
+*  Attenzione: possibili eccezioni se input non è un numero valido
 
 ---
 
@@ -545,70 +583,74 @@ classDef c fill:#fff;
 
 ---
 
-# Una applicazione
+# Un'applicazione
 
 ---
 
-## Applicazione: `Mandelbrot`
-
-### Problema
-
-  Data una semplice classe `Picture` che gestisce gli aspetti grafici, realizzare una applicazione che disegna il frattale Mandelbrot.
+## Applicazione OOP: `GuessMyNumber`
 
 ### Elementi progettuali
+* I concetti principali di questa applicazione sono:
+    - **Generazione di numeri casuali**: il computer genera un numero casuale da indovinare
+    - **Ciclo di gioco**: il giocatore ha un numero limitato di tentativi per indovinare il numero
+    - **Input/Output**: leggere il tentativo del giocatore e fornire feedback
+* Questo si reifica in tre classi:
+    - `GuessMyNumberGame`: la classe principale che gestisce il flusso del gioco
+        - Metodo: `play()`: contiene il ciclo di gioco
+    - `NumberPicker`: una classe che contiene le logiche per generare numeri casuali
+        - Metodo: `pickNumber(int min, int max)`: genera un numero casuale nell'intervallo specificato
+    - `IOManager`: una classe che gestisce l'input e l'output
+        - Metodo: `readIntInRange(int min, int max)`: legge il tentativo del giocatore
+        - Metodo: `printLine(String message)`: stampa un messaggio sulla console
 
-*  Classe fornita `Picture` -- codice non comprensibile ora
-    *  ha un costruttore che accetta larghezza e altezza in pixel della finestra
-    *  metodo `void drawPixel(int x,int y,int color)`
-*  Classe `Complex` modella numeri complessi e operazioni base
-*  Classe `Mandelbrot` si occupa di calcolare il valore di ogni punto del rettangolo
-    *  metodo `void advancePosition()` passa al prossimo punto
-    *  metodo `boolean isCompleted()` dice se ci sono altri punti da calcolare
-    *  metodo `int computeIteratrions()` dice quante iterazioni vengono calcolate per il punto corrente
-*  Classe `MandelbrotApp` ha il solo `main`
-
-### Elementi implementativi
-
-*  Implementazione ancora preliminare e da migliorare
 
 ---
 
-## Classe `Complex`
+## Classe `GameConfig`
+Questa classe non era necessaria, ma aiuta a raggruppare le costanti di configurazione del gioco.
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/lifecycle/app/Complex.java" %}}
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/lifecycle/modeling/GameConfig.java" %}}
 ```
 ---
 
-## Classe `Mandelbrot`
+## Classe `NumberPicker`
 
 {{% smaller %}}
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/app/Mandelbrot.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/modeling/NumberPicker.java" %}}
 ```
 
 {{% /smaller %}}
 
 ---
 
-## Classe `MandelbrotApp`
+## Classe `IOManager`
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/app/MandelbrotApp.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/modeling/IOManager.java" %}}
 ```
 
 ---
 
-## Preview del prossimo laboratorio
+## Classe `GuessMyNumberGame`
 
-### Obiettivi
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/modeling/GuessMyNumberGame.java" %}}
+```
 
-* Esercizi su piccoli algoritmi su array e tipi primitivi
-* Uso costruttori
-* Aspetti avanzati della compilazione in Java (cf. classpath)
-* Introduzione al build system Gradle
+---
 
+## Nuovo `main`
+
+```java
+{{% import-raw from=2 path="pss-code/src/main/java/it/unibo/lifecycle/modeling/GuessMyNumberApp.java" %}}
+```
+- **Divisione delle responsabilità:** separare i compiti tra le classi mantiene il codice ordinato e facilmente manutenibile, riducendo accoppiamento e complessità.
+- **Una classe, una responsabilità:** design mirato e coerente migliora leggibilità e riuso; modifiche locali restano isolate.
+    - Cosa succede se vogliamo cambiare la modalità di input (da console a GUI)? Solo `IOManager` va modificata.
+- **Ruolo minimo del `main`:** il `main` si limita a inizializzare e avviare il gioco, lasciando la logica nelle classi dedicate per un flusso principale chiaro e intuitivo.
 ---
 # Oggetti e Classi pt.2: inizializzazione, accessi, distruzione
 
