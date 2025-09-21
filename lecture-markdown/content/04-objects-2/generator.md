@@ -42,16 +42,14 @@ aliases = ["/objects-2/"]
   *  Alcuni campi e metodi di una classe possono essere dichiarati `static`
   *  Esempi visti:
       *  il `main` dal quale parte un programma Java
-      *  il metodo `java.util.Arrays.toString()` (ossia, il metodo `toString` nella classe `Arrays` dentro al package `java.util`)
       *  il campo `java.lang.System.out`
-      *  il metodo `java.lang.System.getProperty()`
   *  Tali campi e metodi sono considerate *proprietà della classe*, non dell'oggetto
   *  Sintassi: `Classe.metodo(argomenti)`, e `Classe.campo`
       *  omettendo la classe si assume quella da cui parte la chiamata
 
 
 ### Sulla notazione
-*  Iniziano con *minuscolo*: nomi di package (`it.unibo.students`), metodi (`getName`) e campi (`firstName`)
+*  Iniziano con *minuscolo*: metodi (`getName`) e campi (`firstName`)
 *  Iniziano con *maiuscolo*: nomi di classe (e.g. `Student`)
     * Questo consente di capire facilmente il significato delle istruzioni
 
@@ -62,15 +60,16 @@ aliases = ["/objects-2/"]
 
 ### Codice non statico (detto anche *codice d'istanza*)
 *  È codice puro object-oriented
-*  Definisce le operazioni e lo stato di ogni oggetto creato da `C`
+*  Definisce le *operazioni* e lo *stato* di ogni oggetto creato da `C`
 
 ### Codice statico
 *  Non è codice puro object-oriented, ma codice in stile "imperativo/strutturato"
 *  Definisce funzioni e variabili del componente software definito da `C`
-    *  possono essere visti come metodi e campi dell'unico oggetto "classe `C`" (cf. *reflection*)
+    *  possono essere visti come metodi e campi dell'unico oggetto "classe `C`"
 
 ### Usarli assieme?
-*  Le helper class abbiano solo metodi/campi statici
+*  Le *helper class* abbiano solo metodi/campi statici
+    - Sono classi di supporto, non istanziabili (utility).
 *  Le classi OO non abbiano metodi/campi statici, a meno di qualche funzionalità "generale" della classe (si veda nel proseguio)
 
 ---
@@ -90,6 +89,32 @@ aliases = ["/objects-2/"]
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/points/UsePoint3D.java" %}}
 ```
+
+---
+
+## `main` come metodo statico
+Nelle lezioni precedenti abbiamo usato la nuova sintassi (Java 25) che permette di scrivere direttamente un blocco main senza dichiarare esplicitamente la classe:
+
+```java
+void main(String[] args) {
+    // codice
+}
+```
+
+La sintassi canonica (classica) di Java richiede invece che `main` sia un metodo statico contenuto in una classe:
+
+```java
+class EntryPoint {
+    static void main(String[] args) {
+        // codice
+    }
+}
+```
+
+Punti chiave:
+- `main` è statico perché ha senso essere invocato senza creare un'istanza: la JVM lo chiama direttamente sulla classe.
+- `EntryPoint` è solo un nome di esempio: la classe che contiene `main` può chiamarsi come si vuole, purché la JVM invii l'esecuzione a quel metodo.
+
 
 ---
 
@@ -189,7 +214,7 @@ aliases = ["/objects-2/"]
 *  Allo stato attuale delle nostre conoscenze, l'operatore `new T` crea un oggetto di tipo `T` inizializzando tutti i suoi campi al loro valore di default (p.e. $0$ per i numeri), e ne restituisce il riferimento
 ```java
 Point3D   p  = new Point3D();
-Point3D[] ps = new Point3D[2]; // [null, null]
+Point3D[] ps = new Point3D[2]; // [null, null] <- sintassi per creare array di oggetti
 ```
 *  Problema: garantire una corretta *inizializzazione*
 
@@ -205,7 +230,14 @@ Point3D[] ps = new Point3D[2]; // [null, null]
 
 ---
 
-## Esempio: Point3D
+### *Costruttori*: sintassi
+
+```java
+<NomeClasse> (<Tipo1> <arg1>, <Tipo2> <arg2>, ...) {
+    // codice di inizializzazione
+}
+```
+### Esempio: Point3D
 
 
 ```java
@@ -215,7 +247,7 @@ Point3D[] ps = new Point3D[2]; // [null, null]
 ---
 
 
-## Gli argomenti del costr. spesso corrispondono ai campi
+## Gli argomenti del costruttore spesso corrispondono ai campi
 
 
 ```java
@@ -301,7 +333,6 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 ```
 
 ---
-
 
 # Controllo d'accesso
 
