@@ -16,66 +16,110 @@ aliases = ["/objects-2/"]
 
 ## Outline
 
-
 ### Goal della lezione
-  *  Completare i meccanismi OO di Java a livello di classe
-  *  Porre le basi per poter fare della corretta progettazione
-  *  Discutere aspetti collegati alla vita di un oggetto (costruzione, accesso, distruzione)
+*  Completare i meccanismi OO di Java a livello di classe
+*  Porre le basi per poter fare della corretta progettazione
+*  Discutere aspetti collegati alla vita di un oggetto (costruzione, accesso, distruzione)
 
 ### Argomenti
 *  Costruttori
-*  Codice statico
+*  Proprietà di classe: `static`
 *  Overloading di metodi
 *  Approfondimento sui package
 *  Controllo d'accesso
 *  Finalizzazione e garbage collection
+
 ---
 
-
-# Codice statico
+# Proprietà di classe in Java: `static`
 
 ---
 
 ## Codice statico
 
 ### Meccanismo
-  *  Alcuni campi e metodi di una classe possono essere dichiarati `static`
-  *  Esempi visti:
-      *  il `main` dal quale parte un programma Java
-      *  il campo `java.lang.System.out`
-  *  Tali campi e metodi sono considerate *proprietà della classe*, non dell'oggetto
-  *  Sintassi: `Classe.metodo(argomenti)`, e `Classe.campo`
-      *  omettendo la classe si assume quella da cui parte la chiamata
-
-
-### Sulla notazione
-*  Iniziano con *minuscolo*: metodi (`getName`) e campi (`firstName`)
-*  Iniziano con *maiuscolo*: nomi di classe (e.g. `Student`)
-    * Questo consente di capire facilmente il significato delle istruzioni
+* Alcuni campi e metodi non sono proprietà di un oggetto, ma *appartengono logicamente alla classe*
+  * Hanno lo stesso valore o comportamento indipendentemente da quale oggetto li usa
+  * E infatti non hanno neppure bisogno di un oggetto per essere usati
+  * Pensate, ad esempio, a:
+     * il campo `java.lang.System.out`: potete usarlo senza avere un oggetto `System`!
+        * non fate `new System().out`!
+     * il campo `Integer.MAX_VALUE`
+     * i metodi di conversione: `Integer.parseInt(String s)`, `Double.parseDouble(String s)`, etc.
+* Questi campi e metodi *di classe* vanno dichiarati `static`
+    * A questo punto, sono accessibili direttamente dalla classe, senza bisogno di costruire oggetti
+    * Sintassi: `Classe.metodo(argomenti)`, e `Classe.campo`
+        * la classe si può omettere se si intende usare la classe corrente
 
 ---
 
+### Esempio: `main` dentro una classe 
 
-## Uso di codice statico o non statico in una classe `C`?
+Il metodo `main` non richiede un oggetto per essere invocato
+* È il punto di ingresso del programma, anche volendo non sapremmo come costruire un oggetto su cui invocarlo
+* In effetti, abbiamo detto che l'interprete Java richiede un *nome di classe* per partire
+    * e cerca il metodo `main` in quella classe
+* La sintassi moderna di fatto *nasconde* la classe, ma in realtà c'è sempre (e prende implicitamente il nome del file)
+* È comunque possibile (e consigliato in applicazioni più complesse) definire esplicitamente una classe di ingresso
 
-### Codice non statico (detto anche *codice d'istanza*)
-*  È codice puro object-oriented
-*  Definisce le *operazioni* e lo *stato* di ogni oggetto creato da `C`
+#### Il `main` come metodo statico di una classe (Java 25+)
 
-### Codice statico
-*  Non è codice puro object-oriented, ma codice in stile "imperativo/strutturato"
-*  Definisce funzioni e variabili del componente software definito da `C`
-    *  possono essere visti come metodi e campi dell'unico oggetto "classe `C`"
+```java
+class EntryPoint {
+    static void main(String[] args) { // Main è un metodo statico della classe EntryPoint
+        System.out.println("Hello, World!");
+    }
+}
+```
 
-### Usarli assieme?
-*  Le *helper class* abbiano solo metodi/campi statici
+---
+
+## Notazione per classi, metodi e campi
+
+In Java, anche se non obbligatorio, si adotta una *convenzione di notazione* per distinguere vari elementi del linguaggio
+* Questa convenzione, anche se compromette la compilabilità, migliora la leggibilità del codice
+* Sarà usata in tutti gli esempi e sarà oggetto di valutazione nei progetti
+* Non sempre rispettata nelle librerie di Java
+    * alcuni nomi sono stati scelti prima che questa convenzione fosse diffusa)
+
+I **nomi di classe** iniziano in *maiuscolo*, e ogni parola "interna" al nome usa la maiuscola
+* notazione `PascalCase`, no underscore `_`
+* p.e.: `EnrolledStudent`, `System`, `Point3D`, `Integer`, `String`
+
+I **nomi di campi *istanza* e metodi** iniziano in *minuscolo*, e ogni parola "interna" al nome usa la maiuscola
+* notazione `camelCase`, no underscore `_`
+* p.e.: `firstName`, `lastName`, `getName()`, `parseInt()`
+
+I **nomi di campi `static`** sono *interamente in  maiuscolo*, e ogni parola "interna" al nome è separata da un underscore `_`
+* notazione `SCREAMING_SNAKE_CASE`
+* p.e.: `MAX_VALUE`, `MIN_GUESS`, `PI`
+
+---
+
+## Uso di codice statico o non statico in una classe?
+
+### Codice *istanza* (non `static`)
+* È codice puro object-oriented
+* Definisce le *operazioni* e lo *stato* di ogni oggetto creato dalla classe
+* Ogni oggetto riceve la sua copia dei campi (stato) e dei metodi (operazioni)
+    * Nei metodi, `this` si riferisce all'istanza della classe (l'oggetto) che riceve il messaggio
+
+### Codice `static`
+* Non è codice puro object-oriented, ma codice in stile "imperativo/strutturato" (come in C)
+* Definisce funzioni e variabili che sono parte **della classe**
+    * Sono *condivise* da tutte le istanze (oggetti) generate dalla classe
+    * Per ogni classe `X`, possono essere visti come metodi e campi dell'unico oggetto "classe `X`"
+
+### Buone pratiche
+* Esistono delle *helper class* che hanno solo metodi/campi statici
     - Sono classi di supporto, non istanziabili (utility).
-*  Le classi OO non abbiano metodi/campi statici, a meno di qualche funzionalità "generale" della classe (si veda nel proseguio)
+    - Ad esempio, `java.lang.Math` contiene solo campi e metodi statici per operazioni matematiche
+* Le classi progettate come OO di norma non hanno metodi/campi statici
+    * a meno di qualche rara funzionalità "generale" della classe
 
 ---
 
 ## Esempio Point3D
-
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/points/Point3D.java" %}}
@@ -84,7 +128,6 @@ aliases = ["/objects-2/"]
 ---
 
 ## Uso Point3D
-
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/points/UsePoint3D.java" %}}
@@ -115,7 +158,6 @@ Punti chiave:
 - `main` è statico perché ha senso essere invocato senza creare un'istanza: la JVM lo chiama direttamente sulla classe.
 - `EntryPoint` è solo un nome di esempio: la classe che contiene `main` può chiamarsi come si vuole, purché la JVM invii l'esecuzione a quel metodo.
 
-
 ---
 
 ## Point3D: commenti
@@ -134,8 +176,7 @@ Punti chiave:
 
 ---
 
-## Variante Point3DBis.. inizializzazione con ritorno
-
+## Variante `Point3DBis`: inizializzazione con ritorno
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Point3DBis.java" %}}
@@ -143,7 +184,7 @@ Punti chiave:
 
 ---
 
-## Uso Point3DBis
+## Uso `Point3DBis`
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/UsePoint3DBis.java" %}}
@@ -156,13 +197,12 @@ Punti chiave:
 *  inizializza il valore dei campi
 *  restituisce `this`
 
-
 ### Razionale
 *  è possibile concatenare creazione di oggetto e sua inizializzazione
 *  schema chiamato *"fluente"*
 
 ---
-
+<!--
 
 ## Sull'uso delle proprietà `static`
 
@@ -177,8 +217,9 @@ Punti chiave:
 *  se `C` è una classe usata per generare oggetti, la classe `Cs` (plurale) conterrà solo proprietà statiche relative
 *  es: `Object`/`Objects`, `Array`/`Arrays`, `Collection`/`Collections`
 
-
 ---
+
+-->
 
 ## Ristrutturazione `Point3D`
 ```java
@@ -191,7 +232,6 @@ Punti chiave:
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Points.java" %}}
 ```
-
 
 ---
 
@@ -207,13 +247,12 @@ Punti chiave:
 
 ---
 
-
 ## La costruzione degli oggetti
 
 ### L'operatore `new`
 *  Allo stato attuale delle nostre conoscenze, l'operatore `new T` crea un oggetto di tipo `T` inizializzando tutti i suoi campi al loro valore di default (p.e. $0$ per i numeri), e ne restituisce il riferimento
 ```java
-Point3D   p  = new Point3D();
+Point3D  p  = new Point3D();
 Point3D[] ps = new Point3D[2]; // [null, null] <- sintassi per creare array di oggetti
 ```
 *  Problema: garantire una corretta *inizializzazione*
@@ -221,24 +260,24 @@ Point3D[] ps = new Point3D[2]; // [null, null] <- sintassi per creare array di o
 
 ### *Costruttori* di una classe
 
-*  I *costruttori* assomigliano per struttura ai metodi: hanno un nome e possono avere dei parametri formali
+*  I *costruttori* assomigliano strutturalmente ai metodi: possono avere dei parametri formali
     * alla `new` si possono quindi passare dei valori
 * Particolarità (rispetto ai metodi)
     * Hanno lo *stesso nome della classe* in cui si trovano
     * Si dichiarano *senza tipo di ritorno* (è implicito che il tipo di ritorno sia il tipo della classe)
-*  Il *costruttore di default* (a zero argomenti) è implicitamente definito solo se non se ne aggiungono altri -- ecco perché era consentito scrivere: `new Point3D()`
+*  Il *costruttore di default* a zero argomenti è implicitamente definito solo se non se ne aggiungono altri
+    * ecco perché era consentito scrivere: `new Point3D()`
 
 ---
 
 ### *Costruttori*: sintassi
 
 ```java
-<NomeClasse> (<Tipo1> <arg1>, <Tipo2> <arg2>, ...) {
+<NomeClasse>(<Tipo1> <arg1>, <Tipo2> <arg2>, ...) {
     // codice di inizializzazione
 }
 ```
 ### Esempio: Point3D
-
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Point3Dcons.java" %}}
@@ -246,18 +285,17 @@ Point3D[] ps = new Point3D[2]; // [null, null] <- sintassi per creare array di o
 
 ---
 
-
-## Gli argomenti del costruttore spesso corrispondono ai campi
-
+## Gli argomenti del costruttore *spesso* corrispondono ai campi!
 
 ```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Point3Dvar.java" %}}
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Point3Dcons.java" %}}
 ```
+
+È una prassi comune, ma non una regola (tutt'altro)
 
 ---
 
-
-## Esempio: Person (3 costruttori)
+## Esempio: Person (3 costruttori in *overloading*)
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Person.java" %}}
@@ -267,30 +305,24 @@ Point3D[] ps = new Point3D[2]; // [null, null] <- sintassi per creare array di o
 
 ## Esempio: Uso di Persona (3 costruttori)
 
-
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/UsePerson.java" %}}
 ```
 
 ### Sequenza d'azioni effettuate con una `new`
 
-
-
 *  si crea l'oggetto con tutti i campi inizializzati al default
 *  si esegue il codice del costruttore (`this` punta all'oggetto creato)
 *  la `new` restituisce il riferimento `this`
 
-
 ---
-
 
 ## Istruzione `this(..)`
 
 ### Usabile per chiamare un altro costruttore
-
-*  tale istruzione può solo essere la prima di un costruttore
-*  questo meccanismo consente di riusare il codice di altri costruttori
-
+* tale istruzione può solo essere la prima di un costruttore
+* questo meccanismo consente di riusare il codice di altri costruttori
+* è buona norma avere un costruttore "*primario*" che fa tutto il lavoro, e gli altri lo richiamano
 
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/Person2.java" %}}
@@ -298,16 +330,13 @@ Point3D[] ps = new Point3D[2]; // [null, null] <- sintassi per creare array di o
 
 ---
 
-
 ## Overloading dei costruttori
 
 ### Overloading: un nome, più significati
 
 *  L'*overloading* è un meccanismo che consente di definire più metodi/operatori con lo stesso nome
 *  La difficoltà che comporta è dovuta alla necessità di disambiguazione
-*  Due esempi visti finora: overloading operatori matematici (cf. `+`) e overloading costruttori
-
-
+*  Due esempi visti finora: overloading operatori matematici (es. `+`) e overloading costruttori
 
 ### Overloading dei costruttori
 
@@ -325,7 +354,6 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 *  Si può fare overloading dei metodi con stessa tecnica di risoluzione
 *  Sia su metodi statici, che su metodi standard (metodi istanza)
 
-
 ```java
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/lifecycle/ExampleOverloading.java" %}}
 ```
@@ -333,39 +361,41 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 ---
 
 # Controllo d'accesso
-
+ 
 ---
 
 ## I package
 
 ### Problema
 
-*  Un framework mainstream come quello di Java può disporre  di decine di migliaia di classi di libreria e di applicazione
+*  Un framework mainstream come quello di Java può disporre di decine di migliaia di classi di libreria e di applicazione
 *  È necessario un meccanismo per consentire di strutturarle in gruppi (a più *livelli gerarchici*)
 *  Per poter meglio gestirli in memoria secondaria, e per meglio accedervi
-    * cf. filesystem nei sistemi operativi
-
+    * come il filesystem nei sistemi operativi
 
 ### Package in Java
 
-*  Ogni classe appartiene ad un *__package__*
-*  Un package ha nome gerarchico `n1.n2....nj` (p.e. `java.lang`)
-*  Le classi di un package devono trovarsi in una medesima directory
-*  Questa è la subdirectory `n1/n2/../nj` a partire da una delle directory presenti nella variabile d'ambiente `CLASSPATH`
+* Ogni classe appartiene ad un *__package__*
+* Un package ha nome gerarchico `n1.n2....nj` (p.e. `java.lang`)
+* È prassi (ma non obbligatorio) che i file sorgente `.java` siano organizzati in directory che rispecchiano la struttura del package
+    * p.e. `n1/n2/Foo.java` per la classe `Foo` del package `n1.n2`
+* Il compilatore genererà automaticamente la struttura di directory per i file `.class`
+    * Questa è obbligatoria per il corretto caricamento delle classi, ma se ne occupa il compilatore
+* La ricerca delle subdirectory del package è effettuata a partire da una delle directory presenti nel **classpath**
+    * Il **classpath** è un elenco di directory (separate da `:` su Linux, `;` su Windows) in cui cercare i package
+    * Il classpath si specifica con l'opzione `-cp` di `javac` e `java` o con la variabile d'ambiente `CLASSPATH`
+    * Se non specificato, il classpath di default è la directory corrente (`.`)
 
 ---
-
 
 ## I package pt. 2
 
 ### Dichiarazione del package
 
-*  Ogni unità di compilazione (file `.java`) deve specificare il suo package
-*  Lo fa con la direttiva `package pname;`
-*  Se non lo fa, allora trattasi del *package di "default"*
-*  Se lo fa, tale file dovrà stare nella opportuna directory
-
-
+* Ogni unità di compilazione (file `.java`) deve specificare il suo package
+* Lo fa con la direttiva `package pname;`
+* Se non lo fa, allora trattasi del *package di "default"*
+* Se lo fa, è buona prassi mettere tale file nella opportuna directory
 
 ### Importazione classi da altri package
 
@@ -377,51 +407,16 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 ---
 
-## Package: esempio di organizzazione dei sorgenti .class e dei file compilati .class
-
-<div class="container">
-<div class="col">
-
-```mermaid
-%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', fontFamily: 'Inconsolata' }}}%%
-
-graph TB
-  A((it)) --> B((unibo))
-  B --> C((Foo.java)):::f
-  B --> D((Bar.java)):::f;
-
-classDef f fill:#ddd;
-```
-
-</div>
-<div class="col">
-
-```mermaid
-%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', fontFamily: 'Inconsolata' }}}%%
-
-graph TB
-  A((it)) --> B((unibo))
-  B --> C((Foo.class)):::c
-  B --> D((Bar.class)):::c
-
-classDef c fill:#fff;
-```
-
-</div>
-</div>
-
----
-
 ## Unità di compilazione e livello d'accesso "package"
 
 ### Unità di compilazione
-*  Un'*unità di compilazione* è un file compilabile in modo atomico da `javac`
-*  Si deve chiamare con estensione `.java`
-*  Può contenere varie classi indicate una dopo l'altra
+* Un'*unità di compilazione* è un insieme di file compilabile in modo atomico da `javac`
+* Si deve chiamare con estensione `.java`
+* Può contenere varie classi indicate una dopo l'altra
 
 ### Livello d'accesso package
 
-*  Le classi in una unità di compilazione, i loro metodi, campi, e costruttori hanno di *default* il *__livello d'accesso package__*
+* Le classi in una unità di compilazione, i loro metodi, campi, e costruttori hanno di *default* il *__livello d'accesso package__*
     * sono *visibili e richiamabili solo dentro al package stesso*
     * sono invisibili da fuori
 
@@ -443,7 +438,6 @@ classDef c fill:#fff;
 
 ---
 
-
 ## Qualche conseguenza
 
 ### A livello di classe
@@ -453,30 +447,52 @@ classDef c fill:#fff;
 
 ### A livello di metodi/campi/costruttori
 
-*  la scelta `public`/`private` può consentire di gestire a piacimento il concetto di *__information hiding__*, come approfondiremo la prossima settimana
+*  la scelta `public`/`private` può consentire di gestire a piacimento il concetto di *__information hiding__*
+    * vedremo meglio in futuro
 
 ---
 
+### Il `main` classico di Java (Java 24 e precedenti)
+
+Il metodo `main` ha le seguenti caratteristiche:
+1. Deve essere *invocabile senza un oggetto*, a partire dalla sola classe
+    * ed è quindi `static`
+2. Deve essere *visibile* dall'"esterno" del package, perché la JVM quando parte non lo fa in un package specifico
+    * ed è quindi `public`
+
+#### Il `main` come metodo statico e pubblico di una classe
+
+```java
+class EntryPoint {
+    public static void main(String[] args) { // Main è un metodo statico della classe EntryPoint
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+Se usate una versione di Java precedente alla 25, dovete sempre usare questa sintassi.
+
+---
 
 ## La keyword `final`
 
 ### `final` = non modificabile
 
-*  Ha vari utilizzi: in metodi, campi, argomenti di funzione e variabili
-*  Tralasciamo per ora il caso dei metodi
-*  Negli altri casi denota variabili/campi assegnati e non più modificabili
+* Ha vari utilizzi: in metodi, campi, argomenti di funzione e variabili
+* Tralasciamo per ora il caso dei metodi
+* Negli altri casi denota variabili/campi assegnati e non più modificabili
 
 ### Il caso più usato: costanti di una classe
 
-*  Es.: `public static final int CONST=10;`
-*  Perché usarle?
-*  Anche se `public`, si ha la garanzia che nessuno le modifichi
-*  Sono gestibili in modo più performante
+* Es.: `public static final int CONST=10;`
+* Perché usarle?
+* Anche se `public`, si ha la garanzia che nessuno le modifichi
+* Sono gestibili in modo più performante
 
 ### Il caso dei "magic number"
 
-*  Ogni numero usato in una classe per qualche motivo (3,21,..)..
-*  ..sarebbe opportuno venisse mascherato da una costante, per motivi di leggibilità e di più semplice modificabilità
+* Ogni numero usato in una classe per qualche motivo (3,21,..)..
+* sarebbe opportuno venisse mascherato da una costante, per motivi di leggibilità e di più semplice modificabilità
 
 ---
 
