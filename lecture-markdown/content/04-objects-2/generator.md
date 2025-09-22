@@ -320,8 +320,6 @@ Data una `new`, quale costruttore richiamerà? (JLS 15.12)
 
 ---
 
-## Overloading dei metodi
-
 ### Overloading dei metodi
 
 *  Si può fare overloading dei metodi con stessa tecnica di risoluzione
