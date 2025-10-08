@@ -35,13 +35,6 @@ aliases = ["/encapsulation/"]
   *  *Incapsulamento* in Java
   *  Una metodologia di progettazione
   
-<!--
-
-  *  Convenzioni su *formattazione* di codice sorgente Java
-  *  Ulteriori convenzioni
-
--->
-
 ---
 
 
@@ -128,11 +121,9 @@ Nota: sono tecniche/linee guida importanti per gestire il livello di articolazio
 
 ### Esempi
 
-
-
-*  SW calcolatrice con GUI: GUI, gestione eventi, calcoli matematici
-*  Disegno Mandelbrot: Complex, Mandelbrot, MandelbrotApp
-
+* SW calcolatrice con GUI: GUI, gestione eventi, calcoli matematici
+* Videogioco: grafica, fisica, gestione input, AI, rete
+* Applicazione web: front-end, back-end, DB
 
 ---
 
@@ -180,22 +171,14 @@ Nota: sono tecniche/linee guida importanti per gestire il livello di articolazio
 
 ---
 
-
 ## Decomposizione e programmazione OO
 
-
-  
 ### Nella programmazione OO, almeno 3 livelli di decomposizione
+ 
+* Suddivisione in *package* (dell'intero programma)
+* Suddivisione in *classi* (di un package o programma)
+* Suddivisione in *metodi* (di una classe)
 
-
-
-*  Suddivisione in *package* (dell'intero programma)
-*  Suddivisione in *classi* (di un package o programma)
-*  Suddivisione in *metodi* (di una classe)
-  
-
-
-  
 ### Il punto cruciale da affrontare ora è la suddivisone in classi
 
 
@@ -480,55 +463,40 @@ Indicare anche `final` variabili e argomenti che non verranno modificati
 
 ---
 
-# Una metodologia basata sull'incapsulamento
+## Una metodologia basata sull'incapsulamento
 
 
-## Altro esempio: classe `Lamp`
+### Esempio: classe `Lamp`
 
+#### Analisi del problema
 
-  
-### Analisi del problema
+In un sistema domotico,
+dovremo gestire un certo numero di lampadine 
+(da accendere/spegnere e pilotare tramite un apposito controllore centralizzato, oltre che tramite i comandi a muro).
+Tali comandi sono a pulsante con controllo di intensità (10 livelli).
+Il controllore deve poter accedere alla situazione di ogni lampadina (accesa/spenta, livello di intensità) e modificarla a piacimento.
+Al primo avvio, le lampadine sono spente e il controllo di intensità è a zero (in un intervallo $[0,1]$).
 
-
-In un sistema domotico, dovremo gestire un certo numero di lampadine (da accendere/spegnere e pilotare tramite un apposito controllore centralizzato, oltre che tramite i comandi a muro). Tali comandi sono a pulsante con controllo di intensità (10 livelli). Il controllore deve poter accedere alla situazione di ogni lampadina (accesa/spenta, livello di intensità) e modificarla a piacimento. Al primo avvio, le lampadine sono spente e il controllo di intensità è a zero (in un intervallo $[0,1]$).
-  
-
-  
 Come procediamo alla costruzione della classe `Lamp`?
 
-
-
 ---
-
 
 ## Progettazione e implementazione: fasi
 
-
-  
 ### Fasi nella costruzione di una classe
 
-
-
 * Progettazione della *parte pubblica* della classe
+* Scrittura di un *Test* che validi il comportamento atteso
 * Costruzione dello *stato*
 * Completamento *implementazione*
 * Miglioramento codice finale (*refactoring*)
-* *Test* del risultato
-  
-
-
-
 
 ---
 
-
 ## Fase 1: Progettazione della parte pubblica della classe
 
-
-  
 Ovvero, del nome della classe e delle signature di operazioni pubbliche (metodi e costruttori)
 
-  
 ### Linee guida
 
 
@@ -585,43 +553,55 @@ public class Lamp {
 
 ---
 
+## Fase 2: Collaudo del contratto
 
+### Linee guida
+* Definire un insieme di scenari d'uso di un oggetto
+* Per ognuno costruire una procedura che crea l'oggetto, lo usa, e stampa i risultati necessari
 
-## Fase 2: Costruzione dello stato
+### Il caso `Lamp`
 
+Un possibile caso (non costituisce da solo un test esaustivo):
 
+*  Costruisco l'oggetto lampadina
+*  La accendo
+*  Imposto la luminosità, poi la vario un poco
+*  Leggo e stampo lo stato del sistema
+
+---
+
+## Classe UseLamp
+
+```java
+{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/encapsulation/UseLamp.java" %}}
+```
+
+* **Nota**: al momento la nostra classe non funzionerà come atteso!
+   * Questo è in realtà un bene: il test ci aiuterà a guidare lo sviluppo della classe `Lamp`
+   * *Ogni buon test deve esser fallito almeno una volta*
+
+---
+
+## Fase 3: Costruzione dello stato
   
 Ovvero, dei campi privati della classe
 
-  
 ### Linee guida
-
-
 
 *  Considerare che esistono varie scelte possibili (è un aspetto implementativo, ritrattabile successivamente)
 *  L'insieme dei campi deve essere più piccolo possibile, per esigenze di performance (spazio in memoria) e di non duplicazione
 *  L'insieme dei campi deve essere sufficiente a tenere traccia di tutti i modi in cui il comportamento dell'oggetto può cambiare a fronte dei messaggi ricevuti
   
-
-
-  
+ 
 ### Il caso `Lamp`
-
-
 
 *  Dovremo sapere se è accesa o spenta (`boolean switchedOn`)
 *  Dovremo sapere il livello attuale di intensità (`double intensity`)
 *  Non sembrano servire altre informazioni
-  
-
-
-
 
 ---
 
-
 ## Stato e metodi della classe `Lamp`
-
 
 ```java
 /* Classe d'esempio che modella il concetto di Lampadina
@@ -650,8 +630,7 @@ public class Lamp{
 ---
 
 
-
-## Fase 3: Completamento implementazione
+## Fase 4: Completamento implementazione
 
 
 
@@ -728,7 +707,7 @@ public class Lamp {
 ---
 
 
-## Fase 4: Miglioramento codice finale
+## Fase 5: Miglioramento codice finale
 
 
   
@@ -787,47 +766,6 @@ public class Lamp {
 
 
 ---
-
-
-
-## Fase 5: Test del risultato
-
-
-  
-### Linee guida
-
-
-
-*  Definire un insieme di scenari d'uso di un oggetto
-*  Per ognuno costruire una procedura che crea l'oggetto, lo usa, e stampa i risultati necessari
-  
-
-
-  
-### Il caso `Lamp`
-
-Un possibile caso (non costituisce da solo un test esaustivo):
-
-*  Costruisco l'oggetto lampadina
-*  La accendo
-*  Imposto la luminosità, poi la vario un poco
-*  Leggo e stampo lo stato del sistema
-  
-
-
-
-
----
-
-
-## Classe UseLamp
-
-```java
-{{% import-raw from=3 path="pss-code/src/main/java/it/unibo/encapsulation/UseLamp.java" %}}
-```
-
----
-
 
 ## Il metodo toString()
 
