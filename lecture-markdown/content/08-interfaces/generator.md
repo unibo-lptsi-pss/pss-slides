@@ -124,20 +124,13 @@ class A {
 Introdurremo la composizione (che è una versione più forte della associazione), mostrando la sua relazione con le *__interface__* di Java
   
 
-
-
 ---
-
 
 ## Composizione -- relazione "has-a"
 
-
-  
 ### Idea
-
-
-
-*  un oggetto della classe `A` è ottenuto *componendo* un insieme di altri oggetti, delle classi `B1`, `B2`, ..., `Bn` 
+*  
+* un oggetto della classe `A` è ottenuto *componendo* un insieme di altri oggetti, delle classi `B1`, `B2`, ..., `Bn` 
     *  si dice che un oggetto di `A` *contiene*, o *si compone di*, o *aggrega*, oggetti delle classi `B1`, `B2`, ..., `Bn`
 *  ossia, lo stato dell'oggetto di `A` include <!-- le informazioni relative allo stato di --> un oggetto di `B1`, uno di  `B2`, ..., uno di `Bn`
     *  si noti che si parla propriamente di composizione quando `B1`, `B2`, ..., `Bn` non sono tipi primitivi, ma classi
@@ -152,6 +145,8 @@ class A {
 
 ---
 
+<!--
+
 ### Composizione vs. aggregazione
 
 * La distinzione si basa sul *ciclo di vita degli elementi contenuti rispetto al contenitore*
@@ -163,90 +158,27 @@ class A {
     * Esempio di *aggregazione*: una `ClasseScolastica` aggrega un insieme di oggetti `Studente`; una `Automobile` ha un `Motore`, quattro oggetti `Ruota` etc. 
     * Esempio di *composizione*: una `Casa` si compone di un insieme di oggetti `Stanza` (una stanza non ha vita indipendente dalla casa); un `Libro` si compone di più oggetti `Capitolo` (è vero, si potrebbe considerare un capitolo in isolamento, ma questo rimarrebbe comunque un capitolo di quel libro)
 
-<!-- * (ma non ci occuperemo per ora in dettaglio di questa distinzione) -->
-
- 
-
-
-
+ * (ma non ci occuperemo per ora in dettaglio di questa distinzione)
 
 ---
 
+-->
 
 ## Qualche esempio di composizione
 
-
-  
 ### GUI
 
-
 Un oggetto interfaccia grafica si compone di oggetti di tipo `Button`, `TextField`, `Label`, eccetera
-  
 
-  
 ### Ateneo
 
-
 Un oggetto ateneo si compone di oggetti di tipo `Facoltà`, `Studenti`, `Docenti`, eccetera
-  
 
-  
 ### Controllore Domotica
 
-
 Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Radio`, eccetera
-  
-
-
 
 ---
-
-
-## Tipiche realizzazioni
-
-
-  
-### Un oggetto `A` si compone *esattamente* di *1* oggetto di `B`
-
-
-
-*  La classe `A` avrà un campo (privato) di tipo `B`
-*  Tale campo (impostato dal costruttore di `A`) è sempre presente
-  
-
-
-  
-### Un oggetto `A` si compone *opzionalmente* di *1* oggetto di `B`
-
-
-
-*  La classe `A` avrà un campo (privato) di tipo `B`
-*  Il suo contenuto potrebbe essere `null` (oggetto di `B` assente)
-  
-
-
-  
-### Un oggetto `A` si compone di un *numero noto* *$n$* di oggetti di `B`
-
-
-
-*  La classe `A` avrà $n$ campi (privati) di tipo `B` -- se "n" piccolo
-  
-
-
-  
-### Un oggetto `A` si compone di una *moltitudine non nota* di oggetti di `B`
-
-
-
-*  La classe `A` avrà un campo (privato) di tipo `B[]` (o altro container)
-  
-
-
-
-
----
-
 
 ## Ricordiamo la classe Lamp 
 
@@ -295,7 +227,7 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 
   
-### Idea realizzativa 1 :(
+### Idea realizzativa 1 👎🏻
 
 
 
@@ -307,7 +239,7 @@ Un oggetto controllore domotica si compone di oggetti di tipo `Lamp`, `TV`, `Rad
 
 
   
-### Idea realizzativa 2 :)
+### Idea realizzativa 2 👍🏻
 
 
 
@@ -1556,7 +1488,7 @@ public class Lamp implements LuminousDevice {
 
 
   
-### Obbiettivi
+### Obiettivi
 
 Familiarizzare con:
 
@@ -1565,3 +1497,8 @@ Familiarizzare con:
   
 <!-- *  Relativa costruzione di test -->
 
+---
+
+# Interfacce e composizione
+
+{{% import path="front-page.md" %}}
