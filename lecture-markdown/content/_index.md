@@ -21,7 +21,7 @@ outputs = ["Reveal"]
 2. [Introduzione al linguaggio Java](basics/)
 1. [Oggetti e classi (parte 1/2)](objects/)
 1. [Oggetti e classi (parte 2/2)](objects-2/)
-1. 🚧 [Incapsulamento](encapsulation/)
+1. [Incapsulamento](encapsulation/)
 2. 🚧 [Formattazione di codice Java](codestyle/)
 1. 🚧 [Sistemi di controllo versione](git/)
 1. 🚧 [Interfacce e composizione](interfaces/)
