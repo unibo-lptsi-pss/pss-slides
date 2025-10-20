@@ -75,4 +75,5 @@ outputs = ["Reveal"]
 2. [Compilazione avanzata](lab/02-advanced-tooling-gradle/)
 1. [Build Systems](lab/03-build-systems/)
 1. [Esecuzione di applicazioni Java tramite Gradle](lab/04-execution/)
+1. [Checkstyle](lab/05-checkstyle/)
 1. [Dipendenze e Librerie in Gradle](lab/05-dependencies/)

@@ -269,36 +269,22 @@ class SomeClass {
 
 ## Esempio di buona formattazione: `Point3D`
 
-{{% smaller %}}
-
 
 <div class="container">
 <div class="col">
-
-{{% smaller %}}
 
 ```java
 {{% import-raw from=3 to=34 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
 ```
 
-{{% /smaller %}}
-
 </div>
 <div class="col">
-
-{{% smaller %}}
 
 ```java
 {{% import-raw from=35 path="pss-code/src/main/java/it/unibo/formatting/Point3D.java" %}}
 ```
 
-{{% /smaller %}}
-
-
 </div></div>
-
-{{% /smaller %}}
-
 
 ---
 
