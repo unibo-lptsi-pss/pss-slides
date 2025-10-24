@@ -25,10 +25,12 @@ outputs = ["Reveal"]
 2. [Formattazione di codice Java](codestyle/)
 1. [Interfacce e composizione](interfaces/)
 1. [Ereditarietà](inheritance/)
-1. 🚧 [Sistemi di controllo versione](git/)
-1. 🚧 [Polimorfismo, classi astratte](polymorphism/)
-1. 🚧 [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
-1. 🚧 [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
+1. Sistemi di controllo di versione distribuiti (DVCS) con Git:
+    - [Git - introduzione](https://unibo-oop.github.io/lab-slides/05-dvcs-basics/#/) 
+    - [Git - Merging e branching](https://unibo-oop.github.io/lab-slides/06-dvcs-branching/#/) 
+    - [Git - Collaborazione remota](https://unibo-oop.github.io/lab-slides/07-dvcs-remote/#/)
+1. [Polimorfismo, classi astratte](polymorphism/)
+1. [Generici](generics/)
 <!--
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. 
@@ -36,8 +38,9 @@ outputs = ["Reveal"]
 -->
 </div>
 <div class="col">
+1. 🚧 [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
+1. 🚧 [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 
-14. 🚧 [Generici](generics/)
 1. 🚧 [Collezioni](collections/)
 1. 🚧 [Eccezioni](exceptions/)
 1. 🚧 [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
