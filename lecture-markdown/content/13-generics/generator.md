@@ -535,8 +535,6 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 ## I vantaggi dei generici
 
-
-  
 Coi generici, Java diventa un linguaggio molto più espressivo!
 
   
@@ -626,17 +624,6 @@ Per creare *contratti uniformi rispetto ai tipi utilizzati*
 ---
 
 
-## Implementazione 2: `ListIterator`
-
-
-
-```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/ListIterator.java" %}}
-```
-
----
-
-
 ## Implementazione 3: `VectorIterator`
 
 
@@ -677,26 +664,17 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
   
 ### Sintassi
 
+* definizione: `<X1,..,Xn> ReturnType nomeMetodo(ArgType1 argName1, ...) { ... }`
+* chiamata: `receiver.<X1,..,Xn>nomeMetodo(ArgType1 argName1, ...)`
+* chiamata con inferenza (uso molto frequente): `receiver.nomeMetodo(ArgType1 argName1, ...)`
 
-
-  *  def: `<X1,..,Xn> ret-type nome-metodo(formal-args) { ... }`
-  *  call: `receiver.<X1,..,Xn>nome-metodo(actual-args) { ... }`
-  *  call con inferenza, stessa sintassi delle call standard, ossia senza `<>`
-  
-
-
-  
 ### Due casi principali, con medesima gestione
 
 
 
-  *  Metodo generico (statico o non-statico) in una classe non generica
-  *  Metodo generico (non-statico) in una classe generica
-  * $\Rightarrow$ Il primo dei due molto più comune..
-  
-
-
-
+* Metodo generico (statico o non-statico) in una classe non generica
+* Metodo generico (non-statico) in una classe generica
+* $\Rightarrow$ Il primo dei due molto più comune...
 
 ---
 
@@ -730,16 +708,6 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
 ```
 
 ---
-
-
-## Notazione UML (non del tutto standard)
-
-
-![](imgs/uml-generics.png)
-
-
----
-
 
 # Java Wildcards
 
