@@ -29,8 +29,6 @@ outputs = ["Reveal"]
     - [Git - introduzione](https://unibo-oop.github.io/lab-slides/05-dvcs-basics/#/) 
     - [Git - Merging e branching](https://unibo-oop.github.io/lab-slides/06-dvcs-branching/#/) 
     - [Git - Collaborazione remota](https://unibo-oop.github.io/lab-slides/07-dvcs-remote/#/)
-1. [Polimorfismo, classi astratte](polymorphism/)
-1. [Generici](generics/)
 <!--
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. 
@@ -39,10 +37,12 @@ outputs = ["Reveal"]
 </div>
 <div class="col">
 
-13. 🚧 [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
+11. [Polimorfismo, classi astratte](polymorphism/)
+1. [Generici](generics/)
+1. [Collezioni](collections/)
 1. 🚧 [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
-1. 🚧 [Collezioni](collections/)
 1. 🚧 [Eccezioni](exceptions/)
+13. 🚧 [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 1. 🚧 [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
 1. 🚧 [Meccanismi avanzati: classi innestate](advanced-mechanisms-nesting/)
 1. 🚧 [Lambda e funzioni first-class](lambdas/)
