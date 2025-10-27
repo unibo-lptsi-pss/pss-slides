@@ -482,7 +482,7 @@ for(Month m : Month.values()) {
 * Gli **eventi** (`javafx.event.Event`) possono essere generati dall'interazione dell'utente con gli elementi grafici 
     * ogni evento ha un *event source*, *event target*, ed *event type*  e può essere consumato (`consume()`)
 * GLi eventi possono essere gestiti attraverso *event handlers*
-    * Ogni `EventHandler<T extends Event>` deve implementare il metodo `void handle(T)`
+    * Per ogni tipo `T` che implementa `Event`, `EventHandler<T>` deve implementare il metodo `void handle(T)`
 * Ogni nodo può registrare uno o più event handler
     * In generale, attraverso i metodi `setOn...()`
 * Processamento degli eventi
@@ -576,22 +576,15 @@ public class Main {
 }
 ```
 
-
-
 ---
 
 ### JavaFX e concorrenza
 
-
-
-* Similarmente a Swing, JavaFX
- ha un singolo thread che gestisce il processing degli eventi: **JavaFX Application Thread** (JFXAT)
+* JavaFX ha un singolo thread che gestisce il processing degli eventi: **JavaFX Application Thread** (JFXAT)
 * Tutte le modifiche allo *scene graph* devono essere effettuate su JFXAT
 * Nota: è opportuno conoscere quali metodi hook dell'`Application` sono eseguiti (ad es. `start`) oppure no (ad es. `init`) su JFXAT
 * **Platform.runLater(Runnable)**
  accoda il runnable nella coda degli eventi del JFXAT
-    * l'analogo di `SwingUtilities.invokeLater`
-
 
 ---
 
@@ -620,364 +613,31 @@ stage.xProperty().addListener(x -> {
 });
 ```
 
-
----
-
-## FXML
-
-
-### Separazioni di ruoli e contenuti
-
-
-* In JavaFX è possibile separare il design della GUI dal codice sorgente che la riguarda
-* Il design della GUI può essere descritto attraverso un linguaggio di markup denominato FXML
-
-
-![](imgs/soc.png)
-
-
-
----
-
-### Il linguaggio FXML
-
-* Linguaggio di markup basato su **XML**, utilizzato per descrivere la *struttura della GUI* (ovvero il *scene graph*)
-    * Tutti i *nodi* della GUI sono specificati mediante *tag* specifici
-    * Le *proprietà* sono specificate come *attributi* (su tag, nella forma chiave-valore) o *tag*
-
-* Ogni file FXML (con estensione `.fxml`) deve essere un file XML valido
-    * Deve iniziare con il tag: `<?xml version="1.0" encoding="UTF-8"?>`
-
-
-
-
----
-
-### Esempio di GUI in FXML
-
-```java
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<VBox xmlns="http://javafx.com/javafx" 
-      xmlns:fx="http://javafx.com/fxml">
-  <children>
-    <Button fx:id="btn"
-    	alignment="CENTER"
-    	text="Say Hello!"
-    	textAlignment="CENTER" />
-
-    <Label fx:id="lbl"
-    	alignment="CENTER_LEFT"
-    	text="Label Text Here!"
-    	textAlignment="LEFT" />
-  </children>
-</VBox>
-```
-
-
----
-
-### Esempio di GUI in FXML -- Note
-
-* Attraverso il tag `<?import ... ?>` è possibile specificare i package in cui recuperare le classi dei componenti d'interesse
-    * E' equivalente all'`import` di Java
-
-* Il container principale (unico per il singolo file) *deve* specificare gli attributi `xmlns` e `xmlns:fx`
-    * Il namespace `fx` raccoglie nodi relativi al processamento interno del descrittore FXML
-```
-xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-```
-* Ogni container deve specificare i nodi figli all'interno dei tag `<children>` e `</children>`
-* Ogni nodo può definire il proprio ID mediante l'attributo `fx:id`
-    * Es. `<TextField fx:id="textField1"/>`
-
-
-
----
-
-### Collegare il design della GUI al codice Java
-
-
-* La GUI descritta nel file FXML deve essere *collegata alla scena* agganciata allo stage dell'applicazione
-* Si può utilizzare il componente `javafx.fxml.FXMLLoader`
-    * Il metodo statico `load(URL location)`
-* Nota: occorre dichiarare il modulo `javafx.fxml` (si veda ad es. la build Gradle)
-
-### `FXMLLoader` (esempio)
-
-
-
-* Si suppone che nel CLASSPATH sia presente il file `layouts/main.fxml` contenente una descrizione valida per la GUI da caricare
-
-```java
-Parent root = FXMLLoader.load(
-  ClassLoader.getSystemResource("layouts/main.fxml"));
-```
-
-
-
----
-
-### FXMLLoader (esempio completo)
-
-```java
-public class Example3 extends Application {
-
-	@Override
-	public void start(Stage stage) throws Exception {
-	    Parent root = FXMLLoader.load(ClassLoader.getSystemResource("layouts/main.fxml"));
-
-		Scene scene = new Scene(root, 500, 250);
-
-		stage.setTitle("JavaFX - Example 3");
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-}
-```
-
-
----
-
-### Lookup dei componenti della GUI
-
-
-* Il riferimento ai componenti (nodi) inseriti nella GUI definita nel file FXML può essere recuperato tramite la scena a cui la GUI è stata collegata
-
-* Metodo `Node lookup(String id)`
-
-
-#### Node Lookup (esempio)
-
-
-```java
-Label lbl = (Label) scene.lookup("#lbl");
-
-Button btn = (Button) scene.lookup("#btn");
-btn.setOnMouseClicked(handler -> {
-	lbl.setText("Hello, FXML!");
-});
-```
-
-* **Attenzione**: il metodo `lookup` richiede come parametro l'id specificato per il componente (attributo `fx:id` nel file FXML) preceduto dal simbolo \#
-
-
-
----
-
-### GUI Controller e Node Injection
-
-
-* Per una corretta separazione dei contenuti (e una buona implementazione del pattern MVC in JavaFX) è opportuno specificare un oggetto *controller* per ciascuna GUI
-* Il root component della GUI deve definire l'attributo `fx:controller` con valore riferito al nome pienamente qualificato della classe che fungerà da controller
-* Nella classe controller, mediante l'annotazione `@FXML` è possibile recuperare:
-    * I riferimenti ai vari nodi
-        * senza utilizzare esplicitamente il meccanismo di lookup---usando la corrispondenza tra l'ID (`fx:id`) del nodo nel file FXML e il *nome della variabile d'istanza annotata* nella classe controller
-    * Associare gli event handler ai vari eventi dei componenti
-
-
-
-
----
-
-### Esempio Completo (1/3) -- Application
-
-```java
-public class CompleteExample extends Application {
-
-	@Override
-	public void start(Stage stage) throws Exception {
-		VBox root = FXMLLoader.load(ClassLoader.getSystemResource("layouts/main.fxml"));
-
-		Scene scene = new Scene(root, 500, 250);
-
-		stage.setTitle("JavaFX - Complete Example");
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-}
-```
-
-
----
-
-### Esempio Completo (2/3) -- GUI (FXML file)
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<VBox
-    xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-	fx:controller="it.unibo.oop.lab.javafx.UIController">
-  <children>
-    <Button fx:id="btn"
-    	alignment="CENTER"
-    	text="Say Hello!"
-    	onMouseClicked="#btnOnClickHandler" />
-
-    <Label fx:id="lbl"
-    	alignment="CENTER_LEFT"
-    	text="Label Text Here!" />
-  </children>
-</VBox>
-```
-
-
----
-
-### Esempio Completo (3/3) -- GUI Controller
-
-```java
-public class UIController {
-
-	@FXML
-	private Label lbl;
-
-	@FXML
-	private Button btn;
-
-	@FXML
-	public void btnOnClickHandler() {
-		lbl.setText("Hello, World!");
-	}
-}
-```
-
----
-
-## Scene Builder
-
-
-### Scene Builder
-
-
-* Strumento per la creazione di GUI JavaFX-based in modalità drag-n-drop (GUI Builder)
-* Consente di esportare il file FXML relativo alla GUI disegnata
-* Distribuito come strumento esterno al JDK, non integrato (direttamente) in Eclipse
-* [https://gluonhq.com/products/scene-builder/](https://gluonhq.com/products/scene-builder/)
-
-
-
----
-
-### Scene Builder
-
-
-![](imgs/scenebuilder.png)
-
-
----
-
-## Stile separato via CSS
-
-- Esistono convenzioni (non regole) per "derivare" selettori di classe e proprietà CSS da nomi di classe e nomi di proprietà: per i `ToggleButton` c'è la classe `.toggle-button`, e per la proprietà `blendMode` la proprietà CSS `-fx-blend-mode` (notare prefisso `-fx-`)
-
-### Esempio di file CSS
-
-```css
-#myButton { -fx-padding: 0.5em; } /* for an individual node */
-.label { -fx-font-size: 30pt; }  /* for all the labels */
-
-### Applicazione dello stile
-
-Programmaticamente
-
-```java
-Scene scene = new Scene(pane); 
-scene.getStylesheets().add(ClassLoader.getSystemResource("css/scene.css"));
-
-HBox buttons = new HBox();
-buttons.setStyle("-fx-border-color: red;");
-buttons.getStyleClass().add("buttonrow");
-```
-
-Nel file FXML (ad esempio attaccandolo al nodo root)
-
-```xml
-<GridPane id="pane" stylesheets="css/scene.css"> ... </GridPane>
-```
-
-
----
-
-## Il pattern architetturale **Model-View-Controller (MVC)**
-
-### Problema
-
-- Come si *progetta* in modo efficace applicazioni interattive (ad es. con GUI)?
-    - ad es. un'applicazione di e-commerce
-- Al solito, si vuole promuovere il riuso, la modularità, l'estensibilità, la manutenibilità del software
-
-### Idea
-
-- E' opportuno separare i diversi *concern*
-    - Modello del dominio e stato dell'applicazione: utenti, prodotti, carrello
-    - Visualizzazione contenuti e interazione con l'utente
-    - Logica 
-
-
 ---
 
 ## MVC: descrizione sintetica del pattern
 
-
-  
 ### MVC -- divide l'applicazione in 3 parti
-
-
 
 *  `Model`: modello OO del dominio applicativo del sistema
 *  `View`: gestisce le interazioni con l'utente (input e output)
 *  `Controller`: gestisce il coordinamento fra Model e View
 
-
-
 ---
-
-
 
 ## Applicazione del MVC
 
-
-    
 ### Sulla costruzione di applicazioni con GUI
-
-
 
 *  Specialmente se non esperti, possono essere alquanto laboriose
 *  Usare un approccio strutturato sembra richiedere più tempo nel complesso, ma in realtà porta a soluzione più facilmente modificabili e controllabili
 
-
-
-    
 ### Alcune linee guida
-
-
-
-*  Usare il pattern MVC per la struttura generale
-*  Identificate le varie "interazioni", e quindi costruire le interfacce dei vari componenti bene fin dall'inizio
-*  Cercare massima indipendenza fra i vari componenti (interfacce con meno metodi possibile)
-*  Costruire e testare modello e GUI separatamente (M e V), poi collegare il tutto col controllore (C) che risulterà particolarmente esile
-*  Per la GUI eventualmente usare un GUI Builder
-
-
-
-
+ 
+* Usare il pattern MVC per la struttura generale
+* Identificate le varie "interazioni", e quindi costruire le interfacce dei vari componenti bene fin dall'inizio
+* Cercare massima indipendenza fra i vari componenti (interfacce con meno metodi possibile)
+* Costruire e testare modello e GUI separatamente (M e V), poi collegare il tutto col controllore (C) che risulterà particolarmente esile
 
 ---
 
