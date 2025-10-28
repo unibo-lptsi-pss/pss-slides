@@ -246,39 +246,6 @@ Una funzionalità (classe o metodo) generica è costruita in modo tale da lavora
 ---
 
 
-## Un altro caso di collection, la list linkata `ObjectList`
-
-* Una *lista* è una struttura dati ricorsivamente definita: 
-    * caso base: lista vuota
-    * caso ricorsivo: ha una *testa* (elemento), e una *coda* (che è una *lista* a sua volta)
-  
-{{% smaller %}}
-
-```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/abstractions/ObjectList.java" %}}
-```
-
-{{% /smaller %}}
-
-
-
----
-
-
-## `UseObjectList`
-
-
-  
-```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/abstractions/UseObjectList.java" %}}
-```
-
-
-
----
-
-
-
 ## La necessità di un approccio a polimorfismo parametrico
 
 
@@ -354,12 +321,12 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 
 
-## La classe generica `List`
+## La classe generica `Vector<X>`
 
-* `List` si dice che è un **tipo parametrico** (in quanto accetta il "parametro di tipo" `X`)
+* `Vector` si dice che è un **tipo parametrico** (in quanto accetta il "parametro di tipo" `X`)
 
 ```java
-{{% import-raw path="code/generics/List.java" %}}
+{{% import-raw path="code/generics/Vector.java" %}}
 ```
 
 ---
@@ -370,7 +337,7 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 * Si istanzia il **parametro di tipo** generico `X` in un tipo specifico (**argomento di tipo**), ad es. `Integer`
   
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/UseList.java" %}}
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/UseVector.java" %}}
 ```
 
 
@@ -406,32 +373,6 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
     *  *NON con un tipo primitivo*
 
 
-
-
----
-
-
-
-## La classe generica `Vector`
-
-
-```java
-{{% import-raw path="code/generics/Vector.java" %}}
-```
-
----
-
-
-## Uso di `Vector<X>`
-
-
-  
-```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/generics/UseVector.java" %}}
-```
-
-
-
 ---
 
 
@@ -454,8 +395,6 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 ```
 
 ---
-
-
 
 
 ## La classe generica `Pair<X,Y>`
@@ -624,7 +563,7 @@ Per creare *contratti uniformi rispetto ai tipi utilizzati*
 ---
 
 
-## Implementazione 3: `VectorIterator`
+## Implementazione 2: `VectorIterator`
 
 
 
@@ -694,7 +633,26 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
 
 
 ```java
-{{% import-raw path="code/generics/UseIterators2B.java" %}}
+import java.util.Date;
+
+public class UseIterators2 {
+    public static <E> void printAll(Iterator<E> iterator){ /* ... */ }
+    
+    public static void main(String[] s) {
+        Iterator<Integer> iterator1 = new IntRangeIterator(5, 10);
+    
+        Vector<Date> vector= // ...
+        Iterator<Date> iterator2 = new VectorIterator(vector);
+    
+        // Attenzione, il nome della classe è obbligatorio
+        UseIterators2.<Integer>printAll(iterator1);	        
+        UseIterators2.<Date>printAll(iterator2);
+        
+        // Con inferenza, il nome della classe non è obbligatorio
+        printAll(iterator1);
+        printAll(iterator2);
+    }
+}
 ```
 
 ---

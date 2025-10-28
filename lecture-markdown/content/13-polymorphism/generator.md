@@ -8,7 +8,7 @@ aliases = ["/polymorphism/"]
 
 +++
 
-# Polimorfismo, classi astratte, tipi a runtime
+# Polimorfismo e tipi a runtime
 
 {{% import path="front-page.md" %}}
 
@@ -87,7 +87,7 @@ m(b);    // OK
 * $\to$ un oggetto di `B` può essere passato dove se ne aspetta uno di `A`, senza dare problemi (di "typing")
   
 
-
+Cosa mi hai de
   
 ### Conseguenza:
 
@@ -599,7 +599,7 @@ Integer i3 = (Integer) o; // ClassCastException
 
 
 
-
+<!--
 # Classi astratte
 
 ---
@@ -887,7 +887,7 @@ abstract class CA extends D implements I, J, K, L { ... }
 
 ---
 
-
+-->
 # Autoboxing dei tipi primitivi, e argomenti variabili
 
 ---
@@ -993,9 +993,9 @@ void m(int a, float b, Object... argname) { ... }
 {{% import-raw from=3 path="pss-code/src/main/java/it/unibo/polymorphism/last/VarArgs.java" %}}
 ```
 
+<!--
+
 ---
-
-
 
 # Alcuni pattern basati sulle classe astratte
 
@@ -1022,7 +1022,7 @@ Definisce lo scheletro (template) di un algoritmo (o comportamento), lasciando l
 	%*  Similmente, i metodi di `AbstractSet` tranne `size()` e `iterator()`
 	*  Le interfacce funzionali con metodi di default che chiamano l'astratto
     }}
--->
+
 
 ### Soluzione
 
@@ -1038,7 +1038,7 @@ Definisce lo scheletro (template) di un algoritmo (o comportamento), lasciando l
 ---
 
 <!-- ![](imgs/template_method.jpg) -->
-
+<!--
 <div class="container">
 <div class="col">
 
@@ -1099,8 +1099,7 @@ class ConcreteClass extends AbstractClass {
 ---
 
 -->
-
-
+<!--
 ## Template Method: esempio `BankAccount`
 
 {{% smaller %}}
@@ -1275,7 +1274,7 @@ Familiarizzare con:
 
 ---
 
-# Polimorfismo, classi astratte, tipi a runtime
+# Polimorfismo e tipi a runtime
 
 {{% import path="front-page.md" %}}
 

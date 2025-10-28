@@ -313,3 +313,27 @@ Factory <|-- FactoryImpl2
 -->
 
 
+
+  
+### Classe astratta:
+
+
+```java
+abstract class CA extends D implements I, J, K, L { ... }
+```
+  
+
+  
+### Cosa deve/può fare la classe `CA`
+
+
+
+*  non è tenuta a implementare alcun metodo
+*  può implementare qualche metodo per definire un comportamento parziale
+  
+
+
+
+
+---
+
