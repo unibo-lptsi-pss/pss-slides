@@ -530,13 +530,12 @@ Data una variabile (o espressione) del tipo statico `C` può essere necessario c
 *  con l'operatore `instanceof` si verifica se effettivamente sia di tipo `D`
 *  con la conversione si deposita il riferimento in una espressione con tipo statico `D`
 *  a questo punto si può invocare il metodo
-  
+
 ```java
 C x = new java.util.Random().nextInt() > 0 ? new D() : null;
-if(x instanceof D) { D d = (D) x; /* ... */ }
+if(x instanceof D d) { /* codice che usa d */ }
 ```
 
-  
 ### Solo due tipi di conversione fra classi consentite
 
 
