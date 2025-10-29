@@ -65,23 +65,18 @@ Un oggetto è ottenuto per composizione di oggetti di altre classi
 
 
 Una nuova classe è ottenuta riusando il codice di una classe pre-esistente
-  
 
-  
 ### Polimorfismo inclusivo (subtyping)
 
+Una funzionalità realizzata per lavorare su valori/oggetti del tipo `A`,
+può lavorare con qualunque valore/oggetto del sottotipo `B` 
+(p.e., se `B` estende la classe `A`, o se `B` implementa l'interfaccia `A`)
 
-Una funzionalità realizzata per lavorare su valori/oggetti del tipo `A`, può lavorare con qualunque valore/oggetto del sottotipo `B` (p.e., se `B` estende la classe `A`, o se `B` implementa l'interfaccia `A`)
-  
-
-  
 ### Polimorfismo parametrico (Java/C\# generics, C++ templates,..)
 
-
-Una funzionalità (classe o metodo) generica è costruita in modo tale da lavorare uniformemente su valori/oggetti indipendentemente dal loro tipo: tale tipo diventa quindi una sorta di parametro addizionale
-  
-
-
+Una funzionalità (classe o metodo) 
+generica è costruita in modo tale da lavorare uniformemente su valori/oggetti indipendentemente dal loro tipo: 
+tale tipo diventa quindi una sorta di parametro addizionale
 
 ---
 
@@ -450,11 +445,6 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 ### La local variable type inference (`var`)
 
   *  in genere è alternativa al simbolo `<>`
-  
-
-
-  
-
 
 ---
 
@@ -471,35 +461,15 @@ Il problema si manifesta ogni volta che voglio collezionare oggetti il cui tipo 
 
 ---
 
-
-## I vantaggi dei generici
+## Conseguenze dell'uso dei generici
 
 Coi generici, Java diventa un linguaggio molto più espressivo!
 
-  
-### Svantaggi
-
-
-
-  *  Il linguaggio risulta più sofisticato, e quindi complesso
-  *  Se non ben usati, possono minare la comprensibilità del software
-      *  Non vanno abusati!!
-  *  Gli aspetti più avanzati dei generici (covarianza etc.), che NON vedremo, sono considerati troppo complessi
-  
-
-
-  
-### Vantaggi -- se ben usati
-
-
-
-  *  Codice più comprensibile
-  *  *Maggiore riusabilità* (quasi d'obbligo oramai)
-  *  Codice più sicuro (safe) -- il compilatore segnala errori difficili da trovare altrimenti
-  
-
-
-
+* Il linguaggio risulta più sofisticato, e quindi più espressivo, ma anche più complesso
+* Codice più sicuro (safe) -- il compilatore segnala errori difficili da trovare altrimenti
+* *Maggiore riusabilità*
+* Se ben usati, rendono il codice più comprensibile
+* Se non ben usati, possono minare la comprensibilità del software
 
 ---
 
@@ -508,67 +478,47 @@ Coi generici, Java diventa un linguaggio molto più espressivo!
 
 ---
 
-
-
 ## Interfacce generiche
 
-
-  
 ### Cosa è una interfaccia generica
 
+* È una interfaccia che dichiara parametri di tipo: `interface I<X,Y> { ... }`
+* I parametri di tipo compaiono nei metodi definiti dall'interfaccia
+* Quando una classe la implementa deve istanziare i parametri di tipo <!-- (o assegnarle ad altre type-variable se essa stessa è generica) -->
 
-
-  *  È una interfaccia che dichiara parametri di tipo: `interface I<X,Y> { ... }`
-  *  I parametri di tipo compaiono nei metodi definiti dall'interfaccia
-  *  Quando una classe la implementa deve istanziare i parametri di tipo <!-- (o assegnarle ad altre type-variable se essa stessa è generica) -->
-
-  
 ### Utilizzi
 
-
 Per creare *contratti uniformi rispetto ai tipi utilizzati*
-  
 
-  
 ### Un esempio notevole, gli **iteratori**
 
-  *  Un *iteratore* è un oggetto usato per accedere ad una sequenza di elementi
-      *  Ne vedremo ora una versione semplificata -- diversa da quella delle librerie Java
-  
-
-
-
+* Un *iteratore* è un oggetto usato per accedere ad una sequenza di elementi
+    * Ne vedremo ora una versione semplificata -- diversa da quella delle librerie Java
 
 ---
-
 
 ## L'interfaccia `Iterator`
 
-
-
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/Iterator.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/iterators/Iterator.java" %}}
 ```
 
 ---
-
 
 ## Implementazione 1: `IntRangeIterator`
 
-
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/IntRangeIterator.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/iterators/IntRangeIterator.java" %}}
 ```
 
 ---
-
 
 ## Implementazione 2: `VectorIterator`
 
 
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/VectorIterator.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/iterators/VectorIterator.java" %}}
 ```
 
 ---
@@ -578,7 +528,7 @@ Per creare *contratti uniformi rispetto ai tipi utilizzati*
 
 
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/generics/iterators/UseIterators.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/iterators/UseIterators.java" %}}
 ```
 
 ---
@@ -603,177 +553,93 @@ Un metodo che lavora su qualche argomento e/o valore di ritorno in modo independ
   
 ### Sintassi
 
-* definizione: `<X1,..,Xn> ReturnType nomeMetodo(ArgType1 argName1, ...) { ... }`
-* chiamata: `receiver.<X1,..,Xn>nomeMetodo(ArgType1 argName1, ...)`
-* chiamata con inferenza (uso molto frequente): `receiver.nomeMetodo(ArgType1 argName1, ...)`
+* definizione: `<X1, ..., Xn> ReturnType nomeMetodo(ArgType1 argName1, ...) { ... }`
+* chiamata: `receiver.<X1, ..., Xn>nomeMetodo(ArgType1 argName1, ...)`
+* chiamata con inferenza (uso tipico): `receiver.nomeMetodo(ArgType1 argName1, ...)`
 
-### Due casi principali, con medesima gestione
+### Generici a livello di classe e metodo
 
-
-
-* Metodo generico (statico o non-statico) in una classe non generica
-* Metodo generico (non-statico) in una classe generica
-* $\Rightarrow$ Il primo dei due molto più comune...
+* I *metodi istanza* possono vedere i parametri di tipo della classe che li ospita
+* I *metodi `static`* **non** possono vedere i parametri di tipo della classe che li ospita
+    * in quanto non legati ad una istanza, ma alla classe stessa
+* Entrambi i tipi di metodi possono essere generici, dichiarando le proprie variabili di tipo,
+  che avranno visibilità solo all'interno del metodo stesso
+    * È molto più frequente vedere metodi `static` generici
+    * In effetti tipicamente i metodi istanza lavorano tipicamente usando i generici della classe
 
 ---
 
-
-## Definizione di un metodo generico
-
-
+## Definizione di un metodo generico `static` e suo utilizzo
 
 ```java
-{{% import-raw path="code/generics/UseIterators2A.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/iterators/UseIterators2.java" %}}
 ```
 
 ---
 
-
-## Chiamata a metodo generico
-
+## Definizione di metodi generico *istanza* e loro utilizzo
 
 ```java
-import java.util.Date;
-
-public class UseIterators2 {
-    public static <E> void printAll(Iterator<E> iterator){ /* ... */ }
-    
-    public static void main(String[] s) {
-        Iterator<Integer> iterator1 = new IntRangeIterator(5, 10);
-    
-        Vector<Date> vector= // ...
-        Iterator<Date> iterator2 = new VectorIterator(vector);
-    
-        // Attenzione, il nome della classe è obbligatorio
-        UseIterators2.<Integer>printAll(iterator1);	        
-        UseIterators2.<Date>printAll(iterator2);
-        
-        // Con inferenza, il nome della classe non è obbligatorio
-        printAll(iterator1);
-        printAll(iterator2);
-    }
-}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/iterators/PairReplacer.java" %}}
 ```
 
 ---
 
-
-## Esempio di metodo generico in classe generica
-
-
-```java
-{{% import-raw path="code/generics/UseGenMeth.java" %}}
-```
+# Covarianza, contravarianza, wildcards
 
 ---
-
-# Java Wildcards
-
----
-
-
 
 ## Java Wildcards
 
-
-  
 ### Osservazione
 
+* In generale, dato un tipo `C<T>`, se `S` è sottotipo di `T`, **non** vale che `C<S>` è sottotipo di `C<T>`
+    * Esempio: `Student extends Person` non implica che `Vector<Student>` estenda `Vector<Person>`
+        * Se lo estendesse, ogni chiamata a metodi di `Vector<Person>` sarebbe valida anche per `Vector<Student>`
+        * Incluso il metodo `add(Person p)`
+        * Ma se posso aggiungere un `Person` ad un `Vector<Student>`, starei violando la sicurezza dei tipi!
+* Questo comportamento è detto **invarianza** dei generici in Java
+* A volte è utile poter esprimere relazioni di sottotipo fra tipi generici
+    * Sia del tipo "qualunque sottotipo di T" (*covarianza*), tipicamente in lettura
+        * Ad esempio, un `Vector` di un sottotipo non noto di `Number`
+            * Non potrò aggiungere nulla, ma potrò leggere `Number`
+    * Sia del tipo "qualunque supertipo di T" (*contravarianza*), tipicamente in scrittura
+        * Ad esempio, un `Vector` di un supertipo non noto di `Double`
+            * Potrò aggiungere `Double`, ma non potrò leggere nulla di più specifico di `Object`
 
-
-  *  Esistono situazioni in cui un metodo debba accettare come argomento non solo oggetti di un tipo `C<T>`, ma di ogni `C<S>` dove `S <: T`
-  *  Esempio: un metodo statico `printAll()` che prende in ingresso un iteratore e ne stampa gli elementi
-  *  È realizzabile con un metodo generico, ma ci sono casi in cui si vorrebbe esprimere *un tipo che raccolga istanziazioni diverse di una classe generica*
-  
-
-
-  
 ### Java Wildcards
 
-
-
- <!--  *  Un meccanismo avanzato, quello inventato più di recente (2004-2006)
-     *  (Igarashi \& Viroli) + (Bracha \& Gafter) + (Torgersen \& Hansen \& von der Ahé) -->
-
-  *  Un meccanismo che fornisce dei nuovi tipi, chiamati Wildcards 
-  *  Simili a interfacce (non generano oggetti, descrivono solo contratti)
-  *  Generalmente usati come tipo dell'argomento di metodi
-  
-
-
-
+* Un meccanismo che fornisce dei nuovi tipi, chiamati Wildcards 
+* Simili a interfacce (non generano oggetti, descrivono solo contratti)
+* Generalmente usati come tipo dell'argomento di metodi
 
 ---
 
-
-
 ## Java Wildcards
 
-
-```java
-{{% import-raw path="code/generics/Numbers.java" %}}
-```
-
-```java
-{{% import-raw path="code/generics/Wildcards.java" %}}
-```
-
----
-
-
-## Java Wildcards
-
-
-  
 ### 3 tipi di wildcard
+* Bounded (covariante): `C<? extends T>`
+    * accetta un qualunque `C<S>` con `S` sottotipo di `T`
+* Bounded (contravariante): `C<? super T>`
+    * accetta un qualunque `C<S>` con `S` supertipo di `T`
+* Unbounded: `C<?>`
+    * accetta un qualunque `C<S>`
 
-
-
-*  Bounded (covariante): `C<? extends T>`
-
-    *  accetta un qualunque `C<S>` con `S <: T`
-
-*  Bounded (controvariante): `C<? super T>`
-
-    *  accetta un qualunque `C<S>` con `S >: T`
-    
-*  Unbounded: `C<?>`
-
-    *  accetta un qualunque `C<S>`
-  
-
-
-  
 ### *Uso* delle librerie che dichiarano tipi wildcard
+* Piuttosto semplice, basta passare un argomento compatibile o si ha un errore a tempo di compilazione
 
-
-
-  *  Piuttosto semplice, basta passare un argomento compatibile o si ha un errore a tempo di compilazione
-  
-
-
-  
 ### *Progettazione* di librerie che usano tipi wildcard
-
-
-
-  *  Molto avanzato: le wildcard pongono limiti alle operazioni che uno può eseguire, derivanti dal principio di sostituibilità
-  
-
-
-
+* Molto avanzato: le wildcard pongono limiti alle operazioni che uno può eseguire, derivanti dal principio di sostituibilità
 
 ---
-
 
 ## Esempio Wildcard 1 (unbounded)
 
 
   
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard.java" %}}
 ```
-
 ---
 
 ## Esempio Wildcard 2 (bounded)
@@ -781,20 +647,34 @@ public class UseIterators2 {
 
   
 ```java
-{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard2.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard2.java" %}}
 ```
 
 ---
 
 ## Esempio Wildcard 3 (bounded, limitazioni)
 
-  
 ```java
-{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard3.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/generics/wildcard/Wildcard3.java" %}}
 ```
 
-* `Vector<? extends Number>` si può leggere come "`Vector` che può fornire ma non accettare `Number`" (cf. in C# dove la keyword `out` è usata per specificare parametri di tipo covarianti)
-* `Vector<? super Number>` si può leggere come "`Vector` che può accettare ma non fornire `Number`" (cf. in C# dove la keyword `in` è usata per specificare parametri di tipo controvarianti)
+---
+
+## Interpretazione come Input / Output
+
+Un modo più intuitivo di interpretare le wildcard è quello di considerare i tipi generici come
+*produttori* o *consumatori* di valori del tipo specificato.
+
+* In diversi linguaggi (fra cui C# e Kotlin) questo concetto è formalizzato con le keywords `in` e `out`.
+    * In Kotlin o C#, ad esempio, si dichiara la covarianza di un tipo generico `C` con `C<out T>`, e la contravarianza con `C<in T>`.
+    * L'equivalente in Java sarebbe `C<? extends T>` per la covarianza e `C<? super T>` per la contravarianza.
+
+### Ne consegue che:
+
+* `Vector<? extends Number>` si può leggere "`Vector` che può **fornire** ma *non accettare* `Number`"
+    * come per `Vector<out Number>` in Kotlin o C#, dove la keyword `out` è usata per specificare parametri di tipo covarianti
+* `Vector<? super Number>` si può leggere "`Vector` che può **accettare** ma *non fornire* `Number`"
+    * come per `Vector<in Number>` in Kotlin o C#, dove la keyword `in` è usata per specificare parametri di tipo contravarianti
 
 ---
 
