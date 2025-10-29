@@ -122,11 +122,11 @@ classDiagram
 
 Un meccanismo usato per gestire eventi ritenuti fuori dalla normale esecuzione (errori), ossia per dichiararli, lanciarli, intercettarli
 
-### JCF e eccezioni
-*  Ogni collection ha sue regole di funzionamento, e non ammette certe operazioni che richiedono controlli a tempo di esecuzione
+### JCF ed eccezioni
+* Ogni collection ha sue regole di funzionamento, e non ammette certe operazioni che richiedono controlli a tempo di esecuzione
     * ad esempio, certe collezioni sono immutabili, e non si può tentare di scriverci
     * oppure, non si può ottenere un elemento da una collezione vuota
-*  Molti metodi dichiarano che possono lanciare eccezioni -- ma possiamo non preoccuparcene per ora
+* Molti metodi dichiarano che possono lanciare eccezioni -- ma possiamo non preoccuparcene per ora
 
 ---
 
@@ -140,18 +140,22 @@ Un meccanismo usato per gestire eventi ritenuti fuori dalla normale esecuzione (
 *  Abbiamo visto che può essere usato per iterare su un array in modo più astratto (compatto, leggibile)
 
 ```java
-for(int i: array) { ... }
+for (final var i: array) { ... }
 ```
 
 *  Java fornisce anche un meccanismo per *usare il foreach su qualunque collection, in particolare, su qualunque oggetto che implementa l'interfaccia* `java.lang.Iterable<X>`
 
 ### `Iterable` e `Iterator`
 *  L'interfaccia `Iterable` (contratto degli oggetti *iterabili*) ha un metodo per generare e restituire un (nuovo) `Iterator`
-*  Un *iteratore* è un oggetto con metodi `next()`, `hasNext()` (e `remove()`)
-*  Dato l'oggetto `coll` che implementa `Iterable<T>` allora il foreach diventa:
+*  Un *iteratore* è un oggetto con metodi `next()`, `hasNext()` (e `remove()`), che può quindi *iterare* su una collezione *una sola volta*
+    * È "*monouso*": una volta terminata l'iterazione, non si può più riutilizzare lo stesso iteratore
+    * Ne va creato uno nuovo, chiedendolo all'`Iterable`
+*  Dato l'oggetto `collection` che implementa `Iterable<T>` allora il foreach diventa:
 
 ```java
-for(final T element: coll) { ... }
+for (final T element: collection) { ... }
+// o, equivalentemente:
+for (final var element: collection) { ... }
 ```
 
 ---
@@ -169,15 +173,6 @@ for(final T element: coll) { ... }
 ```java
 {{% import-raw path="code/collections/short/Collection-Short.java" %}}
 ```
-
----
-
-
-## Interfacce per l'iterazione -- UML
-
-
-  ![](imgs/uml-iter.png)
-
 
 ---
 
@@ -221,18 +216,20 @@ for(final T element: coll) { ... }
 
 ## Usare le collezioni
 
-* Nota: invocazione metodi dell'interfaccia `Collection`
-* Interazione con array via ad es. `Arrays.asList()` e `Collection.toArray()`
+* Interazione fra collezioni e array tramite metodi:
+    * `Arrays.asList()`, metodo statico che converte un array in una `List`
+    * `Collection.toArray()`, metodo istanza che converte una collezione in un array
 
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/collection/UseCollection.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/collections/collection/UseCollection.java" %}}
 ```
+
 ---
 
 ## Creare collezioni (*immutabili*) -- Java 9+
 
 - Metodi statici factory `.of(...)` e `.copyOf(c)` su `List`, `Set`, ...
-    - Nota: `Arrays.ofList` visto precedentemente, invece, crea una lista mutabile (e consente valori `null`)
+    - Nota: `Arrays.asList` visto precedentemente, invece, crea una lista mutabile (e consente valori `null`)
 
 ```java
 {{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/collection/UseFactories.java" %}}
@@ -244,16 +241,16 @@ for(final T element: coll) { ... }
 
 ### `Set`
 *  Rappresenta collezioni *senza duplicati*
-    *  nessuna coppia di elementi porta `Object.equals()` a dare `true`
-    *  non vi sono due elementi `null`
-    *  I metodi di modifica devono rispettare la non duplicazione
+    * nessuna coppia di elementi porta `Object.equals()` a dare `true`
+    * non vi sono due elementi `null`
+    * I metodi di modifica devono rispettare la non duplicazione
 *  Non aggiunge metodi rispetto a `Collection`
 
 ### `List`
 
-* Rappresenta *sequenze di elementi*
+* Rappresenta *sequenze ordinate di elementi*
 * Rispetto alle collezioni generiche:
-    *  Ha metodi per accedere ad un elemento per *posizione* (0-based)
+    * Ha metodi per accedere a un elemento per *posizione* (0-indicizzata)
 
 La scelta fra queste due tipologie non dipende da motivi di performance, ma da quale modello di collezione serva!
 
@@ -275,14 +272,12 @@ La scelta fra queste due tipologie non dipende da motivi di performance, ma da q
 
 *  *In variabili, argomenti, tipi di ritorno, si usano le interfacce*
 ```java
-void m(List<Integer> lst) {
-    final Set<String> names = // Dichiaro Set, non HashSet o altra implementazione
+void m(final List<Integer> lst) {
+    // Dichiaro Set, non HashSet o altra implementazione, e istanzio una sua implementazione
+    final Set<String> names = new LinkedHashSet<>();
 }
 ```
 *  *Le classi concrete solo in fase di istanziazione*, nella `new`, a parte casi molto particolari
-```java
-final Set<String> names = new HashSet<>();
-```
 
 ---
 
@@ -358,14 +353,15 @@ final Set<String> names = new HashSet<>();
 
 ## `TreeSet<E>`
 
-*  Assume che esista un *ordine totale* fra gli elementi
-*  Quindi ogni elemento ha una sua *posizione* nell'elenco
-*  Questo consente l'approccio dicotomico alla ricerca
+* Assume che esista un *ordine* fra gli elementi
+* Quindi ogni elemento ha una sua *posizione* nell'elenco
+* Questo consente l'approccio dicotomico alla ricerca
 
 ### Realizzazione ordinamento: due approcci (interno o esterno)
-*  O con elementi che implementano direttamente `Comparable`
-    *  Nota che, p.e., `Integer` implementa `Comparable<Integer>`
-*  O attraverso un `Comparator` esterno fornito alla `new`
+* O con elementi che implementano direttamente `Comparable`
+    * Nota che, p.e., `Integer` implementa `Comparable<Integer>`
+    * Detto anche *ordine naturale*
+* O attraverso un `Comparator` esterno fornito alla `new`
 
 ### Implementazione `TreeSet`
 *  Basata su red-black tree (albero binario bilanciato)
@@ -411,9 +407,7 @@ public class Person implements Comparable<Person> {
      * Sort by year, and if they are equal by name
      */
     public int compareTo(final Person other) {
-        final var byYear = this.birthYear > other.birthYear
-            ? 1
-            : (this.birthYear < other.birthYear ? -1 : 0)
+        final var byYear = this.birthYear > other.birthYear ? 1 : (this.birthYear < other.birthYear ? -1 : 0);
         // Alternatively, just:
         // final var byYear = Integer.compare(this.birthYear, other.birthYear)
         return byYear == 0 ? this.name.compareTo(other.name) : byYear;
@@ -476,12 +470,18 @@ System.out.println(external); // [2, 10, lll, zzz, aaaaa]
 Data una classe `SortedSet<E>` il suo comparatore ha tipo `Comparator<? super E>`, perché non semplicemente `Comparator<E>`?
 
 ### È corretto
-*  `Comparator` ha metodi che hanno `E` solo come argomento
-*  quindi l'uso di `Comparator<? super E>` è una generalizzazione di `Comparator<E>`
+* `Comparator` ha metodi che hanno `E` solo come argomento
+* quindi l'uso di `Comparator<? super E>` è una generalizzazione *contravariante* di `Comparator<E>`
+    * Provate a leggerla alla Kotlin/C#: `Comparator<in E>`:
+        * $\Rightarrow$ `Comparator` che accetta oggetti di tipo `E` in input
+        * $\Rightarrow$ `Comparator` che non restituisce mai oggetti di tipo `E`
 
 ### È utile
-*  Supponiamo di aver costruito un comparatore per `SimpleLamp`, e che questo sia usabile anche per tutte le specializzazioni successivamente costruite (è la situazione tipica)
-*  Anche un `SortedSet<UnlimitedLamp>` deve poter usare il `Comparator<SimpleLamp>`, ma questo è possibile solo grazie al suo tipo atteso `Comparator<? super E>`
+* Supponiamo di aver costruito un comparatore per `Person`, e che questo sia usabile anche per tutte le specializzazioni successivamente costruite (è la situazione tipica)
+* Anche un `SortedSet<Student>` deve poter usare il `Comparator<Person>`!
+    * Se so confrontare due persone, so confrontare anche due studenti
+* Questo è possibile solo grazie al suo tipo atteso `Comparator<? super E>`
+    * altrimenti, sarebbe *invariante* e non potrei passare un `Comparator<Person>` a un `SortedSet<Student>`
 
 ---
 
@@ -492,7 +492,31 @@ Data una classe `SortedSet<E>` il suo comparatore ha tipo `Comparator<? super E>
 ## `List`
 
 ```java
-{{% import-raw path="code/collections/short/List2.java" %}}
+public interface List<E> extends Collection<E> {
+    // Additional Bulk Operations 
+    // aggiunge gli elementi in pos. index
+    boolean addAll(int index, Collection<? extends E> c);
+
+    // Positional Access Operations
+    E get(int index);
+    E getFirst();
+    E getLast();
+    E set(int index, E element);
+    void add(int index, E element);
+    E remove(int index);
+
+    // Search Operations
+    int indexOf(Object o);  // basato su Object.equals
+    int lastIndexOf(Object o);  // basato su Object.equals
+
+    // List Iterators
+    ListIterator<E> listIterator();
+    ListIterator<E> listIterator(int index);
+
+    // View
+    List<E> subList(int fromIndex, int toIndex);
+}
+
 ```
 ---
 
@@ -518,14 +542,14 @@ considerando il fatto che la lista può modificare le proprie dimensioni nel tem
 ## `ArrayList`
 
 ### Caratteristiche di performance
-*  Lettura/scrittura in data posizione sono a tempo costante
-*  La `add()` è tempo costante ammortizzato, ossia, $n$ add si effettuano in $O(n)$
-*  Tutte le altre operazioni sono a tempo lineare
+* Lettura/scrittura in data posizione sono a tempo costante
+* La `add()` è tempo costante ammortizzato, ossia, $n$ add si effettuano in $O(n)$
+* Tutte le altre operazioni sono a tempo lineare
 
 ### Funzionalità aggiuntive
 Per migliorare le performance (e l'occupazione in memoria) in taluni casi l'utente esperto può usare funzioni aggiuntive
-*  Specificare la dimensione iniziale dell'array interno nella `new`
-*  `trimToSize()` e `ensureCapacity()` per modifiche in itinere
+* Specificare la dimensione iniziale dell'array interno nella `new`
+* `trimToSize()` e `ensureCapacity()` per modifiche in itinere
 
 ---
 
@@ -543,36 +567,6 @@ lista doppiamente linkata (che può essere traversata dall'inizio o dalla fine)
 *  Implementa anche l'interfaccia `Deque`,
 usata per rappresentare una coda bidirezionale
 (*double-ended queue*), potenzialmente con dimensione limitata
-
----
-
-## `LinkedList`: funzioni aggiuntive relative a code (e stack)
-
-
-```java
-{{% import-raw path="code/collections/short/Queue.java" %}}
-```
-
-```java
-{{% import-raw path="code/collections/short/Deque.java" %}}
-```
-
----
-
-## `LinkedList`: costruzione
-
-
-```java
-{{% import-raw path="code/collections/short/LinkedList.java" %}}
-```
-
----
-
-## `UseLinkedList`
-
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/generic/list/UseLinkedList.java" %}}
-```
 
 ---
 
@@ -603,26 +597,10 @@ usata per rappresentare una coda bidirezionale
 
 ---
 
-## `UseArrays`: qualche esempio di applicazione
-
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/generic/functions/UseArrays.java" %}}
-```
-
----
-
 ## `Collections`: qualche esempio di metodi
 
 ```java
 {{% import-raw path="code/collections/short/Collections.java" %}}
-```
-
----
-
-## `UseCollections`: qualche esempio di applicazione
-
-```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/generic/functions/UseCollections.java" %}}
 ```
 
 ---
@@ -632,30 +610,45 @@ usata per rappresentare una coda bidirezionale
 
 ---
 
-## `Map`
-
+## `Map<K,V>`
 - Una **mappa** (anche detta **mappa associativa** o **dizionario**) è una corrispondenza tra **chiavi** e **valori**, dove le chiavi (e quindi le coppie) formano un set (non ci sono chiavi duplicate)
+*  Rappresenta una funzione dal dominio `K` in `V`
+*  La mappa tiene tutte le associazioni (o "entry")
+*  Non posso esistere due entry con stessa chiave (`Object.equals`)
 
 ```java
-{{% import-raw path="code/collections/generic/short/Map_.java" %}}
+public interface Map<K,V> {
+    // Query Operations
+    int size();
+    boolean isEmpty();
+    boolean containsKey(Object key);        // usa Object.equals
+    boolean containsValue(Object value);    // usa Object.equals
+    V get(Object key);                      // accesso a valore
+    // Modification Operations
+    V put(K key, V value);          // inserimento chiave-valore
+    V remove(Object key);           // rimozione chiave(-valore)
+    // Bulk Operations
+    void putAll(Map<? extends K, ? extends V> m);
+    void clear();                   // cancella tutti
+    // Views
+    Set<K> keySet();         // vista sul set dei valori
+    Collection<V> values();  // vista sulla collezione di chiavi
+}
+
 ```
 
 ---
 
 ## Implementazioni notevoli di `Map`
 
-### `Map<K,V>`
-*  Rappresenta una funzione dal dominio `K` in `V`
-*  La mappa tiene tutte le associazioni (o "entry")
-*  Non posso esistere due entry con stessa chiave (`Object.equals`)
-
 ### `HashMap`
 *  Sostanzialmente un `HashSet` di coppie `Key`, `Value`
 *  L'accesso ad un valore tramite la chiave è fatto con hashing
 *  Accesso a tempo costante, a discapito di overhead in memoria
 
-### `LinkedHashMap`
+### ⭐ `LinkedHashMap`
 * Come sopra, ma l'ordine di iterazione è *predicibile* (è l'ordine di inserimento)
+* Usata *preferibilmente*
 
 ### `TreeMap`
 *  Sostanzialmente un `TreeSet` di coppie `Key`, `Value`
@@ -668,12 +661,10 @@ usata per rappresentare una coda bidirezionale
 ## Usare le mappe
 
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/collections/generic/map/UseMap.java" %}}
+{{% import-raw path="pss-code/src/main/java/it/unibo/collections/generic/map/UseMap.java" %}}
 ```
 
-
 ---
-
 
 # Collezioni
 

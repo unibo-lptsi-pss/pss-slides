@@ -12,32 +12,17 @@ aliases = ["/generic-collections-advanced/"]
 
 {{% import path="front-page.md" %}}
 
-
-
 ---
-
 
 ## Outline
 
-
-  
 ### Goal della lezione
+* Approfondire alcuni concetti sui generici
 
-
-
-  *  Approfondire alcuni concetti sui generici
-  
-
-
-  
 ### Argomenti
-
-
-  *  Il problema della type-erasure
-  *  Polimorfismo vincolato
-  *  Approfondimento sulle Wildcards
-
-
+* Il problema della type-erasure
+* Polimorfismo vincolato
+* Approfondimento sulle Wildcards
 
 ---
 
@@ -67,21 +52,14 @@ aliases = ["/generic-collections-advanced/"]
 ---
 
 
-## Terminologia, e elementi essenziali
-
+## Terminologia, ed elementi essenziali
 
 ### Data una classe generica `C<X,Y>`..
+* `C` è detta **tipo parametrico**
+* `X` e `Y` sono dette le sue *__type-variable__* o **parametri di tipo**
+* `X` e `Y` possono essere usati come un qualunque tipo dentro la classe (con alcune limitazioni che vedremo)
 
-  *  `C` è detta **tipo parametrico**
-  *  `X` e `Y` sono dette le sue *__type-variable__* o **parametri di tipo**
-  *  `X` e `Y` possono essere usati come un qualunque tipo dentro la classe (con alcune limitazioni che vedremo)
-  
-
-
-  
 ### I clienti delle classi generiche
-
-
 
 *  Devono usare *tipi specifici* ottenuti dai *__tipi generici__*, ovvero versioni "istanziate" delle classi generiche
     *  `C<String,Integer>`, `C<C<Object,Object>,Object>`
