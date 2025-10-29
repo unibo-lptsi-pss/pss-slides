@@ -37,7 +37,7 @@ outputs = ["Reveal"]
 </div>
 <div class="col">
 
-11. [Polimorfismo, classi astratte](polymorphism/)
+11. [Polimorfismo e tipi a runtime](polymorphism/)
 1. [Generici](generics/)
 1. [Collezioni](collections/)
 1. 🚧 [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
