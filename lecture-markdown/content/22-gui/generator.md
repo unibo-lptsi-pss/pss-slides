@@ -25,7 +25,7 @@ aliases = ["/guis-javafx/"]
 ### Argomenti
 
 - Elementi principali di applicazioni JavaFX (applicazione, stage, scene, layout, nodi)
-- Elementi avanzati: data binding, FXML, CSS
+- Elementi avanzati: data binding
 
 ### Riferimenti
 
@@ -69,7 +69,7 @@ aliases = ["/guis-javafx/"]
 ### Java APIs
 
 * Libreria che include classi e interfacce scritte in Java <!-- e compilato con retro compatibilità fino a Java 7 -->
-* Nel 2022, la versione più recente, *JavaFX 19*, richiede *JDK >= 11*
+* Nel 2025, la versione più recente, *JavaFX 25*, richiede *JDK >= 23*
 
 
 ### FXML (e CSS per lo stile)
@@ -77,11 +77,11 @@ aliases = ["/guis-javafx/"]
 * **FXML** è un linguaggio dichiarativo per definire la GUI di un'applicazione JavaFX-based
 * **CSS** è un linguaggio flessibile per specificare lo stile di elementi della GUI
 * Il loro impiego non è indispensabile, ma fortemente consigliato per una buona *separazione dei concern*
-
+* Noi in questo corso non li tratteremo (e non vi chiederemo di usarli)
 
 ### MVC-friendly
 
-* Attraverso FXML/CSS, ma anche attraverso *proprietà osservabili* e *data binding*
+* Attraverso *proprietà osservabili* e *data binding*
 
 
 
@@ -107,15 +107,6 @@ aliases = ["/guis-javafx/"]
 
 
 
-### Interoperabilità bidirezionale con la libreria Java built-in per GUI *Swing*
-
-
-
-* GUI Swing esistenti possono includere componenti JavaFX (cf. `JFXPanel`)
-* E' possibile inserire componenti Swing in interfacce JavaFX (cf. `SwingNode`)
-
-
-
 ---
 
 ## Astrazioni fondamentali
@@ -126,7 +117,6 @@ aliases = ["/guis-javafx/"]
 
 
 * Il contenitore (esterno) dove la GUI sarà visualizzata (ad es., una finestra del S.O.)
-    * Corrisponde al `JFrame` di Swing
 * [javafx.stage.Stage](https://openjfx.io/javadoc/15/javafx.graphics/javafx/stage/Stage.html), sottoclasse di `Window` 
 
 
@@ -159,17 +149,20 @@ aliases = ["/guis-javafx/"]
 
 ```java
 public class App extends javafx.application.Application {
-	@Override
-	public void start(Stage stage) throws Exception {
-		Group root = new Group();
-		Scene scene = new Scene(root, 500, 300);
-		stage.setTitle("JavaFX Demo");
-		stage.setScene(scene);
-		stage.show();
-	}
+    @Override
+    public void start(Stage stage) throws Exception {
+        Group root = new Group();
+        Scene scene = new Scene(root, 500, 300);
+        stage.setTitle("JavaFX Demo");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void run(String[] args) {
+        launch(args);
+    }
 }
 ```
-
 
 ---
 
@@ -177,13 +170,8 @@ public class App extends javafx.application.Application {
 
 
 ```java
-import javafx.application.Application;
-
-public class Main {
-	public static void main(String[] args) { 
-	    // App è la classe definita nella slide precedente
-	    Application.launch(App.class, args); 
-	}   
+void main(String[] args) {
+    App.run(args);
 }
 ```
 
@@ -222,7 +210,7 @@ L'avvio mediante `Application.launch(App.class)` comporta:
     * Possono essere organizzati gerarchicamente
         * La sottoclasse `Parent` rappresenta nodi che possono avere figli (recuperabili via `getChildren()`)
     * Un nodo ha un ID univoco, coordinate locali, può subire trasformazioni (ad es. rotazione), ha un bounding rectangle associato, e può essere stilizzato via CSS
-* Sottoclassi di [`Node`](https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Node.html): `SwingNode`, `Canvas`, `Parent`
+* Sottoclassi di [`Node`](https://openjfx.io/javadoc/15/javafx.graphics/javafx/scene/Node.html): `Canvas`, `Parent`
 
 
 
@@ -248,34 +236,25 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 
 - Si faccia riferimento al repository di esempio: 
 [https://github.com/unibo-lptsi-pss/pss-javafx](https://github.com/unibo-lptsi-pss/pss-javafx)
-
+- Qui di seguito, una versione minimale del `build.gradle.kts` per un progetto JavaFX-based
 
 ```kotlin
 plugins {
     java
     application
-    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 repositories {
     mavenCentral()
 }
 
-val javaFXModules = listOf("base", "controls", "fxml", "swing", "graphics" )
-val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
-val javaFxVersion = 17
-
-dependencies {
-  for (platform in supportedPlatforms) {
-    for (module in javaFXModules) {
-      implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
-    } 
-  } 
+javafx {
+    modules("javafx.base", "javafx.controls", "javafx.graphics")
+    version  = "25"
 }
 
-application {
-    mainClass.set("it.unibo.samplejavafx.App")
-}
+
 ```
 
 ---
@@ -374,8 +353,8 @@ mirror.setText("default");
 
 ### Region
 
-* Classe base per tutti i layout general purpose (simili a quelli offerti da Swing):
-    * `BorderPane`, `HBox`/`VBox`, `TilePane`, `GridPane`, `FLowPane`, `AnchorPane`, `StackPane`
+* Classe base per tutti i layout general purpose:
+    * `BorderPane`, `HBox`/`VBox`, `TilePane`, `GridPane`, `FlowPane`, `AnchorPane`, `StackPane`
 
 
 ---
@@ -481,7 +460,7 @@ for(Month m : Month.values()) {
 
 * Gli **eventi** (`javafx.event.Event`) possono essere generati dall'interazione dell'utente con gli elementi grafici 
     * ogni evento ha un *event source*, *event target*, ed *event type*  e può essere consumato (`consume()`)
-* GLi eventi possono essere gestiti attraverso *event handlers*
+* Gli eventi possono essere gestiti attraverso *event handlers*
     * Per ogni tipo `T` che implementa `Event`, `EventHandler<T>` deve implementare il metodo `void handle(T)`
 * Ogni nodo può registrare uno o più event handler
     * In generale, attraverso i metodi `setOn...()`
@@ -496,58 +475,94 @@ for(Month m : Month.values()) {
 
 ### Es. Gestione del click su un `Button`
 
-
 ```java
-btn.setOnMouseClicked(event -> {
-    lbl.setText("Hello, JavaFX World!");
-});
-// same as
-btn.addEventHandler(ActionEvent.ACTION, e -> lbl.setText("Hello, JavaFX World!"));
-```
-
-
-
----
-
-### Esempio con più Stage (1/2)
-
-```java
-public class App extends Application {
-
-  @Override
-  public final void start(final Stage mainStage) {
-    final Scene scene = new Scene(initSceneUI());
-    mainStage.setScene(scene);
-    mainStage.setTitle("JavaFX Example");
-    mainStage.show();
-  }
-
-  private Parent initSceneUI() {
-    final Label inputLbl = new Label("Input: ");
-    final TextField inputArea = new TextField();
-    final Button okBtn = new Button("Open a new Stage with the input data!");
-
-    okBtn.setOnMouseClicked(event -> {
-      new SecondStage(inputArea.getText()).show();
-    });
-
-    final BorderPane root = new BorderPane();
-    root.setRight(okBtn);
-    root.setLeft(inputLbl);
-    root.setCenter(inputArea);
-
-    BorderPane.setAlignment(inputLbl, Pos.CENTER_LEFT);
-    BorderPane.setAlignment(okBtn, Pos.CENTER_RIGHT);
-
-    return root;
-  }
+// Handler for mouse click events
+public class ClickHandler implements EventHandler<MouseEvent> {
+    private final Label lbl;
+    public ClickHandler(Label lbl) { this.lbl = lbl; }
+    @Override
+    public void handle(MouseEvent event) {
+        lbl.setText("Hello, JavaFX World!");
+    }
 }
 ```
 
+```java
+// General event handler for action events
+public class ActionHandler implements EventHandler<ActionEvent> {
+    private final Label lbl;
+    public ActionHandler(Label lbl) { this.lbl = lbl; }
+    @Override
+    public void handle(ActionEvent event) {
+        lbl.setText("Hello, JavaFX World!");
+    }
+}
+```
+```java
+// Wiring the handlers to the button and label
+btn.setOnMouseClicked(new ClickHandler(lbl));
+btn.addEventHandler(ActionEvent.ACTION, new ActionHandler(lbl));
+```
+
+
 
 ---
 
-### Esempio con più Stage (2/2)
+### Esempio con più Stage (1/3)
+
+```java
+public class App extends Application {
+    @Override
+    public final void start(final Stage mainStage) {
+        final Scene scene = new Scene(initSceneUI());
+        mainStage.setScene(scene);
+        mainStage.setTitle("JavaFX Example");
+        mainStage.show();
+    }
+    private Parent initSceneUI() {
+        final Label inputLbl = new Label("Input: ");
+        final TextField inputArea = new TextField();
+        final Button okBtn = new Button("Open a new Stage with the input data!");
+
+        okBtn.setOnMouseClicked(new OpenSecondStageHandler(inputArea));
+        final BorderPane root = new BorderPane();
+        root.setRight(okBtn);
+        root.setLeft(inputLbl);
+        root.setCenter(inputArea);
+        BorderPane.setAlignment(inputLbl, Pos.CENTER_LEFT);
+        BorderPane.setAlignment(okBtn, Pos.CENTER_RIGHT);
+
+        return root;
+    }
+
+    public static run(String[] args) {
+        launch(args);
+    }
+}
+```
+
+---
+
+### Esempio con più Stage (2/3)
+
+```java
+public class OpenSecondStageHandler implements EventHandler<MouseEvent> {
+    private final TextField inputField;
+
+    public OpenSecondStageHandler(final TextField inputField) {
+        this.inputField = inputField;
+    }
+
+    @Override
+    public void handle(final MouseEvent event) {
+        new SecondStage(inputField.getText()).show();
+    }
+}
+```
+
+---
+
+### Esempio con più Stage (3/3)
 
 ```java
 public class SecondStage extends Stage {
@@ -555,24 +570,24 @@ public class SecondStage extends Stage {
 
     public SecondStage(final String message) {
         super();
-	    setTitle("New Window...");
-	    setScene(new Scene(initSceneUI(), 400, 200));
-	    lbl.setText(message);
+        setTitle("New Window...");
+        setScene(new Scene(initSceneUI(), 400, 200));
+        lbl.setText(message);
     }
 
     private Parent initSceneUI() {
         lbl = new Label();
-	    FlowPane root = new FlowPane();
-	    root.setAlignment(Pos.CENTER);
-	    root.getChildren().add(lbl);
-	    return root;
+        FlowPane root = new FlowPane();
+        root.setAlignment(Pos.CENTER);
+        root.getChildren().add(lbl);
+        return root;
     }
 }
-
-public class Main {
-    public static void main(final String[] args) {
-        Application.launch(App.class, args); 
-    }
+```
+```java
+// To run the application
+void main(String[] args) {
+    App.run(args);
 }
 ```
 
@@ -585,6 +600,7 @@ public class Main {
 * Nota: è opportuno conoscere quali metodi hook dell'`Application` sono eseguiti (ad es. `start`) oppure no (ad es. `init`) su JFXAT
 * **Platform.runLater(Runnable)**
  accoda il runnable nella coda degli eventi del JFXAT
+    - Capiremo meglio questo aspettando quando parleremo di applicazioni multithreaded in Java
 
 ---
 
@@ -599,564 +615,19 @@ Ractangle2D svb = s.getVisualBounds();
 ObservableList<Screen> screenList = Screen.getScreens();
 ```
 
-Ad es., per dimensionare lo stage
-
-```java
-stage.xProperty().addListener(x -> {
-    Screen s = Screen.getScreensForRectangle(
-        new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight())
-    ).get(0);
-    stage.setMinHeight(...);
-    stage.setMinWidth(...);
-    stage.setMaxHeight(s.getVisualBounds().getHeight()/2);
-    stage.setMaxWidth(s.getVisualBounds().getWidth()/2);
-});
-```
-
 ---
 
-## MVC: descrizione sintetica del pattern
-
-### MVC -- divide l'applicazione in 3 parti
-
-*  `Model`: modello OO del dominio applicativo del sistema
-*  `View`: gestisce le interazioni con l'utente (input e output)
-*  `Controller`: gestisce il coordinamento fra Model e View
-
----
-
-## Applicazione del MVC
-
-### Sulla costruzione di applicazioni con GUI
-
-*  Specialmente se non esperti, possono essere alquanto laboriose
-*  Usare un approccio strutturato sembra richiedere più tempo nel complesso, ma in realtà porta a soluzione più facilmente modificabili e controllabili
-
-### Alcune linee guida
- 
-* Usare il pattern MVC per la struttura generale
-* Identificate le varie "interazioni", e quindi costruire le interfacce dei vari componenti bene fin dall'inizio
-* Cercare massima indipendenza fra i vari componenti (interfacce con meno metodi possibile)
-* Costruire e testare modello e GUI separatamente (M e V), poi collegare il tutto col controllore (C) che risulterà particolarmente esile
-
----
-
-
-## MVC con le GUI: un esempio di struttura
-
-
-![](imgs/MVC-abstract.png)
-
-
----
-
-
-## Componenti e loro interazioni
-
-
-    
-### MVC
-
-
-
-*  `Model`: incapsula dati e logica relativi al dominio della applicazione
-*  `View`: incapsula la GUI, le sue sottoparti, e la logica di notifica
-*  `Controller`: intercetta gli eventi della View, comanda le modifiche al modello, cambia di conseguenza la View
-
-
-
-    
-### Interfacce -- nomi da modificare in una applicazione concreta
-
-
-
-*  `ModelInterface`: letture/modifiche da parte del Controller
-*  `ViewObserver`: comandi inviati dalla view al controller (`void`)
-*  `ViewInterface`: comandi per settare la view, notifiche a fronte dei comandi (errori..)
-
-
-
-
-
----
-
-
-## Un esempio di applicazione: `DrawNumber`
-
-
----
-
-
-## Interfaccia del model: `DrawNumber`
-
-
-
-```java
-public interface DrawNumber {
-    void reset();
-    DrawResult attempt(int n);
-}
-
-```
-
-
-```java
-public enum DrawResult {
-    YOURS_LOW("Your number is too small"),
-    YOURS_HIGH("Your number is too big"),
-    YOU_WON("You won"),
-    YOU_LOST("You lost");
-
-    private final String message;
-    
-    DrawResult(final String message) {
-        this.message = message;
-    }
-
-    public String getDescription() {
-        return message;
-    }
-}
-
-```
-
----
-## Interfaccia del Modello: `DrawNumberObservable`
-```java
-public interface DrawNumberObservable extends DrawNumber {
-    Property<Integer> minProperty();
-
-    Property<Integer> maxProperty();
-
-    Property<Optional<Integer>> lastGuessProperty();
-
-    Property<Optional<DrawResult>> lastGuessResult();
-
-    Property<Integer> attemptsProperty();
-
-    Property<Integer> remainingAttemptsProperty();
-}
-```
-
----
-
-## Implementazione del model (1/3): `DrawNumberImpl`
-
-{{% smaller %}}
-
-```java
-public final class DrawNumberImpl implements DrawNumberObservable {
-
-    private final Property<Integer> choice;
-    private final Property<Integer> min;
-    private final Property<Integer> max;
-    private final Property<Integer> attempts;
-    private final Property<Integer> remainingAttempts;
-    private final Property<Optional<Integer>> lastGuess;
-    private final Property<Optional<DrawResult>> lastGuessResult;
-    private final Random random = new Random();
-
-    public DrawNumberImpl(final Configuration configuration) {
-        lastGuess = new SimpleObjectProperty<>(Optional.empty());
-        lastGuessResult = new SimpleObjectProperty<>(Optional.empty());
-        if (!configuration.isConsistent()) {
-            throw new IllegalArgumentException("The game requires a valid configuration");
-        }
-        this.min = new SimpleObjectProperty<>(configuration.getMin());
-        this.max = new SimpleObjectProperty<>(configuration.getMax());
-        this.attempts = new SimpleObjectProperty<>(configuration.getAttempts());
-        this.remainingAttempts = new SimpleObjectProperty<>(configuration.getAttempts());
-        this.choice = new SimpleObjectProperty<>(configuration.getAttempts());
-        this.reset();
-    }
-
-    ...
-```
-
-{{% /smaller %}}
-
----
-## Implementazione del model (2/3): `DrawNumberImpl`
-{{% smaller %}}
-```java
-public final class DrawNumberImpl implements DrawNumberObservable {
-    ...
-    @Override
-    public void reset() {
-        this.remainingAttempts.setValue(this.attempts.getValue());
-        this.choice.setValue(this.min.getValue() + random.nextInt(this.max.getValue() - this.min.getValue() + 1));
-    }
-
-    @Override
-    public DrawResult attempt(final int guess) {
-        lastGuess.setValue(Optional.of(guess));
-        DrawResult result = lastGuessResult.getValue().orElse(DrawResult.YOU_LOST);
-        if (this.remainingAttempts.getValue() <= 0) {
-            result = DrawResult.YOU_LOST;
-        }
-        if (guess < this.min.getValue() || guess > this.max.getValue()) {
-            throw new IllegalArgumentException("The number is outside boundaries");
-        }
-        remainingAttempts.setValue(remainingAttempts.getValue() - 1);
-        if (guess > this.choice.getValue()) {
-            result = DrawResult.YOURS_HIGH;
-        }
-        if (guess < this.choice.getValue()) {
-            result = DrawResult.YOURS_LOW;
-        }
-        if (guess == this.choice.getValue()) {
-            result = DrawResult.YOU_WON;
-        }
-        lastGuessResult.setValue(Optional.of(result));
-        return result;
-    }
-    ...
-}
-```
-
-{{% /smaller %}}
-
----
-## Implementazione del model (3/3): `DrawNumberImpl`
-{{% smaller %}}
-```java
-public final class DrawNumberImpl implements DrawNumberObservable {
-    @Override
-    public Property<Integer> minProperty() {
-        return min;
-    }
-
-    @Override
-    public Property<Integer> maxProperty() {
-        return max;
-    }
-
-    @Override
-    public Property<Integer> remainingAttemptsProperty() {
-        return remainingAttempts;
-    }
-
-    @Override
-    public Property<Integer> attemptsProperty() {
-        return attempts;
-    }
-
-    @Override
-    public Property<Optional<Integer>> lastGuessProperty() {
-        return lastGuess;
-    }
-
-    @Override
-    public Property<Optional<DrawResult>> lastGuessResult() {
-        return lastGuessResult;
-    }
-```
-{{% /smaller %}}
-
----
-
-## Interfacce della view: `DrawNumberView`
-
-
-
-```java
-public interface DrawNumberView {
-    void setObserver(DrawNumberViewObserver observer);
-
-    void start();
-
-    void numberIncorrect();
-
-    void result(DrawResult res);
-
-    void displayError(String message);
-}
-```
-
-
-```java
-public interface DrawNumberViewObserver {
-    void newAttempt(int n);
-
-    void resetGame();
-
-    void quit();
-}
-
-```
-
----
-
-
-## Implementazione della view (1/3): `DrawNumberViewImpl`
-
-{{% smaller %}}
-
-```java
-public final class DrawNumberViewImpl implements DrawNumberView {
-
-    private static final String FRAME_NAME = "Draw Number App";
-    private static final String QUIT = "Quit";
-    private static final String RESET = "Reset";
-    private static final String GO = "Go";
-    private static final String NEW_GAME = ": a new game starts!";
-
-    private DrawNumberViewObserver observer;
-    private Stage frame;
-    private Label message;
-    private final DrawNumberObservable model;
-    private final Bounds initialBounds;
-
-    /**
-     * Initialises a view implementation for a drawnumber game.
-     * @param model
-     * @param initialBounds
-     */
-    public DrawNumberViewImpl(final DrawNumberObservable model, final Bounds initialBounds) {
-        this.model = model;
-        this.initialBounds = initialBounds;
-    }
-
-    ...
-}
-```
-
-{{% /smaller %}}
-
----
-
-## Implementazione della view (2/3): `DrawNumberViewImpl`
-
-{{% smaller %}}
-
-```java
-public final class DrawNumberViewImpl implements DrawNumberView {
-    ...
-    public void start() {
-        frame = new Stage();
-        frame.setTitle(FRAME_NAME);
-        if (initialBounds != null) { frame.setX(initialBounds.getMinX()); frame.setY(initialBounds.getMinY()); }
-        final VBox vbox = new VBox();
-        final HBox playControlsLayout = new HBox();
-        final TextField inputNumber = new TextField();
-        final Button goButton = new Button(GO);
-        messageLabel = new Label();
-        
-        final HBox gameControlsLayout = new HBox();
-        final Button resetButton = new Button(RESET);
-        final Button quitButton = new Button(QUIT);
-        
-        final Label stateMessage = new Label();        
-        setUpStateMessage(stateMessage.textProperty(), model);
-
-        goButton.setOnAction(e -> {
-            try { observer.newAttempt(Integer.parseInt(inputNumber.getText())); } 
-            catch (NumberFormatException exception) {
-                MessageDialog.showMessageDialog(frame, "Validation error",
-                        "You entered " + inputNumber.getText() + ". Provide an integer please...");
-            }
-        });
-        quitButton.setOnAction(e -> observer.quit());
-        resetButton.setOnAction(e -> observer.resetGame());
-
-        playControlsLayout.getChildren().addAll(inputNumber, goButton, messageLabel);
-        gameControlsLayout.getChildren().addAll(resetButton, quitButton);
-        vbox.getChildren().addAll(playControlsLayout, gameControlsLayout, stateMessage);
-        final int sceneWidth = 600;
-        final int sceneHeight = 200;
-        final Scene scene = new Scene(vbox, sceneWidth, sceneHeight);
-        this.frame.setScene(scene);
-        this.frame.show();
-    }
-    ...
-}
-```
-
-{{% /smaller %}}
-
----
-
-
-## Implementazione della view (2/3): `DrawNumberViewImpl`
-
-{{% smaller %}}
-
-```java
-public final class DrawNumberViewImpl implements DrawNumberView {
-    ...
-    public void setObserver(final DrawNumberViewObserver observer) { this.observer = observer; }
-    public void numberIncorrect() { displayError("Incorrect Number... try again"); }
-    public void result(final DrawResult result) {
-        switch (result) {
-            case YOURS_HIGH:
-                plainMessage(result.getDescription());
-                return;
-            case YOURS_LOW:
-                plainMessage(result.getDescription());
-                return;
-            case YOU_WON:
-                plainMessage(result.getDescription() + NEW_GAME);
-                break;
-            case YOU_LOST:
-                plainMessage(result.getDescription() + NEW_GAME);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected result: " + result);
-        }
-        observer.resetGame();
-    }
-    private void plainMessage(final String message) { this.messageLabel.setText(message); }
-    public void displayError(final String message) { this.messageLabel.setText(message); }
-    private void setUpStateMessage(Property<String> stateMessage, DrawNumberObservable model) {
-        stateMessage.bind(new SimpleStringProperty("Min=").concat(model.minProperty())
-            .concat("; Max=").concat(model.maxProperty())
-            .concat("\nMaxAttempts=").concat(model.attemptsProperty())
-            .concat("; Remaining attempts=").concat(model.remainingAttemptsProperty())
-            .concat("\nLast guess:").concat(model.lastGuessProperty())
-            .concat("; Last outcome:").concat(model.lastGuessResult())
-        );
-    }
-}
-```
-
-{{% /smaller %}}
-
----
-
-## Implementazione del controller (1/2): `DrawNumberApp` 
-
-{{% smaller %}}
-
-```java
-public final class DrawNumberFXApplication extends Application implements DrawNumberViewObserver {
-    private DrawNumberObservable model;
-    private List<DrawNumberView> views;
-
-    public void init() {
-        final Parameters params = getParameters();
-        final String configFile = params.getRaw().stream().findFirst().orElseGet(() -> "examplemvc/config.yml");
-        final Configuration.Builder configurationBuilder = new Configuration.Builder();
-        // load from config ...
-        
-        final Configuration configuration = configurationBuilder.build();
-        if (configuration.isConsistent()) {
-            this.model = new DrawNumberImpl(configuration);
-        } else {
-            displayError(".....");
-            this.model = new DrawNumberImpl(new Configuration.Builder().build());
-        }
-
-        views = Arrays.asList(
-                new DrawNumberViewImpl(model, new BoundingBox(0, 0, 0, 0)),
-                new DrawNumberViewImpl(model, null),
-                new PrintStreamView(System.out)
-        );
-        try {
-            views.add(new PrintStreamView("output.log"));
-        } catch (FileNotFoundException fnfe) {
-            System.out.println("Cannot find output file: " + fnfe.getMessage());
-        }
-    }
-
-    @Override
-    public void start(final Stage primaryStage) throws Exception {
-        for (final DrawNumberView view : views) {
-            view.setObserver(this);
-            view.start();
-        }
-    }
-
-}
-
-```
-
-{{% /smaller %}}
-
----
-
-## Implementazione del controller (1/2): `DrawNumberApp` 
-
-{{% smaller %}}
-
-```java
-public final class DrawNumberFXApplication extends Application implements DrawNumberViewObserver {
-    ....
-    @Override
-    public void start(final Stage primaryStage) throws Exception {
-        for (final DrawNumberView view : views) {
-            view.setObserver(this);
-            view.start();
-        }
-    }
-
-    private void displayError(final String err) {
-        views.forEach(view -> view.displayError(err));
-    }
-
-    @Override
-    public void newAttempt(final int n) {
-        try {
-            final DrawResult result = model.attempt(n);
-            views.forEach(view -> view.result(result));
-        } catch (IllegalArgumentException e) {
-            for (final DrawNumberView view : views) {
-                view.numberIncorrect();
-            }
-        }
-    }
-
-    @Override
-    public void resetGame() {
-        this.model.reset();
-    }
-
-    @Override
-    public void quit() {
-        Platform.exit();
-    }
-}
-
-```
-
-{{% /smaller %}}
-
----
-
-
-## Linee guida generali consigliate su MVC
-
-
-   
-### Metodologia proposta
-
-
-
-*  progettare le 3 interfacce
-
-    *  M: metodi di "dominio", chiamati da C
-    *  C: metodi (`void`) chiamati da V, esprimono "azioni utente"
-    *  V: metodi (`void`) chiamati da C, esprimono richieste di visualizzazione
-
-
-*  la tecnologia scelta per le GUI sia interna a V, e mai menzionata altrove o nelle interfacce
-*  implementare separatamente M, V e C, poi comporre e testare
-*  in progetti reali, M, V e C si compongono di varie parti
-
-
-
-   
-### Aspetti
-
-
-
-*  MVC è implementato in vari modi, o esiste in diverse varianti
-    - Model-View-ViewModel (MVVM), Model-View-Presenter (MVP), ...
-*  l'approccio proposto è particolarmente indicato per la sua semplicità
-*  si usino altri approcci se non peggiorativi
-
----
-
+### JavaFX e GUI in Java
+- JavaFX è una libreria moderna per la creazione di GUI in Java
+- Abbiamo visto le basi, che ci permettono di iniziare a sviluppare applicazioni GUI
+  - Layout, nodi, eventi, proprietà e binding
+- Ci sono molte altre funzionalità che non abbiamo trattato (grafica 3D, media, web, ...)
+- Per approfondimenti, si rimanda alla documentazione ufficiale e ai riferimenti indicati
+
+
+----
 
 # Interfacce utente grafiche (GUI) con JavaFX
 
 {{% import path="front-page.md" %}}
+
