@@ -6,7 +6,7 @@
 	url = https://github.com/cric96/reveal-hugo.git
 [submodule "lecture-markdown/pss-code"]
 	path = lecture-markdown/pss-code
-	url = git@github.com:unibo-lptsi-pss/pss-code.git
+	url = https://github.com/unibo-lptsi-pss/pss-code.git
 [submodule "lecture-markdown/PPS-ci-examples"]
 	path = lecture-markdown/PPS-ci-examples
 	url = https://github.com/APICe-at-DISI/PPS-ci-examples.git
