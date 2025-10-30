@@ -41,7 +41,6 @@ outputs = ["Reveal"]
 1. [Generici](generics/)
 1. [Collezioni](collections/)
 1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
-1. [Pattern Architetturale Model View Controller (MVC)](mvc/)
 1. 🚧 [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 1. 🚧 [Eccezioni](exceptions/)
 1. 🚧 [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
