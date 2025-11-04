@@ -422,40 +422,6 @@ try {
 
 ---
 
-## Una eccezione checked: `IOException` e input da tastiera
-
-```java
-{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/exceptions/classes/IOFromKeyboard.java" %}}
-```
-
----
-
-## Qualche variante: campi statici
-
-```java
-{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/exceptions/classes/IOFromKeyboard2.java" %}}
-```
-
----
-
-## Qualche variante: input iterato e rilancio
-
-```java
-{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/exceptions/classes/IOFromKeyboard3.java" %}}
-```
-
----
-
-## Input da tastiera (alternativa più moderna)
-
-```java
-{{% import-raw from=3 to=30 path="pss-code/src/main/java/it/unibo/exceptions/classes/IOFromKeyboard4.java" %}}
-```
-
-
-----
-
-
 # Eccezioni
 
 {{% import path="front-page.md" %}}
