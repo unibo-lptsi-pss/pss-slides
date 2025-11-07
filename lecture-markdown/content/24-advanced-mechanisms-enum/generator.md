@@ -8,7 +8,7 @@ aliases = ["/advanced-mechanisms-enums/"]
 
 +++
 
-# Meccanismi avanzati: enumerazioni
+# Enumerazioni
 
 {{% import path="front-page.md" %}}
 
@@ -437,6 +437,6 @@ aliases = ["/advanced-mechanisms-enums/"]
 ---
 
 
-# Meccanismi avanzati: enumerazioni
+# Enumerazioni
 
 {{% import path="front-page.md" %}}

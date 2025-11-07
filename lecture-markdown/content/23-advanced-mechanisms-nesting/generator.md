@@ -8,7 +8,7 @@ aliases = ["/advanced-mechanisms-nesting/"]
 
 +++
 
-# Meccanismi avanzati: classi innestate (materiale di supporto)
+# Classi innestate
 
 {{% import path="front-page.md" %}}
 
@@ -752,6 +752,6 @@ Utili quando si vuole isolare un sotto-comportamento in una classe a sé, senza 
 
 ---
 
-# Meccanismi avanzati: classi innestate (materiale di supporto)
+# Classi innestate
 
 {{% import path="front-page.md" %}}
