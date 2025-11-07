@@ -334,106 +334,52 @@ aliases = ["/advanced-mechanisms-enums/"]
 
 ## Metodi e campi aggiuntivi nelle `enum`: `Regione` (1/2)
 
-
   
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/advancedmechanisms/enums/en3/Regione.java" %}}
 ```
 
-
-
 ---
 
 
 ## Metodi e campi aggiuntivi nelle `enum`: `Regione` (2/2)
-
-
   
 ```java
 {{% import-raw from=20 to=100 path="pss-code/src/main/java/it/unibo/advancedmechanisms/enums/en3/Regione.java" %}}
 ```
 
-
-
 ---
 
 
-
 ## Metodi e campi aggiuntivi nelle `enum`: `UseZona`
-
-
   
 ```java
 {{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/advancedmechanisms/enums/en3/UseZona.java" %}}
 ```
 
-
-
 ---
 
 
 ## Meccanismi per le `enum`
-
-
     
 ### Riassunto
-
-
 
 *  Esistono metodi istanza e statici disponibili per `Enum`
 *  Si possono aggiungere metodi
 *  Si possono aggiungere campi e costruttori
     
-
-
-    
 ### Riguardando la `enum Regione`
-
-
 
 *  È una classe standard, con l'indicazioni di alcuni oggetti predefiniti
 *  I 20 oggetti corrispondenti alle regioni italiane
     
-
-
-    
 ### Quindi
-
-
 
 *  È possibile intuirne la realizzazione interna
 *  E quindi capire meglio quando e come usarli
 * $\Rightarrow$ In caso in cui i valori sono "molti e sono noti", oppure..
 * $\Rightarrow$ Anche se i valori sono pochi, ma senza aggiungere troppi altri metodi..
-    
 
-
-
-
----
-
-
-## `enum` innestate
-
-
-    
-### Motivazione
-
-
-
-*  Anche le `enum` (statiche) possono essere innestate in una classe o interfaccia o enum
-*  Questo è utile quando il loro uso è reputato essere confinato nel funzionamento della classe outer
-    
-
-
-    
-### Esempio
-
-
-
-*  `enum Regione` potrebbe essere inserita dentro `Persona`
-*  `enum Zona` potrebbe essere inserita dentro `Regione`
-    
 ---
 
 
