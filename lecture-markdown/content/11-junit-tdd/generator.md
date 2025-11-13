@@ -87,7 +87,7 @@ aliases = ["/junit-tdd/"]
     * ma il codice ha ancora vari problemi di qualità (no isolamento, ripetizioni...)
 
 ---
-
+<!--
 ## Introduzione al testing: concetti preliminari
 
 ### Errore vs. fallimento vs. difetto/bug
@@ -100,10 +100,10 @@ aliases = ["/junit-tdd/"]
 - *__Errore__*: l'azione che ha causato una falla 
     - ad esempio, una distrazione del programmatore
 - Quindi la progressione è *Errore $\to$ Difetto/Bug $\to$ Fallimento*
+-->
+## Una prima definizione di *testing*
 
-### Una prima definizione di *testing*
-
-- Il *__testing del software__* è quell'attività di *ricerca di anomalie* al fine di *localizzare e rimuovere i difetti* nel software
+### Il *__testing del software__* è quell'attività di *ricerca di anomalie* al fine di *localizzare e rimuovere i difetti* nel software
 
 ---
 
@@ -117,7 +117,7 @@ aliases = ["/junit-tdd/"]
     - "Have we built the *right thing*?"(abbiamo costruito [il software] giusto?)
 
 ---
-
+<!---
 ## Definizione di "software testing"
 
 ### Definizioni di *software testing*
@@ -129,7 +129,7 @@ under specified conditions, the results are observed or recorded, and an evaluat
  * "The *overall process* of planning, preparing, and carrying out a suite of *different types of tests* designed to validate a system under development, in order to achieve an acceptable level of *quality* and to avoid unacceptable *risks*"
 
 ---
-
+--->
  ### Elementi chiave
 
  * Attività/processo
@@ -149,7 +149,7 @@ under specified conditions, the results are observed or recorded, and an evaluat
 
 ---
 
-## JUnit 5
+## JUnit 6
 
 - Scriviamo un test per la classe `BuggyNumFinder`
 
@@ -169,7 +169,7 @@ under specified conditions, the results are observed or recorded, and an evaluat
 <div class="col">
 
 * La classe è una *test suite* che raccoglie *test case* associati all'*unit under test (UUT)* `BuggyNumFinder`
-* La classe usa l'API della libreria __JUnit 5__
+* La classe usa l'API della libreria __JUnit 6__
     - cf. import `org.junit.jupiter.api.*`
 * Ogni metodo annotato con `@Test` denota uno (o più) *test case*
 * Il metodo annotato con `@BeforeEach` viene eseguito *prima di ogni test case*
@@ -212,32 +212,30 @@ under specified conditions, the results are observed or recorded, and an evaluat
 
 ---
 
-## JUnit 5 e Gradle
+## JUnit 6 e Gradle
 
 - `build.gradle.kts`: supporto per i test 
-[<i class="fa-solid fa-link"></i>](https://github.com/junit-team/junit5-samples/junit5-jupiter-starter-gradle)
 [<i class="fa-solid fa-link"></i>](https://docs.gradle.org/current/userguide/java_testing.html#java_testing)
 
 
 ```kotlin
 plugins {
-    java // JavaPlugin aggiunge un source set "test" e un task "test"
+    id("java")
 }
 
-repositories {
-    mavenCentral() // occorre per risolvere le dipendenze di JUnit
+repositories { // Where to search for dependencies
+    mavenCentral()
 }
-
 dependencies {
-    // Dipendenza per scrivere i test
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
-    // Dipendenza per eseguire i test
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+    // JUnit API and testing engine
+    testImplementation(platform("org.junit:junit-bom:6.0.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks.test {
-    useJUnitPlatform() // configura il task "test" per usare la JUnit Platform
-    testLogging { events("passed", "skipped", "failed") } // per stampare l'esito di ogni test
+    useJUnitPlatform()
 }
 ```
 
@@ -248,18 +246,17 @@ $ ./gradlew test --tests it.unibo.*.Buggy*Test # filtra i test da eseguire
 
 ---
 
-## JUnit 5: architettura
+## JUnit 6: architettura
 
 - __JUnit Platform__: piattaforma comune per l'*esecuzione* dei test attraverso l'astrazione di *engine*
     - `org.junit.platform:junit-platform-engine:_`
     - `org.junit.platform:junit-platform-launcher:_` API usata dai build tool e dagli IDE
         - i task Gradle interagiranno con tale componente 
 - varie librerie di testing consentono di scrivere test per l'esecuzione sulla JUnit Platform 
-    - __JUnit Jupiter__ (JUnit 5):
+    - __JUnit Jupiter__ (JUnit 6):
         - `org.junit.jupiter:junit-jupiter-api:_` API per *scrivere* test
         - `org.junit.jupiter:junit-jupiter-engine:_` engine corrispondente
-    - __JUnit Vintage__ (JUnit 4):
-        - `org.junit.vintage:junit-vintage-engine:_` engine per test JUnit 4
+   
 
 ---
 
@@ -527,6 +524,6 @@ public class Tv {
 
 
 --- 
-# Unit Testing e Test-Driven Development in Java con JUnit 5
+# Unit Testing e Test-Driven Development in Java con JUnit 6
 
 {{% import path="front-page.md" %}}

@@ -47,8 +47,8 @@ outputs = ["Reveal"]
 1. [Classi innestate e anonime](nesting/)
 1. [Lambda e funzioni first-class](lambdas/)
 1. [Dipendenze e librerie](dependencies/)
+1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 1. 🚧 [Input/Output](io/)
-1. 🚧 [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 1. 🚧 [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 
 🧪 [Slide di laboratorio $\Rightarrow$](#2)
