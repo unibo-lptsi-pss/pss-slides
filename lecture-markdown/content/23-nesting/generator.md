@@ -157,7 +157,7 @@ Spesso classi di questo tipo non devono essere visibili dall'esterno, quindi ven
 ## Classe `Range` e suo `RangeIterator` innestato
 
 ```java
-{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/nested/Range.java" %}}
+{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/nested/RangeNested.java" %}}
 ```
 
 ---
@@ -275,7 +275,7 @@ class Outer {
 ## Una variante di `Range`
 
 ```java
-{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/nested/Range2.java" %}}
+{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/nested/RangeInner.java" %}}
 ```
 
 ---
@@ -312,57 +312,36 @@ class Outer {
 ## `Range` tramite classe locale
 
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/nested/Range3.java" %}}
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/nested/RangeLocalClass.java" %}}
 ```
 
 ---
 
-
 ## Classi locali -- motivazioni
 
-
-    
 ### Perché usare una classe locale invece di una inner class
 
+* Tale classe è *necessaria solo dentro ad un metodo, e lì la si vuole confinare*
+* È eventualmente utile accedere anche alle variabili del metodo
 
-
-*  Tale classe è *necessaria solo dentro ad un metodo, e lì la si vuole confinare*
-*  È eventualmente utile accedere anche alle variabili del metodo
-    
-
-
-    
 ### Pragmaticamente
-
-
-
-*  Mai viste usarle.. si usano invece le *classi anonime*...
-    
-
-
-
+* Spesso usate "spot" in un solo punto
+* Difatti, il nome praticamente viene usato solo per invocare una volta il costruttore
+* Sarebbe comodo poter evitare di assegnare un nome da usare una sola volta, costruendo direttamente l'oggetto
 
 ---
-
 
 # Classi anonime
 
 ---
 
-
-
 ## Classi anonime -- idea
   
 ### Principali elementi
-
-
-
-*  Con una variante dell'istruzione `new`, è possibile innestare la definizione di un'altra classe senza indicarne il nome
-    *  In tale definizione non possono comparire costruttori
-*  Viene creata al volo una classe locale, e da lì se ne crea un oggetto
-    *  Tale oggetto, come per le classi locali, ha enclosing instance e "vede" anche le variabili *__final__* (o di fatto finali) nello scope del metodo in cui è definita
-
-
+* Con una variante dell'istruzione `new`, è possibile innestare la definizione di un'altra classe senza indicarne il nome
+    * In tale definizione non possono comparire costruttori
+* Viene creata al volo una classe locale, e da lì se ne crea un oggetto
+    * Tale oggetto, come per le classi locali, ha enclosing instance e "vede" anche le variabili `final` (o di fatto finali) nello scope del metodo in cui è definita
 
 ```java
 class C {
@@ -375,58 +354,37 @@ class C {
 }
 ```
 
----
+* In pratica, una local class, ma senza nome, e con un solo oggetto istanziato.
 
+---
 
 ## `Range` tramite classe anonima -- la soluzione ottimale
-
-
   
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/advancedmechanisms/nested/Range4.java" %}}
+{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/nested/RangeAnonymous.java" %}}
 ```
 
-
-
 ---
-
 
 ## Classi anonime -- motivazioni
 
-
-    
 ### Perchè usare una classe anonima?
-
-
-
 *  Se ne deve creare un solo oggetto, quindi è inutile anche solo nominarla
 *  Si vuole evitare la proliferazione di classi
 *  Tipicamente: per implementare "al volo" una interfaccia
-    
-
-
-
 
 ---
-
 
 ## Altro esempio: classe anonima da  `Comparable`
 
-
-   
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/advancedmechanisms/nested/UseSort.java" %}}
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/nested/UseSort.java" %}}
 ```
-
-
 
 ---
 
-
 ## Riassunto e linee guida
 
-
-    
 ### Inner class (e varianti)
 
 
