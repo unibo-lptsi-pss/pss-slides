@@ -309,16 +309,11 @@ class Outer {
 
 ---
 
-
 ## `Range` tramite classe locale
 
-
-  
 ```java
-{{% import-raw from=3 to=100 path="pss-code/src/main/java/it/unibo/advancedmechanisms/nested/Range3.java" %}}
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/nested/Range3.java" %}}
 ```
-
-
 
 ---
 
