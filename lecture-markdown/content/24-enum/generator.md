@@ -4,7 +4,7 @@
 title = "Progettazione e Sviluppo del Software"
 description = "Progettazione e Sviluppo del Software, Tecnologie dei Sistemi Informatici"
 outputs = ["Reveal"]
-aliases = ["/advanced-mechanisms-enums/"]
+aliases = ["/advanced-mechanisms-enums/", "enum", "enums"]
 
 +++
 
