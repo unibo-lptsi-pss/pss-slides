@@ -8,43 +8,11 @@ aliases = ["/lambdas/"]
 
 +++
 
-# Lambda e funzioni first-class
+# Functional Java con Lambda e Stream
 
 {{% import path="cover.md" %}}
 
-
-
 ---
-
-
-
-## Outline
-
-
-  
-### Goal della lezione
-
-
-
-*  Illustrare il concetto di lambda
-*  Dettagliare il supporto alle lambda in Java
-
-
-  
-### Argomenti
-
-
-
-*  Espressioni lambda
-*  Interfacce funzionali
-*  Altri usi nell'API
-*  Stream
-
-
-
-
----
-
 
 # Introduzione alle lambda
 
@@ -52,39 +20,20 @@ aliases = ["/lambdas/"]
 
 
 
-## Le novità di Java 8
+## A partire da Java 8
 
+* Principale novità: *lambda* (ossia uno degli elementi fondamentali dello stile di *programmazione funzionale*)
+    * Le lambda portano ad uno stile più elegante e astratto di programmazione
+    * In Java, portano a codice più compatto e chiaro in certe situazioni
+    * Impatta alcuni aspetti di linguaggio
+    * Impatta varie librerie
 
-  
-### Una release molto attesa, che "rincorre" C# e Scala
-
-
-
-*  Molte funzionalità rimandate da Java 7
-* *Java 8* disponibile dall'estate 2014
-*  Principale novità: *lambda* (ossia uno degli elementi fondamentali dello stile di *programmazione funzionale*)
-    *  Le lambda portano ad uno stile più elegante e astratto di programmazione
-    *  In Java, portano a codice più compatto e chiaro in certe situazioni
-    *  Impatta alcuni aspetti di linguaggio
-    *  Impatta varie librerie
-  
-
-
-  
 ### Risorse
 
-
-
 *  Libri: R.Warburton, Java 8 Lambdas
-*  [Un tutorial in rete](http://www.techempower.com/blog/2013/03/26/everything-about-java-8/)
 *  [Java Specification Request (JSR)-335: Lambda Expressions for the Java Programming Language](http://cr.openjdk.java.net/~dlsmith/jsr335/jsr335-final/)
 
-
-
-
-
 ---
-
 
 ## Da classi/metodi alle lambda: il caso dei comparatori
 

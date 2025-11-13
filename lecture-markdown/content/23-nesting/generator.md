@@ -366,6 +366,14 @@ class C {
 
 ---
 
+## Altro esempio: classe anonima da  `Comparable`
+
+```java
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/nested/UseSort.java" %}}
+```
+
+---
+
 ## Classi anonime -- motivazioni
 
 ### Perchè usare una classe anonima?
@@ -373,12 +381,25 @@ class C {
 *  Si vuole evitare la proliferazione di classi
 *  Tipicamente: per implementare "al volo" una interfaccia
 
+### Pragmaticamente
+
+* Spesso queste classi anonime hanno un solo metodo astratto!
+* Di fatto, è come se implementassimo solo quel metodo "al volo"
+* Tutta la struttura di contorno è solo "cerimonia"
+
 ---
 
-## Altro esempio: classe anonima da  `Comparable`
+# Espressioni Lambda
+
+---
+
+- Una **lambda expression** è una *funzione anonima*, creata "al volo"
+    - internamente implementata come *istanza* di un'**interfaccia funzionale** (un'interfaccia che definisce un solo metodo astratto)
+    - di fatto, è una sintassi più compatta per creare istanze di classi anonime con un solo metodo astratto
+
 
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/nested/UseSort.java" %}}
+{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/nested/UseSortLambda.java" %}}
 ```
 
 ---
