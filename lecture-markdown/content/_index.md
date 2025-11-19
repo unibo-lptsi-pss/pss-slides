@@ -45,7 +45,7 @@ outputs = ["Reveal"]
 1. [Classi astratte e template method](abstract-classes/)
 1. [Enumerazioni](enums/)
 1. [Classi innestate e anonime](nesting/)
-1. [Lambda e funzioni first-class](lambdas/)
+1. [Functional Java con Lambda e Stream](lambdas/)
 1. [Dipendenze e librerie](dependencies/)
 1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
 1. 🚧 [Input/Output](io/)

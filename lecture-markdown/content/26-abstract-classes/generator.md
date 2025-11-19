@@ -13,7 +13,6 @@ aliases = ["/abstract-classes/"]
 {{% import path="front-page.md" %}}
 
 
-
 ---
 
 
