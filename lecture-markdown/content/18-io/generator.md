@@ -48,10 +48,6 @@ aliases = ["/io/"]
 
 ---
 
-# File e loro proprietà
-
----
-
 ## I File
 
 ### File system
@@ -128,16 +124,12 @@ aliases = ["/io/"]
 
 ---
 
-# Input/OutputStream
-
----
-
 ## Overview sugli `InputStream` e `OutputStream` in Java
 
 ### `InputStream` e `OutputStream`
 * Stream = flusso (di dati)
 * Di base, gestiscono flussi binari (di `byte`) leggibili vs. scrivibili
-* Sono classi astratte (e non interfacce..)
+* Sono classi astratte
 * Possono essere specializzate da "sottoclassi" e "decorazioni", tra cui
   * Per diverse sorgenti e destinazioni di informazione
     * su file (`File`(`In`|`Out`)`putStream`)
@@ -560,7 +552,7 @@ per la scrittura in formato carattere possiamo infatti usare `PrintStream`
 ## Esempio con `InputStreamReader`
 
 ```java
-{{% import-raw from=13 to=1000 path="pss-code/src/main/java/it/unibo/io/files/UseBufferedPrintStream.java" %}}
+{{% import-raw from=13 path="pss-code/src/main/java/it/unibo/io/files/UseBufferedPrintStream.java" %}}
 ```
 
 ---
@@ -630,10 +622,6 @@ La classe `Files` contiene diversi metodi convenienti per leggere e scrivere fil
 <!-- write-here "shared-slides/java/it-classpath-resources.md" -->
 
 <!-- end-write -->
-
----
-
-# Standard per la serializzazione di oggetti
 
 ---
 
