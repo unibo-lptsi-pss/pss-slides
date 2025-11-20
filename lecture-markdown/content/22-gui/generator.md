@@ -242,18 +242,28 @@ L'avvio mediante `Application.launch(App.class)` comporta:
 plugins {
     java
     application
-    id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 repositories {
     mavenCentral()
 }
 
-javafx {
-    modules("javafx.base", "javafx.controls", "javafx.graphics")
-    version  = "25"
+val javaFXModules = listOf("base","controls","fxml","swing","graphics")
+
+java { // Useful to set Java version for Gradle tasks
+    toolchain { languageVersion.set(JavaLanguageVersion.of(25)) }
 }
 
+val javaFxVersion = 25
+val supportedPlatforms = listOf("linux", "mac", "win")
+
+dependencies {
+    for (platform in supportedPlatforms) {
+        for (module in javaFXModules) {
+            implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
+        }
+    }
+}
 
 ```
 
