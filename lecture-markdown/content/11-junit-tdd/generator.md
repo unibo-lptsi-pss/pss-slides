@@ -8,7 +8,7 @@ aliases = ["/junit-tdd/"]
 
 +++
 
-# Unit Testing e Test-Driven Development in Java con JUnit 5
+# Unit Testing e Test-Driven Development in Java con JUnit 6
 
 {{% import path="front-page.md" %}}
 
@@ -27,7 +27,7 @@ aliases = ["/junit-tdd/"]
 
 
 * *Testing* del software
-* *JUnit 5*
+* *JUnit 6*
 * Il meccanismo delle *Annotazioni* in Java
 * Sviluppo guidato dai test (*Test-Driven Development*)
 
