@@ -47,3 +47,10 @@ $ ./gradlew test --tests it.unibo.*.Buggy*Test # filtra i test da eseguire
 ```
 
 <!-- end-write -->
+
+---
+
+# Junit e Librerie
+
+{{% import path="cover.md" %}}
+

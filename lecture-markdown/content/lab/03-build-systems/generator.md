@@ -156,3 +156,11 @@ Quando configurato per compilare Java fra i vari task troviamo anche `compileJav
 Sia $n$ il numero di elementi dell'array ed $x_i$ l'elemento all'indice $i$ dell'array, e $\mu$ la media dei valori del suddetto array. La varianza $\sigma^2$ può essere calcolata come:
 
 $$\sigma^2 = \frac{\displaystyle\sum_{i=0}^{n-1}(x_i - \mu)^2} {n}$$
+
+---
+
+# Build Systems
+
+### Esercizi e soluzioni: https://github.com/unibo-lptsi-pss/pss-lab/releases/latest/
+
+{{% import path="cover.md" %}}
