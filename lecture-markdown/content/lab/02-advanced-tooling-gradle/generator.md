@@ -300,3 +300,10 @@ Gli help stampano abbondante testo con le relative istruzioni e a me serve una r
   <h1><b>SI</b></h1>
 </div>
 È molto facile dimenticarsi la sintassi delle opzioni di comandi che non si usano spesso. È molto più facile imparare a destreggiarsi in un help che andare a tentativi o ricordare cose a memoria.
+
+---
+
+# Compilazione avanzata e Build Systems
+
+{{% import path="cover.md" %}}
+

@@ -90,8 +90,10 @@ Execution failed for task ':checkstyleMain'.
      Checkstyle files with violations: 1
      Checkstyle violations by severity: [error:1]
 ```
+
 ---
 
-# Stile e formattazione del codice
+# Checkstyle
 
-{{% import path="front-page.md" %}}
+{{% import path="cover.md" %}}
+
