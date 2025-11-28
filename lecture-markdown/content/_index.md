@@ -81,4 +81,5 @@ outputs = ["Reveal"]
 1. [Build Systems](lab/03-build-systems/)
 1. [Esecuzione di applicazioni Java tramite Gradle](lab/04-execution/)
 1. [Checkstyle](lab/05-checkstyle/)
-1. [Dipendenze e Librerie in Gradle](lab/05-dependencies/)
+1. [Dipendenze e Librerie in Gradle](lab/06-dependencies/)
+1. [Costruzione degli artefatti](lab/08-jar/)
