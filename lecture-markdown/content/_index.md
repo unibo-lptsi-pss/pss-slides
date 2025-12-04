@@ -48,9 +48,11 @@ outputs = ["Reveal"]
 1. [Functional Java con Lambda e Stream](lambdas/)
 1. [Dipendenze e librerie](dependencies/)
 1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
-1. 🚧 [Input/Output](io/)
-1. 🚧 [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
-
+1. [Input/Output](io/)
+1. [Introduzione al multi-threading](multithreading/)
+<!--
+1. [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
+-->
 🧪 [Slide di laboratorio $\Rightarrow$](#2)
 
 <!--
