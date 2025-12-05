@@ -26,9 +26,9 @@ outputs = ["Reveal"]
 1. [Interfacce e composizione](interfaces/)
 1. [Ereditarietà](inheritance/)
 1. Sistemi di controllo di versione distribuiti (DVCS) con Git:
-    - [Git - introduzione](https://unibo-oop.github.io/lab-slides/05-dvcs-basics/#/) 
-    - [Git - Merging e branching](https://unibo-oop.github.io/lab-slides/06-dvcs-branching/#/) 
-    - [Git - Collaborazione remota](https://unibo-oop.github.io/lab-slides/07-dvcs-remote/#/)
+    - [Git - introduzione](https://unibo-oop.github.io/lab-slides/dvcs-basics/#/) 
+    - [Git - Merging e branching](https://unibo-oop.github.io/lab-slides/dvcs-branching/#/) 
+    - [Git - Collaborazione remota](https://unibo-oop.github.io/lab-slides/dvcs-remote/#/)
 <!--
 1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
 1. 
