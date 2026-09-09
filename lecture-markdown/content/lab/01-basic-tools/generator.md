@@ -307,7 +307,7 @@ Le shell Unix memorizzano i comandi usati anche in sessioni precedenti.
 ```java
 class Hello {
   public static void main(String args[]) {
-    System.out.println("Hello, World!");
+    IO.println("Hello, World!");
   }
 }
 ```
