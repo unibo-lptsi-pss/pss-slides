@@ -54,7 +54,7 @@ Temurin (Adoptium), DragonWell (Alibaba), Corretto (Amazon), Zulu (Azul), Liberi
 
 ## Ambiente di riferimento per l'A.A. corrente
 
-### Utilizzeremo Java SE Development Kit 21 (JDK 21)
+### Utilizzeremo Java SE Development Kit 25 (JDK 25)
 
 Include il necessario per eseguire applicazioni Java,
 ossia il JRE con virtual machine (`java`) e relative librerie,
@@ -64,8 +64,8 @@ più gli strumenti di sviluppo, fra cui:
 * impacchettatore (`jar`),
 * e disassemblatore (`javap`).
 
-* Java SE 21 -- ultima versione Long-Term Support (LTS) a disposizione prima dell'inizio del corso
-  * Java 21 è stato rilasciato a fine 2023
+* Java SE 25 -- ultima versione Long-Term Support (LTS) a disposizione prima dell'inizio del corso
+  * Java 25 è stato rilasciato a fine 2025
   * Chi lo desidera può sperimentare con versioni più recenti
     * Nota: la compatibilità è solo "all'indietro" (*backwards compatibility*):
       nuove JVM possono in generale eseguire applicazioni compilate per un vecchio bytecode, ma non viceversa
