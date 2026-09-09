@@ -22,9 +22,9 @@ aliases = ["/intro/"]
 * Modulo 2: Prof. Gianluca Aguzzi
   * e-mail: [`gianluca.aguzzi@unibo.it`](mailto:gianluca.aguzzi@unibo.it)
   * homepage: [`https://www.unibo.it/sitoweb/gianluca.aguzzi`](https://www.unibo.it/sitoweb/gianluca.aguzzi)
-* Modulo 3 (Lab): Prof. Angelo Filaseta
-  * e-mail: [`angelo.filaseta@unibo.it`](mailto:angelo.filaseta@unibo.it)
-  * homepage: [`https://www.unibo.it/sitoweb/angelo.filaseta/`](https://www.unibo.it/sitoweb/angelo.filaseta/)
+* Modulo 3 (Lab): Prof. Paolo Baldini
+  * e-mail: [`p.baldini@unibo.it`](mailto:p.baldini@unibo.it)
+  * homepage: [`https://www.unibo.it/sitoweb/p.baldini/`](https://www.unibo.it/sitoweb/p.baldini/)
 
 * Tutor: Dott. Luca Deluigi
   * e-mail: [`luca.deluigi5@unibo.it`](mailto:luca.deluigi5@unibo.it)
