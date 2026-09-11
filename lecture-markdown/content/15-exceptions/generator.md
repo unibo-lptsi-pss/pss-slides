@@ -318,7 +318,7 @@ try {
 try {
     RangeIterator r = new RangeIterator(a,b);
 } catch(RuntimeException e) {
-    System.out.println(e);
+    IO.println(e);
 }
 ```
 

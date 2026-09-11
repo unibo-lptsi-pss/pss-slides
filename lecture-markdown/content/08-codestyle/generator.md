@@ -63,20 +63,20 @@ void m() {
         // indentazione di 8 caratteri, da evitare, in quanto i sorgenti crescono facilmente orizzontalmente
         for(int i : new int[] {1, 2, 3}) {
                 if(i % 2 == 0){
-                        System.out.println(i);
+                        IO.println(i);
                 }
         }
-        System.out.println("Questa è una stringa veramente lunga che potrebbe portare ad infrangere la regola, quindi la spezziamo");
+        IO.println("Questa è una stringa veramente lunga che potrebbe portare ad infrangere la regola, quindi la spezziamo");
 }
 
 // OK
 void m() {
     for(int i : new int[] {1, 2, 3}) {
         if(i % 2 == 0){
-            System.out.println(i);
+            IO.println(i);
         }
     }
-    System.out.println(
+    IO.println(
         "Questa è una stringa veramente lunga "
             + "che potrebbe portare ad infrangere la regola"
             + " quindi la spezziamo"
@@ -134,16 +134,16 @@ class Device {
 // MIGLIORABILE
 int a, b, c;
 b = c = 5;
-if(a > b) { System.out.println("a = " + a + ", c = " + c); } else { System.out.println("b = " + b); }
+if(a > b) { IO.println("a = " + a + ", c = " + c); } else { IO.println("b = " + b); }
 
 // OK
 int a = 0;
 int b = 5;
 if(a > b) {
     int c = 5;
-    System.out.println("a = " + a + ", c = " + c); 
+    IO.println("a = " + a + ", c = " + c); 
 } else { 
-    System.out.println("b = " + b); 
+    IO.println("b = " + b); 
 }
 ```
 

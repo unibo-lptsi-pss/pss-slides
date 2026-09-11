@@ -476,7 +476,7 @@ class BiAndMultiCounterImpl extends BiCounterImpl implements BiAndMultiCounter {
 ```java
 	public static void printAll(final Object[] array) {
 		for (final Object o : array) {
-			System.out.println("Oggetto:" + o.toString());
+			IO.println("Oggetto:" + o.toString());
 		}
 	}
 ```

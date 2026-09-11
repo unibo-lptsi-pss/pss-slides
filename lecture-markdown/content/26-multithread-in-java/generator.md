@@ -117,7 +117,7 @@ public class Clock implements Runnable {
     @Override
     public void run() {
         while(true) {
-            System.out.println("Clock " + name + ": " + System.currentTimeMillis());
+            IO.println("Clock " + name + ": " + System.currentTimeMillis());
             try {
                 Thread.sleep(this.amount); // Pausa di 1 secondo
             } catch (InterruptedException e) {
@@ -160,11 +160,11 @@ Clock A: 1700000001500
 - Ad esempio:
 ```java
 void main() throws InterruptedException {
-    Thread t1 = new Thread(() -> System.out.println("Thread 1"));
-    Thread t2 = new Thread(() -> System.out.println("Thread 2"));
+    Thread t1 = new Thread(() -> IO.println("Thread 1"));
+    Thread t2 = new Thread(() -> IO.println("Thread 2"));
     t1.start();
     t2.start();
-    System.out.println("after start");
+    IO.println("after start");
 }
 ```
 - Quale sarà l'output?
@@ -190,14 +190,14 @@ Thread 1
 - Possiamo usare il metodo `join()` della classe Thread!
 ```java
 void main() throws InterruptedException {
-    Thread t1 = new Thread(() -> System.out.println("Thread 1"));
-    Thread t2 = new Thread(() -> System.out.println("Thread 2"));
+    Thread t1 = new Thread(() -> IO.println("Thread 1"));
+    Thread t2 = new Thread(() -> IO.println("Thread 2"));
     t1.start();
     t2.start();
     t1.join();
     t2.join();
-    System.out.println("after join");
-    System.out.println("Tutti i thread hanno finito!");
+    IO.println("after join");
+    IO.println("Tutti i thread hanno finito!");
 }
 ```
 - Il metodo `join()` blocca il thread chiamante finché il thread su cui viene chiamato non termina
@@ -232,7 +232,7 @@ void main() throws InterruptedException {
     thread2.start();
     thread2.join();
     thread1.join();
-    System.out.println("Final counter value: " + shared.getCounter());
+    IO.println("Final counter value: " + shared.getCounter());
 }
 ```
 {{% /smaller %}}
@@ -292,7 +292,7 @@ static void main(String[] args) throws InterruptedException {
     thread2.start();
     thread2.join();
     thread1.join();
-    System.out.println("Final counter value: " + shared.getCounter());
+    IO.println("Final counter value: " + shared.getCounter());
 }
 ```
 
@@ -342,14 +342,14 @@ for (int i = 0; i < 10; i++) {
 Thread producer = new Thread(() -> {
     for (int i = 10; i < 20; i++) {
         buffer.put(i);
-        System.out.println("Produced: " + i);
+        IO.println("Produced: " + i);
     }
 });
 Thread consumer = new Thread(() -> {
     for (int i = 0; i < 10; i++) {
         try {
             Object item = buffer.take();
-            System.out.println("Consumed: " + i);
+            IO.println("Consumed: " + i);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -391,7 +391,7 @@ class StoppableTask implements Runnable {
     public void run() {
         while (!stopSignal.shouldStop()) {
             // Esegui il lavoro
-            System.out.println("Working...");
+            IO.println("Working...");
         }
     }
 
