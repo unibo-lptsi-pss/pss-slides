@@ -30,7 +30,7 @@ aliases = ["/basics/"]
 
 ```java
 void main() {
-    System.out.println("Hello, World!");
+    IO.println("Hello, World!");
 }
 ```
 In C sarebbe:
@@ -459,7 +459,7 @@ if(condizione) {
 ```java
 int x = 10;
 if (x > 0) {
-  System.out.println("Positivo");
+  IO.println("Positivo");
 }
 ```
 ---
@@ -481,11 +481,11 @@ if(cond1) {
 ```java
 int n = Integer.parseInt(s);
 if (n < 0) {
-  System.out.println("Negativo");
+  IO.println("Negativo");
 } else if (n == 0) {
-  System.out.println("Zero");
+  IO.println("Zero");
 } else {
-  System.out.println("Positivo");
+  IO.println("Positivo");
 }
 ```
 
@@ -506,7 +506,7 @@ Esempio:
 ```java
 int i = 0;
 while (i < 5) {
-  System.out.println(i);
+  IO.println(i);
   i++;
 }
 ```
@@ -531,7 +531,7 @@ Esempio:
 ```java
 int i = 0;
 do {
-  System.out.println(i);
+  IO.println(i);
   i++;
 } while (i < 5);
 ```
@@ -556,7 +556,7 @@ for (inizializzazione; condizione; aggiornamento) {
 ### Esempio
 ```java
 for (int i = 0; i < 10; i++) {
-  System.out.println(i);
+  IO.println(i);
 }
 ```
 - È possibile dichiarare una variabile nel blocco di inizializzazione

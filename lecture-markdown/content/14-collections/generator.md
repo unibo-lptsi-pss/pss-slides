@@ -428,7 +428,7 @@ internal.add("aaaaa");
 internal.add("10");
 internal.add("2");
 // String uses lexicographical ordering!
-System.out.println(internal); // [10, 2, aaaaa, lll, zzz]
+IO.println(internal); // [10, 2, aaaaa, lll, zzz]
 ```
 
 Se a una collezione ordinata non è fornito un `Comparator` esterno specifico,
@@ -460,7 +460,7 @@ external.add("aaaaa");
 external.add("10");
 external.add("2");
 // Custom ordering!
-System.out.println(external); // [2, 10, lll, zzz, aaaaa]
+IO.println(external); // [2, 10, lll, zzz, aaaaa]
 ```
 
 ---

@@ -67,7 +67,7 @@ Il metodo `main` non richiede un oggetto per essere invocato
 ```java
 class EntryPoint {
     static void main(String[] args) { // Main è un metodo statico della classe EntryPoint
-        System.out.println("Hello, World!");
+        IO.println("Hello, World!");
     }
 }
 ```
@@ -465,7 +465,7 @@ Il metodo `main` ha le seguenti caratteristiche:
 ```java
 class EntryPoint {
     public static void main(String[] args) { // Main è un metodo statico della classe EntryPoint
-        System.out.println("Hello, World!");
+        IO.println("Hello, World!");
     }
 }
 ```
