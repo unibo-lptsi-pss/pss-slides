@@ -62,7 +62,7 @@ aliases = ["/intro/"]
 
 # Organizzazione generale del corso
 
-## Lezioni aula (giovedì 15-18, venerdì 9-12)
+## Lezioni aula (giovedì 9-11, venerdì 9-12)
 
 * Illustrano i concetti teorici, metodologici, e pratici
 * Basate su slide proiettate (ma non solo)
@@ -166,11 +166,13 @@ aliases = ["/intro/"]
 * Concordato col docente prima di iniziare
 * Esempi di progetti del passato:
     * Tutti i progetti passati
-        * https://github.com/orgs/unibo-oop-projects/repositories
+        * https://github.com/orgs/unibo-lp-pss-projects/repositories
     * Progetti "carini" (notare che non significa che siano ben progettati!)
         * https://unibo-oop.github.io/showcase/
+        * Alcuni sono del corso di OO alla Laurea Triennale, ma sono comunque interessanti
 * Da relazionare con qualità, poi *discusso oralmente* (su appuntamento)
     * I dettagli (cf. consegna, relazione etc.) discussi durante il corso
+    * Esempio (e template) di relazione: https://github.com/unibo-oop/OOP-report-template/releases/latest/download/13-template.pdf
 
 ---
 
