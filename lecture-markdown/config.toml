@@ -28,6 +28,7 @@ style = "xcode"  # set a style for hugo highlighting
 baseName = "index"
 mediaType = "text/html"
 isHTML = true
+permalinkable = true
 
 [params.reveal_hugo]
 history = true
