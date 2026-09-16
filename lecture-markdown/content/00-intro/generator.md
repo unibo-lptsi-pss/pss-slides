@@ -156,6 +156,7 @@ aliases = ["/intro/"]
 
 ---
 
+
 # Esame
 
 ## Sviluppo + Discussione progetto
@@ -173,6 +174,85 @@ aliases = ["/intro/"]
 * Da relazionare con qualità, poi *discusso oralmente* (su appuntamento)
     * I dettagli (cf. consegna, relazione etc.) discussi durante il corso
     * Esempio (e template) di relazione: https://github.com/unibo-oop/OOP-report-template/releases/latest/download/13-template.pdf
+
+---
+
+## LLM e strumenti di AI
+
+Esistono strumenti di intelligenza artificiale (tipicamente Large Language Models, LLM)
+che possono essere utilizzati per **generare codice**.
+
+* Allenati a partire da grandi quantità di codice sorgente *preesistente*
+    * Soggetti al problema "garbage in, garbage out"
+    * Risolvono molto bene (e velocemente) problemi semplici
+    * Vanno utilizzati con **cautela** per problemi complessi
+* Fruibili via web o integrati come *agenti* all'interno dell'ambiente di sviluppo
+* Usati sempre di più, anche in contesti professionali
+    * Con risultati variabili
+
+### In questo corso: **vietati**
+
+* Non sono consentiti in laboratorio
+* Non sono consentiti a casa
+* Non saranno disponibili per l'esame
+    * E sono abbastanza riconoscibili usando la similarità fra progetti, per la quale abbiamo strumenti che già usiamo
+
+---
+
+### Motivazione
+
+Sono strumenti *potentissimi*, ma è necessario saperli usare **criticamente**, altrimenti:
+* Possono ostacolare e rallentare l'apprendimento
+  * Problema del *cognitive offloading*: se non si impara a fare da soli, si impara meno
+* Possono generare codice di bassa qualità (con bug, inefficienze, o problemi di stile che non riconoscete)
+* Possono usare parti del linguaggio che ancora non potete conoscere
+    * Ergo, generare codice non ancora comprensibile
+
+---
+
+## Sviluppo software, LLM, e perché usarli solo **dopo** che si è diventati esperti
+
+Scrivere codice è la parte *facile*: la parte difficile è **decidere cosa scrivere**
+e **accorgersi quando è sbagliato**
+
+* Un LLM produce codice **plausibile**, non necessariamente *corretto*
+    * Distinguere i due casi richiede *esattamente* la competenza che state costruendo
+* Cosa fa un **esperto** con un assistente AI, misurato sul campo:
+    * accetta meno del **44%** di ciò che il modello propone
+    * il **75%** dichiara di leggere *ogni riga* generata
+    * il **56%** deve fare **pulizia importante** su ciò che tiene
+* La qualità del codice finale regge **perché c'è un esperto che filtra**,
+    non perché il modello la garantisca
+    * Togliete il filtro e resta solo il codice plausibile: *voi non siete ancora quel filtro*
+* Chi non ha il filtro accumula debito:
+    stanno nascendo aziende e professionisti di "**AI code cleanup**"
+
+### In sintesi
+
+Prima si diventa il revisore, **poi** si usa l'acceleratore
+
+---
+
+## Cosa dice davvero la letteratura scientifica
+
+* Sviluppatori **esperti**, su progetti maturi che conoscono bene: con AI **19% più lenti**
+    ([METR, 2025](https://arxiv.org/abs/2507.09089)) --- il tempo se ne va in verifica e correzione
+    * Gli stessi autori, nel [follow-up 2026](https://metr.org/blog/2026-02-24-uplift-update/),
+      avvertono che con gli strumenti più recenti la stima non è più affidabile
+* **Manutenibilità**: 151 partecipanti, nessuna differenza significativa nell'evolvere codice
+    scritto con o senza AI ([Borg et al., EMSE 2026](https://doi.org/10.1007/s10664-026-10889-1))
+* **Sicurezza**: è l'area critica --- più vulnerabilità ad alto rischio nel codice generato
+    ([Cotroneo et al., ISSRE 2025](https://doi.org/10.1109/ISSRE66568.2025.00035)),
+    e gli LLM riconoscono il codice vulnerabile solo nel **12-40%** dei casi
+    ([EMSE 2025](https://doi.org/10.1007/s10664-025-10658-6))
+* A livello di organizzazione: +25% di adozione AI, qualità percepita **+3.4%**
+    ma stabilità dei rilasci **-7.2%** ([DORA, 2024](https://cloud.google.com/blog/products/devops-sre/announcing-the-2024-dora-report))
+
+---
+
+![](torvalds.jpg)
+
+Linus Torvalds, creatore di Linux, commentando un contributo contenente codice generato da un LLM
 
 ---
 
