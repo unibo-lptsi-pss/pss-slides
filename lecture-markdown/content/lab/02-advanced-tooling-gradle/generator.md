@@ -14,8 +14,9 @@ aliases = ["/compilers/"]
 
 {{% import path="cover.md" %}}
 
+---
 
-## Pre-requisiti
+# Pre-requisiti
 
 * Rudimenti di programmazione e codifica
 * Nozioni di base dei filesystem

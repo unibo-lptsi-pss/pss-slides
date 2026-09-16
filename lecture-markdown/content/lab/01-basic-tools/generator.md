@@ -12,7 +12,6 @@ aliases = ["/basic-tools/"]
 
 {{% import path="cover.md" %}}
 
-
 ---
 
 ## Tipi di piattaforme Java
