@@ -35,7 +35,7 @@ aliases = ["/intro/"]
 
 # Sito del corso su `virtuale.unibo.it`
 
-* URL: [https://virtuale.unibo.it/course/view.php?id=65701](https://virtuale.unibo.it/course/view.php?id=65701)
+* URL: [https://virtuale.unibo.it/course/view.php?id=83090](https://virtuale.unibo.it/course/view.php?id=83090)
   * sarà il luogo degli avvisi (e notifiche), forum di discussione, e della pubblicazione del materiale
   * tutti gli studenti che seguono il corso si iscrivano, e lo tengano d'occhio
 
@@ -46,7 +46,7 @@ aliases = ["/intro/"]
 ### Come contattare
 
 * Attraverso il **Forum Studenti** per domande la cui risposta è di interesse generale
-  * URL: [https://virtuale.unibo.it/mod/forum/view.php?id=1628532](https://virtuale.unibo.it/mod/forum/view.php?id=1628532)
+  * URL: [https://virtuale.unibo.it/mod/forum/view.php?id=2411221](https://virtuale.unibo.it/mod/forum/view.php?id=2411221)
   * tutte le domande tecniche
   * tutte le domande sull'organizzazione del corso
 * Via **email** *tenendo in copia tutti i docenti*
