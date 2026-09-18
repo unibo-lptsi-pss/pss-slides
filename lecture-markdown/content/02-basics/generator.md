@@ -43,9 +43,8 @@ int main(void) {
 ```
 
 Come leggerlo?
-- In Java esiste un oggetto chiamato `System` che rappresenta il sistema (creato automaticamente dalla virtual machine)
-- L'oggetto system può ricevere il messaggio `out`, e risponde fornendo un oggetto che rappresenta lo standard output
-- Fra i messaggi che l'oggetto che rappresenta lo standard output può ricevere ci sono:
+- In Java esiste un oggetto chiamato `IO` che rappresenta l'input/output di sistema (creato automaticamente dalla virtual machine)
+- Fra i messaggi che l'oggetto può ricevere ci sono:
     - `print`, analogo a `printf` in C, che stampa a video la stringa fornita
     - `println`, come `print`, ma va a capo sempre anche se non viene specificato `\n` 
 
