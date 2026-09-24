@@ -42,10 +42,10 @@ aliases = ["/objects-2/"]
   * Hanno lo stesso valore o comportamento indipendentemente da quale oggetto li usa
   * E infatti non hanno neppure bisogno di un oggetto per essere usati
   * Pensate, ad esempio, a:
-     * il campo `java.lang.System.out`: potete usarlo senza avere un oggetto `System`!
-        * non fate `new System().out`!
-     * il campo `Integer.MAX_VALUE`
-     * i metodi di conversione: `Integer.parseInt(String s)`, `Double.parseDouble(String s)`, etc.
+    * il metodo `java.lang.IO.println`: potete invocarlo senza creare un oggetto `IO`!
+      * scrivete `IO.println("Ciao!")`, non `new IO().println("Ciao!")`!
+    * il campo `Integer.MAX_VALUE`
+    * i metodi di conversione: `Integer.parseInt(String s)`, `Double.parseDouble(String s)`, etc.
 * Questi campi e metodi *di classe* vanno dichiarati `static`
     * A questo punto, sono accessibili direttamente dalla classe, senza bisogno di costruire oggetti
     * Sintassi: `Classe.metodo(argomenti)`, e `Classe.campo`
@@ -84,7 +84,7 @@ In Java, anche se non obbligatorio, si adotta una *convenzione di notazione* per
 
 I **nomi di classe** iniziano in *maiuscolo*, e ogni parola "interna" al nome usa la maiuscola
 * notazione `PascalCase`, no underscore `_`
-* p.e.: `EnrolledStudent`, `System`, `Point3D`, `Integer`, `String`
+* p.e.: `EnrolledStudent`,  `Point3D`, `Integer`, `String`
 
 I **nomi di campi *istanza* e metodi** iniziano in *minuscolo*, e ogni parola "interna" al nome usa la maiuscola
 * notazione `camelCase`, no underscore `_`
@@ -544,7 +544,7 @@ Se usate una versione di Java precedente alla 25, dovete sempre usare questa sin
 *  Sommiamo `MIN_GUESS` per ottenere l'intervallo desiderato
 
 ### Lettura input
-*  `System.console().readLine()` legge una riga da console
+*  `IO.readln()` legge una riga da console
 *  `Integer.parseInt()` converte la stringa in intero
 *  Attenzione: possibili eccezioni se input non è un numero valido
 
