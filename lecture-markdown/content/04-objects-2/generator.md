@@ -320,7 +320,7 @@ Point3D[] ps = new Point3D[2]; // [null, null] <- sintassi per creare array di o
 ## Istruzione `this(..)`
 
 ### Usabile per chiamare un altro costruttore
-* tale istruzione può solo essere la prima di un costruttore
+* è buona pratica che sia la prima istruzione di un costruttore
 * questo meccanismo consente di riusare il codice di altri costruttori
 * è buona norma avere un costruttore "*primario*" che fa tutto il lavoro, e gli altri lo richiamano
 
