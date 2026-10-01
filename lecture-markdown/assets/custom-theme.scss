@@ -321,3 +321,297 @@ div.smaller {
 div.smallest {
 	font-size: 50%;
 }
+
+// ---------------------------------------------------------------------------
+// Front matter: cover slide and index menu
+// ---------------------------------------------------------------------------
+
+// Accent palette, applied to the menu groups in order of appearance.
+// Override on a single group with `accent="..."` in the `menu-group` shortcode.
+$menu-accents: (
+	blue:   (37, 99, 235),
+	amber:  (194, 102, 4),
+	green:  (4, 128, 90),
+	violet: (109, 40, 217),
+	teal:   (13, 116, 128),
+	rose:   (190, 24, 93),
+);
+$menu-accent-cycle: blue, amber, green, violet, teal, rose;
+
+// Index menu
+
+.reveal .deck-menu {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+	align-items: stretch;
+	gap: .5em;
+	margin: .5em 0 0;
+	font-size: .65em;
+	text-align: left;
+}
+
+.reveal .deck-menu-group {
+	--accent: 37, 99, 235;
+	display: flex;
+	flex-direction: column;
+	padding: .6em .7em .8em;
+	border: .06em solid #{"rgba(var(--accent), .35)"};
+	border-top: .3em solid #{"rgb(var(--accent))"};
+	border-radius: .5em;
+	background: linear-gradient(180deg, #{"rgba(var(--accent), .10)"}, #{"rgba(var(--accent), 0)"} 55%), #fff;
+	box-shadow: 0 .1em .4em rgba(0, 0, 0, .13);
+}
+
+// Cycle the palette on the groups, so that adding one needs no extra markup
+@each $name in $menu-accent-cycle {
+	$i: index($menu-accent-cycle, $name);
+	$len: length($menu-accent-cycle);
+	.reveal .deck-menu > .deck-menu-group:nth-child(#{$len}n + #{$i}) {
+		--accent: #{map-get($menu-accents, $name)};
+	}
+}
+// Explicit override: `accent="green"` and friends
+@each $name, $rgb in $menu-accents {
+	.reveal .deck-menu > .deck-menu-group.accent-#{$name} {
+		--accent: #{$rgb};
+	}
+}
+
+.reveal .deck-menu-group-title {
+	display: flex;
+	align-items: center;
+	gap: .45em;
+	margin: 0 0 .5em;
+	color: #{"rgb(var(--accent))"};
+	font-family: $headingFont;
+	font-weight: 600;
+	font-size: 1.05em;
+	line-height: 1.1;
+	text-transform: uppercase;
+	letter-spacing: .02em;
+}
+
+.reveal .deck-menu-group-title i {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 1.9em;
+	height: 1.9em;
+	border-radius: 50%;
+	background: #{"rgb(var(--accent))"};
+	color: #fff;
+	font-size: .75em;
+}
+
+.reveal .deck-menu ul {
+	display: flex;
+	flex-direction: column;
+	gap: .28em;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.reveal .deck-menu li {
+	margin: 0;
+	padding: 0;
+	font-size: 1em;
+
+	&::before {
+		content: none;
+	}
+}
+
+.reveal .deck-menu li > a {
+	display: block;
+	padding: .32em .5em;
+	border: .06em solid #{"rgba(var(--accent), .3)"};
+	border-radius: .35em;
+	background: #fff;
+	color: #1a1a1a;
+	line-height: 1.15;
+	text-decoration: none;
+	transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+
+	i {
+		display: inline-block;
+		width: 1.3em;
+		margin-right: .45em;
+		text-align: center;
+		color: #{"rgb(var(--accent))"};
+	}
+
+	code {
+		color: inherit;
+		font-size: 100%;
+	}
+
+	&:hover {
+		border-color: #{"rgb(var(--accent))"};
+		background: #{"rgba(var(--accent), .12)"};
+		box-shadow: 0 .12em .4em rgba(0, 0, 0, .18);
+		transform: translateX(.12em);
+	}
+}
+
+.reveal section.deck-index h2 {
+	text-align: center;
+}
+
+.reveal .deck-index-subtitle {
+	margin: -.3em 0 0;
+	color: #555;
+	font-size: .62em;
+	letter-spacing: .04em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+// Cover slide
+
+.reveal .deck-cover {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: .55em;
+	margin-top: .8em;
+	text-align: center;
+
+	p {
+		margin: 0;
+	}
+}
+
+.reveal .deck-cover-course {
+	color: #333;
+	font-size: .8em;
+	line-height: 1.35;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+}
+
+.reveal .deck-cover-author a {
+	display: inline-flex;
+	align-items: center;
+	gap: .45em;
+	padding: .3em .9em;
+	border: .06em solid rgba(38, 144, 231, .45);
+	border-radius: 2em;
+	background: rgba(38, 144, 231, .08);
+	color: #0f2f4d;
+	font-size: .85em;
+	text-decoration: none;
+	transition: background .15s ease, box-shadow .15s ease;
+
+	strong,
+	code {
+		color: inherit;
+	}
+
+	code {
+		font-size: 95%;
+		font-weight: normal;
+		opacity: .85;
+	}
+
+	&:hover {
+		background: rgba(38, 144, 231, .18);
+		box-shadow: 0 .12em .4em rgba(0, 0, 0, .18);
+	}
+}
+
+.reveal .deck-cover-actions p {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	justify-content: center;
+}
+
+.reveal .deck-cover-actions a {
+	display: inline-flex;
+	align-items: center;
+	gap: .4em;
+	padding: .28em .8em;
+	border: .06em solid #bbb;
+	border-radius: 2em;
+	background: #fff;
+	color: #333;
+	font-size: .6em;
+	text-decoration: none;
+	transition: border-color .15s ease, color .15s ease, box-shadow .15s ease;
+
+	&:hover {
+		border-color: $linkColor;
+		color: $linkColor;
+		box-shadow: 0 .12em .4em rgba(0, 0, 0, .15);
+	}
+}
+
+.reveal .deck-cover-date {
+	color: #777;
+	font-size: .5em;
+	letter-spacing: .03em;
+}
+
+// Multiple authors: lay the pills out side by side, wrapping when needed
+.reveal .deck-cover-author p {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4em .6em;
+	justify-content: center;
+}
+
+// Center the deck title on slides carrying the cover
+.reveal section:has(> .deck-cover) > h1 {
+	text-align: center;
+}
+
+.reveal .deck-index-note {
+	margin-top: .6em;
+	color: #666;
+	font-size: .5em;
+	text-align: center;
+}
+
+.reveal section.deck-index .deck-cover-actions {
+	margin-top: .8em;
+}
+
+// Wrapped menu entries align with the text, not with the icon
+.reveal .deck-menu li > a,
+.reveal .deck-menu .deck-menu-label {
+	padding-left: 2.25em;
+	text-indent: -1.75em;
+
+	i {
+		text-indent: 0;
+	}
+}
+
+// Non-link entries grouping sub-entries (e.g., the Git lectures)
+.reveal .deck-menu .deck-menu-label {
+	display: block;
+	padding-top: .32em;
+	padding-bottom: .1em;
+	padding-right: .5em;
+	color: #1a1a1a;
+	line-height: 1.15;
+
+	i {
+		display: inline-block;
+		width: 1.3em;
+		margin-right: .45em;
+		text-align: center;
+		color: #{"rgb(var(--accent))"};
+	}
+}
+
+.reveal .deck-menu li > ul {
+	margin: .28em 0 0 1.6em;
+	gap: .22em;
+}
+
+.reveal .deck-menu li > ul > li {
+	font-size: .9em;
+}

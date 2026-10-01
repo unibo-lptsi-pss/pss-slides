@@ -8,81 +8,119 @@ aliases = [  ]
 
 +++
 
-# Progettazione e Sviluppo del Software
+{{< slide class="deck-index" >}}
 
-## Indice dei contenuti
+## Progettazione e Sviluppo del Software
 
-{{% smaller %}}
+<div class="deck-index-subtitle">
 
-<div class="container">
-<div class="col">
+C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei contenuti
 
-1. [Introduzione al corso](intro/)
-1. [Astrazione orientata agli oggetti](oo-abstraction/)
-1. [Introduzione al linguaggio Java](basics/)
-1. [Oggetti e classi (parte 1/2)](objects/)
-1. [Oggetti e classi (parte 2/2)](objects-2/)
-1. [Incapsulamento](encapsulation/)
-1. [Formattazione di codice Java](codestyle/)
-1. [Interfacce e composizione](interfaces/)
-1. [Ereditarietà](inheritance/)
-1. Sistemi di controllo di versione distribuiti (DVCS) con Git:
-    - [Git - introduzione](https://unibo-oop.github.io/lab-slides/dvcs-basics/#/) 
-    - [Git - Merging e branching](https://unibo-oop.github.io/lab-slides/dvcs-branching/#/) 
-    - [Git - Collaborazione remota](https://unibo-oop.github.io/lab-slides/dvcs-remote/#/)
-<!--
-1. [Build system (Gradle), costruzione del software, e librerie](build-systems/)
-1. 
-1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
--->
 </div>
-<div class="col">
 
-11. [Polimorfismo e tipi a runtime](polymorphism/)
-1. [Generici](generics/)
-1. [Collezioni](collections/)
-1. [Sviluppo di interfacce grafiche (GUI) con la libreria JavaFX](guis-javafx/)
-1. [Eccezioni](exceptions/)
-1. [Classi astratte e template method](abstract-classes/)
-1. [Enumerazioni](enums/)
-1. [Classi innestate e anonime](nesting/)
-1. [Functional Java con Lambda e Stream](lambdas/)
-1. [Dipendenze e librerie](dependencies/)
-1. [Unit Testing e Test-Driven Development con JUnit 5](junit-tdd/)
-1. [Input/Output](io/)
-1. [Introduzione al multi-threading](multithread/)
+{{% menu %}}
+
+{{% menu-group title="Fondamenti" icon="fa-solid fa-graduation-cap" %}}
+
+* [<i class="fa-solid fa-flag-checkered"></i> 1. Introduzione al corso](intro/)
+* [<i class="fa-solid fa-shapes"></i> 2. Astrazione orientata agli oggetti](oo-abstraction/)
+* [<i class="fa-brands fa-java"></i> 3. Introduzione al linguaggio Java](basics/)
+* [<i class="fa-solid fa-cube"></i> 4. Oggetti e classi (parte 1/2)](objects/)
+* [<i class="fa-solid fa-cubes"></i> 5. Oggetti e classi (parte 2/2)](objects-2/)
+* [<i class="fa-solid fa-lock"></i> 6. Incapsulamento](encapsulation/)
+
+{{% /menu-group %}}
+
+{{% menu-group title="Progettazione OO" icon="fa-solid fa-diagram-project" %}}
+
+* [<i class="fa-solid fa-plug"></i> 7. Interfacce e composizione](interfaces/)
+* [<i class="fa-solid fa-sitemap"></i> 8. Ereditarietà](inheritance/)
+* [<i class="fa-solid fa-masks-theater"></i> 10. Polimorfismo e tipi a runtime](polymorphism/)
+* [<i class="fa-solid fa-puzzle-piece"></i> 15. Classi astratte e template method](abstract-classes/)
+* [<i class="fa-solid fa-list-ol"></i> 16. Enumerazioni](enums/)
+* [<i class="fa-solid fa-box-open"></i> 17. Classi innestate e anonime](nesting/)
 <!--
-1. [Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
+* [<i class="fa-solid fa-compass-drafting"></i> Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
 -->
-🧪 [Slide di laboratorio $\Rightarrow$](#2)
 
+{{% /menu-group %}}
+
+{{% menu-group title="Librerie e linguaggio" icon="fa-solid fa-book-open" %}}
+
+* [<i class="fa-solid fa-diamond"></i> 11. Generici](generics/)
+* [<i class="fa-solid fa-layer-group"></i> 12. Collezioni](collections/)
+* [<i class="fa-solid fa-triangle-exclamation"></i> 14. Eccezioni](exceptions/)
+* [<i class="fa-solid fa-arrow-right-long"></i> 18. Functional Java con Lambda e Stream](lambdas/)
+* [<i class="fa-solid fa-file-arrow-down"></i> 21. Input/Output](io/)
+* [<i class="fa-solid fa-shuffle"></i> 22. Introduzione al multi-threading](multithread/)
 <!--
-1. [Sviluppo di interfacce grafiche (GUI) con Swing](guis-swing/)
--->
-<!-- 
-1. 
-1. [Stream e manipolazione di flussi di dati](stream/)
-1. [Collezioni generiche, erasure, e wildcard](generic-collections-advanced/) 
+* [<i class="fa-solid fa-water"></i> Stream e manipolazione di flussi di dati](stream/)
+* [<i class="fa-solid fa-shapes"></i> Collezioni generiche, erasure, e wildcard](generic-collections-advanced/)
 -->
 
-</div></div>
+{{% /menu-group %}}
 
-{{% /smaller %}}
+{{% menu-group title="Strumenti e pratiche" icon="fa-solid fa-screwdriver-wrench" %}}
+
+* <span class="deck-menu-label"><i class="fa-brands fa-git-alt"></i> 9. Controllo di versione (DVCS) con Git</span>
+    * [<i class="fa-solid fa-code-commit"></i> Introduzione](https://unibo-oop.github.io/lab-slides/dvcs-basics/#/)
+    * [<i class="fa-solid fa-code-merge"></i> Merging e branching](https://unibo-oop.github.io/lab-slides/dvcs-branching/#/)
+    * [<i class="fa-solid fa-cloud-arrow-up"></i> Collaborazione remota](https://unibo-oop.github.io/lab-slides/dvcs-remote/#/)
+* [<i class="fa-solid fa-camera-retro"></i> 13. Interfacce grafiche (GUI) con JavaFX](guis-javafx/)
+* [<i class="fa-solid fa-cubes-stacked"></i> 19. Dipendenze e librerie](dependencies/)
+* [<i class="fa-solid fa-vial-circle-check"></i> 20. Unit Testing e TDD con JUnit 5](junit-tdd/)
+* [<i class="fa-solid fa-flask"></i> Slide di laboratorio](#/lab)
+<!--
+* [<i class="fa-solid fa-gears"></i> Build system (Gradle), costruzione del software, e librerie](build-systems/)
+* [<i class="fa-solid fa-window-maximize"></i> Sviluppo di interfacce grafiche (GUI) con Swing](guis-swing/)
+-->
+
+{{% /menu-group %}}
+
+{{% /menu %}}
+
+<div class="deck-index-note">
 
 ⚠️ Le slide con il simbolo 🚧 sono da considerarsi in costruzione, potrebbero essere incomplete, e saranno soggette a modifiche
 
+</div>
 
 ---
 
+{{< slide id="lab" class="deck-index" >}}
+
 ## Laboratorio di Progettazione e Sviluppo del Software
 
-### Indice dei contenuti
+<div class="deck-index-subtitle">
 
-1. [Installazione di IntelliJ Idea](lab/00-install-intellij/)
-1. [Strumenti del JDK](lab/01-basic-tools/)
-2. [Compilazione avanzata](lab/02-advanced-tooling-gradle/)
-1. [Build Systems](lab/03-build-systems/)
-1. [Esecuzione di applicazioni Java tramite Gradle](lab/04-execution/)
-1. [Checkstyle](lab/05-checkstyle/)
-1. [Dipendenze e Librerie in Gradle](lab/06-dependencies/)
-1. [Costruzione degli artefatti](lab/08-jar/)
+C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei contenuti
+
+</div>
+
+{{% menu %}}
+
+{{% menu-group title="Strumenti di base" icon="fa-solid fa-toolbox" %}}
+
+* [<i class="fa-solid fa-download"></i> 1. Installazione di IntelliJ Idea](lab/00-install-intellij/)
+* [<i class="fa-brands fa-java"></i> 2. Strumenti del JDK](lab/01-basic-tools/)
+* [<i class="fa-solid fa-terminal"></i> 3. Compilazione avanzata](lab/02-advanced-tooling-gradle/)
+
+{{% /menu-group %}}
+
+{{% menu-group title="Build automation" icon="fa-solid fa-gear" %}}
+
+* [<i class="fa-solid fa-gears"></i> 4. Build Systems](lab/03-build-systems/)
+* [<i class="fa-solid fa-play"></i> 5. Esecuzione di applicazioni Java tramite Gradle](lab/04-execution/)
+* [<i class="fa-solid fa-magnifying-glass-chart"></i> 6. Checkstyle](lab/05-checkstyle/)
+* [<i class="fa-solid fa-cubes"></i> 7. Dipendenze e Librerie in Gradle](lab/06-dependencies/)
+* [<i class="fa-solid fa-box"></i> 8. Costruzione degli artefatti](lab/08-jar/)
+
+{{% /menu-group %}}
+
+{{% /menu %}}
+
+<div class="deck-cover-actions">
+
+[<i class="fa-solid fa-arrow-left"></i> lezioni](#/)
+
+</div>
