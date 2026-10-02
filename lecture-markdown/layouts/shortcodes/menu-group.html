@@ -1,0 +1,5 @@
+{{ $_hugo_config := `{ "version": 1 }` }}
+<div class="deck-menu-group{{ with .Get "accent" }} accent-{{ . }}{{ end }}">
+<div class="deck-menu-group-title">{{ with .Get "icon" }}<i class="{{ . }}"></i>{{ end }}<span>{{ .Get "title" }}</span></div>
+{{ .Inner }}
+</div>
