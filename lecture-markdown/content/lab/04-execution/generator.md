@@ -51,6 +51,8 @@ Possiamo ora lanciare la nostra applicazione tramite:
 
 ---
 
+<!--
+
 ## Verso una gestione NEXT LEVEL del software
 
 ![Meme del tizio che dice stonks ma invece dice tech](tech.jpg)
@@ -62,5 +64,9 @@ Abbiamo sempre più elementi che ci permettono di creare software di qualità:
     - Inoltre esistono numerosi plugin che ci aiutano ad automatizzare altri aspetti come la qualità del codice (vedi **Checkstyle**);
 
 ---
+
+-->
+
+
 
 {{% import path="cover.md" %}}
