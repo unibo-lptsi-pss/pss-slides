@@ -10,7 +10,7 @@ aliases = ["/build-systems/"]
 
 # Costruzione degli artefatti
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -264,8 +264,6 @@ Ad esempio, se abbiamo due classi con main `it.unibo.oop.Pluto` e `it.unibo.oop.
     * per eseguire `Paperino`
 
 ---
-
-# Costruzione degli artefatti
 
 {{% import path="cover.md" %}}
 

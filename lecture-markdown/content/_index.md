@@ -60,22 +60,24 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
 
 {{% /menu-group %}}
 
-{{% menu-group title="Strumenti e pratiche" icon="fa-solid fa-screwdriver-wrench" %}}
+<!-- {{% menu-group title="Strumenti e pratiche" icon="fa-solid fa-screwdriver-wrench" %}} -->
 
-* <span class="deck-menu-label"><i class="fa-brands fa-git-alt"></i> 9. Controllo di versione (DVCS) con Git</span>
+<!-- * <span class="deck-menu-label"><i class="fa-brands fa-git-alt"></i> 9. Controllo di versione (DVCS) con Git</span>
     * [<i class="fa-solid fa-code-commit"></i> Introduzione](https://unibo-oop.github.io/lab-slides/dvcs-basics/#/)
     * [<i class="fa-solid fa-code-merge"></i> Merging e branching](https://unibo-oop.github.io/lab-slides/dvcs-branching/#/)
     * [<i class="fa-solid fa-cloud-arrow-up"></i> Collaborazione remota](https://unibo-oop.github.io/lab-slides/dvcs-remote/#/)
 * [<i class="fa-solid fa-camera-retro"></i> 13. Interfacce grafiche (GUI) con JavaFX](guis-javafx/)
 * [<i class="fa-solid fa-cubes-stacked"></i> 19. Dipendenze e librerie](dependencies/)
 * [<i class="fa-solid fa-vial-circle-check"></i> 20. Unit Testing e TDD con JUnit 5](junit-tdd/)
-* [<i class="fa-solid fa-flask"></i> Slide di laboratorio](#/lab)
+* [<i class="fa-solid fa-flask"></i> Slide di laboratorio](#/lab) -->
+
+<!-- * [<i class="fa-solid fa-flask"></i> 1. Strumenti di base](lab) -->
 <!--
 * [<i class="fa-solid fa-gears"></i> Build system (Gradle), costruzione del software, e librerie](build-systems/)
 * [<i class="fa-solid fa-window-maximize"></i> Sviluppo di interfacce grafiche (GUI) con Swing](guis-swing/)
 -->
 
-{{% /menu-group %}}
+<!-- {{% /menu-group %}} -->
 
 {{% /menu %}}
 
@@ -84,6 +86,13 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
 ⚠️ Le slide con il simbolo 🚧 sono da considerarsi in costruzione, potrebbero essere incomplete, e saranno soggette a modifiche
 
 </div>
+
+<div class="deck-cover-actions">
+
+[<i class="fa-solid fa-arrow-right"></i> slides di laboratorio](#/lab)
+
+</div>
+
 
 ---
 
@@ -111,7 +120,7 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
 
 * [<i class="fa-solid fa-gears"></i> 4. Build Systems](lab/03-build-systems/)
 * [<i class="fa-solid fa-play"></i> 5. Esecuzione di applicazioni Java tramite Gradle](lab/04-execution/)
-* [<i class="fa-solid fa-magnifying-glass-chart"></i> 6. Checkstyle](lab/05-checkstyle/)
+* [<i class="fa-solid fa-magnifying-glass-chart"></i> 6. Analisi statica e checkstyle](lab/05-checkstyle/)
 * [<i class="fa-solid fa-cubes"></i> 7. Dipendenze e Librerie in Gradle](lab/06-dependencies/)
 * [<i class="fa-solid fa-box"></i> 8. Costruzione degli artefatti](lab/08-jar/)
 
@@ -119,8 +128,14 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
 
 {{% /menu %}}
 
+<div class="deck-index-note">
+
+⚠️ Le slide con il simbolo 🚧 sono da considerarsi in costruzione, potrebbero essere incomplete, e saranno soggette a modifiche
+
+</div>
+
 <div class="deck-cover-actions">
 
-[<i class="fa-solid fa-arrow-left"></i> lezioni](#/)
+[<i class="fa-solid fa-arrow-left"></i> slides di teoria](#/)
 
 </div>

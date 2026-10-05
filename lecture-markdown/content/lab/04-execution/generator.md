@@ -9,7 +9,9 @@ aliases = ["/compilers/"]
 +++
 
 # Esecuzione di applicazioni Java tramite Gradle
-{{% import path="cover.md" %}}
+
+{{% import path="front-page.md" %}}
+
 ---
 
 ## Lanciare applicazioni Java da Gradle
@@ -60,7 +62,5 @@ Abbiamo sempre più elementi che ci permettono di creare software di qualità:
     - Inoltre esistono numerosi plugin che ci aiutano ad automatizzare altri aspetti come la qualità del codice (vedi **Checkstyle**);
 
 ---
-
-# Esecuzione di applicazioni Java tramite Gradle
 
 {{% import path="cover.md" %}}

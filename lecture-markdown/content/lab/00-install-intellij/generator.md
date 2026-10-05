@@ -9,7 +9,7 @@ aliases = ["/install-intellij/"]
 
 # Installazione di IntelliJ IDEA
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -86,7 +86,5 @@ In questo modo sarà possibile allenarsi e sviluppare progetti anche fuori dall�
   * in caso di urgenza, è sempre possibile utilizzarli
 
 ---
-
-# Installazione IntelliJ IDEA
 
 {{% import path="cover.md" %}}

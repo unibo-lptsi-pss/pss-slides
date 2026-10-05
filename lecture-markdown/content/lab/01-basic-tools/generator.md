@@ -10,7 +10,7 @@ aliases = ["/basic-tools/"]
 
 # Strumenti di base del JDK
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -359,8 +359,6 @@ I seguenti errori sono comuni se non è chiaro cosa facciano interprete e compil
 *  <i class="fa-solid fa-ban"></i> `java path/to/NomeClasse.class` (l'interprete non lavora su file)
 
 ---
-
-# Strumenti di base del JDK
 
 {{% import path="cover.md" %}}
 

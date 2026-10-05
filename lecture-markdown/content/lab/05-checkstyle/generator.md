@@ -8,12 +8,17 @@ aliases = ["/codestyle/"]
 
 +++
 
-# Checkstyle
+# Analisi statica e checkstyle
 
 {{% import path="front-page.md" %}}
 
 ---
 
+<!-- write-here "shared-slides/java/it-static-analysis.md" -->
+
+<!-- end-write -->
+
+<!-- 
 ### Cos'è Checkstyle
 
 Checkstyle si occupa di trovare errori di stile:
@@ -37,7 +42,7 @@ Checkstyle si occupa di trovare errori di stile:
     <module name="LineLength">
       <property name="max" value="85"/>
     </module>
-    <!-- ... -->
+    <!-- ... ––>
 </module>
 
 ```
@@ -91,9 +96,9 @@ Execution failed for task ':checkstyleMain'.
      Checkstyle violations by severity: [error:1]
 ```
 
----
+-->
 
-# Checkstyle
+---
 
 {{% import path="cover.md" %}}
 

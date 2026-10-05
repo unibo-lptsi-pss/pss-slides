@@ -10,7 +10,7 @@ aliases = ["/compilers/"]
 
 # Compilazione avanzata
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -301,7 +301,5 @@ Gli help stampano abbondante testo con le relative istruzioni e a me serve una r
 È molto facile dimenticarsi la sintassi delle opzioni di comandi che non si usano spesso. È molto più facile imparare a destreggiarsi in un help che andare a tentativi o ricordare cose a memoria.
 
 ---
-
-# Compilazione avanzata
 
 {{% import path="cover.md" %}}

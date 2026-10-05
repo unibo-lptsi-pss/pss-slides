@@ -9,7 +9,8 @@ aliases = ["/build-systems/"]
 +++
 
 # Dipendenze e Librerie in Gradle
-{{% import path="cover.md" %}}
+
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -55,6 +56,4 @@ $ ./gradlew test --tests it.unibo.*.Buggy*Test # filtra i test da eseguire
 
 ---
 
-# Dipendenze e Librerie in Gradle
 {{% import path="cover.md" %}}
-

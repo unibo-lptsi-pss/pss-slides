@@ -10,7 +10,7 @@ aliases = ["/compilers/"]
 
 # Build Systems
 
-{{% import path="cover.md" %}}
+{{% import path="front-page.md" %}}
 
 ---
 
@@ -156,7 +156,5 @@ Sia $n$ il numero di elementi dell'array ed $x_i$ l'elemento all'indice $i$ dell
 $$\sigma^2 = \frac{\displaystyle\sum_{i=0}^{n-1}(x_i - \mu)^2} {n}$$
 
 ---
-
-# Build Systems
 
 {{% import path="cover.md" %}}

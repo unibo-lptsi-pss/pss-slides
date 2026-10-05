@@ -17,6 +17,8 @@ aliases = ["/build-systems/"]
   [<i class="fa-solid fa-link"></i>](https://github.com/junit-team/junit5-samples/junit5-jupiter-starter-gradle)
   [<i class="fa-solid fa-link"></i>](https://docs.gradle.org/current/userguide/java_testing.html#java_testing)
 
+{{% import path="front-page.md" %}}
+
 ---
 
 ```kotlin
@@ -49,8 +51,6 @@ $ ./gradlew test --tests it.unibo.*.Buggy*Test # filtra i test da eseguire
 <!-- end-write -->
 
 ---
-
-# Junit e Librerie
 
 {{% import path="cover.md" %}}
 
