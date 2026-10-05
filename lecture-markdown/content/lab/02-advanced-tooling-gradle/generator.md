@@ -8,9 +8,7 @@ aliases = ["/compilers/"]
 
 +++
 
-# Compilazione avanzata e Build Systems
-
-### Esercizi e soluzioni: https://github.com/unibo-lptsi-pss/pss-lab/releases/latest/
+# Compilazione avanzata
 
 {{% import path="cover.md" %}}
 
@@ -304,7 +302,6 @@ Gli help stampano abbondante testo con le relative istruzioni e a me serve una r
 
 ---
 
-# Compilazione avanzata e Build Systems
+# Compilazione avanzata
 
 {{% import path="cover.md" %}}
-

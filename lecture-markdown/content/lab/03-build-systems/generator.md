@@ -10,8 +10,6 @@ aliases = ["/compilers/"]
 
 # Build Systems
 
-### Esercizi e soluzioni: https://github.com/unibo-lptsi-pss/pss-lab/releases/latest/
-
 {{% import path="cover.md" %}}
 
 ---
@@ -160,7 +158,5 @@ $$\sigma^2 = \frac{\displaystyle\sum_{i=0}^{n-1}(x_i - \mu)^2} {n}$$
 ---
 
 # Build Systems
-
-### Esercizi e soluzioni: https://github.com/unibo-lptsi-pss/pss-lab/releases/latest/
 
 {{% import path="cover.md" %}}
