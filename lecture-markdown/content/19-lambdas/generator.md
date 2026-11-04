@@ -41,7 +41,7 @@ aliases = ["/lambdas/"]
 ### Comparatori definiti attraverso classi innestate
 
 - Una **classe innestata statica** `B` (*static nested*) è definita all'interno di un'altra classe `A`
-    - Dunque ci si può riferire ad essa via `A.B` (secondo regole di visibilità), o direttamente via `B` da dentro la classe `A` -- [approfondimento](/advanced-mechanisms-nesting)
+    - Dunque ci si può riferire ad essa via `A.B` (secondo regole di visibilità), o direttamente via `B` da dentro la classe `A`
     
 ```java
 {{% import-raw from=7 path="pss-code/src/main/java/it/unibo/lambdas/intro/FirstComparableNested.java" %}}
@@ -52,7 +52,7 @@ aliases = ["/lambdas/"]
 
 ### Comparatori definiti attraverso classi anonime
 
-- Una **classe anonima** è una classe definita "al volo" (senza fornirne dunque un nome) e immediatamente istanziata per evitare la proliferazione di classi -- [approfondimento](/19-advanced-mechanisms-nesting/#/36)
+- Una **classe anonima** è una classe definita "al volo" (senza fornirne dunque un nome) e immediatamente istanziata per evitare la proliferazione di classi 
     *  Tipicamente: per implementare "al volo" una interfaccia
     
 ```java
@@ -168,13 +168,21 @@ aliases = ["/lambdas/"]
 ---
 
 ## Esempio: funzione riusabile di filtraggio
-    
+
 ```java
-{{% import-raw path="pss-code/src/main/java/it/unibo/lambdas/first/Filter.java" %}}
+{{% import-raw from=4 to=6 path="pss-code/src/main/java/it/unibo/lambdas/first/Filter.java" %}}
 ```
 
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/lambdas/first/FilterUtility.java" %}}
+{{% import-raw from=11 to=19 path="pss-code/src/main/java/it/unibo/lambdas/first/FilterUtility.java" %}}
+```
+
+---
+
+## Filtraggio: uso con le lambda
+
+```java
+{{% import-raw from=21 to=27 path="pss-code/src/main/java/it/unibo/lambdas/first/FilterUtility.java" %}}
 ```
 
 ---
@@ -391,7 +399,7 @@ per ottenere flessibilmente computazioni non banali dei loro elementi, con codic
     * una riduzione a un valore, una Collection/array, un Iteratore
 
 ### Esempio: con persone con nome, città e reddito
-* Data una `List<Persona>` con proprietà reddito e città, ottenere la somma dei redditi di tutte le persone di Cesena
+* Data una `List<Person>` con proprietà reddito e città, ottenere la somma dei redditi di tutte le persone di Cesena
 * Come lo realizziamo tramite una pipeline?
     * Sorgente: la lista
     * Trasformazione 1: filtro sulle persone di Cesena
@@ -401,10 +409,49 @@ per ottenere flessibilmente computazioni non banali dei loro elementi, con codic
 
 ---
 
-## Classe `Person` -- `equals`, `hashCode` e `toString` omessi
+## Record: rappresentare dati
+
+* Un **record** è una classe pensata per rappresentare un insieme di valori
+* Si dichiarano i componenti nell'intestazione:
 
 ```java
-{{% import-raw from=7 path="pss-code/src/main/java/it/unibo/streams/Person.java" %}}
+record Person(String name, String city, double income, Set<String> jobs) {}
+
+var person = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
+System.out.println(person.name()); // Mario
+```
+
+* I record sono disponibili in forma stabile da Java 16
+* `List` e `Set` appartengono al package `java.util`
+
+---
+
+## Cosa fornisce un record
+
+Per ogni componente Java genera un campo privato `final` e un accessor pubblico.
+Genera anche il costruttore, `equals`, `hashCode` e `toString`.
+
+```java
+var other = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
+System.out.println(person.equals(other)); // true
+```
+
+* L'uguaglianza è basata sui componenti
+* L'immutabilità è **superficiale**: un componente può riferirsi a un oggetto mutabile
+* Negli esempi usiamo `Set.of(...)` per creare insiemi di professioni immutabili
+
+---
+
+## Esempio: persone da elaborare
+
+```java
+List<Person> people = List.of(
+    new Person("Mario", "Cesena", 20000, Set.of("Teacher")),
+    new Person("Rino", "Forlì", 50000, Set.of("Professor")),
+    new Person("Lino", "Cesena", 110000, Set.of("Professor", "Dean")),
+    new Person("Ugo", "Cesena", 20000, Set.of("Secretary")),
+    new Person("Marco", null, 4000, Set.of("Contractor"))
+);
 ```
 
 ---
@@ -412,19 +459,110 @@ per ottenere flessibilmente computazioni non banali dei loro elementi, con codic
 ## Realizzazione dell'esempio con gli Stream
 
 ```java
-{{% import-raw from=5 path="pss-code/src/main/java/it/unibo/streams/UseStreamsOnPerson.java" %}}
+double totalIncome = people.stream()
+    .filter(p -> "Cesena".equals(p.city()))
+    .mapToDouble(Person::income)
+    .sum();
+
+System.out.println(totalIncome); // 150000.0
 ```
 
 ---
 
-Questa è solo una introduzione alle lambda in Java. 
-Nel blocco di [approfondimento](/stream) si trovano ulteriori informazioni su come:
-- creare stream
-- manipolazioni di stream (avanzate)
-- esempi di uso di stream
+## Confronto: soluzione con un ciclo
+
+```java
+double totalIncome = 0;
+for (Person p : people) {
+    if ("Cesena".equals(p.city())) {
+        totalIncome += p.income();
+    }
+}
+System.out.println(totalIncome); // 150000.0
+```
 
 ---
 
-# Lambda e funzioni first-class
+## Stream: città distinte e ordinate
 
-{{% import path="cover.md" %}}
+```java
+List<String> cities = people.stream()
+    .map(Person::city)
+    .filter(city -> city != null)
+    .distinct()
+    .sorted()
+    .toList();
+
+System.out.println(cities); // [Cesena, Forlì]
+```
+
+* `map` estrae le città, `filter` esclude quelle mancanti
+* `distinct` elimina i duplicati, `sorted` ordina, `toList` raccoglie i risultati
+
+---
+
+## Stream: i redditi più alti
+
+```java
+List<String> topEarners = people.stream()
+    .sorted(Comparator.comparingDouble(Person::income).reversed())
+    .limit(2)
+    .map(Person::name)
+    .toList();
+
+System.out.println(topEarners); // [Lino, Rino]
+```
+
+* `sorted` ordina per reddito decrescente, `limit` mantiene i primi due
+* `Comparator` si trova nel package `java.util`
+
+---
+
+## Stream: tutte le professioni
+
+```java
+List<String> jobs = people.stream()
+    .flatMap(p -> p.jobs().stream())
+    .distinct()
+    .sorted()
+    .toList();
+
+System.out.println(jobs);
+// [Contractor, Dean, Professor, Secretary, Teacher]
+```
+
+* `flatMap` unisce gli stream delle professioni delle singole persone
+
+---
+
+## Stream: quante persone per città?
+
+```java
+Map<String, Long> counts = people.stream()
+    .filter(p -> p.city() != null)
+    .collect(Collectors.groupingBy(Person::city, Collectors.counting()));
+
+System.out.println(counts.get("Cesena")); // 3
+System.out.println(counts.get("Forlì"));  // 1
+```
+
+* `groupingBy` raggruppa per città e `counting` conta le persone di ogni gruppo
+* Escludiamo le città mancanti; `Collectors` si trova in `java.util.stream`
+
+---
+
+## Riepilogo: lambda e Stream
+
+* Le **lambda** permettono di passare comportamenti come valori
+* In Java sono utilizzabili dove è richiesta un'**interfaccia funzionale**
+* I **method reference** richiamano metodi o costruttori già esistenti
+* Gli **Stream** usano lambda e method reference nelle pipeline sui dati
+* I **record** permettono di rappresentare in modo compatto i dati elaborati
+
+Per chi vuole approfondire, nelle [slide sugli Stream](/stream) ci sono altri esempi di uso delle lambda.
+
+---
+
+# Functional Java con Lambda e Stream
+
+{{% import path="front-page.md" %}}

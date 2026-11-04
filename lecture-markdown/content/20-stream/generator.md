@@ -26,6 +26,7 @@ aliases = ["/stream/"]
 
 *  Mostrare la gestione funzionale degli Stream
 *  Discutere altri aspetti relativi alle novità di Java 8
+*  Riprendere i record per rappresentare dati negli esempi
 
 
 ---
@@ -80,7 +81,7 @@ aliases = ["/stream/"]
 
 
 
-*  Data una `List<Persona>` con proprietà reddito e città, ottenere la somma dei redditi di tutte le persone di Cesena
+*  Data una `List<Person>` con proprietà reddito e città, ottenere la somma dei redditi di tutte le persone di Cesena
 *  Come lo realizziamo tramite una pipeline?
     *  Sorgente: la lista
     *  Trasformazione 1: filtro sulle persone di Cesena
@@ -95,27 +96,90 @@ aliases = ["/stream/"]
 ---
 
 
-## Classe `Person` -- `equals`, `hashCode` e `toString` omessi
+## Record: ripasso
 
+* Un **record** è una classe pensata per rappresentare un insieme di valori
+* È disponibile in forma stabile da Java 16
+* I componenti si dichiarano nell'intestazione:
 
-    
 ```java
-{{% import-raw from=5 to=34 path="pss-code/src/main/java/it/unibo/streams/Person.java" %}}
+record Person(String name, String city, double income, Set<String> jobs) {}
+
+var person = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
+System.out.println(person.name()); // Mario
 ```
 
-
+* Gli accessor si chiamano come i componenti: `name()`, `city()`, `income()`, `jobs()`
+* `List` e `Set` appartengono al package `java.util`
 
 ---
 
+## Cosa fornisce un record
 
+Per il record `Person` Java genera:
 
-## Realizzazione dell'esempio in Java 8
+* Un campo privato `final` e un accessor pubblico per ogni componente
+* Un costruttore con tutti i componenti, nell'ordine dichiarato
+* `equals`, `hashCode` e `toString` basati sui componenti
 
-
-    
 ```java
-{{% import-raw from=5 to=100 path="pss-code/src/main/java/it/unibo/streams/UseStreamsOnPerson.java" %}}
+var a = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
+var b = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
+System.out.println(a.equals(b)); // true
 ```
+
+---
+
+## Record: validazione e immutabilità
+
+Un **costruttore compatto** può verificare i valori:
+
+```java
+record Person(String name, String city, double income, Set<String> jobs) {
+    Person {
+        if (income < 0) {
+            throw new IllegalArgumentException("Reddito negativo");
+        }
+        jobs = Set.copyOf(jobs);
+    }
+}
+```
+
+* I riferimenti ai componenti non cambiano, ma gli oggetti riferiti possono essere mutabili
+* `Set.copyOf` crea una copia immutabile delle professioni
+
+---
+
+## Record e Stream: i dati
+
+Usiamo il record `Person` per rappresentare le persone della pipeline:
+
+```java
+List<Person> people = List.of(
+    new Person("Mario", "Cesena", 20000, Set.of("Teacher")),
+    new Person("Rino", "Forlì", 50000, Set.of("Professor")),
+    new Person("Lino", "Cesena", 110000, Set.of("Professor", "Dean")),
+    new Person("Ugo", "Cesena", 20000, Set.of("Secretary")),
+    new Person("Marco", null, 4000, Set.of("Contractor"))
+);
+```
+
+---
+
+## Record e Stream: la pipeline
+
+```java
+double totalIncome = people.stream()
+    .filter(p -> "Cesena".equals(p.city()))
+    .mapToDouble(Person::income)
+    .sum();
+
+System.out.println(totalIncome); // 150000.0
+```
+
+* `filter` seleziona le persone di Cesena
+* `mapToDouble` estrae il reddito usando l'accessor del record
+* `sum` termina la pipeline sommando i redditi
 
 
 
@@ -390,10 +454,26 @@ aliases = ["/stream/"]
 
 ## Esempi avanzati su `Person`
 
-
-    
 ```java
-{{% import-raw from=7 to=100 path="pss-code/src/main/java/it/unibo/streams/UseStreamsOnPerson2.java" %}}
+String jobsInCesena = people.stream()
+    .filter(p -> "Cesena".equals(p.city()))
+    .flatMap(p -> p.jobs().stream())
+    .distinct()
+    .collect(Collectors.joining("|", "[[", "]]"));
+System.out.println(jobsInCesena);
+```
+
+---
+
+## Esempi avanzati su `Person`: media
+
+```java
+double average = people.stream()
+    .filter(p -> p.jobs().contains("Professor"))
+    .mapToDouble(Person::income)
+    .average()
+    .orElseThrow();
+System.out.println(average); // 80000.0
 ```
 
 
