@@ -418,7 +418,7 @@ per ottenere flessibilmente computazioni non banali dei loro elementi, con codic
 record Person(String name, String city, double income, Set<String> jobs) {}
 
 var person = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
-System.out.println(person.name()); // Mario
+IO.println(person.name()); // Mario
 ```
 
 * I record sono disponibili in forma stabile da Java 16
@@ -433,7 +433,7 @@ Genera anche il costruttore, `equals`, `hashCode` e `toString`.
 
 ```java
 var other = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
-System.out.println(person.equals(other)); // true
+IO.println(person.equals(other)); // true
 ```
 
 * L'uguaglianza è basata sui componenti
@@ -464,7 +464,7 @@ double totalIncome = people.stream()
     .mapToDouble(Person::income)
     .sum();
 
-System.out.println(totalIncome); // 150000.0
+IO.println(totalIncome); // 150000.0
 ```
 
 ---
@@ -478,7 +478,7 @@ for (Person p : people) {
         totalIncome += p.income();
     }
 }
-System.out.println(totalIncome); // 150000.0
+IO.println(totalIncome); // 150000.0
 ```
 
 ---
@@ -493,7 +493,7 @@ List<String> cities = people.stream()
     .sorted()
     .toList();
 
-System.out.println(cities); // [Cesena, Forlì]
+IO.println(cities); // [Cesena, Forlì]
 ```
 
 * `map` estrae le città, `filter` esclude quelle mancanti
@@ -510,7 +510,7 @@ List<String> topEarners = people.stream()
     .map(Person::name)
     .toList();
 
-System.out.println(topEarners); // [Lino, Rino]
+IO.println(topEarners); // [Lino, Rino]
 ```
 
 * `sorted` ordina per reddito decrescente, `limit` mantiene i primi due
@@ -527,7 +527,7 @@ List<String> jobs = people.stream()
     .sorted()
     .toList();
 
-System.out.println(jobs);
+IO.println(jobs);
 // [Contractor, Dean, Professor, Secretary, Teacher]
 ```
 
@@ -542,8 +542,8 @@ Map<String, Long> counts = people.stream()
     .filter(p -> p.city() != null)
     .collect(Collectors.groupingBy(Person::city, Collectors.counting()));
 
-System.out.println(counts.get("Cesena")); // 3
-System.out.println(counts.get("Forlì"));  // 1
+IO.println(counts.get("Cesena")); // 3
+IO.println(counts.get("Forlì"));  // 1
 ```
 
 * `groupingBy` raggruppa per città e `counting` conta le persone di ogni gruppo

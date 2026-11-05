@@ -1,20 +1,20 @@
 	public String toString() {
-		return "[" + nome + "," + cognome + ","	+ nomeRegione(regione) + "]";
+		return "[" + name + "," + surname + ","	+ regionName(region) + "]";
 	}
 
-	public boolean isIsolano(){
+	public boolean isIslander(){
 		// Confronto veloce!!
-		return (this.regione == SARDEGNA || 
-		        this.regione == SICILIA);
+		return (this.region == SARDEGNA || 
+		        this.region == SICILIA);
 	}
 
-	public static List<Persona> fromRegione(Collection<Persona> coll, 
-	                           String regione){
-		ArrayList<Persona> list = new ArrayList<>();
-		for (Persona persona: coll){
+	public static List<Person> fromRegion(Collection<Person> coll, 
+	                           String region){
+		ArrayList<Person> list = new ArrayList<>();
+		for (Person person: coll){
 		    // Confronto veloce!!
-			if (persona.regione == regione){
-				list.add(persona);
+			if (person.region == region){
+				list.add(person);
 			}
 		}
 		return list;

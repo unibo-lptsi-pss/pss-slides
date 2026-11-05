@@ -106,7 +106,7 @@ aliases = ["/stream/"]
 record Person(String name, String city, double income, Set<String> jobs) {}
 
 var person = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
-System.out.println(person.name()); // Mario
+IO.println(person.name()); // Mario
 ```
 
 * Gli accessor si chiamano come i componenti: `name()`, `city()`, `income()`, `jobs()`
@@ -125,7 +125,7 @@ Per il record `Person` Java genera:
 ```java
 var a = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
 var b = new Person("Mario", "Cesena", 20000, Set.of("Teacher"));
-System.out.println(a.equals(b)); // true
+IO.println(a.equals(b)); // true
 ```
 
 ---
@@ -174,7 +174,7 @@ double totalIncome = people.stream()
     .mapToDouble(Person::income)
     .sum();
 
-System.out.println(totalIncome); // 150000.0
+IO.println(totalIncome); // 150000.0
 ```
 
 * `filter` seleziona le persone di Cesena
@@ -460,7 +460,7 @@ String jobsInCesena = people.stream()
     .flatMap(p -> p.jobs().stream())
     .distinct()
     .collect(Collectors.joining("|", "[[", "]]"));
-System.out.println(jobsInCesena);
+IO.println(jobsInCesena);
 ```
 
 ---
@@ -473,7 +473,7 @@ double average = people.stream()
     .mapToDouble(Person::income)
     .average()
     .orElseThrow();
-System.out.println(average); // 80000.0
+IO.println(average); // 80000.0
 ```
 
 
