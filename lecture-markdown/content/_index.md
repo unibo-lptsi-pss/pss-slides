@@ -121,8 +121,14 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
 * [<i class="fa-solid fa-gears"></i> 4. Build Systems](lab/03-build-systems/)
 * [<i class="fa-solid fa-play"></i> 5. Esecuzione di applicazioni Java tramite Gradle](lab/04-execution/)
 * [<i class="fa-solid fa-magnifying-glass-chart"></i> 6. Analisi statica e checkstyle](lab/05-checkstyle/)
-* [<i class="fa-solid fa-cubes"></i> 7. Dipendenze e Librerie in Gradle](lab/06-dependencies/)
-* [<i class="fa-solid fa-box"></i> 8. Costruzione degli artefatti](lab/08-jar/)
+* [<i class="fa-solid fa-cubes"></i> 8. Dipendenze e Librerie in Gradle](lab/06-dependencies/)
+* [<i class="fa-solid fa-box"></i> 9. Costruzione degli artefatti](lab/08-jar/)
+
+{{% /menu-group %}}
+
+{{% menu-group title="Testing" icon="fa-solid fa-rotate" %}}
+
+* [<i class="fa-solid fa-vial-circle-check"></i> 7. Unit Testing e TDD con JUnit 5](junit-tdd/)
 
 {{% /menu-group %}}
 
