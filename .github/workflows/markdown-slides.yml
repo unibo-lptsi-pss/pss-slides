@@ -30,7 +30,7 @@ jobs:
           # Idea: the regex matcher of Renovate keeps this string up to date automatically
           # The version is extracted and used to access the correct version of the scripts
           USES=$(cat <<TRICK_RENOVATE
-          - uses: gohugoio/hugo@v0.167.0
+          - uses: gohugoio/hugo@v0.169.0
           TRICK_RENOVATE
           )
           echo "Scripts update line: \"$USES\""
@@ -51,7 +51,7 @@ jobs:
       #     NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
       #     SSH_PASS: ${{ secrets.SSH_PASS }}
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.327.0
+        uses: ruby/setup-ruby@v1.338.0
         with:
           working-directory: lecture-markdown/shared-slides
       - name: Run the pre-processor
@@ -61,7 +61,7 @@ jobs:
         working-directory: lecture-markdown
         run: hugo
       - name: Transform and Inline Mermaid charts
-        uses: cric96/inline-mermaid@1.24.0
+        uses: cric96/inline-mermaid@1.25.0
         with:
           root-folder: lecture-markdown/build
           config-file: lecture-markdown/config.toml
