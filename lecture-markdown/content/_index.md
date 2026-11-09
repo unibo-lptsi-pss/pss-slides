@@ -127,7 +127,7 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
 
 {{% menu-group title="Testing" icon="fa-solid fa-rotate" %}}
 
-* [<i class="fa-solid fa-vial-circle-check"></i> 7. Unit Testing e TDD con JUnit 5](junit-tdd/)
+* [<i class="fa-solid fa-vial-circle-check"></i> 7. Unit Testing e TDD con JUnit 6](junit-tdd/)
 
 {{% /menu-group %}}
 
