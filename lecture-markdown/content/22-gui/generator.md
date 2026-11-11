@@ -545,7 +545,7 @@ public class App extends Application {
         return root;
     }
 
-    public static run(String[] args) {
+    public static void run(String[] args) {
         launch(args);
     }
 }

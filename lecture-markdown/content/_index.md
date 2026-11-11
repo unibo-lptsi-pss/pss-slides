@@ -36,7 +36,7 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
 * [<i class="fa-solid fa-plug"></i> 7. Interfacce e composizione](interfaces/)
 * [<i class="fa-solid fa-sitemap"></i> 8. Ereditarietà](inheritance/)
 * [<i class="fa-solid fa-masks-theater"></i> 9. Polimorfismo, tipi a runtime e classi astratte](polymorphism/)
-* [<i class="fa-solid fa-list-ol"></i> 13. Enumerazioni](enums/)
+* [<i class="fa-solid fa-list-ol"></i> 13. Enumerazioni e gerarchie sealed](enums/)
 * [<i class="fa-solid fa-box-open"></i> 14. Classi innestate e anonime](nesting/)
 <!--
 * [<i class="fa-solid fa-compass-drafting"></i> Progettazione efficace ed agile del software](intro-agile-sw-design-patterns/)
@@ -50,8 +50,9 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
 * [<i class="fa-solid fa-layer-group"></i> 11. Collezioni](collections/)
 * [<i class="fa-solid fa-triangle-exclamation"></i> 12. Eccezioni](exceptions/)
 * [<i class="fa-solid fa-arrow-right-long"></i> 15. Functional Java con Lambda e Stream](lambdas/)
-* [<i class="fa-solid fa-file-arrow-down"></i> 16. Input/Output](io/)
-* [<i class="fa-solid fa-shuffle"></i> 17. Introduzione al multi-threading](multithread/)
+* [<i class="fa-solid fa-camera-retro"></i> 16. Interfacce grafiche (GUI) con JavaFX](guis-javafx/)
+* [<i class="fa-solid fa-file-arrow-down"></i> 17. Input/Output](io/)
+* [<i class="fa-solid fa-shuffle"></i> 18. Introduzione al multi-threading](multithread/)
 <!--
 * [<i class="fa-solid fa-water"></i> Stream e manipolazione di flussi di dati](stream/)
 * [<i class="fa-solid fa-shapes"></i> Collezioni generiche, erasure, e wildcard](generic-collections-advanced/)
@@ -65,7 +66,6 @@ C.d.L. in Tecnologie dei Sistemi Informatici &nbsp;&middot;&nbsp; Indice dei con
     * [<i class="fa-solid fa-code-commit"></i> Introduzione](https://unibo-oop.github.io/lab-slides/dvcs-basics/#/)
     * [<i class="fa-solid fa-code-merge"></i> Merging e branching](https://unibo-oop.github.io/lab-slides/dvcs-branching/#/)
     * [<i class="fa-solid fa-cloud-arrow-up"></i> Collaborazione remota](https://unibo-oop.github.io/lab-slides/dvcs-remote/#/)
-* [<i class="fa-solid fa-camera-retro"></i> Interfacce grafiche (GUI) con JavaFX](guis-javafx/)
 * [<i class="fa-solid fa-cubes-stacked"></i> Dipendenze e librerie](dependencies/)
 * [<i class="fa-solid fa-vial-circle-check"></i> Unit Testing e TDD con JUnit 5](junit-tdd/)
 * [<i class="fa-solid fa-flask"></i> Slide di laboratorio](#/lab) -->
