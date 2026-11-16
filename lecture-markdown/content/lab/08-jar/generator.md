@@ -20,32 +20,26 @@ La costruzione dei "deliverable" *è parte integrante* del processo di costruzio
 
 * *compilazione* $\Leftarrow$ la conosciamo
 * *compilazione dei test* $\Leftarrow$ altro lab
-* *verifica statica della qualità dei sorgenti* $\Leftarrow$ altro lab
 * *esecuzione dei test* $\Leftarrow$ altro lab
-* *generazione della documentazione* $\Leftarrow$ altro lab
 * *costruzione degli artefatti "deliverable"* $\Leftarrow$ **ci occupiamo di questo**
-* *pubblicazione* $\Leftarrow$
-* *messa in produzione* $\Leftarrow$
+* *pubblicazione* $\Leftarrow$ altro corso
+* *messa in produzione* $\Leftarrow$ altro corso
 
 ```mermaid
 flowchart RL
 
 compile(compilazione)
 compileTest(compilazione dei test):::test
-staticAnalysis(analisi statica):::staticAnalysis
 test(esecuzione dei test):::test
-docs(generazione della documentazione):::docs
 jar(costruzione dei deliverable):::jar
 delivery(pubblicazione)
 deploy(messa in produzione)
-staticAnalysis --> compileTest --> compile
+compileTest --> compile
 test --> compileTest
-docs --> compile
 jar --> compile
 delivery --> test
 delivery --> jar
-delivery --> docs
-deploy --> delivery --> staticAnalysis
+deploy --> delivery
 
 classDef jar fill:#f9f,stroke:#333,stroke-width:4px
 ```
@@ -61,22 +55,13 @@ flowchart RL
 
 compile(compileJava)
 compileTest(compileTestJava):::test
-checkstyle(verifica di stile):::staticAnalysis
-pmd(verifica di uso di buone pratiche di programmazione):::staticAnalysis
-spotbugs(analisi del bytecode):::staticAnalysis
 check(check):::check
 test(test):::test
 assemble(assemble):::jar
 jar(jar):::jar
-javadoc(javadoc):::docs
 build(build):::build
 assemble --> jar --> compile
-spotbugs --> compile
 check --> test --> compileTest --> compile
-check --> checkstyle
-check --> pmd
-check --> spotbugs
-javadoc --> compile
 build --> check
 build --> assemble
 classDef jar fill:#f9f,stroke:#333,stroke-width:4px
@@ -90,7 +75,7 @@ L'esecuzione di un task implica l'esecuzione di tutti i precedenti!
 * `assemble` (implica `jar`): costruisce gli artefatti "deliverable"
 * `build`: esegue sia `check` che `assemble`
 
-Un buon modo per eseguire l'intero ciclo di vita è `./gradlew build javadoc`!
+Un buon modo per eseguire l'intero ciclo di vita è `./gradlew build`!
 
 ---
 
@@ -217,8 +202,7 @@ plugins {
      * In order to create it, launch the "shadowJar" task.
      * The runnable jar will be found in build/libs/projectname-all.jar
      */
-    id("com.gradleup.shadow") version "9.2.2"
-    id("org.danilopianini.gradle-java-qa") version "1.157.0"
+    id("com.gradleup.shadow") version "9.4.1"
 }
 
 application {
@@ -227,7 +211,7 @@ application {
 }
 ```
 
-* `./gradlew run` lancia `your.mainclass.qualified.Name`
+* `./gradlew run` lancia `it.unibo.sampleapp.RateAMovie`
 * `./gradlew shadowJar` crea un fat-jar il cui nome termina in `-all.jar` dentro `build/libs`
 
 ---
@@ -241,7 +225,7 @@ Per farlo, sfruttiamo il concetto di *proprietà* del progetto.
 Le proprietà sono associazioni chiave-valore fra due stringhe che possono essere:
 * fornite come configurazione del sistema **$\leftarrow$ non lo vediamo**
 * fornite come variabile d'ambiente **$\leftarrow$ non lo vediamo**
-* scritte in un file `gradle.properties` *$\leftarrow$ per OOP cambia poco rispetto a scriverlo nel `build.gradle.kts`*
+* scritte in un file `gradle.properties`
 * passate da terminale in formato `-Pnome=valore` *$\leftarrow$ utile se si hanno più main*
 
 Scrivendo quanto segue nel `build.gradle.kts`
@@ -255,7 +239,7 @@ application {
 
 È possibile poi scegliere la main class da avviare usando:
 * `./gradlew run -PmyMainClass=...`
-    * (sostuendo ai `...` il nome qualificato della main class)
+    * (sostituendo ai `...` il nome qualificato della main class)
 
 Ad esempio, se abbiamo due classi con main `it.unibo.oop.Pluto` e `it.unibo.oop.Paperino` nel nostro progetto, possiamo lanciare:
 * `./gradlew run -PmyMainClass=it.unibo.oop.Pluto`
