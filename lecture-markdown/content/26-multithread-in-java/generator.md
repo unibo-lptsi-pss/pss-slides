@@ -79,6 +79,16 @@ class Thread {
 
 ---
 
+## Linea guida per creare un thread
+1. Creare una classe che implementa l'interfaccia Runnable
+2. Implementare il metodo run() con il codice che si vuole eseguire nel thread
+3. Creare un'istanza della classe Thread, passando un'istanza della classe Runnable al costruttore
+4. Avviare il thread chiamando il metodo start()
+
+*Nota*: In generale è sconsigliato estendere direttamente la classe Thread
+
+---
+
 ## Ciclo di vita di un Thread
 ```mermaid
 stateDiagram-v2
@@ -91,16 +101,6 @@ stateDiagram-v2
     Running --> Terminated : run() finishes
     Terminated --> [*]
 ```
-
----
-
-## Linea guida per creare un thread
-1. Creare una classe che implementa l'interfaccia Runnable
-2. Implementare il metodo run() con il codice che si vuole eseguire nel thread
-3. Creare un'istanza della classe Thread, passando un'istanza della classe Runnable al costruttore
-4. Avviare il thread chiamando il metodo start()
-
-*Nota*: In generale è sconsigliato estendere direttamente la classe Thread
 
 ---
 
@@ -636,7 +636,7 @@ class GameLoop<I, O> implements Runnable {
 - La sincronizzazione è essenziale per evitare corse critiche e garantire l'integrità dei dati
 - In JavaFX, è importante eseguire le operazioni di interfaccia grafica sul JavaFX Application Thread
 - I game loop sono un pattern comune per gestire la logica di gioco e il rendering in modo concorrente
-- Queste sono solo le basi della programmazione concorrente in Java (ma è quello che vi serve per il progetto!)
+- Queste sono solo le basi della programmazione concorrente in Java (è quello che vi potrebbe servire per il progetto!)
 
 ---
 
